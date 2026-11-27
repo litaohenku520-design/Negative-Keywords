@@ -46407,6 +46407,7 @@
     "P30 Pro": "P30 Pro",
     "P30Pro": "P30Pro"
   },
+  "campaign_id_mappings": [],
   "usa_model_groups": [
     {
       "name": "Samsung A26",

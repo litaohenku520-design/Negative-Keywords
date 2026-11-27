@@ -1,0 +1,15 @@
+{
+  "active_store_id": "default",
+  "stores": [
+    {
+      "id": "default",
+      "name": "默认主店 (US)",
+      "marketplace": "US"
+    },
+    {
+      "id": "suanpot-us",
+      "name": "suanpot-us (美国站)",
+      "marketplace": "US"
+    }
+  ]
+}
