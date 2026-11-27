@@ -1,0 +1,130 @@
+{
+  "brands": [
+    {
+      "name": "suanpot",
+      "store": "us",
+      "note": "美国品牌 翻盖手机壳",
+      "_id": "brands_0_1785852872",
+      "updated": "2026-08-04T22:14:32.634529"
+    },
+    {
+      "name": "UPBestKS",
+      "store": "us",
+      "note": "新品牌 翻盖手机壳",
+      "_id": "brands_1_1785852872",
+      "updated": "2026-08-04T22:14:32.636395"
+    }
+  ],
+  "products": [
+    {
+      "asin": "B0TEST",
+      "name": "钱包款手机壳 iPhone 16",
+      "store": "us",
+      "price": 19.99,
+      "_id": "products_0_1785852872",
+      "updated": "2026-08-04T22:14:32.637649"
+    }
+  ],
+  "market_insights": [
+    {
+      "topic": "翻盖手机壳类目特征",
+      "content": "翻盖手机壳(Wallet Case/Flip Case/Folio Case)是手机壳的一个重要细分市场。\n核心卖点：卡槽设计、磁吸扣、支架功能、RFID防盗刷、手腕带/可拆卸肩带。\n价格区间：$9.99-$29.99。\n目标用户：注重功能性的商务人士、追求便利的日常用户、送长辈/父母的礼品需求。\n高转化关键词：wallet case, magnetic closure, card holder, kickstand, wristlet.\n淡旺季：圣诞节前(11-12月)和开学季(8-9月)是旺季。",
+      "tags": [
+        "market",
+        "category",
+        "flip case"
+      ],
+      "_id": "insight_flip_001"
+    },
+    {
+      "topic": "翻盖手机壳 ACOS 基准",
+      "content": "翻盖手机壳类目属于功能型配件，ACOS 基准：\n- 优秀：< 20%\n- 健康：20-30%\n- 一般：30-40%\n- 需优化：> 40%\n由于翻盖壳客单价高于普通壳($15-25)，ACOS 可承受范围比透明壳类目略宽。\nCVR 基准：8-15%（功能型关键词转化率更高）\nCTR 基准：0.5-1.2%",
+      "tags": [
+        "acos",
+        "kpi",
+        "benchmark"
+      ],
+      "_id": "insight_acos_001"
+    },
+    {
+      "topic": "翻盖手机壳关键词策略",
+      "content": "翻盖手机壳的关键词分为四类：\n1. 核心词：wallet case, flip case, folio case, book style case\n2. 功能词：card holder, magnetic closure, kickstand, wristlet, RFID\n3. 场景词：business leather, travel wallet, gift for mom, graduation gift\n4. 属性词：leather, premium, slim, vintage, elegant\n\n否定关键词建议：\n- 非翻盖壳：clear case, silicone case, screen protector, tempered glass, pop socket, ring grip\n- 竞品品牌：spigen, otterbox, casely, burga 等\n- 无关设备：ipad, laptop, tablet, watch, buds\n\n高效拓词方向：'wallet case for [机型]'、'[机型] wallet case with card holder'",
+      "tags": [
+        "keywords",
+        "strategy",
+        "flip case"
+      ],
+      "_id": "insight_kw_001"
+    },
+    {
+      "topic": "翻盖手机壳竞品分析",
+      "content": "翻盖手机壳类目主要竞品类型：\n1. 专业翻盖壳品牌：Fintie, MoKo, Ayotu, Topace - 主打性价比，款式丰富\n2. 时尚品牌：Kate Spade, Michael Kors, Coach - 主打品牌溢价，设计感强\n3. 亚马逊自营品牌：Amazon Basics - 价格低，有流量优势\n4. 中国卖家：集中在$9.99-$15.99价格段，以PU皮革为主\n\n差异化方向：\n- 颜色多样化（目前市场以黑色/棕色为主）\n- 新机型首发（如Galaxy Z Flip系列）\n- 多功能设计（卡槽+支架+腕带三位一体）",
+      "tags": [
+        "competitor",
+        "market analysis"
+      ],
+      "_id": "insight_comp_001"
+    },
+    {
+      "topic": "翻盖手机壳退货原因",
+      "content": "翻盖手机壳常见退货原因及应对：\n1. 磁吸扣不牢固/不吸 → 优化磁铁规格，增加磁铁数量\n2. 卡槽太紧/太松 → 调整卡槽尺寸和弹性\n3. 支架易断/不稳固 → 加固支架转轴设计\n4. 皮质开裂/起皮 → 升级PU皮革品质\n5. 尺寸不符/开孔不准 → 严格质检，使用精确模具\n6. 气味大 → 选用环保材料，晾晒后再发货\n7. 无线充电不适配 → 优化磁铁位置，预留充电区域\n\n建议在Listing中明确标注尺寸、卡槽数量、磁吸强度等参数。",
+      "tags": [
+        "returns",
+        "quality",
+        "flip case"
+      ],
+      "_id": "insight_return_001"
+    },
+    {
+      "topic": "翻盖手机壳Listing优化",
+      "content": "翻盖手机壳Listing优化要点：\n1. 标题公式: [品牌] + [机型] + Wallet Case + [核心功能] + [材质]\n   示例：suanpot for iPhone 16 Pro Max Wallet Case with Card Holder Magnetic Closure Kickstand Premium PU Leather\n2. 五点描述：\n   - 翻盖设计：Full Flip Cover with Magnetic Closure\n   - 卡槽存储：3 Card Slots + 1 Cash Pocket\n   - 支架功能：Built-in Kickstand for Hands-Free Viewing\n   - 腕带/挂绳：Detachable Wristlet Strap\n   - 材质保护：Premium PU Leather, Protective Soft TPU Inner Shell\n3. 图片要点：\n   - 主图：产品正面45度角展示（翻盖打开状态）\n   - 副图1：卡槽展示（放卡效果）\n   - 副图2：支架功能展示（横向支撑）\n   - 副图3：磁吸扣闭合展示\n   - 副图4：腕带/挂绳展示\n   - 副图5：色彩款式集合\n   - 副图6：包装/配件",
+      "tags": [
+        "listing",
+        "optimization",
+        "flip case"
+      ],
+      "_id": "insight_listing_001"
+    }
+  ],
+  "decision_history": [],
+  "business_rules": [
+    {
+      "rule": "acos_target < 30%",
+      "scope": "all",
+      "_id": "business_rules_0_1785852872",
+      "updated": "2026-08-04T22:14:32.638643"
+    },
+    {
+      "rule": "翻盖壳ACOS目标 < 30%",
+      "scope": "flip_case",
+      "note": "翻盖手机壳类目KPI"
+    },
+    {
+      "rule": "季前备货提前45天开始",
+      "scope": "flip_case",
+      "note": "翻盖壳生产周期长，需提前备货"
+    },
+    {
+      "rule": "新品期前2周重点投放精准Asin定位",
+      "scope": "flip_case",
+      "note": "翻盖壳新品需要快速获取曝光"
+    },
+    {
+      "rule": "翻盖壳退货率目标 < 8%",
+      "scope": "flip_case",
+      "note": "行业平均退货率约10%"
+    }
+  ],
+  "knowledge_entries": [
+    {
+      "question": "ACOS 多少算正常",
+      "answer": "翻盖手机壳类目 ACOS 30% 以下为健康",
+      "tags": [
+        "acos",
+        "kpi"
+      ],
+      "_id": "knowledge_entries_0_1785852872",
+      "updated": "2026-08-04T22:14:32.639569"
+    }
+  ]
+}

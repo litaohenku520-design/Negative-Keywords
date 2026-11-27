@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "upbestks_neg_keyword": {
+      "command": "C:\\Users\\admin\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+      "args": ["${PLUGIN_ROOT}/backend/neg_mcp_server.py"]
+    }
+  }
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "name": "deepseek-failover",
+    "provider": "custom",
+    "api_key": "sk-00cc930c9bb18f78cf13ea52b6effa1a57d5e863012c541f3cefce05f8959399",
+    "model": "deepseek-v4-flash",
+    "base_url": "https://yunshuzhilian.asia/v1",
+    "privacy": "detail",
+    "enabled": false
+  },
+  {
+    "name": "deepseek-official",
+    "provider": "deepseek",
+    "api_key": "",
+    "model": "deepseek-chat",
+    "base_url": "https://api.deepseek.com/v1",
+    "privacy": "detail",
+    "enabled": false
+  }
+]

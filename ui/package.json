@@ -1,0 +1,21 @@
+{
+  "name": "upbestks-neg-keyword-ui",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "node build-ui.mjs"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^6.3.4",
+    "@modelcontextprotocol/ext-apps": "^1.0.0",
+    "antd": "^6.7.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "xlsx-js-style": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "esbuild": "^0.25.0"
+  }
+}
