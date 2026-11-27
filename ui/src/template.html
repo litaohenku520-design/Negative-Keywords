@@ -9,12 +9,75 @@
     window.process = window.process || { env: { NODE_ENV: 'production' }, version: '' };
   </script>
   <style>
+    :root {
+      --neg-bg: #f4f6fa;
+      --neg-surface: #ffffff;
+      --neg-border: rgba(15, 23, 42, 0.08);
+      --neg-shadow: 0 1px 3px rgba(15, 23, 42, 0.05), 0 1px 2px rgba(15, 23, 42, 0.03);
+    }
+    html[data-theme='dark'], body[data-theme='dark'] {
+      --neg-bg: #111318;
+      --neg-surface: #1b1e26;
+      --neg-border: rgba(255, 255, 255, 0.09);
+      --neg-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    }
+    * {
+      box-sizing: border-box;
+    }
     html, body, #root {
       margin: 0;
       padding: 0;
       width: 100%;
       min-height: 100vh;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--neg-bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .neg-app-shell {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 14px 16px 24px;
+    }
+    .neg-app-shell .ant-card {
+      border-radius: 10px;
+      border: 1px solid var(--neg-border);
+      box-shadow: var(--neg-shadow);
+    }
+    .neg-kpi-card {
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
+      overflow: hidden;
+    }
+    .neg-kpi-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
+    }
+    .neg-app-shell .ant-tabs-card > .ant-tabs-nav .ant-tabs-tab {
+      border-radius: 8px 8px 0 0 !important;
+      padding: 6px 14px !important;
+      font-weight: 500;
+      transition: all 0.15s ease;
+    }
+    .neg-app-shell .ant-tabs-card > .ant-tabs-nav .ant-tabs-tab-active {
+      font-weight: 600;
+    }
+    .neg-app-shell .ant-table-wrapper .ant-table-thead > tr > th {
+      font-weight: 600;
+      font-size: 12.5px;
+    }
+    .neg-app-shell .ant-btn {
+      border-radius: 7px;
+      font-weight: 500;
+    }
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.3);
+      border-radius: 99px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(100, 116, 139, 0.5);
     }
   </style>
 </head>

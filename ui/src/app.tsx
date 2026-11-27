@@ -113,9 +113,14 @@ function RootApp() {
       <ConfigProvider
         theme={{
           algorithm: isDark ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
+          token: {
+            colorPrimary: '#2563eb',
+            borderRadius: 8,
+            fontSize: 13,
+          },
         }}
       >
-        <div style={{ padding: 12 }}>
+        <div className="neg-app-shell">
           <NegKeywordTool />
         </div>
       </ConfigProvider>

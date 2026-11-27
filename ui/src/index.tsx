@@ -3889,11 +3889,27 @@ const NegKeywordTool: React.FC = () => {
           </div>
         </Space>
       </Modal>
-      <Card size="small" style={{ marginBottom: 8, background: '#f0f5ff', borderColor: '#adc6ff' }} bodyStyle={{ padding: '6px 12px' }}>
-        <Flex gap={8} wrap="wrap" align="center">
-          <SyncOutlined spin={syncing} style={{ color: '#1677ff' }} />
-          <Text strong style={{ fontSize: 13 }}>配置同步</Text>
-          <Text type="secondary" style={{ fontSize: 12 }}>保存立即写入持久化配置；一键同步仅更新有变化的镜像</Text>
+      <Card
+        size="small"
+        style={{ marginBottom: 12 }}
+        styles={{ body: { padding: '8px 14px' } }}
+      >
+        <Flex gap={10} wrap="wrap" align="center" justify="space-between">
+          <Flex gap={8} wrap="wrap" align="center">
+            <Badge status={syncing ? 'processing' : syncInfo?.errors?.length ? 'warning' : 'success'} />
+            <Text strong style={{ fontSize: 13 }}>GitHub 规则实时同步</Text>
+            <Text type="secondary" style={{ fontSize: 12 }}>
+              保存即自动备份当前店铺配置到 GitHub 仓库
+            </Text>
+            {syncInfo && (
+              <Tag color={syncInfo.errors.length ? 'warning' : 'success'} style={{ margin: 0 }}>
+                {syncInfo.errors.length ? '⚠️ ' : '✅ '}
+                {syncInfo.synced.join(' / ')} ({(syncInfo.fileSize / 1024).toFixed(0)}KB · {syncInfo.durationMs}ms)
+                {syncInfo.updated.length > 0 && ` · 更新 ${syncInfo.updated.join(', ')}`}
+                {syncInfo.errors.length > 0 && ` · ${syncInfo.errors.join('; ')}`}
+              </Tag>
+            )}
+          </Flex>
           <Button
             type="primary"
             icon={<SyncOutlined spin={syncing} />}
@@ -3901,17 +3917,8 @@ const NegKeywordTool: React.FC = () => {
             onClick={handleSyncConfig}
             size="small"
           >
-            一键同步配置
+            立即同步至 GitHub
           </Button>
-          {syncInfo && (
-            <Text type={syncInfo.errors.length ? 'warning' : 'success'} style={{ fontSize: 12 }}>
-              ✅ {syncInfo.synced.join(' / ')} ({(syncInfo.fileSize / 1024).toFixed(0)}KB，耗时 {syncInfo.durationMs} ms)
-              {syncInfo.updated.length > 0 && ` | 已更新 ${syncInfo.updated.join(', ')}`}
-              {syncInfo.unchanged.length > 0 && ` | 已一致 ${syncInfo.unchanged.join(', ')}`}
-              {syncInfo.errors.length > 0 && ` | ❌ ${syncInfo.errors.join('; ')}`}
-              {syncInfo.warnings.length > 0 && ` | ${syncInfo.warnings.join('; ')}`}
-            </Text>
-          )}
         </Flex>
       </Card>
       <input
@@ -4249,16 +4256,6 @@ const NegKeywordTool: React.FC = () => {
           </Flex>
         )}
       </Modal>
-      {/* 区块下钻 */}
-      <div style={{ marginBottom: 8 }}>
-        <Space size={4} wrap>
-          <Text type="secondary" style={{ fontSize: 12 }}>下钻分析：</Text>
-          <Button type="link" size="small" style={{ padding: '0 4px' }} onClick={() => navigate('/dashboard')}>数据看板</Button>
-          <Button type="link" size="small" style={{ padding: '0 4px' }} onClick={() => navigate('/ad-optimization')}>广告优化中心</Button>
-          <Button type="link" size="small" style={{ padding: '0 4px' }} onClick={() => navigate('/campaign-explorer')}>活动明细</Button>
-          <Button type="link" size="small" style={{ padding: '0 4px' }} onClick={() => navigate('/model-analysis')}>机型维度</Button>
-        </Space>
-      </div>
       {/* Main tabs */}
       <Tabs
         key={storeVersion}
@@ -4274,13 +4271,37 @@ const NegKeywordTool: React.FC = () => {
             children: (
               <>
                 {/* Stats */}
-                <Row gutter={16} style={{ marginBottom: 16 }}>
-                  <Col span={4}><Card size="small"><Statistic title="总计" value={stats.total} /></Card></Col>
-                  <Col span={4}><Card size="small"><Statistic title="🔴 否掉" value={stats.deny} valueStyle={{ color: '#cf1322' }} suffix={stats.total ? <Text type="secondary" style={{ fontSize: 12 }}>({(stats.deny / stats.total * 100).toFixed(1)}%)</Text> : null} /></Card></Col>
-                  <Col span={4}><Card size="small"><Statistic title="🟢 保留" value={stats.keep} valueStyle={{ color: '#3f8600' }} suffix={stats.total ? <Text type="secondary" style={{ fontSize: 12 }}>({(stats.keep / stats.total * 100).toFixed(1)}%)</Text> : null} /></Card></Col>
-                  <Col span={4}><Card size="small"><Statistic title="🟡 待审" value={stats.review} valueStyle={{ color: '#fa8c16' }} /></Card></Col>
-                  <Col span={4}><Card size="small"><Statistic title="手动修改" value={stats.manual} /></Card></Col>
-                  <Col span={4}><Card size="small"><Statistic title="否认率" value={stats.total ? (stats.deny / stats.total * 100).toFixed(1) : '0'} suffix="%" valueStyle={{ color: stats.deny / (stats.total || 1) > 0.5 ? '#cf1322' : '#3f8600' }} /></Card></Col>
+                <Row gutter={[12, 12]} style={{ marginBottom: 14 }}>
+                  <Col xs={12} sm={8} md={4}>
+                    <Card size="small" className="neg-kpi-card" style={{ borderTop: '3px solid #2563eb' }}>
+                      <Statistic title="总计" value={stats.total} valueStyle={{ fontSize: 20, fontWeight: 600 }} />
+                    </Card>
+                  </Col>
+                  <Col xs={12} sm={8} md={4}>
+                    <Card size="small" className="neg-kpi-card" style={{ borderTop: '3px solid #ef4444' }}>
+                      <Statistic title="否掉" value={stats.deny} valueStyle={{ color: '#dc2626', fontSize: 20, fontWeight: 600 }} suffix={stats.total ? <Text type="secondary" style={{ fontSize: 11 }}>({(stats.deny / stats.total * 100).toFixed(1)}%)</Text> : null} />
+                    </Card>
+                  </Col>
+                  <Col xs={12} sm={8} md={4}>
+                    <Card size="small" className="neg-kpi-card" style={{ borderTop: '3px solid #22c55e' }}>
+                      <Statistic title="保留" value={stats.keep} valueStyle={{ color: '#16a34a', fontSize: 20, fontWeight: 600 }} suffix={stats.total ? <Text type="secondary" style={{ fontSize: 11 }}>({(stats.keep / stats.total * 100).toFixed(1)}%)</Text> : null} />
+                    </Card>
+                  </Col>
+                  <Col xs={12} sm={8} md={4}>
+                    <Card size="small" className="neg-kpi-card" style={{ borderTop: '3px solid #f59e0b' }}>
+                      <Statistic title="待审" value={stats.review} valueStyle={{ color: '#d97706', fontSize: 20, fontWeight: 600 }} />
+                    </Card>
+                  </Col>
+                  <Col xs={12} sm={8} md={4}>
+                    <Card size="small" className="neg-kpi-card" style={{ borderTop: '3px solid #8b5cf6' }}>
+                      <Statistic title="手动修改" value={stats.manual} valueStyle={{ color: '#7c3aed', fontSize: 20, fontWeight: 600 }} />
+                    </Card>
+                  </Col>
+                  <Col xs={12} sm={8} md={4}>
+                    <Card size="small" className="neg-kpi-card" style={{ borderTop: '3px solid #06b6d4' }}>
+                      <Statistic title="否认率" value={stats.total ? (stats.deny / stats.total * 100).toFixed(1) : '0'} suffix="%" valueStyle={{ color: stats.deny / (stats.total || 1) > 0.5 ? '#dc2626' : '#16a34a', fontSize: 20, fontWeight: 600 }} />
+                    </Card>
+                  </Col>
                 </Row>
 
                 {/* Action bar */}
