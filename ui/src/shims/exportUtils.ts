@@ -28,6 +28,105 @@ function blobToBase64(blob: Blob): Promise<string> {
   });
 }
 
+const THIN_BORDER = {
+  top: { style: 'thin', color: { rgb: 'CBD5E1' } },
+  bottom: { style: 'thin', color: { rgb: 'CBD5E1' } },
+  left: { style: 'thin', color: { rgb: 'CBD5E1' } },
+  right: { style: 'thin', color: { rgb: 'CBD5E1' } },
+};
+
+const HEADER_STYLE = {
+  font: { name: 'Microsoft YaHei', sz: 10.5, bold: true, color: { rgb: 'FFFFFF' } },
+  fill: { patternType: 'solid', fgColor: { rgb: '1E40AF' } },
+  alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
+  border: {
+    top: { style: 'thin', color: { rgb: '1E3A8A' } },
+    bottom: { style: 'medium', color: { rgb: '1E3A8A' } },
+    left: { style: 'thin', color: { rgb: '3B82F6' } },
+    right: { style: 'thin', color: { rgb: '3B82F6' } },
+  },
+};
+
+function applyZebraAndBeautify(ws: XLSX.WorkSheet): void {
+  if (!ws || !ws['!ref']) return;
+  const range = XLSX.utils.decode_range(ws['!ref']);
+  const totalRows = range.e.r + 1;
+  const totalCols = range.e.c + 1;
+
+  // 行高：表头 26pt，数据行 22pt（拉开行间距方便阅读核对）
+  const rowsMeta: Array<{ hpt: number }> = [];
+  for (let r = 0; r < totalRows; r++) {
+    rowsMeta.push({ hpt: r === 0 ? 26 : 22 });
+  }
+  ws['!rows'] = rowsMeta;
+
+  // 计算每列智能宽度（若原列宽未设定或偏窄）
+  const existingCols = (ws['!cols'] || []) as Array<{ wch?: number }>;
+  const autoWidths: number[] = new Array(totalCols).fill(14);
+  for (let c = 0; c < totalCols; c++) {
+    if (existingCols[c]?.wch) autoWidths[c] = existingCols[c].wch!;
+  }
+
+  for (let r = range.s.r; r <= range.e.r; r++) {
+    const isHeader = r === 0;
+    const isEvenDataRow = r > 0 && r % 2 === 0;
+    const rowBg = isEvenDataRow ? 'EFF6FF' : 'FFFFFF';
+
+    for (let c = range.s.c; c <= range.e.c; c++) {
+      const ref = XLSX.utils.encode_cell({ r, c });
+      if (!ws[ref]) {
+        ws[ref] = { t: 's', v: '' };
+      }
+      const cell = ws[ref];
+
+      // 估算文本显示宽度
+      const valStr = cell.v != null ? String(cell.v) : '';
+      if (valStr) {
+        let visualLen = 0;
+        for (let i = 0; i < valStr.length; i++) {
+          visualLen += valStr.charCodeAt(i) > 127 ? 2 : 1;
+        }
+        autoWidths[c] = Math.min(50, Math.max(autoWidths[c], visualLen + 4));
+      }
+
+      if (isHeader) {
+        cell.s = HEADER_STYLE;
+      } else {
+        const prev = (cell.s || {}) as Record<string, any>;
+        cell.s = {
+          ...prev,
+          font: {
+            name: 'Microsoft YaHei',
+            sz: 10,
+            color: { rgb: '1E293B' },
+            ...(prev.font || {}),
+          },
+          fill: prev.fill || { patternType: 'solid', fgColor: { rgb: rowBg } },
+          alignment: {
+            vertical: 'center',
+            horizontal: prev.alignment?.horizontal || 'left',
+            wrapText: true,
+          },
+          border: prev.border || THIN_BORDER,
+        };
+      }
+    }
+  }
+
+  ws['!cols'] = autoWidths.map((w) => ({ wch: w }));
+  ws['!autofilter'] = { ref: ws['!ref'] };
+  // 冻结首行（兼容 Excel / WPS）
+  ws['!freeze'] = { xSplit: 0, ySplit: 1, topLeftCell: 'A2', activePane: 'bottomLeft', state: 'frozen' };
+  ws['!views'] = [{ state: 'frozen', ySplit: 1 }];
+}
+
+function beautifyWorkbook(wb: XLSX.WorkBook): void {
+  for (const name of wb.SheetNames || []) {
+    const ws = wb.Sheets?.[name];
+    if (ws) applyZebraAndBeautify(ws);
+  }
+}
+
 export async function downloadBlob({ blob, fileName }: { blob: Blob; fileName: string }) {
   try {
     const b64 = await blobToBase64(blob);
@@ -56,6 +155,7 @@ export async function exportWorkbook({
   fileName: string;
   cellStyles?: boolean;
 }) {
+  beautifyWorkbook(wb);
   const safeName = fileName.endsWith('.xlsx') ? fileName : `${fileName}.xlsx`;
   if (typeof window !== 'undefined' && typeof (window as any).__MCP_API_FETCH__ === 'function') {
     try {
