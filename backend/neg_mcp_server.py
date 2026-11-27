@@ -253,7 +253,8 @@ TOOLS = [
 
 def _handle_tool_call(name: str, args: dict) -> dict:
     if name == "open_neg_workbench":
-        _ensure_embedded_server()
+        # 后台预热内置 HTTP 服务，避免首次点击面板时等待规则加载
+        threading.Thread(target=_ensure_embedded_server, daemon=True).start()
         summary = _rules_summary_dict()
         return {
             "content": [{"type": "text", "text": json.dumps(summary, ensure_ascii=False, indent=2)}],

@@ -14,6 +14,30 @@ declare global {
   }
 }
 
+class ErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  { error: Error | null }
+> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { error: null };
+  }
+  static getDerivedStateFromError(error: Error) {
+    return { error };
+  }
+  render() {
+    if (this.state.error) {
+      return (
+        <div style={{ padding: 20, color: '#cf1322', background: '#fff2f0', border: '1px solid #ffccc7', borderRadius: 8, margin: 16 }}>
+          <h4 style={{ marginTop: 0 }}>否词工作台渲染异常</h4>
+          <pre style={{ whiteSpace: 'pre-wrap', fontSize: 12 }}>{this.state.error.stack || this.state.error.message}</pre>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 function RootApp() {
   const [isDark, setIsDark] = useState(false);
   const [ready, setReady] = useState(false);
@@ -85,15 +109,17 @@ function RootApp() {
   }
 
   return (
-    <ConfigProvider
-      theme={{
-        algorithm: isDark ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
-      }}
-    >
-      <div style={{ padding: 12 }}>
-        <NegKeywordTool />
-      </div>
-    </ConfigProvider>
+    <ErrorBoundary>
+      <ConfigProvider
+        theme={{
+          algorithm: isDark ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
+        }}
+      >
+        <div style={{ padding: 12 }}>
+          <NegKeywordTool />
+        </div>
+      </ConfigProvider>
+    </ErrorBoundary>
   );
 }
 

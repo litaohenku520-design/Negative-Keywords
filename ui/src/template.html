@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AMZ 否词工具工作台</title>
+  <script>
+    window.global = window;
+    window.process = window.process || { env: { NODE_ENV: 'production' }, version: '' };
+  </script>
   <style>
     html, body, #root {
       margin: 0;
@@ -16,7 +20,7 @@
 </head>
 <body>
   <div id="root"></div>
-  <script type="module">
+  <script>
 /*__APP_BUNDLE__*/
   </script>
 </body>
