@@ -784,10 +784,45 @@ const CampaignIdMapEditor: React.FC<{
     }
   }, [mappings, onSave, pendingImport, scopeOptions, storeOptions]);
 
+  const handleDeleteScopeMappings = useCallback(async () => {
+    const scopeAliases = new Set(campaignIdScopeAliases(selectedScopeOption, scopeOptions));
+    const remaining = mappings.filter(
+      record => !scopeAliases.has(normalizeCampaignScope(record.storeMarketplace))
+    );
+    const removedCount = mappings.length - remaining.length;
+    if (removedCount === 0) {
+      message.info('当前站点映射已为空');
+      return;
+    }
+    try {
+      await onSave(remaining);
+      message.success(`已删除「${campaignIdScopeLabel(selectedScopeOption)}」的 ${removedCount} 条映射记录`);
+    } catch (error) {
+      message.error(`删除映射失败: ${(error as Error).message}`);
+    }
+  }, [mappings, onSave, scopeOptions, selectedScopeOption]);
+
+  const handleDeleteSingleMapping = useCallback(async (target: CampaignIdMappingRecord) => {
+    const targetScope = normalizeCampaignScope(target.storeMarketplace);
+    const targetName = normalizeCampaignName(target.campaignName);
+    const remaining = mappings.filter(
+      record => !(
+        normalizeCampaignScope(record.storeMarketplace) === targetScope
+        && normalizeCampaignName(record.campaignName) === targetName
+      )
+    );
+    try {
+      await onSave(remaining);
+      message.success(`已删除「${target.campaignName}」`);
+    } catch (error) {
+      message.error(`删除失败: ${(error as Error).message}`);
+    }
+  }, [mappings, onSave]);
+
   const columns: ColumnsType<CampaignIdMappingRecord> = [
     { title: '#', width: 55, render: (_, __, index) => index + 1 },
     {
-      title: '广告活动名称', dataIndex: 'campaignName', width: 360, ellipsis: true,
+      title: '广告活动名称', dataIndex: 'campaignName', width: 340, ellipsis: true,
       render: (value: string) => <Tooltip title={value}><Text>{value}</Text></Tooltip>,
     },
     {
@@ -796,8 +831,24 @@ const CampaignIdMapEditor: React.FC<{
         ? <Tooltip title={`发现多个 ID：${(record.conflictIds || []).join('、')}`}><Tag color="error">冲突，未回填</Tag></Tooltip>
         : value ? <Text code copyable={{ text: value }}>{value}</Text> : <Tag color="warning">缺少 ID</Tag>,
     },
-    { title: '来源文件', dataIndex: 'sourceFile', width: 260, ellipsis: true, render: value => <Text type="secondary">{value || '—'}</Text> },
+    { title: '来源文件', dataIndex: 'sourceFile', width: 240, ellipsis: true, render: value => <Text type="secondary">{value || '—'}</Text> },
     { title: '更新时间', dataIndex: 'updatedAt', width: 160, render: value => <Text type="secondary">{value ? new Date(value).toLocaleString() : '—'}</Text> },
+    {
+      title: '操作',
+      key: 'action',
+      width: 80,
+      fixed: 'right',
+      render: (_, record) => (
+        <Popconfirm
+          title={`确定删除「${record.campaignName}」的映射？`}
+          onConfirm={() => { void handleDeleteSingleMapping(record); }}
+          okText="删除"
+          cancelText="取消"
+        >
+          <Button type="link" size="small" danger icon={<DeleteOutlined />} />
+        </Popconfirm>
+      ),
+    },
   ];
 
   return (
@@ -845,9 +896,21 @@ const CampaignIdMapEditor: React.FC<{
             if (file) handleImport(file);
           }}
         />
-        <Button icon={<ImportOutlined />} type="primary" onClick={() => fileInputRef.current?.click()}>
+        <Button size="small" icon={<ImportOutlined />} type="primary" onClick={() => fileInputRef.current?.click()}>
           导入 Campaign ID 文件
         </Button>
+        <Popconfirm
+          title={`确定清空「${campaignIdScopeLabel(selectedScopeOption)}」的全部映射？`}
+          description="仅删除当前选中站点/作用域的映射模板，不影响其他站点。"
+          onConfirm={() => { void handleDeleteScopeMappings(); }}
+          okText="确认删除"
+          cancelText="取消"
+          disabled={currentMappings.length === 0}
+        >
+          <Button size="small" danger icon={<DeleteOutlined />} disabled={currentMappings.length === 0}>
+            删除当前映射模板
+          </Button>
+        </Popconfirm>
         <Tag color="blue">当前映射：{campaignIdScopeLabel(selectedScopeOption)}</Tag>
         <Text type="secondary" style={{ fontSize: 12 }}>
           当前站点 {currentMappings.length} 条 / 全部作用域 {mappings.length} 条
