@@ -21,7 +21,13 @@ import urllib.request
 from datetime import datetime
 from pathlib import Path
 
-# 严格保护 MCP stdio 通道：所有普通 print 输出重定向到 stderr
+# 严格保护 MCP stdio 通道：强制 UTF-8 编码，所有普通 print 输出重定向到 stderr
+if hasattr(sys.stdin, "reconfigure"):
+    sys.stdin.reconfigure(encoding="utf-8", errors="replace")
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 _MCP_STDOUT = sys.stdout
 sys.stdout = sys.stderr
 
