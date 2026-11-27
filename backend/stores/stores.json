@@ -1,5 +1,5 @@
 {
-  "active_store_id": "suanpot-us",
+  "active_store_id": "UPBestKS",
   "stores": [
     {
       "id": "default",
@@ -9,6 +9,11 @@
     {
       "id": "suanpot-us",
       "name": "suanpot-us (美国站)",
+      "marketplace": "US"
+    },
+    {
+      "id": "UPBestKS",
+      "name": "UPBestKS",
       "marketplace": "US"
     }
   ]
