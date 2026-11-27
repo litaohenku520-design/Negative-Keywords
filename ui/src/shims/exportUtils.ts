@@ -70,31 +70,59 @@ export async function exportWorkbook({
   XLSX.writeFile(wb, safeName, { cellStyles });
 }
 
+interface ExportColumn {
+  header: string;
+  key: string;
+  width?: number;
+}
+
+interface ExportSheetDef {
+  name: string;
+  data: any[];
+  columns?: ExportColumn[];
+}
+
+function buildWorksheet(data: any[], columns?: ExportColumn[]): XLSX.WorkSheet {
+  const cols = columns || [];
+  let ws: XLSX.WorkSheet;
+  if (cols.length > 0) {
+    const aoa: any[][] = [cols.map((c) => c.header)];
+    for (const row of data || []) {
+      aoa.push(cols.map((c) => (row?.[c.key] ?? '')));
+    }
+    ws = XLSX.utils.aoa_to_sheet(aoa);
+    ws['!cols'] = cols.map((c) => ({ wch: c.width || 18 }));
+  } else {
+    ws = XLSX.utils.json_to_sheet(data || []);
+  }
+  return ws;
+}
+
 export async function exportToExcel({
   data,
   columns,
   fileName,
   sheetName = 'Sheet1',
+  sheets,
 }: {
-  data: any[];
-  columns?: Array<{ header: string; key: string; width?: number }>;
+  data?: any[];
+  columns?: ExportColumn[];
   fileName: string;
   sheetName?: string;
+  sheets?: ExportSheetDef[];
   [k: string]: any;
 }) {
-  const rows = (data || []).map((row) => {
-    if (!columns || !columns.length) return row;
-    const obj: Record<string, any> = {};
-    for (const col of columns) {
-      obj[col.header] = row?.[col.key] ?? '';
-    }
-    return obj;
-  });
-  const ws = XLSX.utils.json_to_sheet(rows);
-  if (columns?.length) {
-    ws['!cols'] = columns.map((c) => ({ wch: c.width || 18 }));
-  }
   const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, sheetName);
+  if (Array.isArray(sheets) && sheets.length > 0) {
+    sheets.forEach((sheet, idx) => {
+      const safeSheetName = (sheet.name || `Sheet${idx + 1}`).slice(0, 31);
+      const ws = buildWorksheet(sheet.data || [], sheet.columns);
+      XLSX.utils.book_append_sheet(wb, ws, safeSheetName);
+    });
+  } else {
+    const safeSheetName = (sheetName || 'Sheet1').slice(0, 31);
+    const ws = buildWorksheet(data || [], columns);
+    XLSX.utils.book_append_sheet(wb, ws, safeSheetName);
+  }
   await exportWorkbook({ wb, fileName, cellStyles: true });
 }
