@@ -133,6 +133,7 @@ def _rules_summary_dict() -> dict:
 TOOLS = [
     {
         "name": "open_neg_workbench",
+        "title": "AMZ 否词工具",
         "description": "打开亚马逊广告否词工具工作台（侧边栏/全屏交互界面），支持搜索词分类、规则编辑、Campaign映射、机型否词库、别名规则和模板导出。",
         "inputSchema": {"type": "object", "properties": {}},
         "_meta": {

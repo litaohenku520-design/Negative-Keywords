@@ -2,6 +2,7 @@
   "name": "upbestks-neg-keyword",
   "displayName": "AMZ 否词工具 Agent",
   "version": "1.0.0",
+  "logo": "assets/logo.svg",
   "description": "亚马逊广告否词工具 Agent 版：独立维护 rules_config.json，集成搜索词自动分类、误否风险审计、规则库/机型组/别名管理及亚马逊否定模板导出。",
   "suggestedPrompts": [
     "打开否词工具工作台",
