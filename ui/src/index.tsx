@@ -4305,118 +4305,121 @@ const NegKeywordTool: React.FC = () => {
                 </Row>
 
                 {/* Action bar */}
-                <Card size="small" style={{ marginBottom: 16 }}>
-                  <Flex gap={8} wrap="wrap" align="center">
-                    <Text strong>壳类词:</Text>
-                    <Switch checked={requireCase} onChange={checked => setRequireCase(checked)} size="small" />
-                    <Text type="secondary">{requireCase ? '需含壳类词' : '不需壳类词'}</Text>
-                    <Divider type="vertical" />
-                    <Text strong>竞品品牌:</Text>
-                    <Switch checked={interceptBrand} onChange={checked => setInterceptBrand(checked)} size="small" />
-                    <Text type="secondary">{interceptBrand ? '拦截竞品品牌' : '不拦截竞品品牌'}</Text>
-                    <Divider type="vertical" />
-                    <Space>
-                      <input ref={fileInputRef} type="file" accept=".xlsx,.xls,.csv" style={{ display: 'none' }} onChange={e => { const file = e.target.files?.[0]; if (file) handleFileImport(file); e.target.value = ''; }} />
-                      <Button icon={<UploadOutlined />} onClick={() => fileInputRef.current?.click()} loading={loading}>导入Excel</Button>
-                      <Button icon={<ImportOutlined />} onClick={() => asinFileInputRef.current?.click()} loading={asinLoading}>
-                        导入ASIN判定结果
-                      </Button>
-                      <Button icon={<ImportOutlined />} onClick={() => setActiveTab('campaign-id-map')}>
-                        导入Campaign ID映射
-                      </Button>
-                    </Space>
-                    <Button icon={<ThunderboltOutlined />} onClick={handleReprocess} loading={processing} disabled={data.length === 0}>
-                      {data.length > 0 ? '重新分类' : '开始分类'}
-                    </Button>
-                    <Button icon={<SearchOutlined />} onClick={handleAudit} loading={auditLoading} disabled={data.length === 0 || !stats.total} type="primary" ghost>
-                      🔍 否词结果规则校验
-                    </Button>
-                    <Divider type="vertical" />
-                    <Button icon={<DownloadOutlined />} onClick={handleExport} disabled={data.length === 0}>导出全部</Button>
-                    <Button icon={<FileExcelOutlined />} onClick={handleExportDenyList} disabled={data.filter(r => r.tag === 'deny').length === 0} danger>导出否词</Button>
-                    <Tooltip title="仅导出已标记“否掉”的记录。导出前请选择 Campaign ID 所属店铺/站点；系统只按所选作用域匹配同名广告组合，避免欧洲站错配。自动识别会提取明确机型词组；“未匹配当前机型拓词”本身不再强制 Exact。Moto/Motorola 型号词组、无法识别、命中当前活动机型或同系列、命中指定 Exact 例外，或仅命中 style 壳类词时，回退为整句 Exact。">
-                      <Space.Compact>
-                        <Select
-                          size="small"
-                          value={amazonNegativeScope}
-                          onChange={value => setAmazonNegativeScope(value as AmazonNegativeScope)}
-                          style={{ width: 128 }}
-                          aria-label="亚马逊否词级别"
-                        >
-                          <Option value="campaign">广告活动否词</Option>
-                          <Option value="adGroup">广告组否词</Option>
-                        </Select>
-                        <Select
-                          size="small"
-                          value={amazonNegativeMatchMode}
-                          onChange={value => setAmazonNegativeMatchMode(value as AmazonNegativeMatchMode)}
-                          style={{ width: 116 }}
-                          aria-label="亚马逊否词匹配类型"
-                        >
-                          <Option value="auto">自动识别机型词组</Option>
-                          <Option value="exact">Exact 否词</Option>
-                          <Option value="phrase">Phrase 整句否词</Option>
-                        </Select>
-                        <Select
-                          size="small"
-                          value={campaignIdExportStore || defaultCampaignIdExportScope}
-                          onChange={value => setCampaignIdExportStore(String(value).trim().toUpperCase())}
-                          style={{ width: 220 }}
-                          showSearch
-                          optionFilterProp="children"
-                          aria-label="Amazon 模板 Campaign ID 映射店铺和站点"
-                          title="选择导出时使用的 Campaign ID 店铺/站点映射"
-                        >
-                          {campaignIdScopeOptions.map(option => (
-                            <Option key={`export-store-${option.scope}`} value={option.scope}>
-                              {campaignIdScopeLabel(option)}
-                            </Option>
-                          ))}
-                        </Select>
-                        <Button
-                          type="primary"
-                          size="small"
-                          icon={<FileExcelOutlined />}
-                          onClick={handleExportAmazonTemplate}
-                          loading={amazonTemplateExporting}
-                          disabled={data.filter(r => r.tag === 'deny').length === 0}
-                        >
-                          导出Amazon后台模板
+                <Card size="small" style={{ marginBottom: 12 }} styles={{ body: { padding: '10px 12px' } }}>
+                  <Flex vertical gap={8}>
+                    {/* 第一行：规则开关 + 导入与智能校验 */}
+                    <Flex gap={8} wrap="wrap" align="center" justify="space-between" className="neg-toolbar-row">
+                      <Flex gap={8} wrap="wrap" align="center">
+                        <Text strong style={{ fontSize: 12 }}>规则开关</Text>
+                        <Space size={4}>
+                          <Switch checked={requireCase} onChange={checked => setRequireCase(checked)} size="small" />
+                          <Text type="secondary" style={{ fontSize: 12 }}>{requireCase ? '需含壳类词' : '不需壳类词'}</Text>
+                        </Space>
+                        <Space size={4}>
+                          <Switch checked={interceptBrand} onChange={checked => setInterceptBrand(checked)} size="small" />
+                          <Text type="secondary" style={{ fontSize: 12 }}>{interceptBrand ? '拦截竞品品牌' : '不拦截竞品品牌'}</Text>
+                        </Space>
+                      </Flex>
+                      <Flex gap={6} wrap="wrap" align="center">
+                        <input ref={fileInputRef} type="file" accept=".xlsx,.xls,.csv" style={{ display: 'none' }} onChange={e => { const file = e.target.files?.[0]; if (file) handleFileImport(file); e.target.value = ''; }} />
+                        <Button size="small" type="primary" ghost icon={<UploadOutlined />} onClick={() => fileInputRef.current?.click()} loading={loading}>导入Excel</Button>
+                        <Button size="small" icon={<ImportOutlined />} onClick={() => asinFileInputRef.current?.click()} loading={asinLoading}>导入ASIN判定结果</Button>
+                        <Button size="small" icon={<ImportOutlined />} onClick={() => setActiveTab('campaign-id-map')}>Campaign ID映射</Button>
+                        <Divider type="vertical" style={{ margin: '0 2px' }} />
+                        <Button size="small" icon={<ThunderboltOutlined />} onClick={handleReprocess} loading={processing} disabled={data.length === 0}>
+                          {data.length > 0 ? '重新分类' : '开始分类'}
                         </Button>
-                      </Space.Compact>
-                    </Tooltip>
-                    <Button icon={<TableOutlined />} onClick={handleExportByGroup} disabled={data.length === 0}>按机型组导出</Button>
-                    <Divider type="vertical" />
-                    {selectedRowKeys.length > 0 && (
-                      <>
-                        <Text type="secondary">已选 {selectedRowKeys.length} 条</Text>
-                        <Button size="small" danger onClick={() => handleBatchTag('deny')}>批量否掉</Button>
-                        <Button size="small" type="primary" onClick={() => handleBatchTag('keep')}>批量保留</Button>
-                        <Button size="small" onClick={() => handleBatchTag('review')}>批量待审</Button>
-                      </>
-                    )}
+                        <Button size="small" icon={<SearchOutlined />} onClick={handleAudit} loading={auditLoading} disabled={data.length === 0 || !stats.total} type="primary" ghost>
+                          规则校验
+                        </Button>
+                      </Flex>
+                    </Flex>
+
+                    {/* 第二行：导出模板 + 批量操作 + 筛选 */}
+                    <Flex gap={8} wrap="wrap" align="center" justify="space-between">
+                      <Flex gap={6} wrap="wrap" align="center">
+                        <Tooltip title="仅导出已标记“否掉”的记录。导出前请选择 Campaign ID 所属店铺/站点；系统只按所选作用域匹配同名广告组合，避免欧洲站错配。">
+                          <Space.Compact size="small">
+                            <Select
+                              size="small"
+                              value={amazonNegativeScope}
+                              onChange={value => setAmazonNegativeScope(value as AmazonNegativeScope)}
+                              style={{ width: 118 }}
+                              aria-label="亚马逊否词级别"
+                            >
+                              <Option value="campaign">广告活动否词</Option>
+                              <Option value="adGroup">广告组否词</Option>
+                            </Select>
+                            <Select
+                              size="small"
+                              value={amazonNegativeMatchMode}
+                              onChange={value => setAmazonNegativeMatchMode(value as AmazonNegativeMatchMode)}
+                              style={{ width: 124 }}
+                              aria-label="亚马逊否词匹配类型"
+                            >
+                              <Option value="auto">自动识别机型</Option>
+                              <Option value="exact">Exact 否词</Option>
+                              <Option value="phrase">Phrase 整句</Option>
+                            </Select>
+                            <Select
+                              size="small"
+                              value={campaignIdExportStore || defaultCampaignIdExportScope}
+                              onChange={value => setCampaignIdExportStore(String(value).trim().toUpperCase())}
+                              style={{ width: 185 }}
+                              showSearch
+                              optionFilterProp="children"
+                              aria-label="Amazon 模板 Campaign ID 映射店铺和站点"
+                            >
+                              {campaignIdScopeOptions.map(option => (
+                                <Option key={`export-store-${option.scope}`} value={option.scope}>
+                                  {campaignIdScopeLabel(option)}
+                                </Option>
+                              ))}
+                            </Select>
+                            <Button
+                              type="primary"
+                              size="small"
+                              icon={<FileExcelOutlined />}
+                              onClick={handleExportAmazonTemplate}
+                              loading={amazonTemplateExporting}
+                              disabled={data.filter(r => r.tag === 'deny').length === 0}
+                            >
+                              导出Amazon后台模板
+                            </Button>
+                          </Space.Compact>
+                        </Tooltip>
+                        <Button size="small" icon={<DownloadOutlined />} onClick={handleExport} disabled={data.length === 0}>导出全部</Button>
+                        <Button size="small" icon={<FileExcelOutlined />} onClick={handleExportDenyList} disabled={data.filter(r => r.tag === 'deny').length === 0} danger>导出否词</Button>
+                        <Button size="small" icon={<TableOutlined />} onClick={handleExportByGroup} disabled={data.length === 0}>按机型组导出</Button>
+                      </Flex>
+
+                      <Flex gap={6} wrap="wrap" align="center">
+                        {selectedRowKeys.length > 0 && (
+                          <Space size={4}>
+                            <Tag color="blue" style={{ margin: 0 }}>已选 {selectedRowKeys.length} 条</Tag>
+                            <Button size="small" danger onClick={() => handleBatchTag('deny')}>批量否掉</Button>
+                            <Button size="small" type="primary" onClick={() => handleBatchTag('keep')}>批量保留</Button>
+                            <Button size="small" onClick={() => handleBatchTag('review')}>批量待审</Button>
+                            <Divider type="vertical" />
+                          </Space>
+                        )}
+                        <Select value={filter.tag} onChange={val => setFilter(prev => ({ ...prev, tag: val }))} style={{ width: 105 }} size="small" allowClear placeholder="全部标注">
+                          <Option value="deny">🔴 否掉</Option>
+                          <Option value="keep">🟢 保留</Option>
+                          <Option value="review">🟡 待审</Option>
+                        </Select>
+                        <Input placeholder="搜索关键词..." value={filter.searchTerm} onChange={e => setFilter(prev => ({ ...prev, searchTerm: e.target.value }))} style={{ width: 175 }} size="small" prefix={<SearchOutlined />} allowClear />
+                        <Select value={filter.campaign} onChange={val => setFilter(prev => ({ ...prev, campaign: val || '' }))} style={{ width: 155 }} size="small" allowClear showSearch placeholder="筛选广告活动">
+                          {campaignList.map(c => <Option key={c} value={c}>{c}</Option>)}
+                        </Select>
+                        <Tag style={{ margin: 0 }}>{filteredData.length} / {data.length}</Tag>
+                      </Flex>
+                    </Flex>
                   </Flex>
                 </Card>
 
                 {/* Progress */}
-                {processing && <Progress percent={progress.total ? Math.round(progress.done / progress.total * 100) : 0} status="active" style={{ marginBottom: 16 }} format={() => `${progress.done} / ${progress.total}`} />}
-
-                {/* Filter */}
-                <Card size="small" style={{ marginBottom: 16 }}>
-                  <Flex gap={8} wrap="wrap" align="center">
-                    <Text strong>筛选:</Text>
-                    <Select value={filter.tag} onChange={val => setFilter(prev => ({ ...prev, tag: val }))} style={{ width: 120 }} size="small" allowClear placeholder="标注">
-                      <Option value="deny">🔴 否掉</Option>
-                      <Option value="keep">🟢 保留</Option>
-                      <Option value="review">🟡 待审</Option>
-                    </Select>
-                    <Input placeholder="搜索词..." value={filter.searchTerm} onChange={e => setFilter(prev => ({ ...prev, searchTerm: e.target.value }))} style={{ width: 200 }} size="small" prefix={<SearchOutlined />} allowClear />
-                    <Select value={filter.campaign} onChange={val => setFilter(prev => ({ ...prev, campaign: val || '' }))} style={{ width: 180 }} size="small" allowClear showSearch placeholder="广告活动">
-                      {campaignList.map(c => <Option key={c} value={c}>{c}</Option>)}
-                    </Select>
-                    <Text type="secondary" style={{ fontSize: 11 }}>显示 {filteredData.length} / {data.length}</Text>
-                  </Flex>
-                </Card>
+                {processing && <Progress percent={progress.total ? Math.round(progress.done / progress.total * 100) : 0} status="active" style={{ marginBottom: 12 }} format={() => `${progress.done} / ${progress.total}`} />}
 
                 {/* Data table */}
                 <Table<KeywordRow>
@@ -4424,15 +4427,15 @@ const NegKeywordTool: React.FC = () => {
                   dataSource={filteredData}
                   rowKey="key"
                   size="small"
-                  scroll={{ x: 1100, y: 'calc(100vh - 620px)' }}
-                  pagination={{ pageSize: 100, showSizeChanger: true, pageSizeOptions: ['50', '100', '200', '500'], showTotal: (total) => `${total} 条` }}
+                  scroll={{ x: 1100, y: 'calc(100vh - 510px)' }}
+                  pagination={{ pageSize: 100, showSizeChanger: true, pageSizeOptions: ['50', '100', '200', '500'], showTotal: (total) => `共 ${total} 条` }}
                   rowSelection={{ selectedRowKeys, onChange: setSelectedRowKeys }}
                   rowClassName={(record) => {
                     if (record.tag === 'deny') return 'row-deny';
                     if (record.tag === 'keep') return 'row-keep';
                     return 'row-review';
                   }}
-                  locale={{ emptyText: <Empty description="请导入Excel文件开始否词分类" /> }}
+                  locale={{ emptyText: <Empty description="请点击上方「导入Excel」开始否词分类" /> }}
                 />
               </>
             ),
@@ -4442,11 +4445,27 @@ const NegKeywordTool: React.FC = () => {
             label: `🧩 ASIN否定${asinRows.length ? ` (${asinRows.length})` : ''}`,
             children: (
               <>
-                <Row gutter={16} style={{ marginBottom: 16 }}>
-                  <Col span={6}><Card size="small"><Statistic title="导入 ASIN" value={asinRows.length} /></Card></Col>
-                  <Col span={6}><Card size="small"><Statistic title="🔴 明确否定" value={asinRows.filter(row => row.decision === 'deny').length} valueStyle={{ color: '#cf1322' }} /></Card></Col>
-                  <Col span={6}><Card size="small"><Statistic title="Campaign ID 已匹配" value={asinRows.filter(row => row.decision === 'deny' && row.campaignId).length} valueStyle={{ color: '#1677ff' }} /></Card></Col>
-                  <Col span={6}><Card size="small"><Statistic title="Ad Group ID 已匹配" value={asinRows.filter(row => row.decision === 'deny' && row.adGroupId).length} valueStyle={{ color: '#3f8600' }} /></Card></Col>
+                <Row gutter={[12, 12]} style={{ marginBottom: 14 }}>
+                  <Col xs={12} sm={6}>
+                    <Card size="small" className="neg-kpi-card" style={{ borderTop: '3px solid #2563eb' }}>
+                      <Statistic title="导入 ASIN" value={asinRows.length} valueStyle={{ fontSize: 20, fontWeight: 600 }} />
+                    </Card>
+                  </Col>
+                  <Col xs={12} sm={6}>
+                    <Card size="small" className="neg-kpi-card" style={{ borderTop: '3px solid #ef4444' }}>
+                      <Statistic title="明确否定" value={asinRows.filter(row => row.decision === 'deny').length} valueStyle={{ color: '#dc2626', fontSize: 20, fontWeight: 600 }} />
+                    </Card>
+                  </Col>
+                  <Col xs={12} sm={6}>
+                    <Card size="small" className="neg-kpi-card" style={{ borderTop: '3px solid #8b5cf6' }}>
+                      <Statistic title="Campaign ID 已匹配" value={asinRows.filter(row => row.decision === 'deny' && row.campaignId).length} valueStyle={{ color: '#2563eb', fontSize: 20, fontWeight: 600 }} />
+                    </Card>
+                  </Col>
+                  <Col xs={12} sm={6}>
+                    <Card size="small" className="neg-kpi-card" style={{ borderTop: '3px solid #22c55e' }}>
+                      <Statistic title="Ad Group ID 已匹配" value={asinRows.filter(row => row.decision === 'deny' && row.adGroupId).length} valueStyle={{ color: '#16a34a', fontSize: 20, fontWeight: 600 }} />
+                    </Card>
+                  </Col>
                 </Row>
                 <Card size="small" style={{ marginBottom: 16 }}>
                   <Flex gap={8} wrap="wrap" align="center">

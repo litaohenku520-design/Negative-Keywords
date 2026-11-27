@@ -118,6 +118,15 @@ function RootApp() {
             borderRadius: 8,
             fontSize: 13,
           },
+          components: {
+            Table: {
+              cellPaddingBlockSM: 7,
+              cellPaddingInlineSM: 10,
+            },
+            Card: {
+              paddingLG: 16,
+            },
+          },
         }}
       >
         <div className="neg-app-shell">
