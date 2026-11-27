@@ -537,19 +537,18 @@ function buildCampaignIdScopeOptions(
     options.set(scope, { scope, storeId: normalizedStoreId, storeName, marketplace: normalizedMarketplace });
   };
 
-  for (const store of validStores) {
-    add(store.id, store.storeName || store.id, store.marketplace || 'US');
-    // 当前店铺可直接选择尚未导入的站点；其它店铺只展示已有映射，避免下拉框过长。
-    if (normalizeCampaignScope(store.id) === normalizeCampaignScope(activeStoreId)) {
-      for (const marketplace of CAMPAIGN_ID_MARKETPLACES) add(store.id, store.storeName || store.id, marketplace);
-    }
-  }
-
   for (const record of mappings) {
     const parsed = parseCampaignIdScope(record.storeMarketplace);
     const store = byId.get(parsed.storeId);
     if (store && parsed.marketplace) add(store.id, store.storeName || store.id, parsed.marketplace);
     else if (store) add(store.id, store.storeName || store.id, store.marketplace || 'US');
+    else if (parsed.storeId && parsed.marketplace) add(parsed.storeId, parsed.storeId, parsed.marketplace);
+  }
+
+  if (options.size === 0) {
+    for (const store of validStores) {
+      add(store.id, store.storeName || store.id, store.marketplace || 'US');
+    }
   }
 
   return Array.from(options.values()).sort((a, b) => (
@@ -2033,10 +2032,8 @@ const NegKeywordTool: React.FC = () => {
         Array.isArray(records) ? records : [],
         campaignIdStoreOptions,
       );
-      // 后端是主来源，但浏览器本地镜像不能丢：后端重启/切换启动器期间，
-      // 仍保留已导入的站点映射，避免导出时 Campaign ID 全部变空。
-      const merged = mergeCampaignIdMappings(localMappings, remoteMappings);
-      const nextMappings = remoteMappings.length > 0 ? merged : localMappings;
+      // 以插件后端磁盘为准，避免已删除的作用域从 localStorage 复活
+      const nextMappings = Array.isArray(records) ? remoteMappings : localMappings;
       setCampaignIdMappings(nextMappings);
       writeLocalCampaignIdMappings(nextMappings);
     } catch (error) {
