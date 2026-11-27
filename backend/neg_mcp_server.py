@@ -139,15 +139,24 @@ def _rules_summary_dict() -> dict:
 TOOLS = [
     {
         "name": "open_neg_workbench",
-        "title": "AMZ 否词工具",
-        "description": "打开亚马逊广告否词工具工作台（侧边栏/全屏交互界面），支持搜索词分类、规则编辑、Campaign映射、机型否词库、别名规则和模板导出。",
-        "inputSchema": {"type": "object", "properties": {}},
+        "title": "Discover AMZN",
+        "description": "打开 Discover AMZN 亚马逊运营集成工作台（包含否词助手、ROAS 合并助手及后续扩展模块）。",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "module": {
+                    "type": "string",
+                    "enum": ["neg", "roas"],
+                    "description": "可选：初始打开的功能模块（neg=否词助手，roas=ROAS合并助手）",
+                }
+            },
+        },
         "_meta": {
             "ui": {"resourceUri": APP_URI},
             "com.google.antigravity/ui": {
                 "entrypoints": [
-                    {"type": "aux_pane", "title": "否词工具"},
-                    {"type": "global", "title": "否词工具"},
+                    {"type": "aux_pane", "title": "Discover AMZN"},
+                    {"type": "global", "title": "Discover AMZN"},
                 ]
             },
         },
@@ -262,6 +271,9 @@ def _handle_tool_call(name: str, args: dict) -> dict:
         # 后台预热内置 HTTP 服务，避免首次点击面板时等待规则加载
         threading.Thread(target=_ensure_embedded_server, daemon=True).start()
         summary = _rules_summary_dict()
+        mod = args.get("module")
+        if mod in ("neg", "roas"):
+            summary["module"] = mod
         return {
             "content": [{"type": "text", "text": json.dumps(summary, ensure_ascii=False, indent=2)}],
             "structuredContent": summary,
