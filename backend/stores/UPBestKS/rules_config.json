@@ -2100,7 +2100,6 @@
   ],
   "model_groups": [
     {
-      "name": "Samsung A26",
       "enabled": true,
       "keywords": [
         "a26",
@@ -2229,10 +2228,10 @@
         "sm-a266 b",
         "sm-a 266b case",
         "sm-a266 b case"
-      ]
+      ],
+      "name": "Samsung A26"
     },
     {
-      "name": "Samsung A04",
       "enabled": true,
       "keywords": [
         "a04",
@@ -2384,10 +2383,10 @@
         "sm-a045 f",
         "sm-a 045f case",
         "sm-a045 f case"
-      ]
+      ],
+      "name": "Samsung A04"
     },
     {
-      "name": "Google Pixel 10 Pro XL",
       "enabled": true,
       "keywords": [
         "pixel 10 pro xl",
@@ -2506,10 +2505,10 @@
         "gy2 wb",
         "gy 2wb case",
         "gy2 wb case"
-      ]
+      ],
+      "name": "Google Pixel 10 Pro XL"
     },
     {
-      "name": "Google Pixel 10 Pro",
       "enabled": true,
       "keywords": [
         "pixel10",
@@ -2635,10 +2634,10 @@
         "gz3 ql",
         "gz 3ql case",
         "gz3 ql case"
-      ]
+      ],
+      "name": "Google Pixel 10 Pro"
     },
     {
-      "name": "Google Pixel 9 Pro XL",
       "enabled": true,
       "keywords": [
         "pixel 9 pro xl",
@@ -2769,10 +2768,10 @@
         "g4 qyj",
         "g 4qyj case",
         "g4 qyj case"
-      ]
+      ],
+      "name": "Google Pixel 9 Pro XL"
     },
     {
-      "name": "Google Pixel 9a",
       "enabled": true,
       "keywords": [
         "pixel 9a",
@@ -2882,10 +2881,10 @@
         "google9 i phonee",
         "googel 9i phonee",
         "googel9 i phonee"
-      ]
+      ],
+      "name": "Google Pixel 9a"
     },
     {
-      "name": "Google Pixel 9/9 Pro",
       "enabled": true,
       "keywords": [
         "pixel9",
@@ -3051,10 +3050,10 @@
         "google9 i phonee",
         "googel 9i phonee",
         "googel9 i phonee"
-      ]
+      ],
+      "name": "Google Pixel 9/9 Pro"
     },
     {
-      "name": "Google Pixel 8 Pro",
       "enabled": true,
       "keywords": [
         "google google pixel 8pro",
@@ -3175,10 +3174,10 @@
         "g1 mnw",
         "g 1mnw case",
         "g1 mnw case"
-      ]
+      ],
+      "name": "Google Pixel 8 Pro"
     },
     {
-      "name": "Google Pixel 8a",
       "enabled": true,
       "keywords": [
         "pixel 8a",
@@ -3280,10 +3279,10 @@
         "google8 i phonee",
         "googel 8i phonee",
         "googel8 i phonee"
-      ]
+      ],
+      "name": "Google Pixel 8a"
     },
     {
-      "name": "Google Pixel 8",
       "enabled": true,
       "keywords": [
         "google google pixel 8",
@@ -3379,11 +3378,11 @@
         "8  i phone e",
         "i phone e 8"
       ],
-      "source": "auto_generated",
-      "original_name": "Pixel8"
+      "name": "Google Pixel 8",
+      "original_name": "Pixel8",
+      "source": "auto_generated"
     },
     {
-      "name": "Google Pixel 7 Pro",
       "enabled": true,
       "keywords": [
         "pixel 7 pro",
@@ -3506,10 +3505,10 @@
         "ge3 ae",
         "ge 3ae case",
         "ge3 ae case"
-      ]
+      ],
+      "name": "Google Pixel 7 Pro"
     },
     {
-      "name": "Google Pixel 7a",
       "enabled": true,
       "keywords": [
         "pixel 7a",
@@ -3606,10 +3605,10 @@
         "google7 i phonee",
         "googel 7i phonee",
         "googel7 i phonee"
-      ]
+      ],
+      "name": "Google Pixel 7a"
     },
     {
-      "name": "Google Pixel 7",
       "enabled": true,
       "keywords": [
         "google google pixel 7",
@@ -3696,11 +3695,11 @@
         "googel 7i phonee",
         "googel7 i phonee"
       ],
-      "source": "auto_generated",
-      "original_name": "Pixel7"
+      "name": "Google Pixel 7",
+      "original_name": "Pixel7",
+      "source": "auto_generated"
     },
     {
-      "name": "Google Pixel 6 Pro",
       "enabled": true,
       "keywords": [
         "pixel 6 pro",
@@ -3792,10 +3791,10 @@
         "ge2 ae case",
         "ga 03463",
         "ga 03463 case"
-      ]
+      ],
+      "name": "Google Pixel 6 Pro"
     },
     {
-      "name": "Google Pixel 6a",
       "enabled": true,
       "keywords": [
         "pixel 6a",
@@ -3872,10 +3871,10 @@
         "g1 azg",
         "g 1azg case",
         "g1 azg case"
-      ]
+      ],
+      "name": "Google Pixel 6a"
     },
     {
-      "name": "Google Pixel 6",
       "enabled": true,
       "keywords": [
         "pixel6 google",
@@ -3945,11 +3944,11 @@
         "googel 6i phonee",
         "googel6 i phonee"
       ],
-      "source": "auto_generated",
-      "original_name": "Pixel6"
+      "name": "Google Pixel 6",
+      "original_name": "Pixel6",
+      "source": "auto_generated"
     },
     {
-      "name": "OnePlus",
       "enabled": true,
       "keywords": [
         "op op",
@@ -3974,10 +3973,10 @@
         "in 2013 case",
         "in 2017",
         "in 2017 case"
-      ]
+      ],
+      "name": "OnePlus"
     },
     {
-      "name": "OnePlus N200",
       "enabled": true,
       "keywords": [
         "oneplus n200",
@@ -4087,10 +4086,10 @@
         "n 200 6.49",
         "de 2118",
         "de 2118 case"
-      ]
+      ],
+      "name": "OnePlus N200"
     },
     {
-      "name": "LG V60",
       "enabled": true,
       "keywords": [
         "lg v60",
@@ -4148,10 +4147,10 @@
         "v 60 6.8",
         "lm-v 600",
         "lm-v 600 case"
-      ]
+      ],
+      "name": "LG V60"
     },
     {
-      "name": "LG Velvet",
       "enabled": true,
       "keywords": [
         "lg velvet",
@@ -4177,10 +4176,10 @@
         "lg lg velvet 5 g",
         "lm-g 910",
         "lm-g 910 case"
-      ]
+      ],
+      "name": "LG Velvet"
     },
     {
-      "name": "LG Wing",
       "enabled": true,
       "keywords": [
         "lg wing",
@@ -4204,10 +4203,10 @@
         "lg lg wing 5 g",
         "lm-f 100",
         "lm-f 100 case"
-      ]
+      ],
+      "name": "LG Wing"
     },
     {
-      "name": "LG Stylo 6",
       "enabled": true,
       "keywords": [
         "lg stylo 6",
@@ -4244,10 +4243,10 @@
         "lg 6 b",
         "lm-q 730",
         "lm-q 730 case"
-      ]
+      ],
+      "name": "LG Stylo 6"
     },
     {
-      "name": "LG Stylo 5",
       "enabled": true,
       "keywords": [
         "lg stylo 5",
@@ -4284,10 +4283,10 @@
         "lg 5 b",
         "lm-q 720",
         "lm-q 720 case"
-      ]
+      ],
+      "name": "LG Stylo 5"
     },
     {
-      "name": "LG Stylo 4",
       "enabled": true,
       "keywords": [
         "lg stylo 4",
@@ -4324,10 +4323,10 @@
         "lg 4 b",
         "lm-q 710",
         "lm-q 710 case"
-      ]
+      ],
+      "name": "LG Stylo 4"
     },
     {
-      "name": "LG K92",
       "enabled": true,
       "keywords": [
         "lg k92",
@@ -4389,10 +4388,10 @@
         "k 92 6.7",
         "lm-k 920",
         "lm-k 920 case"
-      ]
+      ],
+      "name": "LG K92"
     },
     {
-      "name": "LG K51",
       "enabled": true,
       "keywords": [
         "lg k51",
@@ -4451,10 +4450,10 @@
         "k 51 6.5",
         "lm-k 500",
         "lm-k 500 case"
-      ]
+      ],
+      "name": "LG K51"
     },
     {
-      "name": "LG G8",
       "enabled": true,
       "keywords": [
         "lg lg g8 thinq",
@@ -4511,10 +4510,10 @@
         "g 8 6.1",
         "lm-g 820",
         "lm-g 820 case"
-      ]
+      ],
+      "name": "LG G8"
     },
     {
-      "name": "LG G7",
       "enabled": true,
       "keywords": [
         "lg 7",
@@ -4559,10 +4558,10 @@
         "g 7 6.1",
         "lm-g 710",
         "lm-g 710 case"
-      ]
+      ],
+      "name": "LG G7"
     },
     {
-      "name": "REVVL V+",
       "enabled": true,
       "keywords": [
         "v+ plus",
@@ -4655,10 +4654,10 @@
         "revvl v+ 5g phone case zipper wallet",
         "revvl v+ 5g, leather flip cover",
         "tmobile revvl v+ 5g phone case"
-      ]
+      ],
+      "name": "REVVL V+"
     },
     {
-      "name": "REVVL V",
       "enabled": true,
       "keywords": [
         "revl v",
@@ -4679,10 +4678,10 @@
         "TA-1088 case",
         "revv 5 g",
         "revel vt 5 g"
-      ]
+      ],
+      "name": "REVVL V"
     },
     {
-      "name": "REVVL 6 Pro",
       "enabled": true,
       "keywords": [
         "revvl 6 pro",
@@ -4768,10 +4767,10 @@
         "revv 6 pro",
         "rvvl 6 pro",
         "rebel 6 x 5 g pro"
-      ]
+      ],
+      "name": "REVVL 6 Pro"
     },
     {
-      "name": "REVVL 6",
       "enabled": true,
       "keywords": [
         "revvl 6",
@@ -4847,10 +4846,10 @@
         "wireless t mobile revelry 6",
         "6i phonee",
         "6 i phonee"
-      ]
+      ],
+      "name": "REVVL 6"
     },
     {
-      "name": "Moto Ace",
       "enabled": true,
       "keywords": [
         "moto ace",
@@ -5010,11 +5009,11 @@
         "xt 2013-2",
         "xt 2013-2 case"
       ],
-      "source": "auto_generated",
-      "original_name": "Moto/Ace"
+      "name": "Moto Ace",
+      "original_name": "Moto/Ace",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone 16 Pro Max",
       "enabled": true,
       "keywords": [
         "￼promax 16",
@@ -5103,11 +5102,11 @@
         "applei phone 16promax",
         "applei phone16 promax"
       ],
-      "source": "auto_generated",
-      "original_name": "IP16ProMax"
+      "name": "iPhone 16 Pro Max",
+      "original_name": "IP16ProMax",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone 16 Pro",
       "enabled": true,
       "keywords": [
         "16 pro",
@@ -5250,11 +5249,11 @@
         "i phone 16pro i phone 16pro",
         "i phone16 pro i phone16 pro"
       ],
-      "source": "auto_generated",
-      "original_name": "IP16Pro"
+      "name": "iPhone 16 Pro",
+      "original_name": "IP16Pro",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone 16 Plus",
       "enabled": true,
       "keywords": [
         "16 plus",
@@ -5384,11 +5383,11 @@
         "i phone 16plus i phone 16plus",
         "i phone16 plus i phone16 plus"
       ],
-      "source": "auto_generated",
-      "original_name": "IP16Plus"
+      "name": "iPhone 16 Plus",
+      "original_name": "IP16Plus",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone 16",
       "enabled": true,
       "keywords": [
         "apple iphone16",
@@ -5479,11 +5478,11 @@
         "i phone 16 i phone 16",
         "applei phone 16"
       ],
-      "source": "auto_generated",
-      "original_name": "IP16"
+      "name": "iPhone 16",
+      "original_name": "IP16",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone 16e",
       "enabled": true,
       "keywords": [
         "iphone 16e",
@@ -5682,10 +5681,10 @@
         "i phone 17 e",
         "i phone 17 e case",
         "i phone 17 e wallet"
-      ]
+      ],
+      "name": "iPhone 16e"
     },
     {
-      "name": "iPhone 15 Pro Max",
       "enabled": true,
       "keywords": [
         "15 pro max",
@@ -5831,11 +5830,11 @@
         "applei phone15 promax",
         "apple i phone 15 promax"
       ],
-      "source": "auto_generated",
-      "original_name": "IP15ProMax"
+      "name": "iPhone 15 Pro Max",
+      "original_name": "IP15ProMax",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone 15 Pro",
       "enabled": true,
       "keywords": [
         "15 pro",
@@ -5967,11 +5966,11 @@
         "i phone 15pro i phone 15pro",
         "i phone15 pro i phone15 pro"
       ],
-      "source": "auto_generated",
-      "original_name": "IP15Pro"
+      "name": "iPhone 15 Pro",
+      "original_name": "IP15Pro",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone 15 Plus",
       "enabled": true,
       "keywords": [
         "iphone 15 plus",
@@ -6134,10 +6133,10 @@
         "i phone i phone i phone 15 plus",
         "i phone 15plus i phone",
         "i phone15 plus i phone"
-      ]
+      ],
+      "name": "iPhone 15 Plus"
     },
     {
-      "name": "iPhone 15",
       "enabled": true,
       "keywords": [
         "apple iphone15",
@@ -6358,11 +6357,11 @@
         "i phone15 magneticcasewithcreditcardslotsanddetachablecase",
         "applei phone 15"
       ],
-      "source": "auto_generated",
-      "original_name": "IP15"
+      "name": "iPhone 15",
+      "original_name": "IP15",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone 14 Pro Max",
       "enabled": true,
       "keywords": [
         "14 pro max",
@@ -6487,11 +6486,11 @@
         "applei phone14 promax",
         "apple i phone 14 promax"
       ],
-      "source": "auto_generated",
-      "original_name": "IP14ProMax"
+      "name": "iPhone 14 Pro Max",
+      "original_name": "IP14ProMax",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone 14 Pro",
       "enabled": true,
       "keywords": [
         "14 pro",
@@ -6620,11 +6619,11 @@
         "i phone 14pro i phone 14pro",
         "i phone14 pro i phone14 pro"
       ],
-      "source": "auto_generated",
-      "original_name": "IP14Pro"
+      "name": "iPhone 14 Pro",
+      "original_name": "IP14Pro",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone 14 Plus",
       "enabled": true,
       "keywords": [
         "14 plus",
@@ -6780,11 +6779,11 @@
         "handyhullenstrahlungssicheri phone 14plus",
         "handyhullenstrahlungssicheri phone14 plus"
       ],
-      "source": "auto_generated",
-      "original_name": "IP14Plus"
+      "name": "iPhone 14 Plus",
+      "original_name": "IP14Plus",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone 14",
       "enabled": true,
       "keywords": [
         "iphono 14 e",
@@ -6954,11 +6953,11 @@
         "i phone14 i phonee",
         "applei phone 14"
       ],
-      "source": "auto_generated",
-      "original_name": "IP14"
+      "name": "iPhone 14",
+      "original_name": "IP14",
+      "source": "auto_generated"
     },
     {
-      "name": "Note10",
       "enabled": true,
       "keywords": [
         "note10",
@@ -7003,11 +7002,11 @@
         "sm-n 970u case",
         "sm-n970 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "Note10"
+      "name": "Note10",
+      "original_name": "Note10",
+      "source": "auto_generated"
     },
     {
-      "name": "Moto Edge 2025",
       "enabled": true,
       "keywords": [
         "edge 2025",
@@ -7153,11 +7152,11 @@
         "xt 2581-1",
         "xt 2581-1 case"
       ],
-      "source": "auto_generated",
-      "original_name": "Moto/Edge/2025"
+      "name": "Moto Edge 2025",
+      "original_name": "Moto/Edge/2025",
+      "source": "auto_generated"
     },
     {
-      "name": "Moto G 5G 2024",
       "enabled": true,
       "keywords": [
         "moto g play 2024",
@@ -7505,10 +7504,10 @@
         "g 5 g 2024 6.6",
         "xt 2413-1",
         "xt 2413-1 case"
-      ]
+      ],
+      "name": "Moto G 5G 2024"
     },
     {
-      "name": "MotoG 5G 2025",
       "enabled": true,
       "keywords": [
         "moto g. 2025",
@@ -7802,11 +7801,11 @@
         "xt 2513-1",
         "xt 2513-1 case"
       ],
-      "source": "auto_generated",
-      "original_name": "MotoG/5G/2025"
+      "name": "MotoG 5G 2025",
+      "original_name": "MotoG/5G/2025",
+      "source": "auto_generated"
     },
     {
-      "name": "Note10Pro",
       "enabled": true,
       "keywords": [
         "10 plus phone",
@@ -7876,10 +7875,10 @@
         "sm-n975 f",
         "sm-n 975f case",
         "sm-n975 f case"
-      ]
+      ],
+      "name": "Note10Pro"
     },
     {
-      "name": "Samsung Galaxy A02S",
       "enabled": true,
       "keywords": [
         "samsung 02",
@@ -8057,11 +8056,11 @@
         "sm-a 025f case",
         "sm-a025 f case"
       ],
-      "source": "auto_generated",
-      "original_name": "A02S"
+      "name": "Samsung Galaxy A02S",
+      "original_name": "A02S",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy A03S",
       "enabled": true,
       "keywords": [
         "a03s",
@@ -8387,11 +8386,11 @@
         "sm-a 037f case",
         "sm-a037 f case"
       ],
-      "source": "auto_generated",
-      "original_name": "A03S"
+      "name": "Samsung Galaxy A03S",
+      "original_name": "A03S",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy A12",
       "enabled": true,
       "keywords": [
         "a12",
@@ -8535,11 +8534,11 @@
         "sm-a 125f case",
         "sm-a125 f case"
       ],
-      "source": "auto_generated",
-      "original_name": "A12"
+      "name": "Samsung Galaxy A12",
+      "original_name": "A12",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy A13",
       "enabled": true,
       "keywords": [
         "a13",
@@ -8709,11 +8708,11 @@
         "sm-a 135f case",
         "sm-a135 f case"
       ],
-      "source": "auto_generated",
-      "original_name": "A13"
+      "name": "Samsung Galaxy A13",
+      "original_name": "A13",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy A14",
       "enabled": true,
       "keywords": [
         "a14",
@@ -8913,11 +8912,11 @@
         "sm-a 145f case",
         "sm-a145 f case"
       ],
-      "source": "auto_generated",
-      "original_name": "A14"
+      "name": "Samsung Galaxy A14",
+      "original_name": "A14",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy A15",
       "enabled": true,
       "keywords": [
         "15a 15a",
@@ -9116,11 +9115,11 @@
         "sm-a 155f case",
         "sm-a155 f case"
       ],
-      "source": "auto_generated",
-      "original_name": "A15"
+      "name": "Samsung Galaxy A15",
+      "original_name": "A15",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy A16",
       "enabled": true,
       "keywords": [
         "android 16",
@@ -9390,11 +9389,11 @@
         "sm-a 165f case",
         "sm-a165 f case"
       ],
-      "source": "auto_generated",
-      "original_name": "A16/5G"
+      "name": "Samsung Galaxy A16",
+      "original_name": "A16/5G",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy A17",
       "enabled": true,
       "keywords": [
         "a17",
@@ -9606,11 +9605,11 @@
         "sm-a 175f case",
         "sm-a175 f case"
       ],
-      "source": "auto_generated",
-      "original_name": "A17"
+      "name": "Samsung Galaxy A17",
+      "original_name": "A17",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy A23",
       "enabled": true,
       "keywords": [
         "samsung samsung galaxy 23",
@@ -9739,11 +9738,11 @@
         "sm-a 235f case",
         "sm-a235 f case"
       ],
-      "source": "auto_generated",
-      "original_name": "A23"
+      "name": "Samsung Galaxy A23",
+      "original_name": "A23",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy A25",
       "enabled": true,
       "keywords": [
         "galaxy a25",
@@ -9860,11 +9859,11 @@
         "sm-a 256e case",
         "sm-a256 e case"
       ],
-      "source": "auto_generated",
-      "original_name": "A25"
+      "name": "Samsung Galaxy A25",
+      "original_name": "A25",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy A32",
       "enabled": true,
       "keywords": [
         "a32",
@@ -10094,11 +10093,11 @@
         "sm-a 325f case",
         "sm-a325 f case"
       ],
-      "source": "auto_generated",
-      "original_name": "A32/5G"
+      "name": "Samsung Galaxy A32",
+      "original_name": "A32/5G",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy A34",
       "enabled": true,
       "keywords": [
         "a34",
@@ -10255,11 +10254,11 @@
         "sm-a 346b case",
         "sm-a346 b case"
       ],
-      "source": "auto_generated",
-      "original_name": "A34"
+      "name": "Samsung Galaxy A34",
+      "original_name": "A34",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy A35",
       "enabled": true,
       "keywords": [
         "a35",
@@ -10480,11 +10479,11 @@
         "sm-a 356b case",
         "sm-a356 b case"
       ],
-      "source": "auto_generated",
-      "original_name": "A35"
+      "name": "Samsung Galaxy A35",
+      "original_name": "A35",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy A36",
       "enabled": true,
       "keywords": [
         "a36",
@@ -10662,11 +10661,11 @@
         "sm-a 366b case",
         "sm-a366 b case"
       ],
-      "source": "auto_generated",
-      "original_name": "A36"
+      "name": "Samsung Galaxy A36",
+      "original_name": "A36",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy A42",
       "enabled": true,
       "keywords": [
         "a42",
@@ -10888,11 +10887,11 @@
         "sm-a 426b case",
         "sm-a426 b case"
       ],
-      "source": "auto_generated",
-      "original_name": "A42/5G"
+      "name": "Samsung Galaxy A42",
+      "original_name": "A42/5G",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy A51",
       "enabled": true,
       "keywords": [
         "a51",
@@ -11091,11 +11090,11 @@
         "sm-a 515f case",
         "sm-a515 f case"
       ],
-      "source": "auto_generated",
-      "original_name": "A51/5G"
+      "name": "Samsung Galaxy A51",
+      "original_name": "A51/5G",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy A52",
       "enabled": true,
       "keywords": [
         "52n",
@@ -11277,11 +11276,11 @@
         "sm-a 525f case",
         "sm-a525 f case"
       ],
-      "source": "auto_generated",
-      "original_name": "A52"
+      "name": "Samsung Galaxy A52",
+      "original_name": "A52",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy A53",
       "enabled": true,
       "keywords": [
         "a53",
@@ -11469,11 +11468,11 @@
         "sm-a 536b case",
         "sm-a536 b case"
       ],
-      "source": "auto_generated",
-      "original_name": "A53"
+      "name": "Samsung Galaxy A53",
+      "original_name": "A53",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy A54",
       "enabled": true,
       "keywords": [
         "a54",
@@ -11670,11 +11669,11 @@
         "sm-a 546b case",
         "sm-a546 b case"
       ],
-      "source": "auto_generated",
-      "original_name": "A54"
+      "name": "Samsung Galaxy A54",
+      "original_name": "A54",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy A55",
       "enabled": true,
       "keywords": [
         "a55",
@@ -11834,11 +11833,11 @@
         "sm-a 556b case",
         "sm-a556 b case"
       ],
-      "source": "auto_generated",
-      "original_name": "A55"
+      "name": "Samsung Galaxy A55",
+      "original_name": "A55",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy A56",
       "enabled": true,
       "keywords": [
         "a56",
@@ -12031,11 +12030,11 @@
         "sm-a 566b case",
         "sm-a566 b case"
       ],
-      "source": "auto_generated",
-      "original_name": "A56"
+      "name": "Samsung Galaxy A56",
+      "original_name": "A56",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy A71",
       "enabled": true,
       "keywords": [
         "a71",
@@ -12248,11 +12247,11 @@
         "sm-a 715f case",
         "sm-a715 f case"
       ],
-      "source": "auto_generated",
-      "original_name": "A71/5G"
+      "name": "Samsung Galaxy A71",
+      "original_name": "A71/5G",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone 11",
       "enabled": true,
       "keywords": [
         "ip11",
@@ -12418,11 +12417,11 @@
         "i phone 11e",
         "i phone11 e"
       ],
-      "source": "auto_generated",
-      "original_name": "IP11"
+      "name": "iPhone 11",
+      "original_name": "IP11",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone 11 Pro",
       "enabled": true,
       "keywords": [
         "iphne 11 pro",
@@ -12600,11 +12599,11 @@
         "apple apple i phone 11pro",
         "apple apple i phone11 pro"
       ],
-      "source": "auto_generated",
-      "original_name": "IP11Pro"
+      "name": "iPhone 11 Pro",
+      "original_name": "IP11Pro",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone 11 Pro Max",
       "enabled": true,
       "keywords": [
         "appleiphone11promax",
@@ -12767,11 +12766,11 @@
         "i phone11 max",
         "premax i phone 11"
       ],
-      "source": "auto_generated",
-      "original_name": "IP11ProMax"
+      "name": "iPhone 11 Pro Max",
+      "original_name": "IP11ProMax",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone IP12/12Pro",
       "enabled": true,
       "keywords": [
         "12pro",
@@ -12937,11 +12936,11 @@
         "applei phone12 pro",
         "i phone cover 12 case"
       ],
-      "source": "auto_generated",
-      "original_name": "IP12/12Pro"
+      "name": "iPhone IP12/12Pro",
+      "original_name": "IP12/12Pro",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone 12 Pro Max",
       "enabled": true,
       "keywords": [
         "12 pro max",
@@ -13194,11 +13193,11 @@
         "i phonepromax 12",
         "i phone 12 + book shaped"
       ],
-      "source": "auto_generated",
-      "original_name": "IP12ProMax"
+      "name": "iPhone 12 Pro Max",
+      "original_name": "IP12ProMax",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone 13",
       "enabled": true,
       "keywords": [
         "!phone13iphonee",
@@ -13411,11 +13410,11 @@
         "suanpoti phone 13",
         "i phone 13 for suanpot"
       ],
-      "source": "auto_generated",
-      "original_name": "IP13"
+      "name": "iPhone 13",
+      "original_name": "IP13",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone 13 Pro",
       "enabled": true,
       "keywords": [
         "13 pro",
@@ -13529,11 +13528,11 @@
         "i phone 13pro i phone 13pro",
         "i phone13 pro i phone13 pro"
       ],
-      "source": "auto_generated",
-      "original_name": "IP13Pro"
+      "name": "iPhone 13 Pro",
+      "original_name": "IP13Pro",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone 13 Pro Max",
       "enabled": true,
       "keywords": [
         "13 pro max",
@@ -13678,11 +13677,11 @@
         "i phone 13max",
         "i phone13 max"
       ],
-      "source": "auto_generated",
-      "original_name": "IP13ProMax"
+      "name": "iPhone 13 Pro Max",
+      "original_name": "IP13ProMax",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone 17",
       "enabled": true,
       "keywords": [
         "+17",
@@ -13817,11 +13816,11 @@
         "i phone 17 i phone",
         "i phone 17 apple"
       ],
-      "source": "auto_generated",
-      "original_name": "IP17"
+      "name": "iPhone 17",
+      "original_name": "IP17",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone 17 Pro",
       "enabled": true,
       "keywords": [
         "17 pro",
@@ -13983,11 +13982,11 @@
         "17 case pro i phone",
         "i phone i phone pro 17 case"
       ],
-      "source": "auto_generated",
-      "original_name": "IP17Pro"
+      "name": "iPhone 17 Pro",
+      "original_name": "IP17Pro",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone 17 Pro Max",
       "enabled": true,
       "keywords": [
         "17 pro max",
@@ -14141,11 +14140,11 @@
         "i phone 17promaxcase",
         "i phone17 promaxcase"
       ],
-      "source": "auto_generated",
-      "original_name": "IP17ProMax"
+      "name": "iPhone 17 Pro Max",
+      "original_name": "IP17ProMax",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone IP7/8/SE",
       "enabled": true,
       "keywords": [
         "appleiphonese",
@@ -14499,11 +14498,11 @@
         "i phone s 8",
         "i phone se 1 st gen"
       ],
-      "source": "auto_generated",
-      "original_name": "IP7/8/SE"
+      "name": "iPhone IP7/8/SE",
+      "original_name": "IP7/8/SE",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone IP7Plus/8Plus",
       "enabled": true,
       "keywords": [
         "7 plus",
@@ -14656,11 +14655,11 @@
         "applei phone 8plus",
         "applei phone8 plus"
       ],
-      "source": "auto_generated",
-      "original_name": "IP7Plus/8Plus"
+      "name": "iPhone IP7Plus/8Plus",
+      "original_name": "IP7Plus/8Plus",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone Air",
       "enabled": true,
       "keywords": [
         "air",
@@ -14720,11 +14719,11 @@
         "i phone i phone i phoneair",
         "i phoneair i phoneair"
       ],
-      "source": "auto_generated",
-      "original_name": "IPAir"
+      "name": "iPhone Air",
+      "original_name": "IPAir",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone IPX/XS",
       "enabled": true,
       "keywords": [
         "iphonex apple",
@@ -14844,11 +14843,11 @@
         "apple i phone 10 s",
         "i phone 10 s"
       ],
-      "source": "auto_generated",
-      "original_name": "IPX/XS"
+      "name": "iPhone IPX/XS",
+      "original_name": "IPX/XS",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone XR",
       "enabled": true,
       "keywords": [
         "apple iphonexr",
@@ -14957,11 +14956,11 @@
         "i phone10 x",
         "i phone 10 xr"
       ],
-      "source": "auto_generated",
-      "original_name": "IPXR"
+      "name": "iPhone XR",
+      "original_name": "IPXR",
+      "source": "auto_generated"
     },
     {
-      "name": "iPhone IPXS/Max",
       "enabled": true,
       "keywords": [
         "xsmax",
@@ -15063,11 +15062,11 @@
         "xs mac",
         "xs mac case"
       ],
-      "source": "auto_generated",
-      "original_name": "IPXS/Max"
+      "name": "iPhone IPXS/Max",
+      "original_name": "IPXS/Max",
+      "source": "auto_generated"
     },
     {
-      "name": "Moto Edge2021(5G)",
       "enabled": true,
       "keywords": [
         "edge 5g uw 2021",
@@ -15355,11 +15354,11 @@
         "xt 2141-1",
         "xt 2141-1 case"
       ],
-      "source": "auto_generated",
-      "original_name": "Moto/Edge2021(5G)"
+      "name": "Moto Edge2021(5G)",
+      "original_name": "Moto/Edge2021(5G)",
+      "source": "auto_generated"
     },
     {
-      "name": "Moto Edge2022",
       "enabled": true,
       "keywords": [
         "moto edge2022",
@@ -15544,11 +15543,11 @@
         "xt 2201-2",
         "xt 2201-2 case"
       ],
-      "source": "auto_generated",
-      "original_name": "Moto/Edge2022"
+      "name": "Moto Edge2022",
+      "original_name": "Moto/Edge2022",
+      "source": "auto_generated"
     },
     {
-      "name": "Moto G 5G 2023",
       "enabled": true,
       "keywords": [
         "2023 5g motorola",
@@ -15714,11 +15713,11 @@
         "xt 2313-1",
         "xt 2313-1 case"
       ],
-      "source": "auto_generated",
-      "original_name": "Moto/G/5G/2023"
+      "name": "Moto G 5G 2023",
+      "original_name": "Moto/G/5G/2023",
+      "source": "auto_generated"
     },
     {
-      "name": "Moto G 5G Play 2024",
       "enabled": true,
       "keywords": [
         "moto g play 2024",
@@ -16067,11 +16066,11 @@
         "xt 2415-1",
         "xt 2415-1 case"
       ],
-      "source": "auto_generated",
-      "original_name": "Moto/G/5G/Play/2024"
+      "name": "Moto G 5G Play 2024",
+      "original_name": "Moto/G/5G/Play/2024",
+      "source": "auto_generated"
     },
     {
-      "name": "Moto G Play 2021",
       "enabled": true,
       "keywords": [
         "moto g play 2021",
@@ -16123,11 +16122,11 @@
         "xt 2113-2",
         "xt 2113-2 case"
       ],
-      "source": "auto_generated",
-      "original_name": "Moto/G/Play/2021"
+      "name": "Moto G Play 2021",
+      "original_name": "Moto/G/Play/2021",
+      "source": "auto_generated"
     },
     {
-      "name": "Moto G Power 2021",
       "enabled": true,
       "keywords": [
         "moto g power 2021",
@@ -16176,11 +16175,11 @@
         "xt 2117-1",
         "xt 2117-1 case"
       ],
-      "source": "auto_generated",
-      "original_name": "Moto/G/Power/2021"
+      "name": "Moto G Power 2021",
+      "original_name": "Moto/G/Power/2021",
+      "source": "auto_generated"
     },
     {
-      "name": "Moto G Power 2022",
       "enabled": true,
       "keywords": [
         "2022 moto g power",
@@ -16246,11 +16245,11 @@
         "xt 2165-1",
         "xt 2165-1 case"
       ],
-      "source": "auto_generated",
-      "original_name": "Moto/G/Power/2022（Pure/2021）"
+      "name": "Moto G Power 2022",
+      "original_name": "Moto/G/Power/2022（Pure/2021）",
+      "source": "auto_generated"
     },
     {
-      "name": "Moto G Power Play 2025",
       "enabled": true,
       "keywords": [
         "2026 power",
@@ -16362,11 +16361,11 @@
         "motorola 2026i phonee",
         "motorola2026 i phonee"
       ],
-      "source": "auto_generated",
-      "original_name": "Moto/G/Power/Play/2025"
+      "name": "Moto G Power Play 2025",
+      "original_name": "Moto/G/Power/Play/2025",
+      "source": "auto_generated"
     },
     {
-      "name": "Moto G Stylus 2021",
       "enabled": true,
       "keywords": [
         "moto g stylus 2021 5g",
@@ -16504,11 +16503,11 @@
         "xt 2115-1",
         "xt 2115-1 case"
       ],
-      "source": "auto_generated",
-      "original_name": "Moto/G/Stylus/2021"
+      "name": "Moto G Stylus 2021",
+      "original_name": "Moto/G/Stylus/2021",
+      "source": "auto_generated"
     },
     {
-      "name": "Moto G Stylus 2022 4G",
       "enabled": true,
       "keywords": [
         "moto g stylus 2022 4g",
@@ -16564,11 +16563,11 @@
         "xt 2215-1",
         "xt 2215-1 case"
       ],
-      "source": "auto_generated",
-      "original_name": "Moto/G/Stylus/2022/4G"
+      "name": "Moto G Stylus 2022 4G",
+      "original_name": "Moto/G/Stylus/2022/4G",
+      "source": "auto_generated"
     },
     {
-      "name": "Moto G Stylus 2022 5G",
       "enabled": true,
       "keywords": [
         "moto g stylus 2022 5g",
@@ -16801,11 +16800,11 @@
         "xt 2333-1",
         "xt 2333-1 case"
       ],
-      "source": "auto_generated",
-      "original_name": "Moto/G/Stylus/2022/5G"
+      "name": "Moto G Stylus 2022 5G",
+      "original_name": "Moto/G/Stylus/2022/5G",
+      "source": "auto_generated"
     },
     {
-      "name": "Moto G Stylus 5G(2021)",
       "enabled": true,
       "keywords": [
         "moto g stylus 2021 5g",
@@ -16962,11 +16961,11 @@
         "xt 2131-1",
         "xt 2131-1 case"
       ],
-      "source": "auto_generated",
-      "original_name": "Moto/G/Stylus/5G(2021)"
+      "name": "Moto G Stylus 5G(2021)",
+      "original_name": "Moto/G/Stylus/5G(2021)",
+      "source": "auto_generated"
     },
     {
-      "name": "Moto Power2023",
       "enabled": true,
       "keywords": [
         "moto power2023",
@@ -17087,11 +17086,11 @@
         "xt 2317-1",
         "xt 2317-1 case"
       ],
-      "source": "auto_generated",
-      "original_name": "Moto/Power2023"
+      "name": "Moto Power2023",
+      "original_name": "Moto/Power2023",
+      "source": "auto_generated"
     },
     {
-      "name": "Moto Power2024",
       "enabled": true,
       "keywords": [
         "power2024 moto",
@@ -17234,11 +17233,11 @@
         "xt 2417-1 case",
         "moto 2024  i phone e"
       ],
-      "source": "auto_generated",
-      "original_name": "Moto/Power2024"
+      "name": "Moto Power2024",
+      "original_name": "Moto/Power2024",
+      "source": "auto_generated"
     },
     {
-      "name": "Moto Stylus2023 5G",
       "enabled": true,
       "keywords": [
         "moto g stylus 2023 5g",
@@ -17392,11 +17391,11 @@
         "xt 2315-1",
         "xt 2315-1 case"
       ],
-      "source": "auto_generated",
-      "original_name": "Moto/Stylus2023/5G"
+      "name": "Moto Stylus2023 5G",
+      "original_name": "Moto/Stylus2023/5G",
+      "source": "auto_generated"
     },
     {
-      "name": "Note10Plus",
       "enabled": true,
       "keywords": [
         "note10plus",
@@ -17433,11 +17432,11 @@
         "sm-n 975u case",
         "sm-n975 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "Note10Plus"
+      "name": "Note10Plus",
+      "original_name": "Note10Plus",
+      "source": "auto_generated"
     },
     {
-      "name": "Note20",
       "enabled": true,
       "keywords": [
         "note20",
@@ -17527,11 +17526,11 @@
         "sm-n 981b case",
         "sm-n981 b case"
       ],
-      "source": "auto_generated",
-      "original_name": "Note20"
+      "name": "Note20",
+      "original_name": "Note20",
+      "source": "auto_generated"
     },
     {
-      "name": "Note20Ultra",
       "enabled": true,
       "keywords": [
         "note20ultra",
@@ -17628,11 +17627,11 @@
         "sm-n 986u case",
         "sm-n986 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "Note20Ultra"
+      "name": "Note20Ultra",
+      "original_name": "Note20Ultra",
+      "source": "auto_generated"
     },
     {
-      "name": "Note8",
       "enabled": true,
       "keywords": [
         "note8",
@@ -17681,11 +17680,11 @@
         "sm-n 950u case",
         "sm-n950 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "Note8"
+      "name": "Note8",
+      "original_name": "Note8",
+      "source": "auto_generated"
     },
     {
-      "name": "Note9",
       "enabled": true,
       "keywords": [
         "note9",
@@ -17737,11 +17736,11 @@
         "sm-n 960u case",
         "sm-n960 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "Note9"
+      "name": "Note9",
+      "original_name": "Note9",
+      "source": "auto_generated"
     },
     {
-      "name": "OP/12",
       "enabled": true,
       "keywords": [
         "op 12",
@@ -17766,11 +17765,11 @@
         "cph 2583",
         "cph 2583 case"
       ],
-      "source": "auto_generated",
-      "original_name": "OP/12"
+      "name": "OP/12",
+      "original_name": "OP/12",
+      "source": "auto_generated"
     },
     {
-      "name": "OP/N20",
       "enabled": true,
       "keywords": [
         "op n20",
@@ -17795,11 +17794,11 @@
         "cph 2459",
         "cph 2459 case"
       ],
-      "source": "auto_generated",
-      "original_name": "OP/N20"
+      "name": "OP/N20",
+      "original_name": "OP/N20",
+      "source": "auto_generated"
     },
     {
-      "name": "OP/N200",
       "enabled": true,
       "keywords": [
         "oneplus n200",
@@ -17894,11 +17893,11 @@
         "de 2118",
         "de 2118 case"
       ],
-      "source": "auto_generated",
-      "original_name": "OP/N200"
+      "name": "OP/N200",
+      "original_name": "OP/N200",
+      "source": "auto_generated"
     },
     {
-      "name": "Google Pixel 10/10 Pro",
       "enabled": true,
       "keywords": [
         "pixel10",
@@ -18026,11 +18025,11 @@
         "pixel phone10",
         "pixel phone 10 pro"
       ],
-      "source": "auto_generated",
-      "original_name": "Pixel10"
+      "name": "Google Pixel 10/10 Pro",
+      "original_name": "Pixel10",
+      "source": "auto_generated"
     },
     {
-      "name": "Google Pixel 10A",
       "enabled": true,
       "keywords": [
         "googel 10 e",
@@ -18127,11 +18126,11 @@
         "googel 10i phonee",
         "googel10 i phonee"
       ],
-      "source": "auto_generated",
-      "original_name": "Pixel10A"
+      "name": "Google Pixel 10A",
+      "original_name": "Pixel10A",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S10",
       "enabled": true,
       "keywords": [
         "samsung 10 a",
@@ -18269,11 +18268,11 @@
         "sm-g 973u case",
         "sm-g973 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S10"
+      "name": "Samsung Galaxy S10",
+      "original_name": "S10",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S10+",
       "enabled": true,
       "keywords": [
         "samsung 10 plus 5g",
@@ -18427,11 +18426,11 @@
         "sm-g 975u case",
         "sm-g975 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S10+"
+      "name": "Samsung Galaxy S10+",
+      "original_name": "S10+",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S10e",
       "enabled": true,
       "keywords": [
         "s10 e",
@@ -18621,11 +18620,11 @@
         "samsunggalaxy 10i phonee",
         "samsunggalaxy10 i phonee"
       ],
-      "source": "auto_generated",
-      "original_name": "S10e"
+      "name": "Samsung Galaxy S10e",
+      "original_name": "S10e",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S20",
       "enabled": true,
       "keywords": [
         "samsung samsung galaxy s 20",
@@ -18802,11 +18801,11 @@
         "sm-g 981u case",
         "sm-g981 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S20"
+      "name": "Samsung Galaxy S20",
+      "original_name": "S20",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S20+",
       "enabled": true,
       "keywords": [
         "galaxy s 20+",
@@ -18968,11 +18967,11 @@
         "sm-g 986u case",
         "sm-g986 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S20+"
+      "name": "Samsung Galaxy S20+",
+      "original_name": "S20+",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S20 FE",
       "enabled": true,
       "keywords": [
         "galaxy s20 fe",
@@ -19223,11 +19222,11 @@
         "sm-g 781b case",
         "sm-g781 b case"
       ],
-      "source": "auto_generated",
-      "original_name": "S20FE"
+      "name": "Samsung Galaxy S20 FE",
+      "original_name": "S20FE",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S20 Ultra",
       "enabled": true,
       "keywords": [
         "galaxy s20 ultra",
@@ -19497,11 +19496,11 @@
         "sm-g 988u case",
         "sm-g988 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S20Ultra"
+      "name": "Samsung Galaxy S20 Ultra",
+      "original_name": "S20Ultra",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S21",
       "enabled": true,
       "keywords": [
         "samsung21 samsung21",
@@ -19562,11 +19561,11 @@
         "sm-g 991u case",
         "sm-g991 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S21"
+      "name": "Samsung Galaxy S21",
+      "original_name": "S21",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S21+",
       "enabled": true,
       "keywords": [
         "s21+",
@@ -19732,11 +19731,11 @@
         "sm-g 996u case",
         "sm-g996 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S21+"
+      "name": "Samsung Galaxy S21+",
+      "original_name": "S21+",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S21 FE",
       "enabled": true,
       "keywords": [
         "galaxy s21 fe",
@@ -19950,11 +19949,11 @@
         "sm-g 990u case",
         "sm-g990 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S21FE"
+      "name": "Samsung Galaxy S21 FE",
+      "original_name": "S21FE",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S21 Ultra",
       "enabled": true,
       "keywords": [
         "galaxy s21 ultra",
@@ -20238,11 +20237,11 @@
         "sm-g 998u case",
         "sm-g998 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S21Ultra"
+      "name": "Samsung Galaxy S21 Ultra",
+      "original_name": "S21Ultra",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S22",
       "enabled": true,
       "keywords": [
         "samungs22plus",
@@ -20457,11 +20456,11 @@
         "sm-s 901u case",
         "sm-s901 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S22"
+      "name": "Samsung Galaxy S22",
+      "original_name": "S22",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S22+",
       "enabled": true,
       "keywords": [
         "s22+",
@@ -20588,11 +20587,11 @@
         "sm-s 906u case",
         "sm-s906 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S22+"
+      "name": "Samsung Galaxy S22+",
+      "original_name": "S22+",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S22 Ultra",
       "enabled": true,
       "keywords": [
         "galaxy s22 ultra",
@@ -20870,11 +20869,11 @@
         "sm-s 908u case",
         "sm-s908 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S22Ultra"
+      "name": "Samsung Galaxy S22 Ultra",
+      "original_name": "S22Ultra",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S23",
       "enabled": true,
       "keywords": [
         "sm-s916b",
@@ -21092,11 +21091,11 @@
         "sm-s 911u case",
         "sm-s911 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S23"
+      "name": "Samsung Galaxy S23",
+      "original_name": "S23",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S23+",
       "enabled": true,
       "keywords": [
         "s23+",
@@ -21225,11 +21224,11 @@
         "sm-s 916u case",
         "sm-s916 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S23+"
+      "name": "Samsung Galaxy S23+",
+      "original_name": "S23+",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S23 FE",
       "enabled": true,
       "keywords": [
         "galaxy s23 fe",
@@ -21430,11 +21429,11 @@
         "sm-s 711u case",
         "sm-s711 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S23FE"
+      "name": "Samsung Galaxy S23 FE",
+      "original_name": "S23FE",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S23 Ultra",
       "enabled": true,
       "keywords": [
         "samsung s23 u",
@@ -21742,11 +21741,11 @@
         "sm-s 918u case",
         "sm-s918 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S23Ultra"
+      "name": "Samsung Galaxy S23 Ultra",
+      "original_name": "S23Ultra",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S24",
       "enabled": true,
       "keywords": [
         "samsung s24 plus",
@@ -21992,11 +21991,11 @@
         "sm-s 921u case",
         "sm-s921 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S24"
+      "name": "Samsung Galaxy S24",
+      "original_name": "S24",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S24+",
       "enabled": true,
       "keywords": [
         "s24+",
@@ -22133,11 +22132,11 @@
         "sm-s 926u case",
         "sm-s926 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S24+"
+      "name": "Samsung Galaxy S24+",
+      "original_name": "S24+",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S24 FE",
       "enabled": true,
       "keywords": [
         "galaxy s24 fe",
@@ -22380,11 +22379,11 @@
         "sm-s 721u case",
         "sm-s721 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S24FE"
+      "name": "Samsung Galaxy S24 FE",
+      "original_name": "S24FE",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S24 Ultra",
       "enabled": true,
       "keywords": [
         "galaxy galaxy s24 ultra",
@@ -22673,11 +22672,11 @@
         "sm-s 928u case",
         "sm-s928 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S24Ultra"
+      "name": "Samsung Galaxy S24 Ultra",
+      "original_name": "S24Ultra",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S25",
       "enabled": true,
       "keywords": [
         "25s 25s",
@@ -22870,11 +22869,11 @@
         "sm-s 931u case",
         "sm-s931 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S25"
+      "name": "Samsung Galaxy S25",
+      "original_name": "S25",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S25 Edge",
       "enabled": true,
       "keywords": [
         "samung25edge",
@@ -23060,11 +23059,11 @@
         "sm-s 937u case",
         "sm-s937 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S25Edge"
+      "name": "Samsung Galaxy S25 Edge",
+      "original_name": "S25Edge",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S25 FE",
       "enabled": true,
       "keywords": [
         "f e 25",
@@ -23273,11 +23272,11 @@
         "sm-s 767b case",
         "sm-s767 b case"
       ],
-      "source": "auto_generated",
-      "original_name": "S25FE"
+      "name": "Samsung Galaxy S25 FE",
+      "original_name": "S25FE",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S25 Plus",
       "enabled": true,
       "keywords": [
         "sm-s936 case",
@@ -23406,11 +23405,11 @@
         "sm-s 936u case",
         "sm-s936 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S25Plus"
+      "name": "Samsung Galaxy S25 Plus",
+      "original_name": "S25Plus",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S25 Ultra",
       "enabled": true,
       "keywords": [
         "samsunggalaxy 25 u",
@@ -23715,11 +23714,11 @@
         "sm-s 938u case",
         "sm-s938 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S25Ultra"
+      "name": "Samsung Galaxy S25 Ultra",
+      "original_name": "S25Ultra",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S26",
       "enabled": true,
       "keywords": [
         "s26",
@@ -23942,11 +23941,11 @@
         "sm-s 942u case",
         "sm-s942 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S26"
+      "name": "Samsung Galaxy S26",
+      "original_name": "S26",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S26 Plus",
       "enabled": true,
       "keywords": [
         "sm-s936 case",
@@ -24124,11 +24123,11 @@
         "sm-s 946u case",
         "sm-s946 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S26Plus"
+      "name": "Samsung Galaxy S26 Plus",
+      "original_name": "S26Plus",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S26 Ultra",
       "enabled": true,
       "keywords": [
         "samsung 26 u",
@@ -24425,11 +24424,11 @@
         "sm-s 948u case",
         "sm-s948 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S26Ultra"
+      "name": "Samsung Galaxy S26 Ultra",
+      "original_name": "S26Ultra",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S8",
       "enabled": true,
       "keywords": [
         "galaxy s 8",
@@ -24629,11 +24628,11 @@
         "sm-g 950u case",
         "sm-g950 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S8"
+      "name": "Samsung Galaxy S8",
+      "original_name": "S8",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S8+",
       "enabled": true,
       "keywords": [
         "galaxy s 8+",
@@ -24724,11 +24723,11 @@
         "sm-g 955u case",
         "sm-g955 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S8+"
+      "name": "Samsung Galaxy S8+",
+      "original_name": "S8+",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S9",
       "enabled": true,
       "keywords": [
         "galaxy s 9",
@@ -24919,11 +24918,11 @@
         "sm-g 960u case",
         "sm-g960 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S9"
+      "name": "Samsung Galaxy S9",
+      "original_name": "S9",
+      "source": "auto_generated"
     },
     {
-      "name": "Samsung Galaxy S9+",
       "enabled": true,
       "keywords": [
         "galaxy s 9+",
@@ -25082,11 +25081,11 @@
         "sm-g 965u case",
         "sm-g965 u case"
       ],
-      "source": "auto_generated",
-      "original_name": "S9+"
+      "name": "Samsung Galaxy S9+",
+      "original_name": "S9+",
+      "source": "auto_generated"
     },
     {
-      "name": "Stylus2024/5G",
       "enabled": true,
       "keywords": [
         "moto g stylus 2024 5g",
@@ -25291,11 +25290,11 @@
         "xt 2415-2",
         "xt 2415-2 case"
       ],
-      "source": "auto_generated",
-      "original_name": "Stylus2024/5G"
+      "name": "Stylus2024/5G",
+      "original_name": "Stylus2024/5G",
+      "source": "auto_generated"
     },
     {
-      "name": "Stylus2025/5G",
       "enabled": true,
       "keywords": [
         "stylus2025 5g",
@@ -25457,12 +25456,14 @@
         "xt 2515-1",
         "xt 2515-1 case"
       ],
-      "source": "auto_generated",
-      "original_name": "Stylus2025/5G"
+      "name": "Stylus2025/5G",
+      "original_name": "Stylus2025/5G",
+      "source": "auto_generated"
     },
     {
-      "name": "Auto-G85",
+      "confidence": "medium",
       "enabled": true,
+      "error_count": 2,
       "keywords": [
         "g85",
         "eighty five",
@@ -25490,16 +25491,14 @@
         "xt 2419-1",
         "xt 2419-1 case"
       ],
-      "source": "error_feedback",
+      "name": "Auto-G85",
       "original_pattern": "g85",
-      "error_count": 2,
-      "confidence": "medium",
+      "source": "error_feedback",
       "suggested_models": [
         "Moto/G/5G-PU-CK-自动"
       ]
     },
     {
-      "name": "Samsung A37",
       "enabled": true,
       "keywords": [
         "a37",
@@ -25659,10 +25658,10 @@
         "a 37 6.6",
         "sm-a 376b case",
         "sm-a376 b case"
-      ]
+      ],
+      "name": "Samsung A37"
     },
     {
-      "name": "Moto G 5G",
       "enabled": true,
       "keywords": [
         "2022 moto g 5g",
@@ -25779,10 +25778,10 @@
         "g 5 g 6.7",
         "xt 2213-1",
         "xt 2213-1 case"
-      ]
+      ],
+      "name": "Moto G 5G"
     },
     {
-      "name": "MotoG/Power/2026",
       "enabled": true,
       "keywords": [
         "2026 power",
@@ -25890,10 +25889,10 @@
         "motorola2026i phonee",
         "motorola 2026i phonee",
         "motorola2026 i phonee"
-      ]
+      ],
+      "name": "MotoG/Power/2026"
     },
     {
-      "name": "Moto/G/Pure2021",
       "enabled": true,
       "keywords": [
         "pure",
@@ -25945,10 +25944,10 @@
         "moto g play xt 2271",
         "xt 2163-1",
         "xt 2163-1 case"
-      ]
+      ],
+      "name": "Moto/G/Pure2021"
     },
     {
-      "name": "A57",
       "enabled": true,
       "keywords": [
         "57a",
@@ -26036,10 +26035,10 @@
         "sm-a576 b",
         "sm-a 576b case",
         "sm-a576 b case"
-      ]
+      ],
+      "name": "A57"
     },
     {
-      "name": "Z/Fold3",
       "enabled": true,
       "keywords": [
         "fold 3",
@@ -26063,10 +26062,10 @@
         "sm-f926 b",
         "sm-f 926b case",
         "sm-f926 b case"
-      ]
+      ],
+      "name": "Z/Fold3"
     },
     {
-      "name": "Samsung Galaxy Fold 6",
       "enabled": true,
       "keywords": [
         "fold 6",
@@ -26082,10 +26081,10 @@
         "sm-f956 b",
         "sm-f 956b case",
         "sm-f956 b case"
-      ]
+      ],
+      "name": "Samsung Galaxy Fold 6"
     },
     {
-      "name": "Samsung Galaxy Fold 5",
       "enabled": true,
       "keywords": [
         "fold 5",
@@ -26101,10 +26100,10 @@
         "sm-f946 b",
         "sm-f 946b case",
         "sm-f946 b case"
-      ]
+      ],
+      "name": "Samsung Galaxy Fold 5"
     },
     {
-      "name": "Samsung Galaxy Fold 4",
       "enabled": true,
       "keywords": [
         "fold 4",
@@ -26120,10 +26119,10 @@
         "sm-f936 b",
         "sm-f 936b case",
         "sm-f936 b case"
-      ]
+      ],
+      "name": "Samsung Galaxy Fold 4"
     },
     {
-      "name": "Samsung Galaxy Fold 3",
       "enabled": true,
       "keywords": [
         "fold 3",
@@ -26141,10 +26140,10 @@
         "sm-f926 b",
         "sm-f 926b case",
         "sm-f926 b case"
-      ]
+      ],
+      "name": "Samsung Galaxy Fold 3"
     },
     {
-      "name": "Samsung Galaxy Fold 2",
       "enabled": true,
       "keywords": [
         "fold 2",
@@ -26160,10 +26159,11 @@
         "sm-f916 b",
         "sm-f 916b case",
         "sm-f916 b case"
-      ]
+      ],
+      "name": "Samsung Galaxy Fold 2"
     },
     {
-      "name": "Samsung Galaxy Fold 7",
+      "enabled": true,
       "keywords": [
         "samsung galaxy fold 7",
         "samsunggalaxyfold7",
@@ -26197,10 +26197,10 @@
         "sm-f 968b case",
         "sm-f968 b case"
       ],
-      "enabled": true
+      "name": "Samsung Galaxy Fold 7"
     },
     {
-      "name": "MotoG/5G/2026",
+      "enabled": true,
       "keywords": [
         "moto g. 2025",
         "2026moto",
@@ -26495,10 +26495,10 @@
         "xt 2613-1",
         "xt 2613-1 case"
       ],
-      "enabled": true
+      "name": "MotoG/5G/2026"
     },
     {
-      "name": "IP17E",
+      "enabled": true,
       "keywords": [
         "iphone 16e",
         "iphone16e",
@@ -26693,10 +26693,10 @@
         "i phone 17 e case",
         "i phone 17 e wallet"
       ],
-      "enabled": true
+      "name": "IP17E"
     },
     {
-      "name": "A51/4G",
+      "enabled": true,
       "keywords": [
         "51 4g",
         "a51 4g",
@@ -26718,10 +26718,10 @@
         "sm-a 515f case",
         "sm-a515 f case"
       ],
-      "enabled": true
+      "name": "A51/4G"
     },
     {
-      "name": "RM/Note/14Pro/5G",
+      "enabled": true,
       "keywords": [
         "note 14 pro",
         "note 14 pro 5g",
@@ -26740,10 +26740,10 @@
         "24094 rad",
         "24094 rad case"
       ],
-      "enabled": true
+      "name": "RM/Note/14Pro/5G"
     },
     {
-      "name": "A27",
+      "enabled": true,
       "keywords": [
         "A27",
         "a27",
@@ -26761,10 +26761,10 @@
         "sm-a 276b case",
         "sm-a276 b case"
       ],
-      "enabled": true
+      "name": "A27"
     },
     {
-      "name": "Moto/Edge/2026",
+      "enabled": true,
       "keywords": [
         "2026 edge",
         "edge 2026",
@@ -26780,10 +26780,10 @@
         "xt 2591-1",
         "xt 2591-1 case"
       ],
-      "enabled": true
+      "name": "Moto/Edge/2026"
     },
     {
-      "name": "IP12 Mini",
+      "enabled": true,
       "keywords": [
         "12 mini",
         "mini12",
@@ -26799,10 +26799,10 @@
         "a 2400",
         "a 2400 case"
       ],
-      "enabled": true
+      "name": "IP12 Mini"
     },
     {
-      "name": "IP13 Mini",
+      "enabled": true,
       "keywords": [
         "13 mini",
         "mini13",
@@ -26818,10 +26818,10 @@
         "a 2481",
         "a 2481 case"
       ],
-      "enabled": true
+      "name": "IP13 Mini"
     },
     {
-      "name": "Pixel 10 Pro Fold",
+      "enabled": true,
       "keywords": [
         "Pixel 10 Pro Fold",
         "10 fold",
@@ -26843,10 +26843,10 @@
         "ga 0fe case",
         "ga0 fe case"
       ],
-      "enabled": true
+      "name": "Pixel 10 Pro Fold"
     },
     {
-      "name": "Samsung Galaxy A05",
+      "enabled": true,
       "keywords": [
         "a05",
         "a 05",
@@ -26859,10 +26859,10 @@
         "galaxy a05s",
         "samsung a05s"
       ],
-      "enabled": true
+      "name": "Samsung Galaxy A05"
     },
     {
-      "name": "Samsung Galaxy A06",
+      "enabled": true,
       "keywords": [
         "a06",
         "a 06",
@@ -26873,10 +26873,10 @@
         "a06 4g",
         "a06 5g"
       ],
-      "enabled": true
+      "name": "Samsung Galaxy A06"
     },
     {
-      "name": "Samsung Galaxy A07",
+      "enabled": true,
       "keywords": [
         "a07",
         "a 07",
@@ -26885,10 +26885,10 @@
         "samsung galaxy a07",
         "sm-a075"
       ],
-      "enabled": true
+      "name": "Samsung Galaxy A07"
     },
     {
-      "name": "Google Pixel 11/11 Pro",
+      "enabled": true,
       "keywords": [
         "gogle pixel 11",
         "gogle pixel 11 pro",
@@ -26966,10 +26966,10 @@
         "pixel11pro+case",
         "pixel11pro5g"
       ],
-      "enabled": true
+      "name": "Google Pixel 11/11 Pro"
     },
     {
-      "name": "Google Pixel 11 Pro XL",
+      "enabled": true,
       "keywords": [
         "gogle pixel 11 pro xl",
         "gogle pixel11 pro xl",
@@ -27017,10 +27017,10 @@
         "pixel11proxl+case",
         "pixel11proxl5g"
       ],
-      "enabled": true
+      "name": "Google Pixel 11 Pro XL"
     },
     {
-      "name": "S26FE",
+      "enabled": true,
       "keywords": [
         "SM-S26F",
         "26s fe",
@@ -27083,10 +27083,10 @@
         "sm-s26f5 5g",
         "sm-s26f5 case"
       ],
-      "enabled": true
+      "name": "S26FE"
     },
     {
-      "name": "RM/Note/13Pro/5G",
+      "enabled": true,
       "keywords": [
         "note 13 pro 5g",
         "note 13 pro 5g 6.67",
@@ -27173,10 +27173,10 @@
         "xiaomiredmi note 13 pro 5g",
         "xiaomiredminote13pro5g"
       ],
-      "enabled": true
+      "name": "RM/Note/13Pro/5G"
     },
     {
-      "name": "IP13Mini",
+      "enabled": true,
       "keywords": [
         "A2481",
         "A2481 case",
@@ -27367,10 +27367,10 @@
         "iponeip13 mini",
         "iponeip13mini"
       ],
-      "enabled": true
+      "name": "IP13Mini"
     },
     {
-      "name": "RM/Note/14Pro/5G",
+      "enabled": true,
       "keywords": [
         "note 14 pro 5g",
         "note 14 pro 5g 6.67",
@@ -27457,10 +27457,10 @@
         "xiaomiredmi note 14 pro 5g",
         "xiaomiredminote14pro5g"
       ],
-      "enabled": true
+      "name": "RM/Note/14Pro/5G"
     },
     {
-      "name": "XM15Ultra",
+      "enabled": true,
       "keywords": [
         "15 ultra",
         "15 ultra 5g",
@@ -27558,10 +27558,10 @@
         "xiaomimi15 ultra",
         "xiaomimi15ultra"
       ],
-      "enabled": true
+      "name": "XM15Ultra"
     },
     {
-      "name": "XM15T",
+      "enabled": true,
       "keywords": [
         "15 t",
         "15 t 5g",
@@ -27654,10 +27654,10 @@
         "xiaomimi15 t",
         "xiaomimi15t"
       ],
-      "enabled": true
+      "name": "XM15T"
     },
     {
-      "name": "RM/Note/15/5G",
+      "enabled": true,
       "keywords": [
         "note 15 5g",
         "note 15 5g 6.67",
@@ -27744,10 +27744,10 @@
         "xiaomiredmi note 15 5g",
         "xiaomiredminote155g"
       ],
-      "enabled": true
+      "name": "RM/Note/15/5G"
     },
     {
-      "name": "RM/Note/15Pro/5G",
+      "enabled": true,
       "keywords": [
         "note 15 pro 5g",
         "note 15 pro 5g 6.67",
@@ -27834,10 +27834,10 @@
         "xiaomiredmi note 15 pro 5g",
         "xiaomiredminote15pro5g"
       ],
-      "enabled": true
+      "name": "RM/Note/15Pro/5G"
     },
     {
-      "name": "RM/Note/17Pro/5G",
+      "enabled": true,
       "keywords": [
         "note 17 pro 5g",
         "note 17 pro 5g 6.67",
@@ -27924,10 +27924,10 @@
         "xiaomiredmi note 17 pro 5g",
         "xiaomiredminote17pro5g"
       ],
-      "enabled": true
+      "name": "RM/Note/17Pro/5G"
     },
     {
-      "name": "S26Edge",
+      "enabled": true,
       "keywords": [
         "SM-S26E",
         "SM-S26E case",
@@ -27983,10 +27983,10 @@
         "sm-s26e 5g",
         "sm-s26e case"
       ],
-      "enabled": true
+      "name": "S26Edge"
     },
     {
-      "name": "RM/Note/14/5G",
+      "enabled": true,
       "keywords": [
         "note 14 5g",
         "note 14 5g 6.67",
@@ -28073,10 +28073,10 @@
         "xiaomiredmi note 14 5g",
         "xiaomiredminote145g"
       ],
-      "enabled": true
+      "name": "RM/Note/14/5G"
     },
     {
-      "name": "A20e",
+      "enabled": true,
       "keywords": [
         "SM-A202",
         "SM-A202 case",
@@ -28124,10 +28124,10 @@
         "sm-a202f",
         "sm-a202f case"
       ],
-      "enabled": true
+      "name": "A20e"
     },
     {
-      "name": "P30Lite",
+      "enabled": true,
       "keywords": [
         "MAR-LX1A",
         "MAR-LX1A case",
@@ -28169,10 +28169,10 @@
         "p30lite case",
         "p30lite+case"
       ],
-      "enabled": true
+      "name": "P30Lite"
     },
     {
-      "name": "P30",
+      "enabled": true,
       "keywords": [
         "ELE-L09",
         "ELE-L09 case",
@@ -28214,10 +28214,10 @@
         "p30 case",
         "p30+case"
       ],
-      "enabled": true
+      "name": "P30"
     },
     {
-      "name": "P30 Pro",
+      "enabled": true,
       "keywords": [
         "VOG-L09",
         "VOG-L09 case",
@@ -28259,10 +28259,10 @@
         "vog-l29",
         "vog-l29 case"
       ],
-      "enabled": true
+      "name": "P30 Pro"
     },
     {
-      "name": "P30Pro",
+      "enabled": true,
       "keywords": [
         "VOG-L09",
         "VOG-L09 case",
@@ -28304,10 +28304,10 @@
         "vog-l29",
         "vog-l29 case"
       ],
-      "enabled": true
+      "name": "P30Pro"
     },
     {
-      "name": "S26Edge",
+      "enabled": true,
       "keywords": [
         "SM-S26E",
         "SM-S26E case",
@@ -28363,6 +28363,11 @@
         "sm-s26e 5g",
         "sm-s26e case"
       ],
+      "name": "S26Edge"
+    },
+    {
+      "name": "Moto/Stylus/2026",
+      "keywords": [],
       "enabled": true
     }
   ],
