@@ -16,7 +16,14 @@ import threading
 from datetime import datetime
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 
-from config import get_config_dir, load_rules_from_file
+from config import (
+    get_config_dir,
+    load_rules_from_file,
+    get_stores_state,
+    switch_active_store,
+    create_or_update_store,
+)
+from git_sync import sync_to_github, schedule_sync_to_github, get_last_sync_status
 from rules import get_default_rules
 from normalization import normalize_keyword
 from matching import (
@@ -569,6 +576,7 @@ def serve_mode():
             except Exception as e:
                 # AppData 已原子落盘，镜像复制失败不影响本次配置持久化。
                 print(f"同步到 Backend 失败: {e}")
+        schedule_sync_to_github(f"auto save ({get_stores_state().get('active_store_id', 'default')})")
         return True
 
     # 数据类型→表名映射（白名单，防 SQL 注入）
@@ -601,6 +609,10 @@ def serve_mode():
             path, params = self._parse_query_params()
             if path == '/health':
                 self._json_response({'status': 'ok', 'version': '1.3'})
+            elif path == '/api/stores':
+                self._json_response(get_stores_state())
+            elif path == '/api/git-sync/status':
+                self._json_response(get_last_sync_status())
             elif path == '/api/config':
                 with _lock:
                     self._json_response({
@@ -1517,16 +1529,61 @@ def serve_mode():
                     }, 500)
                     return
                 self._json_response({'status': 'ok', 'updated': updated})
+            elif self.path == '/api/stores/switch':
+                content_length = int(self.headers.get('Content-Length', 0))
+                raw_body = self.rfile.read(content_length).decode('utf-8-sig') if content_length else '{}'
+                try:
+                    data = json.loads(raw_body) if raw_body.strip() else {}
+                except json.JSONDecodeError as e:
+                    self._json_response({'error': f'Invalid JSON: {e}'}, 400)
+                    return
+                store_id = (data.get('store_id') or '').strip()
+                if not store_id:
+                    self._json_response({'error': 'store_id 不能为空'}, 400)
+                    return
+                try:
+                    with _lock:
+                        state = switch_active_store(store_id)
+                        _hot_reload_from_disk()
+                    schedule_sync_to_github(f"switch store -> {store_id}")
+                    self._json_response({'status': 'ok', **state})
+                except Exception as e:
+                    self._json_response({'error': str(e)}, 400)
+            elif self.path == '/api/stores/create':
+                content_length = int(self.headers.get('Content-Length', 0))
+                raw_body = self.rfile.read(content_length).decode('utf-8-sig') if content_length else '{}'
+                try:
+                    data = json.loads(raw_body) if raw_body.strip() else {}
+                except json.JSONDecodeError as e:
+                    self._json_response({'error': f'Invalid JSON: {e}'}, 400)
+                    return
+                store_id = (data.get('store_id') or data.get('name') or '').strip()
+                name = (data.get('name') or store_id).strip()
+                marketplace = (data.get('marketplace') or 'US').strip().upper()
+                copy_from = (data.get('copy_from') or '').strip() or None
+                if not store_id:
+                    self._json_response({'error': '店铺 ID 或名称不能为空'}, 400)
+                    return
+                try:
+                    with _lock:
+                        state = create_or_update_store(store_id, name, marketplace, copy_from=copy_from)
+                        _hot_reload_from_disk()
+                    schedule_sync_to_github(f"create store {store_id}")
+                    self._json_response({'status': 'ok', **state})
+                except Exception as e:
+                    self._json_response({'error': str(e)}, 400)
             elif self.path == '/api/sync-config':
                 sync_started = time.perf_counter()
-                config_dir = get_config_dir()
-                source_file = os.path.join(config_dir, 'rules_config.json')
                 synced = []
                 errors = []
                 updated = []
                 unchanged = []
+                sync_notes = []
 
                 with _lock:
+                    store_state = get_stores_state()
+                    active_sid = store_state.get('active_store_id', 'default')
+                    source_file = os.path.join(get_config_dir(), 'rules_config.json')
                     current_config = {
                         'deny_brands': app.deny_brands,
                         'deny_models': app.deny_models,
@@ -1539,7 +1596,6 @@ def serve_mode():
                         'campaign_id_mappings': app.campaign_id_mappings,
                         'usa_model_groups': app.usa_model_groups,
                         'usa_alias_rules': app.usa_alias_rules,
-                        # 与 _save_rules_to_disk 保持一致，确保开关的一键同步也能持久化。
                         'require_case': app.require_case,
                         'intercept_brand': app.intercept_brand,
                     }
@@ -1549,53 +1605,22 @@ def serve_mode():
                             current_config[k] = v
 
                     try:
-                        appdata_changed = _write_json_atomic_if_changed(source_file, current_config)
-                        synced.append('AppData')
-                        # 通知热重载监控线程: 这是我们自己刚写的,3秒内别 reload
-                        if appdata_changed:
-                            updated.append('AppData')
-                            try:
-                                _appdata_self_write_ts[0] = time.time()
-                            except NameError:
-                                pass
-                        else:
-                            unchanged.append('AppData')
+                        changed_local = _write_json_atomic_if_changed(source_file, current_config)
+                        label = f'店铺[{active_sid}]'
+                        synced.append(label)
+                        (updated if changed_local else unchanged).append(label)
                     except Exception as e:
-                        errors.append(f'AppData: {e}')
+                        errors.append(f'本地规则写入失败: {e}')
 
-                backend_dir = os.path.dirname(os.path.abspath(__file__))
-                backend_file = _persistent_backend_file()
-                erp_root = os.path.dirname(backend_dir)
-                public_file = os.path.join(erp_root, 'public', 'rules_config.json')
-                dist_file = os.path.join(erp_root, 'dist', 'rules_config.json')
-
-                # 打包版的后端代码可能来自 PYZ，或位于 _MEIPASS 临时目录。
-                # 这两种情况都不应被当作持久化目标；AppData 已经是后端实际
-                # 读取的配置源，因此将其明确记录为 Backend(AppData)，而不是报错。
-                sync_notes = []
-                _targets = []
-                if backend_file:
-                    _targets.extend([
-                        ('Backend', backend_file),
-                        ('Public', public_file),
-                        ('Dist', dist_file),
-                    ])
+                git_res = sync_to_github(f"sync config [{active_sid}]")
+                if git_res.get('ok'):
+                    synced.append('GitHub')
+                    if git_res.get('changed'):
+                        updated.append(f"GitHub({git_res.get('commit', '')})")
+                    else:
+                        unchanged.append(f"GitHub({git_res.get('commit', '最新')})")
                 else:
-                    synced.append('Backend (AppData)')
-                    unchanged.append('Public/Dist（打包临时目录已跳过）')
-                    sync_notes.append('打包运行时以 AppData 为持久化源，已跳过临时解压目录')
-
-                for label, target in _targets:
-                    try:
-                        target_dir = os.path.dirname(target)
-                        if os.path.isdir(target_dir):
-                            changed = _copy_file_if_different(source_file, target)
-                            synced.append(label)
-                            (updated if changed else unchanged).append(label)
-                        else:
-                            errors.append(f'{label}: dir not found')
-                    except Exception as e:
-                        errors.append(f'{label}: {e}')
+                    errors.append(git_res.get('message') or 'GitHub 推送失败')
 
                 self._json_response({
                     'status': 'ok' if not errors else 'partial',
@@ -1605,6 +1630,7 @@ def serve_mode():
                     'file_size': os.path.getsize(source_file) if os.path.exists(source_file) else 0,
                     'updated': updated,
                     'unchanged': unchanged,
+                    'git': git_res,
                     'duration_ms': round((time.perf_counter() - sync_started) * 1000, 1),
                 })
             elif self.path == '/api/reload':

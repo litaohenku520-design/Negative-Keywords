@@ -1872,8 +1872,37 @@ const SWITCH_LABELS: Record<string, string> = {
   intercept_brand: '竞品品牌',
 };
 
+interface PluginStoreItem {
+  id: string;
+  name: string;
+  marketplace: string;
+}
+
 const NegKeywordTool: React.FC = () => {
-  const { activeMarketplace, activeShopKey, activeStore, stores } = useStore();
+  const { activeMarketplace: shimMarketplace, activeShopKey: shimShopKey, activeStore: shimStore, stores: shimStores } = useStore();
+  const [pluginStores, setPluginStores] = useState<PluginStoreItem[]>([]);
+  const [activeStoreId, setActiveStoreId] = useState<string>('default');
+  const [storeSwitching, setStoreSwitching] = useState(false);
+  const [storeVersion, setStoreVersion] = useState(0);
+  const [newStoreOpen, setNewStoreOpen] = useState(false);
+  const [newStoreId, setNewStoreId] = useState('');
+  const [newStoreName, setNewStoreName] = useState('');
+  const [newStoreMkt, setNewStoreMkt] = useState('US');
+  const [newStoreCopyFrom, setNewStoreCopyFrom] = useState('default');
+
+  const activePluginStore = useMemo(
+    () => pluginStores.find(s => s.id === activeStoreId) || null,
+    [pluginStores, activeStoreId]
+  );
+  const activeMarketplace = activePluginStore?.marketplace || shimMarketplace;
+  const activeShopKey = activePluginStore?.id || shimShopKey;
+  const activeStore = activePluginStore
+    ? { shopKey: activePluginStore.id, marketplace: activePluginStore.marketplace, name: activePluginStore.name }
+    : shimStore;
+  const stores = pluginStores.length
+    ? pluginStores.map(s => ({ shopKey: s.id, marketplace: s.marketplace, name: s.name }))
+    : shimStores;
+
   // handleFileImport 在组件初始化时就创建；用 ref 保证切换店铺后，
   // 导入触发的分类请求仍然使用当前站点，而不是初始的 US。
   const activeMarketplaceRef = useRef(activeMarketplace);
@@ -2095,6 +2124,71 @@ const NegKeywordTool: React.FC = () => {
     unchanged: string[];
     durationMs: number;
   } | null>(null);
+
+  const loadStoresState = useCallback(async () => {
+    try {
+      const st = await apiFetch('/api/stores');
+      if (Array.isArray(st?.stores)) setPluginStores(st.stores);
+      if (st?.active_store_id) setActiveStoreId(st.active_store_id);
+    } catch {
+      // ignore if backend not ready
+    }
+  }, []);
+
+  useEffect(() => { void loadStoresState(); }, [loadStoresState]);
+
+  const handleSwitchStore = useCallback(async (targetId: string) => {
+    if (!targetId || targetId === activeStoreId) return;
+    setStoreSwitching(true);
+    try {
+      const res = await apiFetch('/api/stores/switch', {
+        method: 'POST',
+        body: JSON.stringify({ store_id: targetId }),
+      });
+      if (Array.isArray(res?.stores)) setPluginStores(res.stores);
+      if (res?.active_store_id) setActiveStoreId(res.active_store_id);
+      await Promise.all([loadConfig(), loadCampaignIdMappings()]);
+      setStoreVersion(v => v + 1);
+      const targetName = res?.active_store?.name || targetId;
+      message.success(`已切换到店铺「${targetName}」，已加载该店铺独立规则`);
+    } catch (err) {
+      message.error(`切换店铺失败: ${(err as Error).message}`);
+    } finally {
+      setStoreSwitching(false);
+    }
+  }, [activeStoreId, loadConfig, loadCampaignIdMappings]);
+
+  const handleCreateStore = useCallback(async () => {
+    const sid = newStoreId.trim() || newStoreName.trim();
+    if (!sid) {
+      message.warning('请输入店铺 ID 或名称');
+      return;
+    }
+    setStoreSwitching(true);
+    try {
+      const res = await apiFetch('/api/stores/create', {
+        method: 'POST',
+        body: JSON.stringify({
+          store_id: sid,
+          name: newStoreName.trim() || sid,
+          marketplace: newStoreMkt,
+          copy_from: newStoreCopyFrom || 'default',
+        }),
+      });
+      if (Array.isArray(res?.stores)) setPluginStores(res.stores);
+      if (res?.active_store_id) setActiveStoreId(res.active_store_id);
+      await Promise.all([loadConfig(), loadCampaignIdMappings()]);
+      setStoreVersion(v => v + 1);
+      setNewStoreOpen(false);
+      setNewStoreId('');
+      setNewStoreName('');
+      message.success(`已创建并切换到店铺「${res?.active_store?.name || sid}」`);
+    } catch (err) {
+      message.error(`新增店铺失败: ${(err as Error).message}`);
+    } finally {
+      setStoreSwitching(false);
+    }
+  }, [newStoreId, newStoreName, newStoreMkt, newStoreCopyFrom, loadConfig, loadCampaignIdMappings]);
 
   const handleSyncConfig = useCallback(async () => {
     setSyncing(true);
@@ -3720,8 +3814,81 @@ const NegKeywordTool: React.FC = () => {
       {/* Config sync toolbar — visible on all tabs */}
       <PageHeader
         title="否词工具"
+        subTitle={activePluginStore ? `当前店铺：${activePluginStore.name} (${activePluginStore.marketplace}) · 规则独立隔离` : '独立插件版 · 规则实时同步至 GitHub'}
         icon={<StopOutlined />}
+        extra={(
+          <Space size={8} wrap>
+            <Text type="secondary" style={{ fontSize: 12 }}>当前店铺：</Text>
+            <Select
+              size="small"
+              style={{ minWidth: 190 }}
+              loading={storeSwitching}
+              value={activeStoreId}
+              onChange={(val) => { void handleSwitchStore(val); }}
+              options={pluginStores.map(s => ({
+                value: s.id,
+                label: `${s.name} [${s.marketplace}]`,
+              }))}
+            />
+            <Button
+              size="small"
+              icon={<PlusOutlined />}
+              onClick={() => {
+                setNewStoreCopyFrom(activeStoreId || 'default');
+                setNewStoreOpen(true);
+              }}
+            >
+              新增店铺
+            </Button>
+          </Space>
+        )}
       />
+      <Modal
+        title="新增店铺（独立否词规则）"
+        open={newStoreOpen}
+        onCancel={() => setNewStoreOpen(false)}
+        onOk={() => { void handleCreateStore(); }}
+        confirmLoading={storeSwitching}
+        okText="创建并切换"
+        cancelText="取消"
+      >
+        <Space direction="vertical" style={{ width: '100%' }} size={12}>
+          <div>
+            <Text style={{ display: 'block', marginBottom: 4 }}>店铺标识 ID（英文/数字/短横线，用于目录命名）：</Text>
+            <Input
+              placeholder="例如：suanpot-uk 或 shop-de"
+              value={newStoreId}
+              onChange={e => setNewStoreId(e.target.value)}
+            />
+          </div>
+          <div>
+            <Text style={{ display: 'block', marginBottom: 4 }}>店铺显示名称：</Text>
+            <Input
+              placeholder="例如：Suanpot 英国站"
+              value={newStoreName}
+              onChange={e => setNewStoreName(e.target.value)}
+            />
+          </div>
+          <div>
+            <Text style={{ display: 'block', marginBottom: 4 }}>所属站点：</Text>
+            <Select
+              style={{ width: '100%' }}
+              value={newStoreMkt}
+              onChange={setNewStoreMkt}
+              options={['US', 'CA', 'UK', 'DE', 'FR', 'IT', 'ES', 'JP', 'AU'].map(m => ({ value: m, label: m }))}
+            />
+          </div>
+          <div>
+            <Text style={{ display: 'block', marginBottom: 4 }}>初始化规则来源（复制现有店铺规则作为起点）：</Text>
+            <Select
+              style={{ width: '100%' }}
+              value={newStoreCopyFrom}
+              onChange={setNewStoreCopyFrom}
+              options={pluginStores.map(s => ({ value: s.id, label: `${s.name} (${s.id})` }))}
+            />
+          </div>
+        </Space>
+      </Modal>
       <Card size="small" style={{ marginBottom: 8, background: '#f0f5ff', borderColor: '#adc6ff' }} bodyStyle={{ padding: '6px 12px' }}>
         <Flex gap={8} wrap="wrap" align="center">
           <SyncOutlined spin={syncing} style={{ color: '#1677ff' }} />
@@ -4094,6 +4261,7 @@ const NegKeywordTool: React.FC = () => {
       </div>
       {/* Main tabs */}
       <Tabs
+        key={storeVersion}
         activeKey={activeTab}
         onChange={setActiveTab}
         type="card"

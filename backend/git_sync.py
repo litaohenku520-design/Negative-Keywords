@@ -1,0 +1,136 @@
+# -*- coding: utf-8 -*-
+"""
+GitHub 实时同步模块 (git_sync.py)
+==================================
+将独立插件内的规则配置（rules_config.json 及分店铺 stores/）自动 commit 并 push 到 GitHub。
+支持：
+- 同步模式（用于「一键同步配置」按钮，立即返回 commit hash 或状态）
+- 异步防抖模式（用于平时保存/修改规则时后台静默推送，不阻塞 UI）
+"""
+from __future__ import annotations
+
+import os
+import subprocess
+import threading
+import time
+
+PLUGIN_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_GIT_LOCK = threading.Lock()
+_DEBOUNCE_LOCK = threading.Lock()
+_DEBOUNCE_TIMER: threading.Timer | None = None
+_LAST_SYNC_STATUS: dict = {
+    "ok": True,
+    "changed": False,
+    "commit": "",
+    "message": "尚未同步",
+    "timestamp": "",
+}
+
+
+def get_last_sync_status() -> dict:
+    return dict(_LAST_SYNC_STATUS)
+
+
+def _run_git(args: list[str], timeout: int = 25) -> tuple[int, str, str]:
+    proc = subprocess.run(
+        ["git", *args],
+        cwd=PLUGIN_ROOT,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        timeout=timeout,
+    )
+    return proc.returncode, (proc.stdout or "").strip(), (proc.stderr or "").strip()
+
+
+def sync_to_github(reason: str = "update neg-keyword rules", timeout: int = 25) -> dict:
+    """将规则配置文件同步提交并推送到 GitHub 远程仓库。"""
+    global _LAST_SYNC_STATUS
+    with _GIT_LOCK:
+        ts = time.strftime("%Y-%m-%d %H:%M:%S")
+        try:
+            # 1. 只暂存规则配置与店铺数据文件（避免误提交临时文件）
+            add_targets = [
+                "backend/rules_config.json",
+                "backend/stores",
+                "backend/ai_templates.json",
+                "backend/knowledge_base.json",
+            ]
+            existing = [
+                t for t in add_targets
+                if os.path.exists(os.path.join(PLUGIN_ROOT, t))
+            ]
+            if not existing:
+                _LAST_SYNC_STATUS = {
+                    "ok": False, "changed": False, "commit": "",
+                    "message": "未找到可同步的规则文件", "timestamp": ts,
+                }
+                return dict(_LAST_SYNC_STATUS)
+
+            rc, _, err = _run_git(["add", "--", *existing], timeout=10)
+            if rc != 0:
+                raise RuntimeError(f"git add 失败: {err}")
+
+            # 2. 检查是否有已暂存变更
+            rc_diff, _, _ = _run_git(["diff", "--cached", "--quiet"], timeout=10)
+            has_staged_changes = (rc_diff != 0)
+
+            commit_hash = ""
+            if has_staged_changes:
+                msg = f"sync: {reason}"
+                rc_c, _, err_c = _run_git(["commit", "-m", msg], timeout=15)
+                if rc_c != 0:
+                    raise RuntimeError(f"git commit 失败: {err_c}")
+
+            rc_rev, out_rev, _ = _run_git(["rev-parse", "--short", "HEAD"], timeout=5)
+            if rc_rev == 0:
+                commit_hash = out_rev
+
+            # 3. 检查本地是否领先远程（包括之前未推成功的提交）
+            rc_ahead, out_ahead, _ = _run_git(["rev-list", "--count", "origin/main..main"], timeout=10)
+            ahead_count = int(out_ahead) if (rc_ahead == 0 and out_ahead.isdigit()) else (1 if has_staged_changes else 0)
+
+            if ahead_count == 0 and not has_staged_changes:
+                _LAST_SYNC_STATUS = {
+                    "ok": True,
+                    "changed": False,
+                    "commit": commit_hash,
+                    "message": f"GitHub 已是最新 ({commit_hash})",
+                    "timestamp": ts,
+                }
+                return dict(_LAST_SYNC_STATUS)
+
+            # 4. 推送到 origin main
+            rc_p, out_p, err_p = _run_git(["push", "origin", "main"], timeout=timeout)
+            if rc_p != 0:
+                raise RuntimeError(err_p or out_p or "git push failed")
+
+            _LAST_SYNC_STATUS = {
+                "ok": True,
+                "changed": True,
+                "commit": commit_hash,
+                "message": f"已实时同步至 GitHub ({commit_hash})",
+                "timestamp": ts,
+            }
+            return dict(_LAST_SYNC_STATUS)
+        except Exception as e:
+            _LAST_SYNC_STATUS = {
+                "ok": False,
+                "changed": False,
+                "commit": "",
+                "message": f"GitHub 同步失败: {e}",
+                "timestamp": ts,
+            }
+            return dict(_LAST_SYNC_STATUS)
+
+
+def schedule_sync_to_github(reason: str = "auto save rules", delay_sec: float = 1.5) -> None:
+    """异步防抖推送：连续保存时合并为一次 git commit & push，不阻塞请求返回。"""
+    global _DEBOUNCE_TIMER
+    with _DEBOUNCE_LOCK:
+        if _DEBOUNCE_TIMER is not None:
+            _DEBOUNCE_TIMER.cancel()
+        _DEBOUNCE_TIMER = threading.Timer(delay_sec, sync_to_github, kwargs={"reason": reason})
+        _DEBOUNCE_TIMER.daemon = True
+        _DEBOUNCE_TIMER.start()
