@@ -1,7 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ConfigProvider, Flex, Segmented, Space, Tag, Typography, theme as antdTheme } from 'antd';
-import { AppstoreOutlined, BarChartOutlined, StopOutlined } from '@ant-design/icons';
+import { Button, ConfigProvider, Flex, Tag, Tooltip, Typography, theme as antdTheme } from 'antd';
+import {
+  AppstoreOutlined,
+  BarChartOutlined,
+  CalendarOutlined,
+  CompassOutlined,
+  DatabaseOutlined,
+  LineChartOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  RadarChartOutlined,
+  ScheduleOutlined,
+  StopOutlined,
+} from '@ant-design/icons';
 import {
   App as McpApp,
   applyDocumentTheme,
@@ -9,6 +21,7 @@ import {
 } from '@modelcontextprotocol/ext-apps';
 import NegKeywordTool from './index';
 import RoasMerge from './roas/index';
+import SubPluginHost from './components/SubPluginHost';
 
 const { Text } = Typography;
 
@@ -42,16 +55,55 @@ class ErrorBoundary extends React.Component<
   }
 }
 
-type DiscoverModule = 'neg' | 'roas';
+type ModuleKey =
+  | 'planner'
+  | 'neg'
+  | 'roas'
+  | 'ad-scout'
+  | 'sales-hub'
+  | 'weekly-planner'
+  | 'erp-workbench'
+  | 'product-hub'
+  | 'xydc';
+
+interface SidebarModule {
+  key: ModuleKey;
+  label: string;
+  group: string;
+  icon: React.ReactNode;
+  subPluginId?: string;
+  badge?: string;
+}
+
+const MODULES: SidebarModule[] = [
+  { key: 'planner', label: '运营计划', group: '工作台主页', icon: <CalendarOutlined />, subPluginId: 'amz-ops-planner', badge: '主' },
+  { key: 'neg', label: '否词助手', group: '广告工具', icon: <StopOutlined /> },
+  { key: 'roas', label: 'ROAS 合并助手', group: '广告工具', icon: <BarChartOutlined /> },
+  { key: 'ad-scout', label: '广告推广侦察', group: '广告工具', icon: <RadarChartOutlined />, subPluginId: 'upbestks-ad-scout' },
+  { key: 'weekly-planner', label: '周广告优化', group: '广告工具', icon: <ScheduleOutlined />, subPluginId: 'upbestks-weekly-planner' },
+  { key: 'sales-hub', label: '销售看板', group: '经营与选品', icon: <LineChartOutlined />, subPluginId: 'upbestks-sales-hub' },
+  { key: 'erp-workbench', label: '库存销售分析', group: '经营与选品', icon: <DatabaseOutlined />, subPluginId: 'upbestks-erp-workbench' },
+  { key: 'product-hub', label: '产品库', group: '经营与选品', icon: <AppstoreOutlined />, subPluginId: 'upbestks-product-hub' },
+  { key: 'xydc', label: '西柚竞品分析', group: '经营与选品', icon: <CompassOutlined />, subPluginId: 'xydc-asin-analyzer' },
+];
 
 function RootApp() {
   const [isDark, setIsDark] = useState(false);
   const [ready, setReady] = useState(false);
-  const [activeModule, setActiveModule] = useState<DiscoverModule>('neg');
+  const [activeKey, setActiveKey] = useState<ModuleKey>('planner');
+  const [mountedKeys, setMountedKeys] = useState<ModuleKey[]>(['planner']);
+  const [collapsed, setCollapsed] = useState(false);
+  const mcpAppRef = useRef<McpApp | null>(null);
+
+  const selectModule = (key: ModuleKey) => {
+    setActiveKey(key);
+    setMountedKeys((prev) => (prev.includes(key) ? prev : [...prev, key]));
+  };
 
   useEffect(() => {
     let mounted = true;
     const mcpApp = new McpApp({ name: 'Discover AMZN', version: '2.0.0' }, {});
+    mcpAppRef.current = mcpApp;
 
     window.__MCP_API_FETCH__ = async (path: string, options?: RequestInit & { timeoutMs?: number }) => {
       const method = (options?.method || 'GET').toUpperCase();
@@ -81,17 +133,21 @@ function RootApp() {
       return txt ? JSON.parse(txt) : {};
     };
 
-    mcpApp.ontoolinput = ({ arguments: args }: any) => {
-      if (mounted && (args?.module === 'roas' || args?.module === 'neg')) {
-        setActiveModule(args.module);
+    const applyInitialModule = (mod?: string) => {
+      if (!mod) return;
+      const hit = MODULES.find((m) => m.key === mod);
+      if (hit && mounted) {
+        setActiveKey(hit.key);
+        setMountedKeys((prev) => (prev.includes(hit.key) ? prev : [...prev, hit.key]));
       }
     };
 
+    mcpApp.ontoolinput = ({ arguments: args }: any) => {
+      applyInitialModule(args?.module);
+    };
+
     mcpApp.ontoolresult = (result: any) => {
-      const mod = result?.structuredContent?.module;
-      if (mounted && (mod === 'roas' || mod === 'neg')) {
-        setActiveModule(mod);
-      }
+      applyInitialModule(result?.structuredContent?.module);
     };
 
     mcpApp.onhostcontextchanged = (ctx: any) => {
@@ -112,9 +168,7 @@ function RootApp() {
         }
         if (ctx?.styles?.variables) applyHostStyleVariables(ctx.styles.variables);
       })
-      .catch(() => {
-        // 独立浏览器预览模式下静默回退
-      })
+      .catch(() => {})
       .finally(() => {
         if (mounted) setReady(true);
       });
@@ -124,9 +178,11 @@ function RootApp() {
     };
   }, []);
 
-  if (!ready) {
+  if (!ready || !mcpAppRef.current) {
     return <div style={{ padding: 24, color: '#888' }}>正在启动 Discover AMZN 工作台...</div>;
   }
+
+  const groups = ['工作台主页', '广告工具', '经营与选品'];
 
   return (
     <ErrorBoundary>
@@ -149,73 +205,160 @@ function RootApp() {
           },
         }}
       >
-        <div className="neg-app-shell">
-          {/* Discover AMZN 统一顶部导航壳 */}
-          <div
+        <div style={{ display: 'flex', minHeight: '100vh', width: '100%', background: 'var(--neg-bg)' }}>
+          {/* 左侧集成侧边栏 */}
+          <aside
             style={{
+              width: collapsed ? 62 : 206,
+              flexShrink: 0,
               background: 'var(--neg-surface)',
-              border: '1px solid var(--neg-border)',
-              borderRadius: 12,
-              padding: '8px 14px',
-              marginBottom: 12,
-              boxShadow: 'var(--neg-shadow)',
+              borderRight: '1px solid var(--neg-border)',
+              display: 'flex',
+              flexDirection: 'column',
+              transition: 'width 0.18s ease',
+              position: 'sticky',
+              top: 0,
+              height: '100vh',
+              overflowY: 'auto',
+              zIndex: 20,
             }}
           >
-            <Flex justify="space-between" align="center" wrap="wrap" gap={12}>
-              <Space size={10} align="center">
-                <div
-                  style={{
-                    width: 30,
-                    height: 30,
-                    borderRadius: 8,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    background: 'linear-gradient(135deg, #1d4ed8 0%, #6366f1 100%)',
-                    color: '#fff',
-                    fontSize: 15,
-                    fontWeight: 700,
-                  }}
-                >
-                  <AppstoreOutlined />
-                </div>
-                <Text strong style={{ fontSize: 15, letterSpacing: '-0.2px' }}>Discover AMZN</Text>
-                <Tag color="blue" style={{ margin: 0, fontSize: 11 }}>亚马逊运营工具集</Tag>
-              </Space>
-
-              <Segmented
-                value={activeModule}
-                onChange={(val) => setActiveModule(val as DiscoverModule)}
-                options={[
-                  {
-                    label: (
-                      <Space size={6}>
-                        <StopOutlined />
-                        <span>否词助手</span>
-                      </Space>
-                    ),
-                    value: 'neg',
-                  },
-                  {
-                    label: (
-                      <Space size={6}>
-                        <BarChartOutlined />
-                        <span>ROAS 合并助手</span>
-                      </Space>
-                    ),
-                    value: 'roas',
-                  },
-                ]}
+            {/* 品牌头 */}
+            <Flex
+              align="center"
+              justify={collapsed ? 'center' : 'space-between'}
+              style={{
+                padding: collapsed ? '12px 6px' : '12px 14px',
+                borderBottom: '1px solid var(--neg-border)',
+              }}
+            >
+              {!collapsed && (
+                <Flex align="center" gap={8}>
+                  <div
+                    style={{
+                      width: 28,
+                      height: 28,
+                      borderRadius: 8,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: 'linear-gradient(135deg, #1d4ed8 0%, #6366f1 100%)',
+                      color: '#fff',
+                      fontSize: 14,
+                    }}
+                  >
+                    <AppstoreOutlined />
+                  </div>
+                  <div>
+                    <Text strong style={{ fontSize: 14, display: 'block', lineHeight: 1.2 }}>Discover AMZN</Text>
+                    <Text type="secondary" style={{ fontSize: 10 }}>全能运营工作台</Text>
+                  </div>
+                </Flex>
+              )}
+              <Button
+                type="text"
+                size="small"
+                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                onClick={() => setCollapsed((c) => !c)}
               />
             </Flex>
-          </div>
 
-          <div style={{ display: activeModule === 'neg' ? 'block' : 'none' }}>
-            <NegKeywordTool />
-          </div>
-          <div style={{ display: activeModule === 'roas' ? 'block' : 'none' }}>
-            <RoasMerge />
-          </div>
+            {/* 菜单列表 */}
+            <div style={{ flex: 1, padding: collapsed ? '8px 6px' : '10px 10px' }}>
+              {groups.map((grp) => {
+                const items = MODULES.filter((m) => m.group === grp);
+                return (
+                  <div key={grp} style={{ marginBottom: 14 }}>
+                    {!collapsed && (
+                      <Text
+                        type="secondary"
+                        style={{ fontSize: 11, fontWeight: 600, padding: '0 8px', marginBottom: 6, display: 'block' }}
+                      >
+                        {grp}
+                      </Text>
+                    )}
+                    <Flex vertical gap={3}>
+                      {items.map((item) => {
+                        const isActive = activeKey === item.key;
+                        const btn = (
+                          <button
+                            key={item.key}
+                            type="button"
+                            onClick={() => selectModule(item.key)}
+                            style={{
+                              width: '100%',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: collapsed ? 'center' : 'space-between',
+                              gap: 8,
+                              padding: collapsed ? '9px 0' : '8px 10px',
+                              border: 'none',
+                              borderRadius: 8,
+                              cursor: 'pointer',
+                              background: isActive ? 'rgba(37, 99, 235, 0.12)' : 'transparent',
+                              color: isActive ? '#2563eb' : 'inherit',
+                              fontWeight: isActive ? 600 : 500,
+                              fontSize: 13,
+                              transition: 'all 0.15s ease',
+                              textAlign: 'left',
+                            }}
+                          >
+                            <Flex align="center" gap={9}>
+                              <span style={{ fontSize: 15, display: 'inline-flex' }}>{item.icon}</span>
+                              {!collapsed && <span>{item.label}</span>}
+                            </Flex>
+                            {!collapsed && item.badge && (
+                              <Tag color="blue" style={{ margin: 0, fontSize: 10, lineHeight: '16px', padding: '0 5px' }}>
+                                {item.badge}
+                              </Tag>
+                            )}
+                          </button>
+                        );
+                        return collapsed ? (
+                          <Tooltip key={item.key} title={item.label} placement="right">
+                            {btn}
+                          </Tooltip>
+                        ) : (
+                          btn
+                        );
+                      })}
+                    </Flex>
+                  </div>
+                );
+              })}
+            </div>
+          </aside>
+
+          {/* 右侧主内容区 */}
+          <main style={{ flex: 1, minWidth: 0, padding: '10px 14px', overflowX: 'hidden' }}>
+            {MODULES.filter((m) => mountedKeys.includes(m.key)).map((mod) => {
+              const visible = activeKey === mod.key;
+              if (mod.key === 'neg') {
+                return (
+                  <div key={mod.key} style={{ display: visible ? 'block' : 'none' }}>
+                    <NegKeywordTool />
+                  </div>
+                );
+              }
+              if (mod.key === 'roas') {
+                return (
+                  <div key={mod.key} style={{ display: visible ? 'block' : 'none' }}>
+                    <RoasMerge />
+                  </div>
+                );
+              }
+              return (
+                <div key={mod.key} style={{ display: visible ? 'block' : 'none' }}>
+                  <SubPluginHost
+                    pluginId={mod.subPluginId!}
+                    title={mod.label}
+                    mcpApp={mcpAppRef.current}
+                    isDark={isDark}
+                  />
+                </div>
+              );
+            })}
+          </main>
         </div>
       </ConfigProvider>
     </ErrorBoundary>

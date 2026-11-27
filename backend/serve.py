@@ -609,6 +609,20 @@ def serve_mode():
             path, params = self._parse_query_params()
             if path == '/health':
                 self._json_response({'status': 'ok', 'version': '1.3'})
+            elif path.startswith('/sub/'):
+                plugin_id = path[len('/sub/'):].strip('/')
+                try:
+                    from sub_mcp_bridge import get_sub_plugin_html
+                    html = get_sub_plugin_html(plugin_id)
+                    body = html.encode('utf-8')
+                    self.send_response(200)
+                    self.send_header('Content-Type', 'text/html; charset=utf-8')
+                    self.send_header('Cache-Control', 'no-store')
+                    self.send_header('Content-Length', str(len(body)))
+                    self.end_headers()
+                    self.wfile.write(body)
+                except Exception as e:
+                    self._json_response({'error': str(e)}, 404)
             elif path == '/api/stores':
                 self._json_response(get_stores_state())
             elif path == '/api/git-sync/status':
@@ -1725,7 +1739,10 @@ def serve_mode():
     global _ACTIVE_SERVER, _ACTIVE_FOLDER_WATCH, _ACTIVE_SERVER_THREAD
     port = args.port
     host = os.environ.get('AMZ_NEG_HOST', '127.0.0.1')
-    server = ThreadingHTTPServer((host, port), RequestHandler)
+    try:
+        server = ThreadingHTTPServer((host, port), RequestHandler)
+    except OSError:
+        server = ThreadingHTTPServer((host, 0), RequestHandler)
     with _ACTIVE_SERVER_LOCK:
         _ACTIVE_SERVER = server
         _ACTIVE_FOLDER_WATCH = None

@@ -57,10 +57,10 @@ def _ensure_embedded_server() -> str:
 
         import serve  # noqa: WPS433
 
-        # 绑定端口 0 自动分配空闲端口，避免与原 ERP 的 19876 冲突
-        os.environ["AMZ_NEG_PORT"] = "0"
+        # 优先绑定固定端口 19890（配合 MCP App frameDomains CSP），若被占用则自动回退空闲端口
+        os.environ["AMZ_NEG_PORT"] = "19890"
         orig_argv = sys.argv
-        sys.argv = ["serve.py", "--serve", "--port", "0"]
+        sys.argv = ["serve.py", "--serve", "--port", "19890"]
         try:
             t = threading.Thread(target=serve.serve_mode, daemon=True, name="neg-embedded-http")
             t.start()
@@ -140,14 +140,14 @@ TOOLS = [
     {
         "name": "open_neg_workbench",
         "title": "Discover AMZN",
-        "description": "打开 Discover AMZN 亚马逊运营集成工作台（包含否词助手、ROAS 合并助手及后续扩展模块）。",
+        "description": "打开 Discover AMZN 亚马逊运营集成工作台（默认主页面为运营计划，侧边栏集成否词助手、ROAS合并助手、广告侦察、销售看板、周广告优化、库存销售分析、产品库、西柚竞品分析）。",
         "inputSchema": {
             "type": "object",
             "properties": {
                 "module": {
                     "type": "string",
-                    "enum": ["neg", "roas"],
-                    "description": "可选：初始打开的功能模块（neg=否词助手，roas=ROAS合并助手）",
+                    "enum": ["planner", "neg", "roas", "ad-scout", "sales-hub", "weekly-planner", "erp-workbench", "product-hub", "xydc"],
+                    "description": "可选：初始打开的功能模块（默认 planner=运营计划）",
                 }
             },
         },
@@ -163,7 +163,7 @@ TOOLS = [
     },
     {
         "name": "app_api_request",
-        "description": "仅供否词工作台 UI 调用的后端接口透传。",
+        "description": "仅供 Discover AMZN 工作台 UI 调用的否词后端接口透传。",
         "inputSchema": {
             "type": "object",
             "properties": {
@@ -172,6 +172,32 @@ TOOLS = [
                 "body": {},
             },
             "required": ["path"],
+        },
+        "_meta": {"ui": {"visibility": ["app"]}},
+    },
+    {
+        "name": "app_sub_mcp_open",
+        "description": "仅供 Discover AMZN 工作台 UI 调用的子插件启动与初始数据拉取。",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "pluginId": {"type": "string"},
+            },
+            "required": ["pluginId"],
+        },
+        "_meta": {"ui": {"visibility": ["app"]}},
+    },
+    {
+        "name": "app_sub_mcp_call",
+        "description": "仅供 Discover AMZN 工作台 UI 调用的子插件工具透传。",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "pluginId": {"type": "string"},
+                "toolName": {"type": "string"},
+                "arguments": {"type": "object"},
+            },
+            "required": ["pluginId", "toolName"],
         },
         "_meta": {"ui": {"visibility": ["app"]}},
     },
@@ -272,11 +298,35 @@ def _handle_tool_call(name: str, args: dict) -> dict:
         threading.Thread(target=_ensure_embedded_server, daemon=True).start()
         summary = _rules_summary_dict()
         mod = args.get("module")
-        if mod in ("neg", "roas"):
+        if mod:
             summary["module"] = mod
         return {
             "content": [{"type": "text", "text": json.dumps(summary, ensure_ascii=False, indent=2)}],
             "structuredContent": summary,
+        }
+
+    if name == "app_sub_mcp_open":
+        from sub_mcp_bridge import open_sub_plugin  # noqa: WPS433
+
+        plugin_id = str(args.get("pluginId") or "").strip()
+        base_url = _ensure_embedded_server()
+        res = open_sub_plugin(plugin_id)
+        res["subUrl"] = f"{base_url}/sub/{plugin_id}"
+        return {
+            "content": [{"type": "text", "text": json.dumps(res, ensure_ascii=False)}],
+            "structuredContent": res,
+        }
+
+    if name == "app_sub_mcp_call":
+        from sub_mcp_bridge import call_sub_plugin_tool  # noqa: WPS433
+
+        plugin_id = str(args.get("pluginId") or "").strip()
+        tool_name = str(args.get("toolName") or "").strip()
+        tool_args = args.get("arguments") or {}
+        res = call_sub_plugin_tool(plugin_id, tool_name, tool_args)
+        return {
+            "content": [{"type": "text", "text": json.dumps(res, ensure_ascii=False)}],
+            "structuredContent": res,
         }
 
     if name == "app_api_request":
@@ -415,9 +465,16 @@ def _handle_request(req: dict) -> dict | None:
                 "resources": [
                     {
                         "uri": APP_URI,
-                        "name": "AMZ 否词工具工作台",
+                        "name": "Discover AMZN",
                         "mimeType": "text/html;profile=mcp-app",
-                        "_meta": {"ui": {"prefersBorder": False}},
+                        "_meta": {
+                            "ui": {
+                                "prefersBorder": False,
+                                "csp": {
+                                    "frameDomains": ["http://127.0.0.1:19890", "http://localhost:19890"],
+                                },
+                            }
+                        },
                     }
                 ]
             },
@@ -434,7 +491,14 @@ def _handle_request(req: dict) -> dict | None:
                             "uri": APP_URI,
                             "mimeType": "text/html;profile=mcp-app",
                             "text": _read_ui_html(),
-                            "_meta": {"ui": {"prefersBorder": False}},
+                            "_meta": {
+                                "ui": {
+                                    "prefersBorder": False,
+                                    "csp": {
+                                        "frameDomains": ["http://127.0.0.1:19890", "http://localhost:19890"],
+                                    },
+                                }
+                            },
                         }
                     ]
                 },
