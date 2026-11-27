@@ -1529,6 +1529,31 @@ def serve_mode():
                     }, 500)
                     return
                 self._json_response({'status': 'ok', 'updated': updated})
+            elif self.path == '/api/export/save':
+                import base64
+                content_length = int(self.headers.get('Content-Length', 0))
+                raw_body = self.rfile.read(content_length).decode('utf-8-sig') if content_length else '{}'
+                try:
+                    data = json.loads(raw_body) if raw_body.strip() else {}
+                except json.JSONDecodeError as e:
+                    self._json_response({'error': f'Invalid JSON: {e}'}, 400)
+                    return
+                file_name = os.path.basename((data.get('fileName') or 'export.xlsx').strip()) or 'export.xlsx'
+                b64 = data.get('base64Content') or ''
+                if not b64:
+                    self._json_response({'error': 'base64Content 不能为空'}, 400)
+                    return
+                try:
+                    raw_bytes = base64.b64decode(b64)
+                    desktop_dir = os.path.join(os.path.expanduser('~'), 'Desktop')
+                    export_dir = os.path.join(desktop_dir, 'AMZ否词导出') if os.path.isdir(desktop_dir) else os.path.join(os.path.dirname(os.path.abspath(__file__)), 'exports')
+                    os.makedirs(export_dir, exist_ok=True)
+                    target_path = os.path.join(export_dir, file_name)
+                    with open(target_path, 'wb') as f:
+                        f.write(raw_bytes)
+                    self._json_response({'status': 'ok', 'path': target_path, 'fileName': file_name, 'size': len(raw_bytes)})
+                except Exception as e:
+                    self._json_response({'error': f'导出写盘失败: {e}'}, 500)
             elif self.path == '/api/stores/switch':
                 content_length = int(self.headers.get('Content-Length', 0))
                 raw_body = self.rfile.read(content_length).decode('utf-8-sig') if content_length else '{}'
