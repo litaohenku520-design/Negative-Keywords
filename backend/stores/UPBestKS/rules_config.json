@@ -30869,10 +30869,6 @@
   ],
   "deny_model_library": [
     {
-      "name": "Samsung Galaxy S8_deny",
-      "linked_models": [
-        "Samsung Galaxy S8"
-      ],
       "keywords": [
         "plus",
         "ultra",
@@ -30962,13 +30958,13 @@
         "mi",
         "s26",
         "26"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S8"
+      ],
+      "name": "Samsung Galaxy S8_deny"
     },
     {
-      "name": "Samsung Galaxy S8+_deny",
-      "linked_models": [
-        "Samsung Galaxy S8+"
-      ],
       "keywords": [
         "ultra",
         "fe",
@@ -31056,13 +31052,13 @@
         "mi",
         "s26",
         "26"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S8+"
+      ],
+      "name": "Samsung Galaxy S8+_deny"
     },
     {
-      "name": "Samsung Galaxy S9_deny",
-      "linked_models": [
-        "Samsung Galaxy S9"
-      ],
       "keywords": [
         "plus",
         "ultra",
@@ -31158,13 +31154,13 @@
         "a21s",
         "a31",
         "s22"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S9"
+      ],
+      "name": "Samsung Galaxy S9_deny"
     },
     {
-      "name": "Samsung Galaxy S9+_deny",
-      "linked_models": [
-        "Samsung Galaxy S9+"
-      ],
       "keywords": [
         "ultra",
         "fe",
@@ -31258,13 +31254,13 @@
         "mi",
         "s26",
         "26"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S9+"
+      ],
+      "name": "Samsung Galaxy S9+_deny"
     },
     {
-      "name": "Samsung Galaxy S10_deny",
-      "linked_models": [
-        "Samsung Galaxy S10"
-      ],
       "keywords": [
         "plus",
         "ultra",
@@ -31375,13 +31371,13 @@
         "a10e",
         "5.4",
         "a04e"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S10"
+      ],
+      "name": "Samsung Galaxy S10_deny"
     },
     {
-      "name": "Samsung Galaxy S10+_deny",
-      "linked_models": [
-        "Samsung Galaxy S10+"
-      ],
       "keywords": [
         "ultra",
         "fe",
@@ -31477,13 +31473,13 @@
         "mi",
         "6.2",
         "s26"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S10+"
+      ],
+      "name": "Samsung Galaxy S10+_deny"
     },
     {
-      "name": "Samsung Galaxy S10e_deny",
-      "linked_models": [
-        "Samsung Galaxy S10e"
-      ],
       "keywords": [
         "plus",
         "ultra",
@@ -31586,13 +31582,13 @@
         "a04e",
         "s26",
         "26"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S10e"
+      ],
+      "name": "Samsung Galaxy S10e_deny"
     },
     {
-      "name": "Samsung Galaxy S20_deny",
-      "linked_models": [
-        "Samsung Galaxy S20"
-      ],
       "keywords": [
         "plus",
         "ultra",
@@ -31693,13 +31689,13 @@
         "26",
         "s30",
         "iphone"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S20"
+      ],
+      "name": "Samsung Galaxy S20_deny"
     },
     {
-      "name": "Samsung Galaxy S20+_deny",
-      "linked_models": [
-        "Samsung Galaxy S20+"
-      ],
       "keywords": [
         "ultra",
         "fe",
@@ -31796,13 +31792,13 @@
         "6.2",
         "s26",
         "26"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S20+"
+      ],
+      "name": "Samsung Galaxy S20+_deny"
     },
     {
-      "name": "Samsung Galaxy S20 Ultra_deny",
-      "linked_models": [
-        "Samsung Galaxy S20 Ultra"
-      ],
       "keywords": [
         "plus",
         "fe",
@@ -31901,13 +31897,13 @@
         "mi",
         "s26",
         "26"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S20 Ultra"
+      ],
+      "name": "Samsung Galaxy S20 Ultra_deny"
     },
     {
-      "name": "Samsung Galaxy S20 FE_deny",
-      "linked_models": [
-        "Samsung Galaxy S20 FE"
-      ],
       "keywords": [
         "ultra",
         "plus",
@@ -32005,13 +32001,13 @@
         "huawei",
         "mi",
         "s30"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S20 FE"
+      ],
+      "name": "Samsung Galaxy S20 FE_deny"
     },
     {
-      "name": "Samsung Galaxy S21_deny",
-      "linked_models": [
-        "Samsung Galaxy S21"
-      ],
       "keywords": [
         "plus",
         "ultra",
@@ -32115,13 +32111,13 @@
         "6.5",
         "iphone",
         "z flip 4"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S21"
+      ],
+      "name": "Samsung Galaxy S21_deny"
     },
     {
-      "name": "Samsung Galaxy S21+_deny",
-      "linked_models": [
-        "Samsung Galaxy S21+"
-      ],
       "keywords": [
         "ultra",
         "fe",
@@ -32221,14 +32217,13 @@
         "a02s",
         "a20",
         "6.2"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S21+"
+      ],
+      "name": "Samsung Galaxy S21+_deny"
     },
     {
-      "name": "Samsung Galaxy S21 Ultra_deny",
-      "linked_models": [
-        "S21Ultra",
-        "Samsung Galaxy S21 Ultra"
-      ],
       "keywords": [
         "a 02",
         "a 03",
@@ -32326,13 +32321,14 @@
         "pro",
         "s26",
         "26"
-      ]
+      ],
+      "linked_models": [
+        "S21Ultra",
+        "Samsung Galaxy S21 Ultra"
+      ],
+      "name": "Samsung Galaxy S21 Ultra_deny"
     },
     {
-      "name": "Samsung Galaxy S21 FE_deny",
-      "linked_models": [
-        "Samsung Galaxy S21 FE"
-      ],
       "keywords": [
         "ultra",
         "plus",
@@ -32431,15 +32427,119 @@
         "mi",
         "s26",
         "26"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S21 FE"
+      ],
+      "name": "Samsung Galaxy S21 FE_deny"
     },
     {
-      "name": "Samsung Galaxy S22_deny",
+      "keywords": [
+        "plus",
+        "ultra",
+        "fe",
+        "a02",
+        "a 02",
+        "a03",
+        "a 03",
+        "a03s",
+        "a 03s",
+        "a04",
+        "a 04",
+        "a12",
+        "a 12",
+        "a13",
+        "a 13",
+        "a14",
+        "a 14",
+        "a15",
+        "a 15",
+        "a16",
+        "a 16",
+        "a17",
+        "a 17",
+        "a23",
+        "a 23",
+        "a25",
+        "a 25",
+        "a26",
+        "a 26",
+        "a32",
+        "a 32",
+        "a34",
+        "a 34",
+        "a35",
+        "a 35",
+        "a36",
+        "a 36",
+        "a37",
+        "a 37",
+        "a42",
+        "a 42",
+        "a51",
+        "a 51",
+        "a52",
+        "a 52",
+        "a53",
+        "a 53",
+        "a54",
+        "a 54",
+        "a55",
+        "a 55",
+        "a56",
+        "a 56",
+        "a57",
+        "a 57",
+        "a71",
+        "a 71",
+        "edge",
+        "a01",
+        "a10",
+        "a11",
+        "a20",
+        "a21",
+        "a22",
+        "a31",
+        "a72",
+        "a82",
+        "s6",
+        "s7",
+        "s8",
+        "s9",
+        "s10",
+        "s20",
+        "s21",
+        "s23",
+        "s24",
+        "s25",
+        "8",
+        "10",
+        "20",
+        "21",
+        "23",
+        "24",
+        "25",
+        "pro",
+        "note",
+        "moto",
+        "lg",
+        "pixel",
+        "oneplus",
+        "iphone",
+        "xiaomi",
+        "redmi",
+        "huawei",
+        "mi",
+        "s26",
+        "26"
+      ],
       "linked_models": [
         "Samsung Galaxy S22"
       ],
+      "name": "Samsung Galaxy S22_deny"
+    },
+    {
       "keywords": [
-        "plus",
         "ultra",
         "fe",
         "a02",
@@ -32536,117 +32636,13 @@
         "mi",
         "s26",
         "26"
-      ]
-    },
-    {
-      "name": "Samsung Galaxy S22+_deny",
+      ],
       "linked_models": [
         "Samsung Galaxy S22+"
       ],
-      "keywords": [
-        "ultra",
-        "fe",
-        "a02",
-        "a 02",
-        "a03",
-        "a 03",
-        "a03s",
-        "a 03s",
-        "a04",
-        "a 04",
-        "a12",
-        "a 12",
-        "a13",
-        "a 13",
-        "a14",
-        "a 14",
-        "a15",
-        "a 15",
-        "a16",
-        "a 16",
-        "a17",
-        "a 17",
-        "a23",
-        "a 23",
-        "a25",
-        "a 25",
-        "a26",
-        "a 26",
-        "a32",
-        "a 32",
-        "a34",
-        "a 34",
-        "a35",
-        "a 35",
-        "a36",
-        "a 36",
-        "a37",
-        "a 37",
-        "a42",
-        "a 42",
-        "a51",
-        "a 51",
-        "a52",
-        "a 52",
-        "a53",
-        "a 53",
-        "a54",
-        "a 54",
-        "a55",
-        "a 55",
-        "a56",
-        "a 56",
-        "a57",
-        "a 57",
-        "a71",
-        "a 71",
-        "edge",
-        "a01",
-        "a10",
-        "a11",
-        "a20",
-        "a21",
-        "a22",
-        "a31",
-        "a72",
-        "a82",
-        "s6",
-        "s7",
-        "s8",
-        "s9",
-        "s10",
-        "s20",
-        "s21",
-        "s23",
-        "s24",
-        "s25",
-        "8",
-        "10",
-        "20",
-        "21",
-        "23",
-        "24",
-        "25",
-        "pro",
-        "note",
-        "moto",
-        "lg",
-        "pixel",
-        "oneplus",
-        "iphone",
-        "xiaomi",
-        "redmi",
-        "huawei",
-        "mi",
-        "s26",
-        "26"
-      ]
+      "name": "Samsung Galaxy S22+_deny"
     },
     {
-      "name": "Samsung Galaxy S22 Ultra_deny",
-      "linked_models": [
-        "Samsung Galaxy S22 Ultra"
-      ],
       "keywords": [
         "plus",
         "fe",
@@ -32744,13 +32740,13 @@
         "mi",
         "s26",
         "26"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S22 Ultra"
+      ],
+      "name": "Samsung Galaxy S22 Ultra_deny"
     },
     {
-      "name": "Samsung Galaxy S23_deny",
-      "linked_models": [
-        "Samsung Galaxy S23"
-      ],
       "keywords": [
         "plus",
         "ultra",
@@ -32854,13 +32850,13 @@
         "s26",
         "26",
         "a02s"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S23"
+      ],
+      "name": "Samsung Galaxy S23_deny"
     },
     {
-      "name": "Samsung Galaxy S23+_deny",
-      "linked_models": [
-        "Samsung Galaxy S23+"
-      ],
       "keywords": [
         "ultra",
         "fe",
@@ -32959,13 +32955,13 @@
         "z flip 4",
         "s26",
         "26"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S23+"
+      ],
+      "name": "Samsung Galaxy S23+_deny"
     },
     {
-      "name": "Samsung Galaxy S23 Ultra_deny",
-      "linked_models": [
-        "Samsung Galaxy S23 Ultra"
-      ],
       "keywords": [
         "plus",
         "fe",
@@ -33064,13 +33060,13 @@
         "z flip 4",
         "s26",
         "26"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S23 Ultra"
+      ],
+      "name": "Samsung Galaxy S23 Ultra_deny"
     },
     {
-      "name": "Samsung Galaxy S23 FE_deny",
-      "linked_models": [
-        "Samsung Galaxy S23 FE"
-      ],
       "keywords": [
         "ultra",
         "plus",
@@ -33169,15 +33165,128 @@
         "a02s",
         "s26",
         "26"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S23 FE"
+      ],
+      "name": "Samsung Galaxy S23 FE_deny"
     },
     {
-      "name": "Samsung Galaxy S24_deny",
+      "keywords": [
+        "plus",
+        "ultra",
+        "fe",
+        "a02",
+        "a 02",
+        "a03",
+        "a 03",
+        "a03s",
+        "a 03s",
+        "a04",
+        "a 04",
+        "a12",
+        "a 12",
+        "a13",
+        "a 13",
+        "a14",
+        "a 14",
+        "a15",
+        "a 15",
+        "a16",
+        "a 16",
+        "a17",
+        "a 17",
+        "a23",
+        "a 23",
+        "a25",
+        "a 25",
+        "a26",
+        "a 26",
+        "a32",
+        "a 32",
+        "a34",
+        "a 34",
+        "a35",
+        "a 35",
+        "a36",
+        "a 36",
+        "a37",
+        "a 37",
+        "a42",
+        "a 42",
+        "a51",
+        "a 51",
+        "a52",
+        "a 52",
+        "a53",
+        "a 53",
+        "a54",
+        "a 54",
+        "a55",
+        "a 55",
+        "a56",
+        "a 56",
+        "a57",
+        "a 57",
+        "a71",
+        "a 71",
+        "edge",
+        "a01",
+        "a10",
+        "a11",
+        "a20",
+        "a21",
+        "a22",
+        "a31",
+        "a33",
+        "a72",
+        "a82",
+        "s6",
+        "s7",
+        "s8",
+        "s9",
+        "s10",
+        "s20",
+        "s21",
+        "s22",
+        "s23",
+        "s25",
+        "s20fe",
+        "s21fe",
+        "s23fe",
+        "8",
+        "10",
+        "20",
+        "21",
+        "22",
+        "23",
+        "25",
+        "pro",
+        "note",
+        "moto",
+        "motorola",
+        "lg",
+        "pixel",
+        "oneplus",
+        "iphone",
+        "xiaomi",
+        "redmi",
+        "huawei",
+        "mi",
+        "z flip 4",
+        "6.7",
+        "6.8",
+        "z fold 4",
+        "s26",
+        "26"
+      ],
       "linked_models": [
         "Samsung Galaxy S24"
       ],
+      "name": "Samsung Galaxy S24_deny"
+    },
+    {
       "keywords": [
-        "plus",
         "ultra",
         "fe",
         "a02",
@@ -33254,10 +33363,11 @@
         "s21",
         "s22",
         "s23",
-        "s25",
         "s20fe",
         "s21fe",
         "s23fe",
+        "s24fe",
+        "s25fe",
         "8",
         "10",
         "20",
@@ -33268,6 +33378,7 @@
         "pro",
         "note",
         "moto",
+        "s25",
         "motorola",
         "lg",
         "pixel",
@@ -33278,133 +33389,18 @@
         "huawei",
         "mi",
         "z flip 4",
-        "6.7",
+        "6.2",
         "6.8",
         "z fold 4",
         "s26",
         "26"
-      ]
-    },
-    {
-      "name": "Samsung Galaxy S24+_deny",
+      ],
       "linked_models": [
         "Samsung Galaxy S24+"
       ],
-      "keywords": [
-        "ultra",
-        "fe",
-        "a02",
-        "a 02",
-        "a03",
-        "a 03",
-        "a03s",
-        "a 03s",
-        "a04",
-        "a 04",
-        "a12",
-        "a 12",
-        "a13",
-        "a 13",
-        "a14",
-        "a 14",
-        "a15",
-        "a 15",
-        "a16",
-        "a 16",
-        "a17",
-        "a 17",
-        "a23",
-        "a 23",
-        "a25",
-        "a 25",
-        "a26",
-        "a 26",
-        "a32",
-        "a 32",
-        "a34",
-        "a 34",
-        "a35",
-        "a 35",
-        "a36",
-        "a 36",
-        "a37",
-        "a 37",
-        "a42",
-        "a 42",
-        "a51",
-        "a 51",
-        "a52",
-        "a 52",
-        "a53",
-        "a 53",
-        "a54",
-        "a 54",
-        "a55",
-        "a 55",
-        "a56",
-        "a 56",
-        "a57",
-        "a 57",
-        "a71",
-        "a 71",
-        "edge",
-        "a01",
-        "a10",
-        "a11",
-        "a20",
-        "a21",
-        "a22",
-        "a31",
-        "a33",
-        "a72",
-        "a82",
-        "s6",
-        "s7",
-        "s8",
-        "s9",
-        "s10",
-        "s20",
-        "s21",
-        "s22",
-        "s23",
-        "s20fe",
-        "s21fe",
-        "s23fe",
-        "s24fe",
-        "s25fe",
-        "8",
-        "10",
-        "20",
-        "21",
-        "22",
-        "23",
-        "25",
-        "pro",
-        "note",
-        "moto",
-        "s25",
-        "motorola",
-        "lg",
-        "pixel",
-        "oneplus",
-        "iphone",
-        "xiaomi",
-        "redmi",
-        "huawei",
-        "mi",
-        "z flip 4",
-        "6.2",
-        "6.8",
-        "z fold 4",
-        "s26",
-        "26"
-      ]
+      "name": "Samsung Galaxy S24+_deny"
     },
     {
-      "name": "Samsung Galaxy S24 Ultra_deny",
-      "linked_models": [
-        "Samsung Galaxy S24 Ultra"
-      ],
       "keywords": [
         "plus",
         "fe",
@@ -33511,13 +33507,13 @@
         "z fold 4",
         "s26",
         "26"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S24 Ultra"
+      ],
+      "name": "Samsung Galaxy S24 Ultra_deny"
     },
     {
-      "name": "Samsung Galaxy S24 FE_deny",
-      "linked_models": [
-        "Samsung Galaxy S24 FE"
-      ],
       "keywords": [
         "ultra",
         "plus",
@@ -33624,13 +33620,13 @@
         "z fold 4",
         "s26",
         "26"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S24 FE"
+      ],
+      "name": "Samsung Galaxy S24 FE_deny"
     },
     {
-      "name": "Samsung Galaxy S25_deny",
-      "linked_models": [
-        "Samsung Galaxy S25"
-      ],
       "keywords": [
         "plus",
         "ultra",
@@ -33736,13 +33732,13 @@
         "z fold 4",
         "s26",
         "26"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S25"
+      ],
+      "name": "Samsung Galaxy S25_deny"
     },
     {
-      "name": "Samsung Galaxy S25 Plus_deny",
-      "linked_models": [
-        "Samsung Galaxy S25 Plus"
-      ],
       "keywords": [
         "ultra",
         "fe",
@@ -33848,13 +33844,13 @@
         "z fold 4",
         "s26",
         "26"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S25 Plus"
+      ],
+      "name": "Samsung Galaxy S25 Plus_deny"
     },
     {
-      "name": "Samsung Galaxy S25 Ultra_deny",
-      "linked_models": [
-        "Samsung Galaxy S25 Ultra"
-      ],
       "keywords": [
         "plus",
         "fe",
@@ -33961,13 +33957,13 @@
         "z fold 4",
         "s26",
         "26"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S25 Ultra"
+      ],
+      "name": "Samsung Galaxy S25 Ultra_deny"
     },
     {
-      "name": "Samsung Galaxy S25 FE_deny",
-      "linked_models": [
-        "Samsung Galaxy S25 FE"
-      ],
       "keywords": [
         "ultra",
         "plus",
@@ -34072,13 +34068,13 @@
         "z fold 4",
         "s26",
         "26"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S25 FE"
+      ],
+      "name": "Samsung Galaxy S25 FE_deny"
     },
     {
-      "name": "Samsung Galaxy S25 Edge_deny",
-      "linked_models": [
-        "Samsung Galaxy S25 Edge"
-      ],
       "keywords": [
         "ultra",
         "plus",
@@ -34183,13 +34179,13 @@
         "z fold 4",
         "s26",
         "26"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S25 Edge"
+      ],
+      "name": "Samsung Galaxy S25 Edge_deny"
     },
     {
-      "name": "Samsung Galaxy S26_deny",
-      "linked_models": [
-        "Samsung Galaxy S26"
-      ],
       "keywords": [
         "plus",
         "ultra",
@@ -34301,13 +34297,13 @@
         "mi",
         "z flip 4",
         "z fold 4"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S26"
+      ],
+      "name": "Samsung Galaxy S26_deny"
     },
     {
-      "name": "Samsung Galaxy S26 Plus_deny",
-      "linked_models": [
-        "Samsung Galaxy S26 Plus"
-      ],
       "keywords": [
         "ultra",
         "fe",
@@ -34414,13 +34410,13 @@
         "mi",
         "z flip 4",
         "z fold 4"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S26 Plus"
+      ],
+      "name": "Samsung Galaxy S26 Plus_deny"
     },
     {
-      "name": "Samsung Galaxy S26 Ultra_deny",
-      "linked_models": [
-        "Samsung Galaxy S26 Ultra"
-      ],
       "keywords": [
         "plus",
         "fe",
@@ -34526,13 +34522,44 @@
         "mi",
         "z flip 4",
         "z fold 4"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy S26 Ultra"
+      ],
+      "name": "Samsung Galaxy S26 Ultra_deny"
     },
     {
-      "name": "Samsung A04_deny",
+      "keywords": [
+        "ultra",
+        "plus",
+        "fe",
+        "s8",
+        "s 8",
+        "s9",
+        "s 9",
+        "s10",
+        "s 10",
+        "s20",
+        "s 20",
+        "s21",
+        "s 21",
+        "s22",
+        "s 22",
+        "s23",
+        "s 23",
+        "s24",
+        "s 24",
+        "s25",
+        "s 25",
+        "s26",
+        "s 26"
+      ],
       "linked_models": [
         "Samsung A04"
       ],
+      "name": "Samsung A04_deny"
+    },
+    {
       "keywords": [
         "ultra",
         "plus",
@@ -34557,44 +34584,13 @@
         "s 25",
         "s26",
         "s 26"
-      ]
-    },
-    {
-      "name": "Samsung Galaxy A02S_deny",
+      ],
       "linked_models": [
         "Samsung Galaxy A02S"
       ],
-      "keywords": [
-        "ultra",
-        "plus",
-        "fe",
-        "s8",
-        "s 8",
-        "s9",
-        "s 9",
-        "s10",
-        "s 10",
-        "s20",
-        "s 20",
-        "s21",
-        "s 21",
-        "s22",
-        "s 22",
-        "s23",
-        "s 23",
-        "s24",
-        "s 24",
-        "s25",
-        "s 25",
-        "s26",
-        "s 26"
-      ]
+      "name": "Samsung Galaxy A02S_deny"
     },
     {
-      "name": "Samsung Galaxy A03S_deny",
-      "linked_models": [
-        "Samsung Galaxy A03S"
-      ],
       "keywords": [
         "ultra",
         "plus",
@@ -34659,13 +34655,13 @@
         "a56",
         "36",
         "56"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A03S"
+      ],
+      "name": "Samsung Galaxy A03S_deny"
     },
     {
-      "name": "Samsung Galaxy A12_deny",
-      "linked_models": [
-        "Samsung Galaxy A12"
-      ],
       "keywords": [
         "ultra",
         "plus",
@@ -34735,13 +34731,13 @@
         "56",
         "17",
         "a17"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A12"
+      ],
+      "name": "Samsung Galaxy A12_deny"
     },
     {
-      "name": "Samsung Galaxy A13_deny",
-      "linked_models": [
-        "Samsung Galaxy A13"
-      ],
       "keywords": [
         "ultra",
         "plus",
@@ -34820,14 +34816,13 @@
         "a56",
         "36",
         "56"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A13"
+      ],
+      "name": "Samsung Galaxy A13_deny"
     },
     {
-      "name": "Samsung Galaxy A14_deny",
-      "linked_models": [
-        "Samsung A14",
-        "Samsung Galaxy A14"
-      ],
       "keywords": [
         "fe",
         "plus",
@@ -34908,14 +34903,14 @@
         "a56",
         "36",
         "56"
-      ]
+      ],
+      "linked_models": [
+        "Samsung A14",
+        "Samsung Galaxy A14"
+      ],
+      "name": "Samsung Galaxy A14_deny"
     },
     {
-      "name": "Samsung Galaxy A15_deny",
-      "linked_models": [
-        "Samsung A15",
-        "Samsung Galaxy A15"
-      ],
       "keywords": [
         "fe",
         "plus",
@@ -35009,13 +35004,14 @@
         "a56",
         "36",
         "56"
-      ]
+      ],
+      "linked_models": [
+        "Samsung A15",
+        "Samsung Galaxy A15"
+      ],
+      "name": "Samsung Galaxy A15_deny"
     },
     {
-      "name": "Samsung Galaxy A16_deny",
-      "linked_models": [
-        "Samsung Galaxy A16"
-      ],
       "keywords": [
         "ultra",
         "plus",
@@ -35115,14 +35111,13 @@
         "17",
         "a17",
         "a26"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A16"
+      ],
+      "name": "Samsung Galaxy A16_deny"
     },
     {
-      "name": "Samsung Galaxy A17_deny",
-      "linked_models": [
-        "Samsung A17",
-        "Samsung Galaxy A17"
-      ],
       "keywords": [
         "fe",
         "plus",
@@ -35220,13 +35215,14 @@
         "a56",
         "36",
         "56"
-      ]
+      ],
+      "linked_models": [
+        "Samsung A17",
+        "Samsung Galaxy A17"
+      ],
+      "name": "Samsung Galaxy A17_deny"
     },
     {
-      "name": "Samsung Galaxy A23_deny",
-      "linked_models": [
-        "Samsung Galaxy A23"
-      ],
       "keywords": [
         "fe",
         "plus",
@@ -35296,14 +35292,13 @@
         "a56",
         "36",
         "56"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A23"
+      ],
+      "name": "Samsung Galaxy A23_deny"
     },
     {
-      "name": "Samsung Galaxy A26_deny",
-      "linked_models": [
-        "Samsung A26",
-        "Samsung Galaxy A26"
-      ],
       "keywords": [
         "fe",
         "plus",
@@ -35403,13 +35398,14 @@
         "a56",
         "36",
         "56"
-      ]
+      ],
+      "linked_models": [
+        "Samsung A26",
+        "Samsung Galaxy A26"
+      ],
+      "name": "Samsung Galaxy A26_deny"
     },
     {
-      "name": "Samsung Galaxy A32_deny",
-      "linked_models": [
-        "Samsung Galaxy A32"
-      ],
       "keywords": [
         "ultra",
         "plus",
@@ -35485,13 +35481,13 @@
         "a56",
         "36",
         "56"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A32"
+      ],
+      "name": "Samsung Galaxy A32_deny"
     },
     {
-      "name": "Samsung Galaxy A34_deny",
-      "linked_models": [
-        "Samsung Galaxy A34"
-      ],
       "keywords": [
         "ultra",
         "plus",
@@ -35568,13 +35564,13 @@
         "a56",
         "36",
         "56"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A34"
+      ],
+      "name": "Samsung Galaxy A34_deny"
     },
     {
-      "name": "Samsung Galaxy A35_deny",
-      "linked_models": [
-        "Samsung Galaxy A35"
-      ],
       "keywords": [
         "fe",
         "plus",
@@ -35656,14 +35652,13 @@
         "56",
         "17",
         "a17"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A35"
+      ],
+      "name": "Samsung Galaxy A35_deny"
     },
     {
-      "name": "Samsung Galaxy A37_deny",
-      "linked_models": [
-        "Samsung A37",
-        "Samsung Galaxy A37"
-      ],
       "keywords": [
         "fe",
         "plus",
@@ -35767,13 +35762,14 @@
         "mi",
         "sc53a",
         "oppo"
-      ]
+      ],
+      "linked_models": [
+        "Samsung A37",
+        "Samsung Galaxy A37"
+      ],
+      "name": "Samsung Galaxy A37_deny"
     },
     {
-      "name": "Samsung Galaxy A42_deny",
-      "linked_models": [
-        "Samsung Galaxy A42"
-      ],
       "keywords": [
         "ultra",
         "plus",
@@ -35842,13 +35838,13 @@
         "a56",
         "36",
         "56"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A42"
+      ],
+      "name": "Samsung Galaxy A42_deny"
     },
     {
-      "name": "Samsung Galaxy A51_deny",
-      "linked_models": [
-        "Samsung Galaxy A51"
-      ],
       "keywords": [
         "ultra",
         "plus",
@@ -35931,13 +35927,13 @@
         "a56",
         "36",
         "56"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A51"
+      ],
+      "name": "Samsung Galaxy A51_deny"
     },
     {
-      "name": "Samsung Galaxy A52_deny",
-      "linked_models": [
-        "Samsung Galaxy A52"
-      ],
       "keywords": [
         "ultra",
         "plus",
@@ -36013,13 +36009,13 @@
         "a56",
         "36",
         "56"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A52"
+      ],
+      "name": "Samsung Galaxy A52_deny"
     },
     {
-      "name": "Samsung Galaxy A53_deny",
-      "linked_models": [
-        "Samsung Galaxy A53"
-      ],
       "keywords": [
         "ultra",
         "plus",
@@ -36097,13 +36093,13 @@
         "a56",
         "36",
         "56"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A53"
+      ],
+      "name": "Samsung Galaxy A53_deny"
     },
     {
-      "name": "Samsung Galaxy A54_deny",
-      "linked_models": [
-        "Samsung Galaxy A54"
-      ],
       "keywords": [
         "fe",
         "plus",
@@ -36182,14 +36178,13 @@
         "a56",
         "36",
         "56"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A54"
+      ],
+      "name": "Samsung Galaxy A54_deny"
     },
     {
-      "name": "Samsung Galaxy A56_deny",
-      "linked_models": [
-        "Samsung A56",
-        "Samsung Galaxy A56"
-      ],
       "keywords": [
         "fe",
         "plus",
@@ -36282,13 +36277,14 @@
         "oppo",
         "17",
         "a17"
-      ]
+      ],
+      "linked_models": [
+        "Samsung A56",
+        "Samsung Galaxy A56"
+      ],
+      "name": "Samsung Galaxy A56_deny"
     },
     {
-      "name": "Samsung Galaxy A71_deny",
-      "linked_models": [
-        "Samsung Galaxy A71"
-      ],
       "keywords": [
         "ultra",
         "plus",
@@ -36360,13 +36356,13 @@
         "a56",
         "36",
         "56"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A71"
+      ],
+      "name": "Samsung Galaxy A71_deny"
     },
     {
-      "name": "Samsung Galaxy Fold 2_deny",
-      "linked_models": [
-        "Samsung Galaxy Fold 2"
-      ],
       "keywords": [
         "ultra",
         "plus",
@@ -36388,15 +36384,13 @@
         "s22",
         "s4",
         "s23"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy Fold 2"
+      ],
+      "name": "Samsung Galaxy Fold 2_deny"
     },
     {
-      "name": "Samsung Galaxy Fold 3_deny",
-      "linked_models": [
-        "Fold3",
-        "Samsung Galaxy Fold 3",
-        "Z/Fold3"
-      ],
       "keywords": [
         "fe",
         "flip",
@@ -36419,13 +36413,15 @@
         "s4",
         "s23",
         "fold 5"
-      ]
+      ],
+      "linked_models": [
+        "Fold3",
+        "Samsung Galaxy Fold 3",
+        "Z/Fold3"
+      ],
+      "name": "Samsung Galaxy Fold 3_deny"
     },
     {
-      "name": "Samsung Galaxy Fold 4_deny",
-      "linked_models": [
-        "Samsung Galaxy Fold 4"
-      ],
       "keywords": [
         "ultra",
         "plus",
@@ -36447,13 +36443,13 @@
         "s22",
         "s4",
         "s23"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy Fold 4"
+      ],
+      "name": "Samsung Galaxy Fold 4_deny"
     },
     {
-      "name": "Samsung Galaxy Fold 5_deny",
-      "linked_models": [
-        "Samsung Galaxy Fold 5"
-      ],
       "keywords": [
         "ultra",
         "plus",
@@ -36476,14 +36472,13 @@
         "s22",
         "s4",
         "s23"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy Fold 5"
+      ],
+      "name": "Samsung Galaxy Fold 5_deny"
     },
     {
-      "name": "Samsung Galaxy Fold 6_deny",
-      "linked_models": [
-        "Fold6",
-        "Samsung Galaxy Fold 6"
-      ],
       "keywords": [
         "fe",
         "flip",
@@ -36507,17 +36502,153 @@
         "s22",
         "s4",
         "s23"
-      ]
+      ],
+      "linked_models": [
+        "Fold6",
+        "Samsung Galaxy Fold 6"
+      ],
+      "name": "Samsung Galaxy Fold 6_deny"
     },
     {
-      "name": "Moto G 5G_deny",
+      "keywords": [
+        "styles",
+        "ace",
+        "g 5g 2021",
+        "g 5g 2025",
+        "g 5g 2026",
+        "g 5g 21",
+        "g 5g 22",
+        "g 5g 25",
+        "g 5g 26",
+        "g 5g2021",
+        "g 5g2022",
+        "g 5g2025",
+        "g 5g2026",
+        "g 5g21",
+        "g 5g22",
+        "g 5g25",
+        "g 5g26",
+        "g5g2021",
+        "g5g2025",
+        "g5g2026",
+        "g5g21",
+        "g5g22",
+        "g5g25",
+        "g5g26",
+        "moto 2021",
+        "moto 2022",
+        "moto 2025",
+        "moto 2026",
+        "moto 21",
+        "moto 22",
+        "moto 25",
+        "moto 26",
+        "moto g 5g 2021",
+        "moto g 5g 2025",
+        "moto g 5g 2026",
+        "moto g 5g 21",
+        "moto g 5g 22",
+        "moto g 5g 25",
+        "moto g 5g 26",
+        "moto g 5g2021",
+        "moto g 5g2022",
+        "moto g 5g2025",
+        "moto g 5g2026",
+        "moto g 5g21",
+        "moto g 5g22",
+        "moto g 5g25",
+        "moto g 5g26",
+        "moto2021",
+        "moto2022",
+        "moto2025",
+        "moto2026",
+        "moto21",
+        "moto22",
+        "moto25",
+        "moto26",
+        "motog5g2021",
+        "motog5g2022",
+        "motog5g2025",
+        "motog5g2026",
+        "motog5g21",
+        "motog5g22",
+        "motog5g25",
+        "motog5g26",
+        "motorola 2021",
+        "motorola 2025",
+        "motorola 2026",
+        "motorola 21",
+        "motorola 22",
+        "motorola 25",
+        "motorola 26",
+        "motorola g 5g 2021",
+        "motorola g 5g 2025",
+        "motorola g 5g 2026",
+        "motorola g 5g 21",
+        "motorola g 5g 22",
+        "motorola g 5g 25",
+        "motorola g 5g 26",
+        "motorola g 5g2021",
+        "motorola g 5g2022",
+        "motorola g 5g2025",
+        "motorola g 5g2026",
+        "motorola g 5g21",
+        "motorola g 5g22",
+        "motorola g 5g25",
+        "motorola g 5g26",
+        "motorola moto g 5g 2021",
+        "motorola moto g 5g 2025",
+        "motorola moto g 5g 2026",
+        "motorola moto g 5g 21",
+        "motorola moto g 5g 22",
+        "motorola moto g 5g 25",
+        "motorola moto g 5g 26",
+        "motorola moto g 5g2021",
+        "motorola moto g 5g2022",
+        "motorola moto g 5g2025",
+        "motorola moto g 5g2026",
+        "motorola moto g 5g21",
+        "motorola moto g 5g22",
+        "motorola moto g 5g25",
+        "motorola moto g 5g26",
+        "motorola2021",
+        "motorola2022",
+        "motorola2025",
+        "motorola2026",
+        "motorola21",
+        "motorola22",
+        "motorola25",
+        "motorola26",
+        "motorolag5g2021",
+        "motorolag5g2022",
+        "motorolag5g2025",
+        "motorolag5g2026",
+        "motorolag5g21",
+        "motorolag5g22",
+        "motorolag5g25",
+        "motorolag5g26",
+        "power",
+        "stylus",
+        "360",
+        "e6",
+        "fast",
+        "g7",
+        "g8",
+        "play",
+        "z4",
+        "uw"
+      ],
       "linked_models": [
         "Moto G 5G"
       ],
+      "name": "Moto G 5G_deny"
+    },
+    {
       "keywords": [
         "styles",
         "ace",
         "g 5g 2021",
+        "g 5g 2022",
         "g 5g 2025",
         "g 5g 2026",
         "g 5g 21",
@@ -36533,6 +36664,7 @@
         "g 5g25",
         "g 5g26",
         "g5g2021",
+        "g5g2022",
         "g5g2025",
         "g5g2026",
         "g5g21",
@@ -36548,6 +36680,7 @@
         "moto 25",
         "moto 26",
         "moto g 5g 2021",
+        "moto g 5g 2022",
         "moto g 5g 2025",
         "moto g 5g 2026",
         "moto g 5g 21",
@@ -36579,6 +36712,7 @@
         "motog5g25",
         "motog5g26",
         "motorola 2021",
+        "motorola 2022",
         "motorola 2025",
         "motorola 2026",
         "motorola 21",
@@ -36586,6 +36720,7 @@
         "motorola 25",
         "motorola 26",
         "motorola g 5g 2021",
+        "motorola g 5g 2022",
         "motorola g 5g 2025",
         "motorola g 5g 2026",
         "motorola g 5g 21",
@@ -36601,6 +36736,7 @@
         "motorola g 5g25",
         "motorola g 5g26",
         "motorola moto g 5g 2021",
+        "motorola moto g 5g 2022",
         "motorola moto g 5g 2025",
         "motorola moto g 5g 2026",
         "motorola moto g 5g 21",
@@ -36641,13 +36777,13 @@
         "play",
         "z4",
         "uw"
-      ]
-    },
-    {
-      "name": "Moto G 5G 2023_deny",
+      ],
       "linked_models": [
         "Moto G 5G 2023"
       ],
+      "name": "Moto G 5G 2023_deny"
+    },
+    {
       "keywords": [
         "styles",
         "ace",
@@ -36781,15 +36917,14 @@
         "play",
         "z4",
         "uw"
-      ]
-    },
-    {
-      "name": "Moto G 5G 2024_deny",
+      ],
       "linked_models": [
         "Moto G 5G 2024"
       ],
+      "name": "Moto G 5G 2024_deny"
+    },
+    {
       "keywords": [
-        "styles",
         "ace",
         "g 5g 2021",
         "g 5g 2022",
@@ -36918,167 +37053,27 @@
         "fast",
         "g7",
         "g8",
-        "play",
         "z4",
         "uw"
-      ]
-    },
-    {
-      "name": "Moto G 5G Play 2024_deny",
+      ],
       "linked_models": [
         "Moto G 5G Play 2024"
       ],
-      "keywords": [
-        "ace",
-        "g 5g 2021",
-        "g 5g 2022",
-        "g 5g 2025",
-        "g 5g 2026",
-        "g 5g 21",
-        "g 5g 22",
-        "g 5g 25",
-        "g 5g 26",
-        "g 5g2021",
-        "g 5g2022",
-        "g 5g2025",
-        "g 5g2026",
-        "g 5g21",
-        "g 5g22",
-        "g 5g25",
-        "g 5g26",
-        "g5g2021",
-        "g5g2022",
-        "g5g2025",
-        "g5g2026",
-        "g5g21",
-        "g5g22",
-        "g5g25",
-        "g5g26",
-        "moto 2021",
-        "moto 2022",
-        "moto 2025",
-        "moto 2026",
-        "moto 21",
-        "moto 22",
-        "moto 25",
-        "moto 26",
-        "moto g 5g 2021",
-        "moto g 5g 2022",
-        "moto g 5g 2025",
-        "moto g 5g 2026",
-        "moto g 5g 21",
-        "moto g 5g 22",
-        "moto g 5g 25",
-        "moto g 5g 26",
-        "moto g 5g2021",
-        "moto g 5g2022",
-        "moto g 5g2025",
-        "moto g 5g2026",
-        "moto g 5g21",
-        "moto g 5g22",
-        "moto g 5g25",
-        "moto g 5g26",
-        "moto2021",
-        "moto2022",
-        "moto2025",
-        "moto2026",
-        "moto21",
-        "moto22",
-        "moto25",
-        "moto26",
-        "motog5g2021",
-        "motog5g2022",
-        "motog5g2025",
-        "motog5g2026",
-        "motog5g21",
-        "motog5g22",
-        "motog5g25",
-        "motog5g26",
-        "motorola 2021",
-        "motorola 2022",
-        "motorola 2025",
-        "motorola 2026",
-        "motorola 21",
-        "motorola 22",
-        "motorola 25",
-        "motorola 26",
-        "motorola g 5g 2021",
-        "motorola g 5g 2022",
-        "motorola g 5g 2025",
-        "motorola g 5g 2026",
-        "motorola g 5g 21",
-        "motorola g 5g 22",
-        "motorola g 5g 25",
-        "motorola g 5g 26",
-        "motorola g 5g2021",
-        "motorola g 5g2022",
-        "motorola g 5g2025",
-        "motorola g 5g2026",
-        "motorola g 5g21",
-        "motorola g 5g22",
-        "motorola g 5g25",
-        "motorola g 5g26",
-        "motorola moto g 5g 2021",
-        "motorola moto g 5g 2022",
-        "motorola moto g 5g 2025",
-        "motorola moto g 5g 2026",
-        "motorola moto g 5g 21",
-        "motorola moto g 5g 22",
-        "motorola moto g 5g 25",
-        "motorola moto g 5g 26",
-        "motorola moto g 5g2021",
-        "motorola moto g 5g2022",
-        "motorola moto g 5g2025",
-        "motorola moto g 5g2026",
-        "motorola moto g 5g21",
-        "motorola moto g 5g22",
-        "motorola moto g 5g25",
-        "motorola moto g 5g26",
-        "motorola2021",
-        "motorola2022",
-        "motorola2025",
-        "motorola2026",
-        "motorola21",
-        "motorola22",
-        "motorola25",
-        "motorola26",
-        "motorolag5g2021",
-        "motorolag5g2022",
-        "motorolag5g2025",
-        "motorolag5g2026",
-        "motorolag5g21",
-        "motorolag5g22",
-        "motorolag5g25",
-        "motorolag5g26",
-        "power",
-        "stylus",
-        "360",
-        "e6",
-        "fast",
-        "g7",
-        "g8",
-        "z4",
-        "uw"
-      ]
+      "name": "Moto G 5G Play 2024_deny"
     },
     {
-      "name": "Google Pixel 9_deny",
-      "linked_models": [
-        "Google Pixel 9/9 Pro",
-        "Google Pixel 9"
-      ],
       "keywords": [
         "a9",
         "a 9",
         "xl"
-      ]
+      ],
+      "linked_models": [
+        "Google Pixel 9/9 Pro",
+        "Google Pixel 9"
+      ],
+      "name": "Google Pixel 9_deny"
     },
     {
-      "name": "Google Pixel 10 Pro_deny",
-      "linked_models": [
-        "Google Pixel 10 Pro",
-        "Google Pixel 10/10 Pro"
-      ],
       "keywords": [
         "10 a",
         "10a",
@@ -37092,13 +37087,14 @@
         "fold",
         "10 a",
         "pixel 10 a"
-      ]
+      ],
+      "linked_models": [
+        "Google Pixel 10 Pro",
+        "Google Pixel 10/10 Pro"
+      ],
+      "name": "Google Pixel 10 Pro_deny"
     },
     {
-      "name": "Google Pixel 7_deny",
-      "linked_models": [
-        "Google Pixel 7"
-      ],
       "keywords": [
         "7a",
         "a7",
@@ -37134,14 +37130,13 @@
         "7pro",
         "one plus",
         "10"
-      ]
+      ],
+      "linked_models": [
+        "Google Pixel 7"
+      ],
+      "name": "Google Pixel 7_deny"
     },
     {
-      "name": "Google Pixel 9/9 Pro_deny",
-      "linked_models": [
-        "Google Pixel 9 Pro",
-        "Google Pixel 9/9 Pro"
-      ],
       "keywords": [
         "a 9",
         "a9",
@@ -37176,13 +37171,14 @@
         "6.7",
         "6.8",
         "10"
-      ]
+      ],
+      "linked_models": [
+        "Google Pixel 9 Pro",
+        "Google Pixel 9/9 Pro"
+      ],
+      "name": "Google Pixel 9/9 Pro_deny"
     },
     {
-      "name": "Google Pixel 8_deny",
-      "linked_models": [
-        "Google Pixel 8"
-      ],
       "keywords": [
         "a 8",
         "a8",
@@ -37217,35 +37213,35 @@
         "mi",
         "one plus",
         "10"
-      ]
+      ],
+      "linked_models": [
+        "Google Pixel 8"
+      ],
+      "name": "Google Pixel 8_deny"
     },
     {
-      "name": "A57",
+      "keywords": [
+        "fe",
+        "plus",
+        "ultra"
+      ],
       "linked_models": [
         "A57"
       ],
+      "name": "A57"
+    },
+    {
       "keywords": [
         "fe",
         "plus",
         "ultra"
-      ]
-    },
-    {
-      "name": "Auto-A17",
+      ],
       "linked_models": [
         "Auto-A17"
       ],
-      "keywords": [
-        "fe",
-        "plus",
-        "ultra"
-      ]
+      "name": "Auto-A17"
     },
     {
-      "name": "Google Pixel 6_deny",
-      "linked_models": [
-        "Google Pixel 6"
-      ],
       "keywords": [
         "pro",
         "xl",
@@ -37280,13 +37276,13 @@
         "one plus",
         "10",
         "4xl"
-      ]
+      ],
+      "linked_models": [
+        "Google Pixel 6"
+      ],
+      "name": "Google Pixel 6_deny"
     },
     {
-      "name": "Google Pixel 10_deny",
-      "linked_models": [
-        "Google Pixel 10"
-      ],
       "keywords": [
         "pro",
         "xl",
@@ -37330,13 +37326,13 @@
         "mi",
         "one plus",
         "6.8"
-      ]
+      ],
+      "linked_models": [
+        "Google Pixel 10"
+      ],
+      "name": "Google Pixel 10_deny"
     },
     {
-      "name": "Google Pixel 6a_deny",
-      "linked_models": [
-        "Google Pixel 6a"
-      ],
       "keywords": [
         "pro",
         "xl",
@@ -37368,13 +37364,51 @@
         "10",
         "4a",
         "4xl"
-      ]
+      ],
+      "linked_models": [
+        "Google Pixel 6a"
+      ],
+      "name": "Google Pixel 6a_deny"
     },
     {
-      "name": "Google Pixel 7a_deny",
+      "keywords": [
+        "pro",
+        "xl",
+        "pro xl",
+        "3a",
+        "3xl",
+        "4a",
+        "5",
+        "5a",
+        "5xl",
+        "6a",
+        "8",
+        "8pro",
+        "8a",
+        "9pro",
+        "6pro",
+        "7pro",
+        "samsung",
+        "galaxy",
+        "filp 3",
+        "fold 3",
+        "iphone",
+        "apple",
+        "moto",
+        "lg",
+        "oneplus",
+        "xiaomi",
+        "redmi",
+        "mi",
+        "one plus",
+        "10"
+      ],
       "linked_models": [
         "Google Pixel 7a"
       ],
+      "name": "Google Pixel 7a_deny"
+    },
+    {
       "keywords": [
         "pro",
         "xl",
@@ -37386,12 +37420,11 @@
         "5a",
         "5xl",
         "6a",
-        "8",
-        "8pro",
-        "8a",
         "9pro",
         "6pro",
+        "7a",
         "7pro",
+        "8pro",
         "samsung",
         "galaxy",
         "filp 3",
@@ -37406,50 +37439,13 @@
         "mi",
         "one plus",
         "10"
-      ]
-    },
-    {
-      "name": "Google Pixel 8a_deny",
+      ],
       "linked_models": [
         "Google Pixel 8a"
       ],
-      "keywords": [
-        "pro",
-        "xl",
-        "pro xl",
-        "3a",
-        "3xl",
-        "4a",
-        "5",
-        "5a",
-        "5xl",
-        "6a",
-        "9pro",
-        "6pro",
-        "7a",
-        "7pro",
-        "8pro",
-        "samsung",
-        "galaxy",
-        "filp 3",
-        "fold 3",
-        "iphone",
-        "apple",
-        "moto",
-        "lg",
-        "oneplus",
-        "xiaomi",
-        "redmi",
-        "mi",
-        "one plus",
-        "10"
-      ]
+      "name": "Google Pixel 8a_deny"
     },
     {
-      "name": "Google Pixel 9a_deny",
-      "linked_models": [
-        "Google Pixel 9a"
-      ],
       "keywords": [
         "pro",
         "xl",
@@ -37482,13 +37478,13 @@
         "one plus",
         "8a",
         "10"
-      ]
+      ],
+      "linked_models": [
+        "Google Pixel 9a"
+      ],
+      "name": "Google Pixel 9a_deny"
     },
     {
-      "name": "Google Pixel 6 Pro_deny",
-      "linked_models": [
-        "Google Pixel 6 Pro"
-      ],
       "keywords": [
         "6a",
         "a6",
@@ -37518,13 +37514,13 @@
         "mi",
         "one plus",
         "10"
-      ]
+      ],
+      "linked_models": [
+        "Google Pixel 6 Pro"
+      ],
+      "name": "Google Pixel 6 Pro_deny"
     },
     {
-      "name": "Google Pixel 7 Pro_deny",
-      "linked_models": [
-        "Google Pixel 7 Pro"
-      ],
       "keywords": [
         "7a",
         "a7",
@@ -37556,13 +37552,13 @@
         "mi",
         "one plus",
         "10"
-      ]
+      ],
+      "linked_models": [
+        "Google Pixel 7 Pro"
+      ],
+      "name": "Google Pixel 7 Pro_deny"
     },
     {
-      "name": "Google Pixel 8 Pro_deny",
-      "linked_models": [
-        "Google Pixel 8 Pro"
-      ],
       "keywords": [
         "xl",
         "8a",
@@ -37594,13 +37590,13 @@
         "mi",
         "one plus",
         "10"
-      ]
+      ],
+      "linked_models": [
+        "Google Pixel 8 Pro"
+      ],
+      "name": "Google Pixel 8 Pro_deny"
     },
     {
-      "name": "Google Pixel 9 Pro XL_deny",
-      "linked_models": [
-        "Google Pixel 9 Pro XL"
-      ],
       "keywords": [
         "9a",
         "a9",
@@ -37634,13 +37630,13 @@
         "one plus",
         "6.3",
         "10"
-      ]
+      ],
+      "linked_models": [
+        "Google Pixel 9 Pro XL"
+      ],
+      "name": "Google Pixel 9 Pro XL_deny"
     },
     {
-      "name": "Google Pixel 10 Pro XL_deny",
-      "linked_models": [
-        "Google Pixel 10 Pro XL"
-      ],
       "keywords": [
         "10a",
         "a10",
@@ -37674,13 +37670,13 @@
         "mi",
         "one plus",
         "6.3"
-      ]
+      ],
+      "linked_models": [
+        "Google Pixel 10 Pro XL"
+      ],
+      "name": "Google Pixel 10 Pro XL_deny"
     },
     {
-      "name": "Google Pixel 10A_deny",
-      "linked_models": [
-        "Google Pixel 10A"
-      ],
       "keywords": [
         "pro",
         "xl",
@@ -37713,13 +37709,151 @@
         "one plus",
         "8a",
         "9a"
-      ]
+      ],
+      "linked_models": [
+        "Google Pixel 10A"
+      ],
+      "name": "Google Pixel 10A_deny"
     },
     {
-      "name": "Moto G Power 2021_deny",
+      "keywords": [
+        "ace",
+        "g power 2023",
+        "g power 2024",
+        "g power 2025",
+        "g power 2026",
+        "g power 23",
+        "g power 24",
+        "g power 25",
+        "g power 26",
+        "g power2023",
+        "g power2024",
+        "g power2025",
+        "g power2026",
+        "g power23",
+        "g power24",
+        "g power25",
+        "g power26",
+        "gpower2023",
+        "gpower2024",
+        "gpower2025",
+        "gpower2026",
+        "gpower23",
+        "gpower24",
+        "gpower25",
+        "gpower26",
+        "moto 2023",
+        "moto 2024",
+        "moto 2025",
+        "moto 2026",
+        "moto 23",
+        "moto 24",
+        "moto 25",
+        "moto 26",
+        "moto g power 2023",
+        "moto g power 2024",
+        "moto g power 2025",
+        "moto g power 2026",
+        "moto g power 23",
+        "moto g power 24",
+        "moto g power 25",
+        "moto g power 26",
+        "moto g power2023",
+        "moto g power2024",
+        "moto g power2025",
+        "moto g power2026",
+        "moto g power23",
+        "moto g power24",
+        "moto g power25",
+        "moto g power26",
+        "moto2023",
+        "moto2024",
+        "moto2025",
+        "moto2026",
+        "moto23",
+        "moto24",
+        "moto25",
+        "moto26",
+        "motogpower2023",
+        "motogpower2024",
+        "motogpower2025",
+        "motogpower2026",
+        "motogpower23",
+        "motogpower24",
+        "motogpower25",
+        "motogpower26",
+        "motorola 2023",
+        "motorola 2024",
+        "motorola 2025",
+        "motorola 2026",
+        "motorola 23",
+        "motorola 24",
+        "motorola 25",
+        "motorola 26",
+        "motorola g power 2023",
+        "motorola g power 2024",
+        "motorola g power 2025",
+        "motorola g power 2026",
+        "motorola g power 23",
+        "motorola g power 24",
+        "motorola g power 25",
+        "motorola g power 26",
+        "motorola g power2023",
+        "motorola g power2024",
+        "motorola g power2025",
+        "motorola g power2026",
+        "motorola g power23",
+        "motorola g power24",
+        "motorola g power25",
+        "motorola g power26",
+        "motorola moto g power 2023",
+        "motorola moto g power 2024",
+        "motorola moto g power 2025",
+        "motorola moto g power 2026",
+        "motorola moto g power 23",
+        "motorola moto g power 24",
+        "motorola moto g power 25",
+        "motorola moto g power 26",
+        "motorola moto g power2023",
+        "motorola moto g power2024",
+        "motorola moto g power2025",
+        "motorola moto g power2026",
+        "motorola moto g power23",
+        "motorola moto g power24",
+        "motorola moto g power25",
+        "motorola moto g power26",
+        "motorola2023",
+        "motorola2024",
+        "motorola2025",
+        "motorola2026",
+        "motorola23",
+        "motorola24",
+        "motorola25",
+        "motorola26",
+        "motorolagpower2023",
+        "motorolagpower2024",
+        "motorolagpower2025",
+        "motorolagpower2026",
+        "motorolagpower23",
+        "motorolagpower24",
+        "motorolagpower25",
+        "motorolagpower26",
+        "stylus",
+        "g7",
+        "edge",
+        "360",
+        "e6",
+        "fast",
+        "g8",
+        "play",
+        "z4"
+      ],
       "linked_models": [
         "Moto G Power 2021"
       ],
+      "name": "Moto G Power 2021_deny"
+    },
+    {
       "keywords": [
         "ace",
         "g power 2023",
@@ -37851,151 +37985,13 @@
         "g8",
         "play",
         "z4"
-      ]
-    },
-    {
-      "name": "Moto G Power 2022_deny",
+      ],
       "linked_models": [
         "Moto G Power 2022"
       ],
-      "keywords": [
-        "ace",
-        "g power 2023",
-        "g power 2024",
-        "g power 2025",
-        "g power 2026",
-        "g power 23",
-        "g power 24",
-        "g power 25",
-        "g power 26",
-        "g power2023",
-        "g power2024",
-        "g power2025",
-        "g power2026",
-        "g power23",
-        "g power24",
-        "g power25",
-        "g power26",
-        "gpower2023",
-        "gpower2024",
-        "gpower2025",
-        "gpower2026",
-        "gpower23",
-        "gpower24",
-        "gpower25",
-        "gpower26",
-        "moto 2023",
-        "moto 2024",
-        "moto 2025",
-        "moto 2026",
-        "moto 23",
-        "moto 24",
-        "moto 25",
-        "moto 26",
-        "moto g power 2023",
-        "moto g power 2024",
-        "moto g power 2025",
-        "moto g power 2026",
-        "moto g power 23",
-        "moto g power 24",
-        "moto g power 25",
-        "moto g power 26",
-        "moto g power2023",
-        "moto g power2024",
-        "moto g power2025",
-        "moto g power2026",
-        "moto g power23",
-        "moto g power24",
-        "moto g power25",
-        "moto g power26",
-        "moto2023",
-        "moto2024",
-        "moto2025",
-        "moto2026",
-        "moto23",
-        "moto24",
-        "moto25",
-        "moto26",
-        "motogpower2023",
-        "motogpower2024",
-        "motogpower2025",
-        "motogpower2026",
-        "motogpower23",
-        "motogpower24",
-        "motogpower25",
-        "motogpower26",
-        "motorola 2023",
-        "motorola 2024",
-        "motorola 2025",
-        "motorola 2026",
-        "motorola 23",
-        "motorola 24",
-        "motorola 25",
-        "motorola 26",
-        "motorola g power 2023",
-        "motorola g power 2024",
-        "motorola g power 2025",
-        "motorola g power 2026",
-        "motorola g power 23",
-        "motorola g power 24",
-        "motorola g power 25",
-        "motorola g power 26",
-        "motorola g power2023",
-        "motorola g power2024",
-        "motorola g power2025",
-        "motorola g power2026",
-        "motorola g power23",
-        "motorola g power24",
-        "motorola g power25",
-        "motorola g power26",
-        "motorola moto g power 2023",
-        "motorola moto g power 2024",
-        "motorola moto g power 2025",
-        "motorola moto g power 2026",
-        "motorola moto g power 23",
-        "motorola moto g power 24",
-        "motorola moto g power 25",
-        "motorola moto g power 26",
-        "motorola moto g power2023",
-        "motorola moto g power2024",
-        "motorola moto g power2025",
-        "motorola moto g power2026",
-        "motorola moto g power23",
-        "motorola moto g power24",
-        "motorola moto g power25",
-        "motorola moto g power26",
-        "motorola2023",
-        "motorola2024",
-        "motorola2025",
-        "motorola2026",
-        "motorola23",
-        "motorola24",
-        "motorola25",
-        "motorola26",
-        "motorolagpower2023",
-        "motorolagpower2024",
-        "motorolagpower2025",
-        "motorolagpower2026",
-        "motorolagpower23",
-        "motorolagpower24",
-        "motorolagpower25",
-        "motorolagpower26",
-        "stylus",
-        "g7",
-        "edge",
-        "360",
-        "e6",
-        "fast",
-        "g8",
-        "play",
-        "z4"
-      ]
+      "name": "Moto G Power 2022_deny"
     },
     {
-      "name": "Moto G Play_deny",
-      "linked_models": [
-        "Moto G Play 2021"
-      ],
       "keywords": [
         "ace",
         "g play 2022",
@@ -38160,13 +38156,13 @@
         "play",
         "edge",
         "uw"
-      ]
+      ],
+      "linked_models": [
+        "Moto G Play 2021"
+      ],
+      "name": "Moto G Play_deny"
     },
     {
-      "name": "Moto Power2023_deny",
-      "linked_models": [
-        "Moto Power2023"
-      ],
       "keywords": [
         "ace",
         "moto 2021",
@@ -38318,13 +38314,13 @@
         "g8",
         "play",
         "z4"
-      ]
+      ],
+      "linked_models": [
+        "Moto Power2023"
+      ],
+      "name": "Moto Power2023_deny"
     },
     {
-      "name": "Moto G Power Play_deny",
-      "linked_models": [
-        "Moto G Power Play 2025"
-      ],
       "keywords": [
         "ace",
         "g power 2021",
@@ -38463,13 +38459,151 @@
         "motorolagpower24",
         "motorolagpower26",
         "stylus"
-      ]
+      ],
+      "linked_models": [
+        "Moto G Power Play 2025"
+      ],
+      "name": "Moto G Power Play_deny"
     },
     {
-      "name": "Moto G Stylus 2021_deny",
+      "keywords": [
+        "ace",
+        "g stylus 2023",
+        "g stylus 2024",
+        "g stylus 2025",
+        "g stylus 2026",
+        "g stylus 23",
+        "g stylus 24",
+        "g stylus 25",
+        "g stylus 26",
+        "g stylus2023",
+        "g stylus2024",
+        "g stylus2025",
+        "g stylus2026",
+        "g stylus23",
+        "g stylus24",
+        "g stylus25",
+        "g stylus26",
+        "gstylus2023",
+        "gstylus2024",
+        "gstylus2025",
+        "gstylus2026",
+        "gstylus23",
+        "gstylus24",
+        "gstylus25",
+        "gstylus26",
+        "moto 2023",
+        "moto 2024",
+        "moto 2025",
+        "moto 2026",
+        "moto 23",
+        "moto 24",
+        "moto 25",
+        "moto 26",
+        "moto g stylus 2023",
+        "moto g stylus 2024",
+        "moto g stylus 2025",
+        "moto g stylus 2026",
+        "moto g stylus 23",
+        "moto g stylus 24",
+        "moto g stylus 25",
+        "moto g stylus 26",
+        "moto g stylus2023",
+        "moto g stylus2024",
+        "moto g stylus2025",
+        "moto g stylus2026",
+        "moto g stylus23",
+        "moto g stylus24",
+        "moto g stylus25",
+        "moto g stylus26",
+        "moto2023",
+        "moto2024",
+        "moto2025",
+        "moto2026",
+        "moto23",
+        "moto24",
+        "moto25",
+        "moto26",
+        "motogstylus2023",
+        "motogstylus2024",
+        "motogstylus2025",
+        "motogstylus2026",
+        "motogstylus23",
+        "motogstylus24",
+        "motogstylus25",
+        "motogstylus26",
+        "motorola 2023",
+        "motorola 2024",
+        "motorola 2025",
+        "motorola 2026",
+        "motorola 23",
+        "motorola 24",
+        "motorola 25",
+        "motorola 26",
+        "motorola g stylus 2023",
+        "motorola g stylus 2024",
+        "motorola g stylus 2025",
+        "motorola g stylus 2026",
+        "motorola g stylus 23",
+        "motorola g stylus 24",
+        "motorola g stylus 25",
+        "motorola g stylus 26",
+        "motorola g stylus2023",
+        "motorola g stylus2024",
+        "motorola g stylus2025",
+        "motorola g stylus2026",
+        "motorola g stylus23",
+        "motorola g stylus24",
+        "motorola g stylus25",
+        "motorola g stylus26",
+        "motorola moto g stylus 2023",
+        "motorola moto g stylus 2024",
+        "motorola moto g stylus 2025",
+        "motorola moto g stylus 2026",
+        "motorola moto g stylus 23",
+        "motorola moto g stylus 24",
+        "motorola moto g stylus 25",
+        "motorola moto g stylus 26",
+        "motorola moto g stylus2023",
+        "motorola moto g stylus2024",
+        "motorola moto g stylus2025",
+        "motorola moto g stylus2026",
+        "motorola moto g stylus23",
+        "motorola moto g stylus24",
+        "motorola moto g stylus25",
+        "motorola moto g stylus26",
+        "motorola2023",
+        "motorola2024",
+        "motorola2025",
+        "motorola2026",
+        "motorola23",
+        "motorola24",
+        "motorola25",
+        "motorola26",
+        "motorolagstylus2023",
+        "motorolagstylus2024",
+        "motorolagstylus2025",
+        "motorolagstylus2026",
+        "motorolagstylus23",
+        "motorolagstylus24",
+        "motorolagstylus25",
+        "motorolagstylus26",
+        "play",
+        "power",
+        "360",
+        "e6",
+        "fast",
+        "g7",
+        "g8",
+        "z4",
+        "uw"
+      ],
       "linked_models": [
         "Moto G Stylus 2021"
       ],
+      "name": "Moto G Stylus 2021_deny"
+    },
+    {
       "keywords": [
         "ace",
         "g stylus 2023",
@@ -38601,14 +38735,15 @@
         "g8",
         "z4",
         "uw"
-      ]
-    },
-    {
-      "name": "Moto G Stylus 2022 4G_deny",
+      ],
       "linked_models": [
         "Moto G Stylus 2022 4G"
       ],
+      "name": "Moto G Stylus 2022 4G_deny"
+    },
+    {
       "keywords": [
+        "4g",
         "ace",
         "g stylus 2023",
         "g stylus 2024",
@@ -38739,13 +38874,13 @@
         "g8",
         "z4",
         "uw"
-      ]
-    },
-    {
-      "name": "Moto G Stylus 2022 5G_deny",
+      ],
       "linked_models": [
         "Moto G Stylus 2022 5G"
       ],
+      "name": "Moto G Stylus 2022 5G_deny"
+    },
+    {
       "keywords": [
         "4g",
         "ace",
@@ -38878,152 +39013,13 @@
         "g8",
         "z4",
         "uw"
-      ]
-    },
-    {
-      "name": "Moto G Stylus 5G(2021)_deny",
+      ],
       "linked_models": [
         "Moto G Stylus 5G(2021)"
       ],
-      "keywords": [
-        "4g",
-        "ace",
-        "g stylus 2023",
-        "g stylus 2024",
-        "g stylus 2025",
-        "g stylus 2026",
-        "g stylus 23",
-        "g stylus 24",
-        "g stylus 25",
-        "g stylus 26",
-        "g stylus2023",
-        "g stylus2024",
-        "g stylus2025",
-        "g stylus2026",
-        "g stylus23",
-        "g stylus24",
-        "g stylus25",
-        "g stylus26",
-        "gstylus2023",
-        "gstylus2024",
-        "gstylus2025",
-        "gstylus2026",
-        "gstylus23",
-        "gstylus24",
-        "gstylus25",
-        "gstylus26",
-        "moto 2023",
-        "moto 2024",
-        "moto 2025",
-        "moto 2026",
-        "moto 23",
-        "moto 24",
-        "moto 25",
-        "moto 26",
-        "moto g stylus 2023",
-        "moto g stylus 2024",
-        "moto g stylus 2025",
-        "moto g stylus 2026",
-        "moto g stylus 23",
-        "moto g stylus 24",
-        "moto g stylus 25",
-        "moto g stylus 26",
-        "moto g stylus2023",
-        "moto g stylus2024",
-        "moto g stylus2025",
-        "moto g stylus2026",
-        "moto g stylus23",
-        "moto g stylus24",
-        "moto g stylus25",
-        "moto g stylus26",
-        "moto2023",
-        "moto2024",
-        "moto2025",
-        "moto2026",
-        "moto23",
-        "moto24",
-        "moto25",
-        "moto26",
-        "motogstylus2023",
-        "motogstylus2024",
-        "motogstylus2025",
-        "motogstylus2026",
-        "motogstylus23",
-        "motogstylus24",
-        "motogstylus25",
-        "motogstylus26",
-        "motorola 2023",
-        "motorola 2024",
-        "motorola 2025",
-        "motorola 2026",
-        "motorola 23",
-        "motorola 24",
-        "motorola 25",
-        "motorola 26",
-        "motorola g stylus 2023",
-        "motorola g stylus 2024",
-        "motorola g stylus 2025",
-        "motorola g stylus 2026",
-        "motorola g stylus 23",
-        "motorola g stylus 24",
-        "motorola g stylus 25",
-        "motorola g stylus 26",
-        "motorola g stylus2023",
-        "motorola g stylus2024",
-        "motorola g stylus2025",
-        "motorola g stylus2026",
-        "motorola g stylus23",
-        "motorola g stylus24",
-        "motorola g stylus25",
-        "motorola g stylus26",
-        "motorola moto g stylus 2023",
-        "motorola moto g stylus 2024",
-        "motorola moto g stylus 2025",
-        "motorola moto g stylus 2026",
-        "motorola moto g stylus 23",
-        "motorola moto g stylus 24",
-        "motorola moto g stylus 25",
-        "motorola moto g stylus 26",
-        "motorola moto g stylus2023",
-        "motorola moto g stylus2024",
-        "motorola moto g stylus2025",
-        "motorola moto g stylus2026",
-        "motorola moto g stylus23",
-        "motorola moto g stylus24",
-        "motorola moto g stylus25",
-        "motorola moto g stylus26",
-        "motorola2023",
-        "motorola2024",
-        "motorola2025",
-        "motorola2026",
-        "motorola23",
-        "motorola24",
-        "motorola25",
-        "motorola26",
-        "motorolagstylus2023",
-        "motorolagstylus2024",
-        "motorolagstylus2025",
-        "motorolagstylus2026",
-        "motorolagstylus23",
-        "motorolagstylus24",
-        "motorolagstylus25",
-        "motorolagstylus26",
-        "play",
-        "power",
-        "360",
-        "e6",
-        "fast",
-        "g7",
-        "g8",
-        "z4",
-        "uw"
-      ]
+      "name": "Moto G Stylus 5G(2021)_deny"
     },
     {
-      "name": "Moto Stylus2023 5G_deny",
-      "linked_models": [
-        "Moto Stylus2023 5G"
-      ],
       "keywords": [
         "ace",
         "moto 2021",
@@ -39175,13 +39171,13 @@
         "g8",
         "z4",
         "uw"
-      ]
+      ],
+      "linked_models": [
+        "Moto Stylus2023 5G"
+      ],
+      "name": "Moto Stylus2023 5G_deny"
     },
     {
-      "name": "MotoG 5G 2025_deny",
-      "linked_models": [
-        "MotoG 5G 2025"
-      ],
       "keywords": [
         "ace",
         "g 5g 2021",
@@ -39329,13 +39325,67 @@
         "motorolag5g26",
         "power",
         "stylus"
-      ]
+      ],
+      "linked_models": [
+        "MotoG 5G 2025"
+      ],
+      "name": "MotoG 5G 2025_deny"
     },
     {
-      "name": "Moto Edge_deny",
+      "keywords": [
+        "5g uw 2021",
+        "5guw2021",
+        "ace",
+        "edge 2021",
+        "edge 2021 5g",
+        "edge 21",
+        "edge 5g 2021",
+        "edge 5g uw",
+        "edge 5g uw 2021",
+        "edge 5g2021",
+        "edge 5guw",
+        "edge plus 2021",
+        "edge+ 2021",
+        "edge+ 5g 2021",
+        "edge+ 5g2021",
+        "edge+2021",
+        "edge+5g2021",
+        "edge2021",
+        "edge20215g",
+        "edge21",
+        "edge5g2021",
+        "edge5g21",
+        "edge5guw",
+        "edgeplus2021",
+        "moto edge 2021",
+        "moto edge 21",
+        "moto edge2021",
+        "motoedge2021",
+        "motoedge21",
+        "motorola edge 2021",
+        "motorola edge 21",
+        "motorola edge2021",
+        "motorola moto edge 2021",
+        "motorola moto edge2021",
+        "motorolaedge2021",
+        "motorolaedge21",
+        "play",
+        "power",
+        "stylus",
+        "360",
+        "e6",
+        "fast",
+        "g7",
+        "g8",
+        "z4",
+        "uw"
+      ],
       "linked_models": [
         "Moto Edge 2025"
       ],
+      "name": "Moto Edge_deny"
+    },
+    {
       "keywords": [
         "5g uw 2021",
         "5guw2021",
@@ -39383,68 +39433,13 @@
         "g8",
         "z4",
         "uw"
-      ]
-    },
-    {
-      "name": "Moto Edge2022_deny",
+      ],
       "linked_models": [
         "Moto Edge2022"
       ],
-      "keywords": [
-        "5g uw 2021",
-        "5guw2021",
-        "ace",
-        "edge 2021",
-        "edge 2021 5g",
-        "edge 21",
-        "edge 5g 2021",
-        "edge 5g uw",
-        "edge 5g uw 2021",
-        "edge 5g2021",
-        "edge 5guw",
-        "edge plus 2021",
-        "edge+ 2021",
-        "edge+ 5g 2021",
-        "edge+ 5g2021",
-        "edge+2021",
-        "edge+5g2021",
-        "edge2021",
-        "edge20215g",
-        "edge21",
-        "edge5g2021",
-        "edge5g21",
-        "edge5guw",
-        "edgeplus2021",
-        "moto edge 2021",
-        "moto edge 21",
-        "moto edge2021",
-        "motoedge2021",
-        "motoedge21",
-        "motorola edge 2021",
-        "motorola edge 21",
-        "motorola edge2021",
-        "motorola moto edge 2021",
-        "motorola moto edge2021",
-        "motorolaedge2021",
-        "motorolaedge21",
-        "play",
-        "power",
-        "stylus",
-        "360",
-        "e6",
-        "fast",
-        "g7",
-        "g8",
-        "z4",
-        "uw"
-      ]
+      "name": "Moto Edge2022_deny"
     },
     {
-      "name": "Moto edge2021_deny",
-      "linked_models": [
-        "Moto Edge2021(5G)",
-        "Moto edge2021"
-      ],
       "keywords": [
         "25 edge",
         "25edge",
@@ -39513,13 +39508,14 @@
         "g7",
         "g8",
         "z4"
-      ]
+      ],
+      "linked_models": [
+        "Moto Edge2021(5G)",
+        "Moto edge2021"
+      ],
+      "name": "Moto edge2021_deny"
     },
     {
-      "name": "Moto Ace_deny",
-      "linked_models": [
-        "Moto Ace"
-      ],
       "keywords": [
         "power",
         "play",
@@ -39532,13 +39528,13 @@
         "g8",
         "z4",
         "uw"
-      ]
+      ],
+      "linked_models": [
+        "Moto Ace"
+      ],
+      "name": "Moto Ace_deny"
     },
     {
-      "name": "MotoG/Power/2026_deny",
-      "linked_models": [
-        "MotoG/Power/2026"
-      ],
       "keywords": [
         "2026 moto g play",
         "2026 play",
@@ -39677,13 +39673,13 @@
         "motorolagpower24",
         "play 2026",
         "stylus"
-      ]
+      ],
+      "linked_models": [
+        "MotoG/Power/2026"
+      ],
+      "name": "MotoG/Power/2026_deny"
     },
     {
-      "name": "MotoG/5G/2025_deny",
-      "linked_models": [
-        "MotoG/5G/2025"
-      ],
       "keywords": [
         "ace",
         "g 5g 2021",
@@ -39841,13 +39837,13 @@
         "g8",
         "z4",
         "uw"
-      ]
+      ],
+      "linked_models": [
+        "MotoG/5G/2025"
+      ],
+      "name": "MotoG/5G/2025_deny"
     },
     {
-      "name": "Moto/G/Pure2021_deny",
-      "linked_models": [
-        "Moto/G/Pure2021"
-      ],
       "keywords": [
         "ace",
         "moto 2022",
@@ -39989,14 +39985,13 @@
         "pure25",
         "pure26",
         "stylus"
-      ]
+      ],
+      "linked_models": [
+        "Moto/G/Pure2021"
+      ],
+      "name": "Moto/G/Pure2021_deny"
     },
     {
-      "name": "OnePlus_deny",
-      "linked_models": [
-        "OP/12",
-        "OnePlus"
-      ],
       "keywords": [
         "fe",
         "n100",
@@ -40027,15 +40022,14 @@
         "11",
         "12",
         "13"
-      ]
+      ],
+      "linked_models": [
+        "OP/12",
+        "OnePlus"
+      ],
+      "name": "OnePlus_deny"
     },
     {
-      "name": "OnePlus N200_deny",
-      "linked_models": [
-        "OP/N20",
-        "OP/N200",
-        "OnePlus N200"
-      ],
       "keywords": [
         "fe",
         "n100",
@@ -40053,13 +40047,15 @@
         "lg",
         "pixel",
         "note"
-      ]
+      ],
+      "linked_models": [
+        "OP/N20",
+        "OP/N200",
+        "OnePlus N200"
+      ],
+      "name": "OnePlus N200_deny"
     },
     {
-      "name": "REVVL V_deny",
-      "linked_models": [
-        "REVVL V"
-      ],
       "keywords": [
         "v+",
         "6 pro",
@@ -40087,34 +40083,34 @@
         "redmi",
         "mi",
         "one plus"
-      ]
+      ],
+      "linked_models": [
+        "REVVL V"
+      ],
+      "name": "REVVL V_deny"
     },
     {
-      "name": "REVVL V+_deny",
+      "keywords": [
+        "6 pro"
+      ],
       "linked_models": [
         "REVVL V+",
         "REVVL/V+"
       ],
-      "keywords": [
-        "6 pro"
-      ]
+      "name": "REVVL V+_deny"
     },
     {
-      "name": "REVVL 6_deny",
-      "linked_models": [
-        "REVVL 6"
-      ],
       "keywords": [
         "v+",
         "6 pro",
         "pro"
-      ]
+      ],
+      "linked_models": [
+        "REVVL 6"
+      ],
+      "name": "REVVL 6_deny"
     },
     {
-      "name": "REVVL 6 Pro_deny",
-      "linked_models": [
-        "REVVL 6 Pro"
-      ],
       "keywords": [
         "v+",
         "3",
@@ -40139,13 +40135,27 @@
         "redmi",
         "mi",
         "one plus"
-      ]
+      ],
+      "linked_models": [
+        "REVVL 6 Pro"
+      ],
+      "name": "REVVL 6 Pro_deny"
     },
     {
-      "name": "LG G7_deny",
+      "keywords": [
+        "v60",
+        "velvet",
+        "wing",
+        "stylo",
+        "k92",
+        "k51"
+      ],
       "linked_models": [
         "LG G7"
       ],
+      "name": "LG G7_deny"
+    },
+    {
       "keywords": [
         "v60",
         "velvet",
@@ -40153,27 +40163,13 @@
         "stylo",
         "k92",
         "k51"
-      ]
-    },
-    {
-      "name": "LG G8_deny",
+      ],
       "linked_models": [
         "LG G8"
       ],
-      "keywords": [
-        "v60",
-        "velvet",
-        "wing",
-        "stylo",
-        "k92",
-        "k51"
-      ]
+      "name": "LG G8_deny"
     },
     {
-      "name": "LG K51_deny",
-      "linked_models": [
-        "LG K51"
-      ],
       "keywords": [
         "v60",
         "velvet",
@@ -40182,30 +40178,46 @@
         "g8",
         "g7",
         "k92"
-      ]
+      ],
+      "linked_models": [
+        "LG K51"
+      ],
+      "name": "LG K51_deny"
     },
     {
-      "name": "LG K92_deny",
+      "keywords": [
+        "v60",
+        "velvet",
+        "wing",
+        "stylo",
+        "g8",
+        "g7",
+        "k51"
+      ],
       "linked_models": [
         "LG K92"
       ],
+      "name": "LG K92_deny"
+    },
+    {
       "keywords": [
+        "5",
         "v60",
         "velvet",
         "wing",
-        "stylo",
         "g8",
         "g7",
+        "k92",
         "k51"
-      ]
-    },
-    {
-      "name": "LG Stylo 4_deny",
+      ],
       "linked_models": [
         "LG Stylo 4"
       ],
+      "name": "LG Stylo 4_deny"
+    },
+    {
       "keywords": [
-        "5",
+        "4",
         "v60",
         "velvet",
         "wing",
@@ -40213,29 +40225,13 @@
         "g7",
         "k92",
         "k51"
-      ]
-    },
-    {
-      "name": "LG Stylo 5_deny",
+      ],
       "linked_models": [
         "LG Stylo 5"
       ],
-      "keywords": [
-        "4",
-        "v60",
-        "velvet",
-        "wing",
-        "g8",
-        "g7",
-        "k92",
-        "k51"
-      ]
+      "name": "LG Stylo 5_deny"
     },
     {
-      "name": "LG Stylo 6_deny",
-      "linked_models": [
-        "LG Stylo 6"
-      ],
       "keywords": [
         "4",
         "5",
@@ -40246,43 +40242,43 @@
         "g7",
         "k92",
         "k51"
-      ]
+      ],
+      "linked_models": [
+        "LG Stylo 6"
+      ],
+      "name": "LG Stylo 6_deny"
     },
     {
-      "name": "LG Velvet_deny",
+      "keywords": [
+        "wing",
+        "stylo",
+        "v60",
+        "g8",
+        "g7",
+        "k92",
+        "k51"
+      ],
       "linked_models": [
         "LG Velvet"
       ],
+      "name": "LG Velvet_deny"
+    },
+    {
       "keywords": [
-        "wing",
+        "velvet",
         "stylo",
         "v60",
         "g8",
         "g7",
         "k92",
         "k51"
-      ]
-    },
-    {
-      "name": "LG Wing_deny",
+      ],
       "linked_models": [
         "LG Wing"
       ],
-      "keywords": [
-        "velvet",
-        "stylo",
-        "v60",
-        "g8",
-        "g7",
-        "k92",
-        "k51"
-      ]
+      "name": "LG Wing_deny"
     },
     {
-      "name": "LG V60_deny",
-      "linked_models": [
-        "LG V60"
-      ],
       "keywords": [
         "velvet",
         "wing",
@@ -40291,13 +40287,13 @@
         "g7",
         "k92",
         "k51"
-      ]
+      ],
+      "linked_models": [
+        "LG V60"
+      ],
+      "name": "LG V60_deny"
     },
     {
-      "name": "Note8_deny",
-      "linked_models": [
-        "Note8"
-      ],
       "keywords": [
         "10",
         "20",
@@ -40331,13 +40327,13 @@
         "pixel",
         "oneplus",
         "iphone"
-      ]
+      ],
+      "linked_models": [
+        "Note8"
+      ],
+      "name": "Note8_deny"
     },
     {
-      "name": "Note9_deny",
-      "linked_models": [
-        "Note9"
-      ],
       "keywords": [
         "8",
         "10",
@@ -40382,13 +40378,13 @@
         "redmi",
         "huawei",
         "mi"
-      ]
+      ],
+      "linked_models": [
+        "Note9"
+      ],
+      "name": "Note9_deny"
     },
     {
-      "name": "Note10_deny",
-      "linked_models": [
-        "Note10"
-      ],
       "keywords": [
         "8",
         "20",
@@ -40431,13 +40427,13 @@
         "redmi",
         "huawei",
         "mi"
-      ]
+      ],
+      "linked_models": [
+        "Note10"
+      ],
+      "name": "Note10_deny"
     },
     {
-      "name": "Note10Pro_deny",
-      "linked_models": [
-        "Note10Pro"
-      ],
       "keywords": [
         "20",
         "ultra",
@@ -40477,13 +40473,13 @@
         "redmi",
         "huawei",
         "mi"
-      ]
+      ],
+      "linked_models": [
+        "Note10Pro"
+      ],
+      "name": "Note10Pro_deny"
     },
     {
-      "name": "Note10Plus_deny",
-      "linked_models": [
-        "Note10Plus"
-      ],
       "keywords": [
         "8",
         "20",
@@ -40524,13 +40520,13 @@
         "redmi",
         "huawei",
         "mi"
-      ]
+      ],
+      "linked_models": [
+        "Note10Plus"
+      ],
+      "name": "Note10Plus_deny"
     },
     {
-      "name": "Note20_deny",
-      "linked_models": [
-        "Note20"
-      ],
       "keywords": [
         "8",
         "10",
@@ -40559,13 +40555,13 @@
         "s21",
         "21",
         "a20"
-      ]
+      ],
+      "linked_models": [
+        "Note20"
+      ],
+      "name": "Note20_deny"
     },
     {
-      "name": "Note20Ultra_deny",
-      "linked_models": [
-        "Note20Ultra"
-      ],
       "keywords": [
         "8",
         "10",
@@ -40609,13 +40605,13 @@
         "redmi",
         "huawei",
         "fold"
-      ]
+      ],
+      "linked_models": [
+        "Note20Ultra"
+      ],
+      "name": "Note20Ultra_deny"
     },
     {
-      "name": "Stylus2024/5G_deny",
-      "linked_models": [
-        "Stylus2024/5G"
-      ],
       "keywords": [
         "power",
         "ace",
@@ -40627,13 +40623,13 @@
         "g8",
         "z4",
         "uw"
-      ]
+      ],
+      "linked_models": [
+        "Stylus2024/5G"
+      ],
+      "name": "Stylus2024/5G_deny"
     },
     {
-      "name": "Stylus2025/5G_deny",
-      "linked_models": [
-        "Stylus2025/5G"
-      ],
       "keywords": [
         "power",
         "ace",
@@ -40646,24 +40642,40 @@
         "z4",
         "uw",
         "edge"
-      ]
+      ],
+      "linked_models": [
+        "Stylus2025/5G"
+      ],
+      "name": "Stylus2025/5G_deny"
     },
     {
-      "name": "Auto-G85_deny",
-      "linked_models": [
-        "Auto-G85"
-      ],
       "keywords": [
         "power",
         "ace",
         "play"
-      ]
+      ],
+      "linked_models": [
+        "Auto-G85"
+      ],
+      "name": "Auto-G85_deny"
     },
     {
-      "name": "Samsung Galaxy Fold 7_deny",
+      "keywords": [
+        "flip",
+        "flip7",
+        "flip 7",
+        "z flip 7",
+        "zflip7",
+        "ultra",
+        "plus",
+        "fe"
+      ],
       "linked_models": [
         "Samsung Galaxy Fold 7"
       ],
+      "name": "Samsung Galaxy Fold 7_deny"
+    },
+    {
       "keywords": [
         "flip",
         "flip7",
@@ -40673,93 +40685,77 @@
         "ultra",
         "plus",
         "fe"
-      ]
-    },
-    {
-      "name": "fold 7_deny",
+      ],
       "linked_models": [
         "fold 7"
       ],
-      "keywords": [
-        "flip",
-        "flip7",
-        "flip 7",
-        "z flip 7",
-        "zflip7",
-        "ultra",
-        "plus",
-        "fe"
-      ]
+      "name": "fold 7_deny"
     },
     {
-      "name": "S10+_deny",
+      "keywords": [
+        "ultra",
+        "fe",
+        "a02",
+        "a 02",
+        "a03",
+        "a 03",
+        "a03s",
+        "a 03s",
+        "a04",
+        "a 04",
+        "a12",
+        "a 12",
+        "a13",
+        "a 13",
+        "a14",
+        "a 14",
+        "a15",
+        "a 15",
+        "a16",
+        "a 16",
+        "a17",
+        "a 17",
+        "a23",
+        "a 23",
+        "a25",
+        "a 25",
+        "a26",
+        "a 26",
+        "a32",
+        "a 32",
+        "a34",
+        "a 34",
+        "a35",
+        "a 35",
+        "a36",
+        "a 36",
+        "a37",
+        "a 37",
+        "a42",
+        "a 42",
+        "a51",
+        "a 51",
+        "a52",
+        "a 52",
+        "a53",
+        "a 53",
+        "a54",
+        "a 54",
+        "a55",
+        "a 55",
+        "a56",
+        "a 56",
+        "a57",
+        "a 57",
+        "a71",
+        "a 71"
+      ],
       "linked_models": [
         "S10+"
       ],
-      "keywords": [
-        "ultra",
-        "fe",
-        "a02",
-        "a 02",
-        "a03",
-        "a 03",
-        "a03s",
-        "a 03s",
-        "a04",
-        "a 04",
-        "a12",
-        "a 12",
-        "a13",
-        "a 13",
-        "a14",
-        "a 14",
-        "a15",
-        "a 15",
-        "a16",
-        "a 16",
-        "a17",
-        "a 17",
-        "a23",
-        "a 23",
-        "a25",
-        "a 25",
-        "a26",
-        "a 26",
-        "a32",
-        "a 32",
-        "a34",
-        "a 34",
-        "a35",
-        "a 35",
-        "a36",
-        "a 36",
-        "a37",
-        "a 37",
-        "a42",
-        "a 42",
-        "a51",
-        "a 51",
-        "a52",
-        "a 52",
-        "a53",
-        "a 53",
-        "a54",
-        "a 54",
-        "a55",
-        "a 55",
-        "a56",
-        "a 56",
-        "a57",
-        "a 57",
-        "a71",
-        "a 71"
-      ]
+      "name": "S10+_deny"
     },
     {
-      "name": "S10e_deny",
-      "linked_models": [
-        "S10e"
-      ],
       "keywords": [
         "plus",
         "ultra",
@@ -40818,13 +40814,13 @@
         "a 57",
         "a71",
         "a 71"
-      ]
+      ],
+      "linked_models": [
+        "S10e"
+      ],
+      "name": "S10e_deny"
     },
     {
-      "name": "MotoG/5G/2026_deny",
-      "linked_models": [
-        "MotoG/5G/2026"
-      ],
       "keywords": [
         "ace",
         "g 5g 2021",
@@ -40951,13 +40947,13 @@
         "play",
         "power",
         "stylus"
-      ]
+      ],
+      "linked_models": [
+        "MotoG/5G/2026"
+      ],
+      "name": "MotoG/5G/2026_deny"
     },
     {
-      "name": "iPhone 16 Pro Max_deny",
-      "linked_models": [
-        "iPhone 16 Pro Max"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -41046,13 +41042,13 @@
         "google",
         "android",
         "6.3"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 16 Pro Max"
+      ],
+      "name": "iPhone 16 Pro Max_deny"
     },
     {
-      "name": "iPhone 16 Pro_deny",
-      "linked_models": [
-        "iPhone 16 Pro"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -41147,13 +41143,13 @@
         "android",
         "6.7",
         "6.9"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 16 Pro"
+      ],
+      "name": "iPhone 16 Pro_deny"
     },
     {
-      "name": "iPhone 16 Plus_deny",
-      "linked_models": [
-        "iPhone 16 Plus"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -41250,13 +41246,13 @@
         "mi",
         "google",
         "android"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 16 Plus"
+      ],
+      "name": "iPhone 16 Plus_deny"
     },
     {
-      "name": "iPhone 16_deny",
-      "linked_models": [
-        "iPhone 16"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -41357,13 +41353,13 @@
         "google",
         "android",
         "maxcase"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 16"
+      ],
+      "name": "iPhone 16_deny"
     },
     {
-      "name": "iPhone 16e_deny",
-      "linked_models": [
-        "iPhone 16e"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -41458,13 +41454,13 @@
         "6.3",
         "6.7",
         "6.9"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 16e"
+      ],
+      "name": "iPhone 16e_deny"
     },
     {
-      "name": "iPhone 15 Pro Max_deny",
-      "linked_models": [
-        "iPhone 15 Pro Max"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -41552,13 +41548,13 @@
         "mi",
         "google",
         "android"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 15 Pro Max"
+      ],
+      "name": "iPhone 15 Pro Max_deny"
     },
     {
-      "name": "iPhone 15 Pro_deny",
-      "linked_models": [
-        "iPhone 15 Pro"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -41652,13 +41648,13 @@
         "google",
         "android",
         "6.7"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 15 Pro"
+      ],
+      "name": "iPhone 15 Pro_deny"
     },
     {
-      "name": "iPhone 15 Plus_deny",
-      "linked_models": [
-        "iPhone 15 Plus"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -41756,13 +41752,13 @@
         "mi",
         "google",
         "android"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 15 Plus"
+      ],
+      "name": "iPhone 15 Plus_deny"
     },
     {
-      "name": "iPhone 15_deny",
-      "linked_models": [
-        "iPhone 15"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -41859,13 +41855,13 @@
         "5.5",
         "maxcase",
         "6.7"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 15"
+      ],
+      "name": "iPhone 15_deny"
     },
     {
-      "name": "iPhone 14 Pro Max_deny",
-      "linked_models": [
-        "iPhone 14 Pro Max"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -41953,13 +41949,13 @@
         "mi",
         "google",
         "android"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 14 Pro Max"
+      ],
+      "name": "iPhone 14 Pro Max_deny"
     },
     {
-      "name": "iPhone 14 Pro_deny",
-      "linked_models": [
-        "iPhone 14 Pro"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -42053,13 +42049,13 @@
         "google",
         "android",
         "6.7"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 14 Pro"
+      ],
+      "name": "iPhone 14 Pro_deny"
     },
     {
-      "name": "iPhone 14 Plus_deny",
-      "linked_models": [
-        "iPhone 14 Plus"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -42157,14 +42153,13 @@
         "mi",
         "google",
         "android"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 14 Plus"
+      ],
+      "name": "iPhone 14 Plus_deny"
     },
     {
-      "name": "iPhone 14_deny",
-      "linked_models": [
-        "IP14",
-        "iPhone 14"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -42262,13 +42257,14 @@
         "maxcase",
         "5.75",
         "oppo"
-      ]
+      ],
+      "linked_models": [
+        "IP14",
+        "iPhone 14"
+      ],
+      "name": "iPhone 14_deny"
     },
     {
-      "name": "IP17e_deny",
-      "linked_models": [
-        "IP17e"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -42366,13 +42362,13 @@
         "6.3",
         "6.7",
         "6.9"
-      ]
+      ],
+      "linked_models": [
+        "IP17e"
+      ],
+      "name": "IP17e_deny"
     },
     {
-      "name": "IP7_deny",
-      "linked_models": [
-        "IP7"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -42472,13 +42468,13 @@
         "iphone 5",
         "6.7",
         "5.5"
-      ]
+      ],
+      "linked_models": [
+        "IP7"
+      ],
+      "name": "IP7_deny"
     },
     {
-      "name": "iPhone 11_deny",
-      "linked_models": [
-        "iPhone 11"
-      ],
       "keywords": [
         "12",
         "12 max",
@@ -42573,13 +42569,13 @@
         "android",
         "6.5",
         "5.8"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 11"
+      ],
+      "name": "iPhone 11_deny"
     },
     {
-      "name": "iPhone 11 Pro_deny",
-      "linked_models": [
-        "iPhone 11 Pro"
-      ],
       "keywords": [
         "12",
         "12 max",
@@ -42672,13 +42668,13 @@
         "google",
         "android",
         "6.1"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 11 Pro"
+      ],
+      "name": "iPhone 11 Pro_deny"
     },
     {
-      "name": "iPhone 11 Pro Max_deny",
-      "linked_models": [
-        "iPhone 11 Pro Max"
-      ],
       "keywords": [
         "12",
         "12 max",
@@ -42765,14 +42761,13 @@
         "mi",
         "google",
         "android"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 11 Pro Max"
+      ],
+      "name": "iPhone 11 Pro Max_deny"
     },
     {
-      "name": "iPhone IP12/12Pro_deny",
-      "linked_models": [
-        "iPhone 12/12Pro",
-        "iPhone IP12/12Pro"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -42873,13 +42868,14 @@
         "redmi",
         "pro.max",
         "5.4"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 12/12Pro",
+        "iPhone IP12/12Pro"
+      ],
+      "name": "iPhone IP12/12Pro_deny"
     },
     {
-      "name": "iPhone 12 Pro Max_deny",
-      "linked_models": [
-        "iPhone 12 Pro Max"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -42968,13 +42964,13 @@
         "google",
         "android",
         "redmi"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 12 Pro Max"
+      ],
+      "name": "iPhone 12 Pro Max_deny"
     },
     {
-      "name": "iPhone 13_deny",
-      "linked_models": [
-        "iPhone 13"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -43073,13 +43069,13 @@
         "mi",
         "6.7",
         "5.7"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 13"
+      ],
+      "name": "iPhone 13_deny"
     },
     {
-      "name": "iPhone 13 Pro_deny",
-      "linked_models": [
-        "iPhone 13 Pro"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -43175,13 +43171,13 @@
         "google",
         "android",
         "6.4"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 13 Pro"
+      ],
+      "name": "iPhone 13 Pro_deny"
     },
     {
-      "name": "iPhone 13 Pro Max_deny",
-      "linked_models": [
-        "iPhone 13 Pro Max"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -43271,13 +43267,13 @@
         "mi",
         "google",
         "android"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 13 Pro Max"
+      ],
+      "name": "iPhone 13 Pro Max_deny"
     },
     {
-      "name": "iPhone 17_deny",
-      "linked_models": [
-        "iPhone 17"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -43380,13 +43376,13 @@
         "apple 17e",
         "17 e",
         "iphone 17 e"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 17"
+      ],
+      "name": "iPhone 17_deny"
     },
     {
-      "name": "iPhone 17 Pro_deny",
-      "linked_models": [
-        "iPhone 17 Pro"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -43484,13 +43480,13 @@
         "android",
         "6.5",
         "6.9"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 17 Pro"
+      ],
+      "name": "iPhone 17 Pro_deny"
     },
     {
-      "name": "iPhone 17 Pro Max_deny",
-      "linked_models": [
-        "iPhone 17 Pro Max"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -43499,6 +43495,7 @@
         "11 pro",
         "11 promax",
         "11e",
+        "fold",
         "11max",
         "11plus",
         "11pro",
@@ -43583,14 +43580,13 @@
         "android",
         "6.3",
         "6.5"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 17 Pro Max"
+      ],
+      "name": "iPhone 17 Pro Max_deny"
     },
     {
-      "name": "iPhone IP7/8/SE_deny",
-      "linked_models": [
-        "iPhone 7/8/SE",
-        "iPhone IP7/8/SE"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -43696,13 +43692,14 @@
         "mi",
         "google",
         "android"
-      ]
+      ],
+      "linked_models": [
+        "iPhone 7/8/SE",
+        "iPhone IP7/8/SE"
+      ],
+      "name": "iPhone IP7/8/SE_deny"
     },
     {
-      "name": "iPhone IP7Plus/8Plus_deny",
-      "linked_models": [
-        "iPhone IP7Plus/8Plus"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -43807,13 +43804,13 @@
         "6.5",
         "6.25",
         "6.6"
-      ]
+      ],
+      "linked_models": [
+        "iPhone IP7Plus/8Plus"
+      ],
+      "name": "iPhone IP7Plus/8Plus_deny"
     },
     {
-      "name": "iPhone Air_deny",
-      "linked_models": [
-        "iPhone Air"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -43918,14 +43915,13 @@
         "android",
         "6.3",
         "6.9"
-      ]
+      ],
+      "linked_models": [
+        "iPhone Air"
+      ],
+      "name": "iPhone Air_deny"
     },
     {
-      "name": "iPhone IPX/XS_deny",
-      "linked_models": [
-        "IPX",
-        "iPhone IPX/XS"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -44030,14 +44026,14 @@
         "mi",
         "google",
         "android"
-      ]
+      ],
+      "linked_models": [
+        "IPX",
+        "iPhone IPX/XS"
+      ],
+      "name": "iPhone IPX/XS_deny"
     },
     {
-      "name": "iPhone XR_deny",
-      "linked_models": [
-        "IPXR",
-        "iPhone XR"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -44139,13 +44135,14 @@
         "mi",
         "google",
         "android"
-      ]
+      ],
+      "linked_models": [
+        "IPXR",
+        "iPhone XR"
+      ],
+      "name": "iPhone XR_deny"
     },
     {
-      "name": "iPhone IPXS/Max_deny",
-      "linked_models": [
-        "iPhone IPXS/Max"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -44241,13 +44238,13 @@
         "google",
         "android",
         "5.8"
-      ]
+      ],
+      "linked_models": [
+        "iPhone IPXS/Max"
+      ],
+      "name": "iPhone IPXS/Max_deny"
     },
     {
-      "name": "IP12_deny",
-      "linked_models": [
-        "IP12"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -44321,13 +44318,13 @@
         "pro max",
         "promax",
         "mac"
-      ]
+      ],
+      "linked_models": [
+        "IP12"
+      ],
+      "name": "IP12_deny"
     },
     {
-      "name": "IPXSMAX_deny",
-      "linked_models": [
-        "IPXSMAX"
-      ],
       "keywords": [
         "11",
         "11 e",
@@ -44405,13 +44402,13 @@
         "mini",
         "plus",
         "xr"
-      ]
+      ],
+      "linked_models": [
+        "IPXSMAX"
+      ],
+      "name": "IPXSMAX_deny"
     },
     {
-      "name": "IP11ProMax_deny",
-      "linked_models": [
-        "IP11ProMax"
-      ],
       "keywords": [
         "12",
         "12 max",
@@ -44477,10 +44474,13 @@
         "7plus",
         "mini",
         "plus"
-      ]
+      ],
+      "linked_models": [
+        "IP11ProMax"
+      ],
+      "name": "IP11ProMax_deny"
     },
     {
-      "name": "Moto G Power Play 2025",
       "keywords": [
         "ace",
         "stylus",
@@ -44496,13 +44496,10 @@
       ],
       "linked_models": [
         "Moto G Power Play 2025"
-      ]
+      ],
+      "name": "Moto G Power Play 2025"
     },
     {
-      "name": "Samsung Galaxy A04S_deny",
-      "linked_models": [
-        "Samsung Galaxy A04S"
-      ],
       "keywords": [
         "a01",
         "a02s",
@@ -44554,13 +44551,13 @@
         "a56",
         "36",
         "56"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A04S"
+      ],
+      "name": "Samsung Galaxy A04S_deny"
     },
     {
-      "name": "Samsung Galaxy A05S_deny",
-      "linked_models": [
-        "Samsung Galaxy A05S"
-      ],
       "keywords": [
         "a01",
         "a02s",
@@ -44615,13 +44612,13 @@
         "56",
         "17",
         "a17"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A05S"
+      ],
+      "name": "Samsung Galaxy A05S_deny"
     },
     {
-      "name": "Samsung Galaxy A06_deny",
-      "linked_models": [
-        "Samsung Galaxy A06"
-      ],
       "keywords": [
         "a01",
         "a02s",
@@ -44677,13 +44674,13 @@
         "56",
         "17",
         "a17"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A06"
+      ],
+      "name": "Samsung Galaxy A06_deny"
     },
     {
-      "name": "Samsung Galaxy A10S_deny",
-      "linked_models": [
-        "Samsung Galaxy A10S"
-      ],
       "keywords": [
         "a01",
         "a11",
@@ -44719,13 +44716,13 @@
         "a56",
         "36",
         "56"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A10S"
+      ],
+      "name": "Samsung Galaxy A10S_deny"
     },
     {
-      "name": "Samsung Galaxy A20e_deny",
-      "linked_models": [
-        "Samsung Galaxy A20e"
-      ],
       "keywords": [
         "a01",
         "a02s",
@@ -44779,13 +44776,13 @@
         "a56",
         "36",
         "56"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A20e"
+      ],
+      "name": "Samsung Galaxy A20e_deny"
     },
     {
-      "name": "Samsung Galaxy A21S_deny",
-      "linked_models": [
-        "Samsung Galaxy A21S"
-      ],
       "keywords": [
         "a01",
         "a02s",
@@ -44847,13 +44844,13 @@
         "a56",
         "36",
         "56"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A21S"
+      ],
+      "name": "Samsung Galaxy A21S_deny"
     },
     {
-      "name": "Samsung Galaxy A22_deny",
-      "linked_models": [
-        "Samsung Galaxy A22"
-      ],
       "keywords": [
         "a01",
         "a10",
@@ -44911,13 +44908,13 @@
         "a56",
         "36",
         "56"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A22"
+      ],
+      "name": "Samsung Galaxy A22_deny"
     },
     {
-      "name": "Samsung Galaxy A25_deny",
-      "linked_models": [
-        "Samsung Galaxy A25"
-      ],
       "keywords": [
         "a01",
         "a02s",
@@ -45004,13 +45001,13 @@
         "a56",
         "36",
         "56"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A25"
+      ],
+      "name": "Samsung Galaxy A25_deny"
     },
     {
-      "name": "Samsung Galaxy A36_deny",
-      "linked_models": [
-        "Samsung Galaxy A36"
-      ],
       "keywords": [
         "a01",
         "a02s",
@@ -45100,13 +45097,13 @@
         "a06",
         "17",
         "a17"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A36"
+      ],
+      "name": "Samsung Galaxy A36_deny"
     },
     {
-      "name": "Samsung Galaxy A55_deny",
-      "linked_models": [
-        "Samsung Galaxy A55"
-      ],
       "keywords": [
         "a01",
         "a02s",
@@ -45174,13 +45171,13 @@
         "a56",
         "36",
         "56"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A55"
+      ],
+      "name": "Samsung Galaxy A55_deny"
     },
     {
-      "name": "Samsung Galaxy A57_deny",
-      "linked_models": [
-        "Samsung Galaxy A57"
-      ],
       "keywords": [
         "a01",
         "a02s",
@@ -45274,10 +45271,13 @@
         "mi",
         "sc53a",
         "oppo"
-      ]
+      ],
+      "linked_models": [
+        "Samsung Galaxy A57"
+      ],
+      "name": "Samsung Galaxy A57_deny"
     },
     {
-      "name": "Moto/Power2024",
       "keywords": [
         "g7",
         "360",
@@ -45290,14 +45290,10 @@
       ],
       "linked_models": [
         "Moto/Power2024"
-      ]
+      ],
+      "name": "Moto/Power2024"
     },
     {
-      "name": "Google Pixel 11 Pro_deny",
-      "linked_models": [
-        "Google Pixel 11 Pro",
-        "Google Pixel 11/11 Pro"
-      ],
       "keywords": [
         "11 a",
         "11a",
@@ -45311,13 +45307,14 @@
         "fold",
         "11 a",
         "pixel 11 a"
-      ]
+      ],
+      "linked_models": [
+        "Google Pixel 11 Pro",
+        "Google Pixel 11/11 Pro"
+      ],
+      "name": "Google Pixel 11 Pro_deny"
     },
     {
-      "name": "Google Pixel 11_deny",
-      "linked_models": [
-        "Google Pixel 11"
-      ],
       "keywords": [
         "pro",
         "xl",
@@ -45361,13 +45358,13 @@
         "mi",
         "one plus",
         "6.8"
-      ]
+      ],
+      "linked_models": [
+        "Google Pixel 11"
+      ],
+      "name": "Google Pixel 11_deny"
     },
     {
-      "name": "Google Pixel 11 Pro XL_deny",
-      "linked_models": [
-        "Google Pixel 11 Pro XL"
-      ],
       "keywords": [
         "11a",
         "a11",
@@ -45401,13 +45398,13 @@
         "mi",
         "one plus",
         "6.3"
-      ]
+      ],
+      "linked_models": [
+        "Google Pixel 11 Pro XL"
+      ],
+      "name": "Google Pixel 11 Pro XL_deny"
     },
     {
-      "name": "Google Pixel 11A_deny",
-      "linked_models": [
-        "Google Pixel 11A"
-      ],
       "keywords": [
         "pro",
         "xl",
@@ -45440,13 +45437,38 @@
         "one plus",
         "8a",
         "9a"
-      ]
+      ],
+      "linked_models": [
+        "Google Pixel 11A"
+      ],
+      "name": "Google Pixel 11A_deny"
     },
     {
-      "name": "Samsung Galaxy A15 Lite_deny",
+      "keywords": [
+        "5g",
+        "4g",
+        "2024",
+        "2025",
+        "ultra",
+        "plus",
+        "pro",
+        "max",
+        "a15",
+        "a 15",
+        "a25",
+        "a 25",
+        "a35",
+        "a 35",
+        "s23",
+        "s24",
+        "s25"
+      ],
       "linked_models": [
         "Samsung Galaxy A15 Lite"
       ],
+      "name": "Samsung Galaxy A15 Lite_deny"
+    },
+    {
       "keywords": [
         "5g",
         "4g",
@@ -45465,35 +45487,13 @@
         "s23",
         "s24",
         "s25"
-      ]
-    },
-    {
-      "name": "Samsung Galaxy A25 FE_deny",
+      ],
       "linked_models": [
         "Samsung Galaxy A25 FE"
       ],
-      "keywords": [
-        "5g",
-        "4g",
-        "2024",
-        "2025",
-        "ultra",
-        "plus",
-        "pro",
-        "max",
-        "a15",
-        "a 15",
-        "a25",
-        "a 25",
-        "a35",
-        "a 35",
-        "s23",
-        "s24",
-        "s25"
-      ]
+      "name": "Samsung Galaxy A25 FE_deny"
     },
     {
-      "name": "P30",
       "keywords": [
         "10",
         "20",
@@ -45519,10 +45519,10 @@
       ],
       "linked_models": [
         "P30"
-      ]
+      ],
+      "name": "P30"
     },
     {
-      "name": "P30Lite",
       "keywords": [
         "10",
         "20",
@@ -45547,10 +45547,10 @@
       ],
       "linked_models": [
         "P30Lite"
-      ]
+      ],
+      "name": "P30Lite"
     },
     {
-      "name": "Pixel11Pro",
       "keywords": [
         "10",
         "10a",
@@ -45592,10 +45592,10 @@
       ],
       "linked_models": [
         "Pixel11Pro"
-      ]
+      ],
+      "name": "Pixel11Pro"
     },
     {
-      "name": "A20e",
       "keywords": [
         "10",
         "21",
@@ -45655,10 +45655,10 @@
       ],
       "linked_models": [
         "A20e"
-      ]
+      ],
+      "name": "A20e"
     },
     {
-      "name": "RM/Note/14/5G",
       "keywords": [
         "10",
         "11",
@@ -45689,10 +45689,10 @@
       ],
       "linked_models": [
         "RM/Note/14/5G"
-      ]
+      ],
+      "name": "RM/Note/14/5G"
     },
     {
-      "name": "S26FE",
       "keywords": [
         "10",
         "20",
@@ -45770,10 +45770,10 @@
       ],
       "linked_models": [
         "S26FE"
-      ]
+      ],
+      "name": "S26FE"
     },
     {
-      "name": "P30Pro",
       "keywords": [
         "10",
         "20",
@@ -45798,10 +45798,10 @@
       ],
       "linked_models": [
         "P30Pro"
-      ]
+      ],
+      "name": "P30Pro"
     },
     {
-      "name": "RM/Note/13Pro/5G",
       "keywords": [
         "10",
         "11",
@@ -45831,10 +45831,10 @@
       ],
       "linked_models": [
         "RM/Note/13Pro/5G"
-      ]
+      ],
+      "name": "RM/Note/13Pro/5G"
     },
     {
-      "name": "IP13Mini",
       "keywords": [
         "10",
         "11",
@@ -45877,10 +45877,10 @@
       ],
       "linked_models": [
         "IP13Mini"
-      ]
+      ],
+      "name": "IP13Mini"
     },
     {
-      "name": "XM15Ultra",
       "keywords": [
         "10",
         "11",
@@ -45913,10 +45913,10 @@
       ],
       "linked_models": [
         "XM15Ultra"
-      ]
+      ],
+      "name": "XM15Ultra"
     },
     {
-      "name": "Pixel11Pro/XL",
       "keywords": [
         "10",
         "10a",
@@ -45956,10 +45956,10 @@
       ],
       "linked_models": [
         "Pixel11Pro/XL"
-      ]
+      ],
+      "name": "Pixel11Pro/XL"
     },
     {
-      "name": "RM/Note/14Pro/5G",
       "keywords": [
         "10",
         "11",
@@ -45987,10 +45987,10 @@
       ],
       "linked_models": [
         "RM/Note/14Pro/5G"
-      ]
+      ],
+      "name": "RM/Note/14Pro/5G"
     },
     {
-      "name": "XM15TPro",
       "keywords": [
         "10",
         "11",
@@ -46023,10 +46023,10 @@
       ],
       "linked_models": [
         "XM15TPro"
-      ]
+      ],
+      "name": "XM15TPro"
     },
     {
-      "name": "XM15T",
       "keywords": [
         "10",
         "11",
@@ -46060,10 +46060,10 @@
       ],
       "linked_models": [
         "XM15T"
-      ]
+      ],
+      "name": "XM15T"
     },
     {
-      "name": "RM/Note/15/5G",
       "keywords": [
         "10",
         "11",
@@ -46095,10 +46095,10 @@
       ],
       "linked_models": [
         "RM/Note/15/5G"
-      ]
+      ],
+      "name": "RM/Note/15/5G"
     },
     {
-      "name": "RM/Note/15Pro/5G",
       "keywords": [
         "10",
         "11",
@@ -46128,15 +46128,15 @@
       ],
       "linked_models": [
         "RM/Note/15Pro/5G"
-      ]
+      ],
+      "name": "RM/Note/15Pro/5G"
     },
     {
-      "name": "RM/Note/17Pro/5G",
       "keywords": [],
-      "linked_models": []
+      "linked_models": [],
+      "name": "RM/Note/17Pro/5G"
     },
     {
-      "name": "XM15",
       "keywords": [
         "10",
         "11",
@@ -46170,12 +46170,13 @@
       ],
       "linked_models": [
         "XM15"
-      ]
+      ],
+      "name": "XM15"
     },
     {
-      "name": "S26Edge",
       "keywords": [],
-      "linked_models": []
+      "linked_models": [],
+      "name": "S26Edge"
     }
   ],
   "campaign_group_map": {
