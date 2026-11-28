@@ -684,8 +684,15 @@ const CampaignIdMapEditor: React.FC<{
       try {
         const raw = event.target?.result;
         if (!raw) return;
-        // raw:false 让长 ID 按 Excel 显示文本读取，避免 JS 数值精度损失。
-        const workbook = XLSX.read(raw, { type: 'array', cellText: true, cellDates: false });
+        // raw:false 让长 ID 按 Excel 显示文本读取，避免 JS 数值精度损失；CSV 需先按 UTF-8 / GB18030 解码防止中文表头乱码。
+        let workbook: XLSX.WorkBook;
+        if (file.name.toLowerCase().endsWith('.csv') && raw instanceof ArrayBuffer) {
+          const utf8Text = new TextDecoder('utf-8', { fatal: false }).decode(raw);
+          const csvText = utf8Text.includes('\ufffd') ? new TextDecoder('gb18030').decode(raw) : utf8Text;
+          workbook = XLSX.read(csvText, { type: 'string', cellText: true, cellDates: false });
+        } else {
+          workbook = XLSX.read(raw, { type: 'array', cellText: true, cellDates: false });
+        }
         const sheet = workbook.Sheets[workbook.SheetNames[0]];
         const rows = XLSX.utils.sheet_to_json<Record<string, unknown>>(sheet, { defval: '', raw: false });
         if (rows.length === 0) {
