@@ -2026,6 +2026,18 @@ const NegKeywordTool: React.FC = () => {
     country: 'US',
   });
   const [asinFolderExporting, setAsinFolderExporting] = useState(false);
+  const [geminiAuditing, setGeminiAuditing] = useState(false);
+  const [geminiAuditModalOpen, setGeminiAuditModalOpen] = useState(false);
+  const [geminiAuditMeta, setGeminiAuditMeta] = useState<{ model?: string; auditedCount?: number; falseDenyCount?: number }>({});
+  const [geminiAuditRows, setGeminiAuditRows] = useState<Array<{
+    key: React.Key;
+    campaign: string;
+    searchTerm: string;
+    targetGroup: string;
+    reason: string;
+    verdict: 'false_deny' | 'correct_deny' | 'uncertain';
+    note: string;
+  }>>([]);
   const navigate = useNavigate();
 
   const campaignIdStoreOptions = useMemo(() => {
@@ -4762,7 +4774,114 @@ const NegKeywordTool: React.FC = () => {
                         <Button size="small" icon={<DownloadOutlined />} onClick={handleExport} disabled={data.length === 0}>导出全部</Button>
                         <Button size="small" icon={<FileExcelOutlined />} onClick={handleExportDenyList} disabled={data.filter(r => r.tag === 'deny').length === 0} danger>导出否词</Button>
                         <Button size="small" icon={<TableOutlined />} onClick={handleExportByGroup} disabled={data.length === 0}>按机型组导出</Button>
+                        <Button
+                          size="small"
+                          type="dashed"
+                          loading={geminiAuditing}
+                          disabled={data.filter(r => r.tag === 'deny').length === 0}
+                          onClick={async () => {
+                            const denyRows = data.filter(r => r.tag === 'deny').slice(0, 100);
+                            if (denyRows.length === 0) return;
+                            setGeminiAuditing(true);
+                            try {
+                              const res = await apiFetch('/api/gemini-audit', {
+                                method: 'POST',
+                                body: JSON.stringify({
+                                  site: activeMarketplaceRef.current || 'US',
+                                  rows: denyRows.map(r => ({
+                                    key: r.key,
+                                    campaign: r.campaign,
+                                    searchTerm: r.searchTerm,
+                                    targetGroup: r.targetGroupName || '',
+                                    reason: r.reason || '',
+                                  })),
+                                }),
+                                timeoutMs: 60000,
+                              });
+                              if (res?.error) throw new Error(res.error);
+                              setGeminiAuditMeta({
+                                model: res.model,
+                                auditedCount: res.audited_count,
+                                falseDenyCount: res.false_deny_count,
+                              });
+                              setGeminiAuditRows(Array.isArray(res.results) ? res.results : []);
+                              setGeminiAuditModalOpen(true);
+                            } catch (err: any) {
+                              message.error(`Gemini 复核失败: ${err?.message || err}`);
+                            } finally {
+                              setGeminiAuditing(false);
+                            }
+                          }}
+                        >
+                          Gemini AI 复核误否
+                        </Button>
                       </Flex>
+                      <Modal
+                        title={`Gemini AI 否词复核报告 (${geminiAuditMeta.model || 'Gemini'})`}
+                        open={geminiAuditModalOpen}
+                        onCancel={() => setGeminiAuditModalOpen(false)}
+                        width={920}
+                        footer={[
+                          <Button key="close" onClick={() => setGeminiAuditModalOpen(false)}>关闭</Button>,
+                          <Button
+                            key="apply-keep"
+                            type="primary"
+                            disabled={!geminiAuditRows.some(r => r.verdict === 'false_deny')}
+                            onClick={() => {
+                              const keepKeys = new Set(
+                                geminiAuditRows.filter(r => r.verdict === 'false_deny').map(r => r.key),
+                              );
+                              setData(prev => prev.map(row => (
+                                keepKeys.has(row.key)
+                                  ? { ...row, tag: 'keep', reason: `Gemini AI 复核放行 (${row.reason})` }
+                                  : row
+                              )));
+                              message.success(`已将 ${keepKeys.size} 条误否词改为「保留」`);
+                              setGeminiAuditModalOpen(false);
+                            }}
+                          >
+                            一键将 {geminiAuditRows.filter(r => r.verdict === 'false_deny').length} 条误否词改为保留
+                          </Button>,
+                        ]}
+                      >
+                        <Flex vertical gap={10}>
+                          <Flex gap={8} wrap="wrap">
+                            <Tag color="blue">本次复核 {geminiAuditMeta.auditedCount || 0} 条（按当前否词前 100 条）</Tag>
+                            <Tag color="red">疑似误否 {geminiAuditRows.filter(r => r.verdict === 'false_deny').length} 条</Tag>
+                            <Tag color="green">确认否掉 {geminiAuditRows.filter(r => r.verdict === 'correct_deny').length} 条</Tag>
+                            <Tag color="gold">待定 {geminiAuditRows.filter(r => r.verdict === 'uncertain').length} 条</Tag>
+                          </Flex>
+                          <Table
+                            size="small"
+                            rowKey="key"
+                            pagination={{ pageSize: 20 }}
+                            scroll={{ y: 420 }}
+                            dataSource={geminiAuditRows}
+                            columns={[
+                              {
+                                title: 'AI 判定',
+                                dataIndex: 'verdict',
+                                width: 95,
+                                filters: [
+                                  { text: '误否', value: 'false_deny' },
+                                  { text: '确认否掉', value: 'correct_deny' },
+                                  { text: '待定', value: 'uncertain' },
+                                ],
+                                onFilter: (val, rec) => rec.verdict === val,
+                                render: (v: string) => v === 'false_deny'
+                                  ? <Tag color="red">疑似误否</Tag>
+                                  : v === 'correct_deny'
+                                    ? <Tag color="green">确认否掉</Tag>
+                                    : <Tag color="gold">待定</Tag>,
+                              },
+                              { title: '广告活动', dataIndex: 'campaign', width: 200, ellipsis: true },
+                              { title: '搜索词', dataIndex: 'searchTerm', width: 190 },
+                              { title: '原否词原因', dataIndex: 'reason', width: 170, ellipsis: true },
+                              { title: 'Gemini 复核意见', dataIndex: 'note' },
+                            ]}
+                          />
+                        </Flex>
+                      </Modal>
 
                       <Flex gap={6} wrap="wrap" align="center">
                         {selectedRowKeys.length > 0 && (

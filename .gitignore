@@ -7,6 +7,7 @@ tools/neg-keyword/logs/
 *.log
 .env
 .auth_secret
+tools/neg-keyword/api_config.json
 
 # 广告报告与导出表含业务数据，不进入仓库自动同步
 tools/erp-workbench/server/data/uploads/

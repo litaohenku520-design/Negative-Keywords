@@ -20,6 +20,7 @@ from config import (
     get_config_dir,
     load_rules_from_file,
     save_rules_to_file,
+    load_api_config,
     get_stores_state,
     switch_active_store,
     create_or_update_store,
@@ -1677,6 +1678,104 @@ def serve_mode():
             elif self.path == '/api/backup/full':
                 res = backup_all_to_github_and_gdrive("manual full backup from UI")
                 self._json_response(res)
+            elif self.path == '/api/gemini-audit':
+                import urllib.request
+                import urllib.error
+                content_length = int(self.headers.get('Content-Length', 0))
+                raw_body = self.rfile.read(content_length).decode('utf-8-sig') if content_length else '{}'
+                try:
+                    data = json.loads(raw_body) if raw_body.strip() else {}
+                except json.JSONDecodeError as e:
+                    self._json_response({'error': f'Invalid JSON: {e}'}, 400)
+                    return
+
+                api_cfg = load_api_config() or {}
+                api_key = (data.get('api_key') or api_cfg.get('gemini_api_key') or '').strip()
+                if not api_key:
+                    self._json_response({'error': '未配置 Gemini API Key，请先在 api_config.json 中配置'}, 400)
+                    return
+
+                rows = data.get('rows') or []
+                if not isinstance(rows, list) or len(rows) == 0:
+                    self._json_response({'error': '没有需要复核的否词记录'}, 400)
+                    return
+
+                site = str(data.get('site') or 'US').upper()
+                preferred_model = str(data.get('model') or api_cfg.get('gemini_model') or 'gemini-3-flash-preview').strip()
+                models_to_try = [preferred_model] + [m for m in ('gemini-3-flash-preview', 'gemini-flash-latest', 'gemini-2.5-flash-lite') if m != preferred_model]
+
+                batch_rows = rows[:100]
+                compact_items = [
+                    {
+                        'idx': i,
+                        'campaign': str(r.get('campaign') or ''),
+                        'targetGroup': str(r.get('targetGroup') or r.get('targetGroupName') or ''),
+                        'searchTerm': str(r.get('searchTerm') or ''),
+                        'reason': str(r.get('reason') or ''),
+                    }
+                    for i, r in enumerate(batch_rows)
+                ]
+                prompt = (
+                    f"你是亚马逊手机壳广告（站点 {site}）的资深否定关键词审计专家。\n"
+                    "以下是系统判定为【否掉 (deny)】的客户搜索词列表，请你逐条核查是否存在【误否】。\n"
+                    "判断原则：\n"
+                    "1. 如果搜索词明确指向目标机型组（包括德/法/西/意语的壳类词如 hülle/klapphülle/coque/funda/custodia，或纯机型词、合理缩写/空格变体、官方型号代码、该机型的通用兼容机型），但被系统误否了，标为 false_deny（误否）。\n"
+                    "2. 如果搜索词明显是其他手机型号、不相关配件（如钢化膜/充电器/手表带）或无关泛词，标为 correct_deny（确认否掉）。\n"
+                    "3. 如果无法确定（如信息不足），标为 uncertain。\n"
+                    "请严格仅输出 JSON 数组，不要输出 markdown 代码块或其他文字，每项格式为："
+                    '{"idx": 0, "verdict": "false_deny|correct_deny|uncertain", "note": "简短中文理由"}\n'
+                    f"待核查列表：\n{json.dumps(compact_items, ensure_ascii=False)}"
+                )
+
+                last_err = ''
+                used_model = preferred_model
+                parsed_list = None
+                for mname in models_to_try:
+                    url = f"https://generativelanguage.googleapis.com/v1beta/models/{mname}:generateContent?key={api_key}"
+                    req_body = json.dumps({
+                        'contents': [{'parts': [{'text': prompt}]}],
+                        'generationConfig': {'responseMimeType': 'application/json', 'temperature': 0.1},
+                    }, ensure_ascii=False).encode('utf-8')
+                    req = urllib.request.Request(url, data=req_body, headers={'Content-Type': 'application/json'}, method='POST')
+                    try:
+                        with urllib.request.urlopen(req, timeout=45) as resp:
+                            resp_json = json.loads(resp.read().decode('utf-8'))
+                        text_out = resp_json['candidates'][0]['content']['parts'][0]['text'].strip()
+                        if text_out.startswith('```'):
+                            text_out = re.sub(r'^```(?:json)?\s*|\s*```$', '', text_out, flags=re.S)
+                        parsed_list = json.loads(text_out)
+                        used_model = mname
+                        break
+                    except urllib.error.HTTPError as e:
+                        last_err = f"HTTP {e.code}: {e.read().decode('utf-8', errors='replace')[:200]}"
+                    except Exception as e:
+                        last_err = str(e)
+
+                if not isinstance(parsed_list, list):
+                    self._json_response({'error': f'Gemini 调用失败: {last_err}'}, 502)
+                    return
+
+                by_idx = {int(item.get('idx')): item for item in parsed_list if isinstance(item, dict) and 'idx' in item}
+                merged_results = []
+                for i, orig in enumerate(batch_rows):
+                    ai = by_idx.get(i, {})
+                    merged_results.append({
+                        'key': orig.get('key', i),
+                        'campaign': orig.get('campaign', ''),
+                        'searchTerm': orig.get('searchTerm', ''),
+                        'targetGroup': orig.get('targetGroup') or orig.get('targetGroupName') or '',
+                        'reason': orig.get('reason', ''),
+                        'verdict': ai.get('verdict', 'uncertain'),
+                        'note': ai.get('note', ''),
+                    })
+                false_denies = [x for x in merged_results if x['verdict'] == 'false_deny']
+                self._json_response({
+                    'status': 'ok',
+                    'model': used_model,
+                    'audited_count': len(merged_results),
+                    'false_deny_count': len(false_denies),
+                    'results': merged_results,
+                })
             elif self.path == '/api/sync-config':
                 sync_started = time.perf_counter()
                 synced = []
