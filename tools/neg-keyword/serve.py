@@ -19,6 +19,7 @@ from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from config import (
     get_config_dir,
     load_rules_from_file,
+    save_rules_to_file,
     get_stores_state,
     switch_active_store,
     create_or_update_store,
@@ -570,7 +571,8 @@ def serve_mode():
                 rules_dict[k] = v
 
         try:
-            _write_json_atomic_if_changed(source_file, rules_dict)
+            if not save_rules_to_file(rules_dict):
+                return False
         except Exception as e:
             print(f"保存规则配置失败: {e}")
             return False
