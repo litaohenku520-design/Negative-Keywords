@@ -326,11 +326,84 @@ def judge_single_asin(
 
 def _extract_model_from_text(text: str) -> str:
     """从标题或文本提取手机型号描述"""
-    # Samsung S 系列
-    m = re.search(r"\b(Galaxy\s+)?(S\d{1,2})\s*(Ultra|Plus|\+|FE)?\b", text, re.IGNORECASE)
+    if not text:
+        return ""
+
+    # 1. Redmi Note 系列
+    m = re.search(
+        r"\b(?:Xiaomi\s+)?Redmi\s*Note\s*(\d{1,2}[A-Z]?)\s*(Pro\s*Plus|Pro\s*\+|Pro|Plus|\+|Turbo|S)?\s*(5G|4G)?\b",
+        text,
+        re.IGNORECASE,
+    )
     if m:
-        s_num = m.group(2).upper()
-        suffix = (m.group(3) or "").strip()
+        num = m.group(1)
+        var = (m.group(2) or "").strip()
+        net = (m.group(3) or "").strip()
+        parts = ["Redmi Note", num]
+        if var:
+            parts.append(var)
+        if net:
+            parts.append(net)
+        return " ".join(parts)
+
+    # 2. Redmi 非 Note 系列 (例如 Redmi 17 4G / 5G, Redmi 14C, Redmi A3, Redmi 13C)
+    m = re.search(
+        r"\b(?:Xiaomi\s+)?Redmi\s*([0-9]{1,2}[A-Z]?|[A-C][0-9]{1,2}[A-Z]?)\s*(4G\s*/\s*5G|5G|4G)?\b",
+        text,
+        re.IGNORECASE,
+    )
+    if m:
+        code = m.group(1)
+        net = (m.group(2) or "").strip()
+        parts = ["Redmi", code]
+        if net:
+            parts.append(net)
+        return " ".join(parts)
+
+    # 3. Xiaomi / Mi 系列 (例如 Xiaomi 17T, Xiaomi 15 Ultra, Xiaomi 14T Pro)
+    m = re.search(
+        r"\b(?:Xiaomi|Mi)\s*(\d{1,2})\s*(T\s*Pro|T|Ultra|Pro|Lite)?\b",
+        text,
+        re.IGNORECASE,
+    )
+    if m:
+        num = m.group(1)
+        var = (m.group(2) or "").strip()
+        if var.upper().startswith("T"):
+            return f"Xiaomi {num}{var}"
+        elif var:
+            return f"Xiaomi {num} {var}"
+        return f"Xiaomi {num}"
+
+    # 4. Huawei 系列 (例如 Huawei P30 Pro, P30 Lite, Mate 60 Pro, Nova 11)
+    m = re.search(
+        r"\b(?:Huawei\s+)?(P\d{1,2}|Mate\s*\d{1,2}|Nova\s*\d{1,2}[A-Z]?|Pura\s*\d{1,2})\s*(Pro\s*Plus|Pro\s*\+|Pro|Lite|Plus|Ultra)?\b",
+        text,
+        re.IGNORECASE,
+    )
+    if m:
+        base = m.group(1).upper()
+        if not base.startswith("HUAWEI") and not base.startswith("NOVA") and not base.startswith("MATE"):
+            base = f"Huawei {base}"
+        var = (m.group(2) or "").strip()
+        return f"{base} {var}".strip()
+
+    # 5. iPhone 系列 (包含 IP15, iPhone 15, iPhone 16e, iPhone 17 Pro Max 等)
+    m = re.search(
+        r"\b(?:Apple\s+)?(?:iPhone|IP)\s*(1[1-9]|[7-9]|X[SR]?|SE)\s*(Pro\s*Max|Pro|Plus|Mini|Air|e)?\b",
+        text,
+        re.IGNORECASE,
+    )
+    if m:
+        gen = m.group(1).upper()
+        var = (m.group(2) or "").strip()
+        return f"iPhone {gen} {var}".strip()
+
+    # 6. Samsung S 系列
+    m = re.search(r"\b(?:Galaxy\s+)?(S\d{1,2})\s*(Ultra|Plus|\+|FE)?\b", text, re.IGNORECASE)
+    if m:
+        s_num = m.group(1).upper()
+        suffix = (m.group(2) or "").strip()
         if suffix in ("+", "Plus", "plus"):
             return f"{s_num} plus"
         if suffix.lower() == "ultra":
@@ -339,88 +412,215 @@ def _extract_model_from_text(text: str) -> str:
             return f"{s_num} fe"
         return s_num
 
-    # Samsung A 系列
-    m = re.search(r"\b(Galaxy\s+)?(A\d{2}[A-Z]?)\s*(Core|Ultra|Plus|\+|FE|5G|4G)?\b", text, re.IGNORECASE)
+    # 7. Samsung A 系列
+    m = re.search(r"\b(?:Galaxy\s+)?(A\d{2}[A-Z]?)\s*(Core|Ultra|Plus|\+|FE|5G|4G)?\b", text, re.IGNORECASE)
     if m:
-        a_code = m.group(2).upper()
-        suffix = (m.group(3) or "").strip()
+        a_code = m.group(1).upper()
+        suffix = (m.group(2) or "").strip()
         if suffix.lower() == "core":
             return f"{a_code} Core"
         return a_code
 
-    # iPhone 系列
-    m = re.search(r"\b(iPhone|IP)\s*(\d{1,2})\s*(Pro\s*Max|Pro|Plus|Mini)?\b", text, re.IGNORECASE)
+    # 8. Google Pixel 系列
+    m = re.search(r"\b(?:Google\s+)?Pixel\s*(\d{1,2}[A-Z]?)\s*(Pro\s*XL|Pro|XL|A)?\b", text, re.IGNORECASE)
     if m:
-        num = m.group(2)
-        suf = (m.group(3) or "").strip()
-        return f"iPhone {num} {suf}".strip()
+        p_num = m.group(1).upper()
+        var = (m.group(2) or "").strip()
+        return f"Pixel {p_num} {var}".strip()
 
-    # Redmi Note 系列
-    m = re.search(r"\b(Redmi\s+Note\s+\d{1,2}[A-Z]?(\s*Pro\s*\+?|\s*Pro)?)(\s*(5G|4G))?\b", text, re.IGNORECASE)
+    # 9. Motorola Moto G 系列
+    m = re.search(
+        r"\b(?:Moto(?:rola)?\s+)?(G\s*(?:Play|Power|Stylus|Pure|5G)?\s*\d{4}|G\d{2}[A-Z]?|Edge\s*\d{2}[A-Z]?)\b",
+        text,
+        re.IGNORECASE,
+    )
     if m:
-        return m.group(0).strip()
+        return f"Moto {m.group(1)}".strip()
 
-    # Google Pixel 系列
-    m = re.search(r"\b(Pixel\s+\d{1,2}[A-Z]?)(\s*(Pro|XL|A))?\b", text, re.IGNORECASE)
+    # 10. Honor / OnePlus / Poco 系列
+    m = re.search(r"\b(Honor\s*\d{2,3}[A-Z]?|OnePlus\s*\d{1,2}[A-Z]?|Poco\s*[A-Z]\d{1,2}[A-Z]?)\b", text, re.IGNORECASE)
     if m:
-        return m.group(0).strip()
+        return m.group(1).strip()
 
-    # Motorola Moto G 系列
-    m = re.search(r"\b(Moto\s+G\s*(Play|Power|Stylus|5G)?\s*\d{4})\b", text, re.IGNORECASE)
+    # 11. 标题语法智能回退：提取 pour/for/für/per/para 后的机型关键词
+    m = re.search(
+        r"\b(?:pour|for|f[üu]r|per|para|compatible\s+with|kompatibel\s+mit)\s+([A-Za-z0-9\s\+\-/]{3,28}?)(?:,|\.|;|\bcase\b|\bcoque\b|\bh[üu]lle\b|\betui\b|\bcover\b|\bmit\b|\bavec\b|\bwith\b|\bcon\b|\band\b|\bund\b|$)",
+        text,
+        re.IGNORECASE,
+    )
     if m:
-        return m.group(0).strip()
+        candidate = m.group(1).strip()
+        if candidate and len(candidate) >= 3 and not re.search(r"\b(homme|femme|cuir|leather|protection|housse|rabat)\b", candidate, re.I):
+            return candidate
 
-    return "识别型号"
+    return "未知机型"
 
 
 def _check_model_match(text: str, target: str, target_norm: str) -> Tuple[str, bool, bool]:
     """比对识别机型与目标机型，返回 (identified_model_str, is_match, is_ambiguous)"""
-    # 1. Motorola G 系列通用匹配规则 (用户确认：Moto G 2026 兼容 Play/Power/Stylus 2026 等)
+    extracted = _extract_model_from_text(text)
+
+    # 1. iPhone (IP / IPHONE) 系列通用与细分匹配
+    # 支持 IP15, IP15Pro, IP15PM, IP15ProMax, IP15Plus, IP16e, IP12/12Pro, IP13, IP17ProMax 等
+    # A. 特殊规则：iPhone 12 / 12 Pro 双模组
+    if target_norm in ("IP1212PRO", "IPHONE1212PRO"):
+        if re.search(r"\b(?:iPhone|IP)\s*12\s*(?:Pro\s*Max|Mini)\b", text, re.I):
+            return (extracted, False, False)
+        if re.search(r"\b(?:iPhone|IP)\s*12\b", text, re.I):
+            return ("iPhone 12 / 12 Pro", True, False)
+        return (extracted, False, False)
+
+    # B. 特殊用户确认规则：iPhone 17 Pro Max 与 iPhone 18 Pro Max 通用保留
+    if target_norm in ("IP17PROMAX", "IPHONE17PROMAX", "IP18PROMAX", "IPHONE18PROMAX"):
+        if re.search(r"\b(?:iPhone|IP)\s*(17|18)\s*Pro\s*Max\b", text, re.I):
+            m = re.search(r"\b(?:iPhone|IP)\s*(17|18)\s*Pro\s*Max\b", text, re.I)
+            return (m.group(0), True, False)
+        return (extracted, False, False)
+
+    # C. 通用 iPhone 解析：IP + 数字 + 变体 (例如 IP15, IP15PRO, IP15PM, IP16E, IP13)
+    ip_m = re.match(r"^(?:IP|IPHONE)(1[1-9]|[7-9]|X[SR]?|SE)(PROMAX|PM|PRO|PLUS|MINI|AIR|E)?$", target_norm)
+    if ip_m:
+        gen = ip_m.group(1)
+        var = (ip_m.group(2) or "").upper()
+        # 查找文本中的 iPhone / IP 描述
+        m_list = re.findall(rf"\b(?:iPhone|IP)\s*{gen}\s*(Pro\s*Max|PM|Pro|Plus|Mini|Air|e)?\b", text, re.I)
+        if not m_list:
+            # 文本中没有该代 iPhone
+            return (extracted, False, False)
+
+        # 比对变体
+        # 如果目标是纯 Base (例如 IP15, IP13, IP16, IP11)：严禁匹配 Pro, Plus, Mini, Max, Air, e
+        if not var:
+            for item in m_list:
+                item_var = (item or "").strip().upper()
+                if item_var in ("PRO MAX", "PM", "PRO", "PLUS", "MINI", "AIR", "E"):
+                    return (f"iPhone {gen} {item.strip()}", False, False)
+            return (f"iPhone {gen}", True, False)
+        elif var in ("PROMAX", "PM"):
+            for item in m_list:
+                item_var = (item or "").strip().upper()
+                if item_var in ("PRO MAX", "PM"):
+                    return (f"iPhone {gen} Pro Max", True, False)
+            return (extracted, False, False)
+        elif var == "PRO":
+            for item in m_list:
+                item_var = (item or "").strip().upper()
+                if item_var == "PRO":
+                    return (f"iPhone {gen} Pro", True, False)
+            return (extracted, False, False)
+        elif var == "PLUS":
+            for item in m_list:
+                item_var = (item or "").strip().upper()
+                if item_var == "PLUS":
+                    return (f"iPhone {gen} Plus", True, False)
+            return (extracted, False, False)
+        elif var == "E":
+            for item in m_list:
+                item_var = (item or "").strip().upper()
+                if item_var == "E":
+                    return (f"iPhone {gen}e", True, False)
+            return (extracted, False, False)
+        elif var == "MINI":
+            for item in m_list:
+                item_var = (item or "").strip().upper()
+                if item_var == "MINI":
+                    return (f"iPhone {gen} Mini", True, False)
+            return (extracted, False, False)
+
+    # 2. Xiaomi (XM / XIAOMI / MI) 系列
+    # 例如 XM17T -> Xiaomi 17T, XM15 -> Xiaomi 15, XM15Ultra -> Xiaomi 15 Ultra, XM14TPro
+    xm_m = re.match(r"^(?:XM|XIAOMI|MI)(\d{1,2})(TPRO|T|ULTRA|PRO|LITE)?$", target_norm)
+    if xm_m:
+        gen = xm_m.group(1)
+        var = (xm_m.group(2) or "").upper()
+        m_list = re.findall(rf"\b(?:Xiaomi|Mi|XM)\s*{gen}\s*(T\s*Pro|T|Ultra|Pro|Lite)?\b", text, re.I)
+        if not m_list:
+            return (extracted, False, False)
+        if not var:
+            for item in m_list:
+                item_var = (item or "").strip().upper()
+                if item_var in ("T PRO", "T", "ULTRA", "PRO", "LITE"):
+                    return (f"Xiaomi {gen} {item.strip()}", False, False)
+            return (f"Xiaomi {gen}", True, False)
+        elif var == "T":
+            for item in m_list:
+                item_var = (item or "").strip().upper().replace(" ", "")
+                if item_var == "T":
+                    return (f"Xiaomi {gen}T", True, False)
+            return (extracted, False, False)
+        elif var == "TPRO":
+            for item in m_list:
+                item_var = (item or "").strip().upper().replace(" ", "")
+                if item_var in ("TPRO", "T+PRO"):
+                    return (f"Xiaomi {gen}T Pro", True, False)
+            return (extracted, False, False)
+        elif var in ("ULTRA", "PRO", "LITE"):
+            for item in m_list:
+                item_var = (item or "").strip().upper()
+                if item_var == var:
+                    return (f"Xiaomi {gen} {item.strip()}", True, False)
+            return (extracted, False, False)
+
+    # 3. Huawei (P / MATE / NOVA / PURA) 系列
+    # 例如 P30Lite, P30Pro, P30, Mate40Pro, Nova11
+    hw_m = re.match(r"^(P\d{1,2}|MATE\d{1,2}|NOVA\d{1,2}[A-Z]?|PURA\d{1,2})(PROPLUS|PRO\+|PRO|LITE|PLUS|ULTRA)?$", target_norm)
+    if hw_m:
+        series = hw_m.group(1)
+        var = (hw_m.group(2) or "").upper()
+        m_list = re.findall(rf"\b(?:Huawei\s+)?{series}\s*(Pro\s*Plus|Pro\s*\+|Pro|Lite|Plus|Ultra)?\b", text, re.I)
+        if not m_list:
+            return (extracted, False, False)
+        if not var:
+            for item in m_list:
+                item_var = (item or "").strip().upper()
+                if item_var in ("PRO PLUS", "PRO+", "PRO", "LITE", "PLUS", "ULTRA"):
+                    return (f"Huawei {series} {item.strip()}", False, False)
+            return (f"Huawei {series}", True, False)
+        else:
+            for item in m_list:
+                item_var = (item or "").strip().upper().replace("+", "PLUS").replace(" ", "")
+                norm_var = var.replace("+", "PLUS")
+                if item_var == norm_var:
+                    return (f"Huawei {series} {item.strip()}", True, False)
+            return (extracted, False, False)
+
+    # 4. Redmi Note 系列
+    # 例如 RM/Note/15Pro/5G, RM/Note/17Pro/5G, RM/Note/14/5G, RM/Note/13Pro/5G
+    if ("RM" in target_norm or "REDMI" in target_norm) and "NOTE" in target_norm:
+        rm_num_m = re.search(r"NOTE(\d{1,2})", target_norm)
+        if rm_num_m:
+            target_num = rm_num_m.group(1)
+            # 在文本中查找对应代 Note
+            note_in_text = re.search(
+                rf"\b(?:Xiaomi\s+)?Redmi\s*Note\s*{target_num}\s*(Pro\s*Plus|Pro\s*\+|Pro|Plus|\+|Turbo|S)?\s*(5G|4G)?\b",
+                text,
+                re.I,
+            )
+            if note_in_text:
+                text_var = (note_in_text.group(1) or "").strip().upper().replace("+", "PLUS").replace(" ", "")
+                # Note 15 Pro 与 Note 15 Pro Plus 5G (Pro+) 手机壳通用开孔兼容保留
+                if target_num == "15" and "PRO" in target_norm:
+                    if "PRO" in text_var:
+                        return (extracted, True, False)
+                if "PRO" in target_norm:
+                    if "PRO" in text_var:
+                        return (extracted, True, False)
+                    return (extracted, False, False)
+                elif not text_var:  # Base Note
+                    return (extracted, True, False)
+            return (extracted, False, False)
+
+    # 5. Motorola G 系列通用匹配规则 (用户确认：Moto G 2026 兼容 Play/Power/Stylus 2026 等)
     if "MOTO" in target_norm and "2026" in target_norm:
         if re.search(r"\bMoto\s+G\b.*2026", text, re.I) or re.search(r"\bMoto\s+G\s*(Play|Power|Stylus|5G)?\s*2026\b", text, re.I):
             m = re.search(r"\bMoto\s+G\s*(Play|Power|Stylus|5G)?\s*2026\b", text, re.I)
             name = m.group(0) if m else "Moto G 2026"
             return (name, True, False)
         elif re.search(r"\bMoto\s+G\b", text, re.I):
-            # Moto G 但年份或代际不明
             return ("Moto G 不明年代", False, True)
-        else:
-            other = _extract_model_from_text(text)
-            return (other, False, False)
+        return (extracted, False, False)
 
-    # 2. iPhone 17 Pro Max 用户确认规则：iPhone 17 Pro Max 与 iPhone 18 Pro Max 通用保留
-    if target_norm in ("IP17PROMAX", "IPHONE17PROMAX"):
-        if re.search(r"\b(iPhone|IP)\s*(17|18)\s*Pro\s*Max\b", text, re.I):
-            m = re.search(r"\b(iPhone|IP)\s*(17|18)\s*Pro\s*Max\b", text, re.I)
-            return (m.group(0), True, False)
-        other = _extract_model_from_text(text)
-        return (other, False, False)
-
-    # 3. iPhone 系列细分 (IP12/12Pro, IP13, IP15Pro 等)
-    if target_norm in ("IP1212PRO", "IPHONE1212PRO"):
-        if re.search(r"\b(iPhone|IP)\s*12\s*Pro\s*Max\b", text, re.I) or re.search(r"\b(iPhone|IP)\s*12\s*Mini\b", text, re.I):
-            other = _extract_model_from_text(text)
-            return (other, False, False)
-        if re.search(r"\b(iPhone|IP)\s*12(\s*/\s*12\s*Pro|\s*Pro)?\b", text, re.I):
-            return ("iPhone 12 / 12 Pro", True, False)
-        return (_extract_model_from_text(text), False, False)
-
-    if target_norm in ("IP13", "IPHONE13"):
-        if re.search(r"\b(iPhone|IP)\s*13\s*(Pro\s*Max|Pro|Mini)\b", text, re.I):
-            return (_extract_model_from_text(text), False, False)
-        if re.search(r"\b(iPhone|IP)\s*13\b", text, re.I):
-            return ("iPhone 13", True, False)
-        return (_extract_model_from_text(text), False, False)
-
-    if target_norm in ("IP15PRO", "IPHONE15PRO"):
-        if re.search(r"\b(iPhone|IP)\s*15\s*Pro\s*Max\b", text, re.I):
-            return ("iPhone 15 Pro Max", False, False)
-        if re.search(r"\b(iPhone|IP)\s*15\s*Pro\b", text, re.I):
-            return ("iPhone 15 Pro", True, False)
-        return (_extract_model_from_text(text), False, False)
-
-    # 4. Samsung S 系列严格区分 Base, Plus, Ultra, FE
-    # 示例目标：S10, S21, S23, S23Plus, S23Ultra, S24FE, S24Ultra, S25, S25Plus, S25FE, S26, S26Ultra
+    # 6. Samsung S 系列严格区分 Base, Plus, Ultra, FE
     s_match = re.match(r"^S(\d{1,2})(PLUS|\+|ULTRA|FE)?$", target_norm)
     if s_match:
         gen = s_match.group(1)
@@ -428,32 +628,26 @@ def _check_model_match(text: str, target: str, target_norm: str) -> Tuple[str, b
         if target_variant in ("+", "PLUS"):
             target_variant = "PLUS"
 
-        # 检查标题中的 S 系列提及
-        s_in_text = re.findall(rf"\b(Galaxy\s+)?S{gen}\s*(Ultra|Plus|\+|FE)?\b", text, re.IGNORECASE)
-        s_other_gen = re.findall(r"\b(Galaxy\s+)?S(\d{1,2})\s*(Ultra|Plus|\+|FE)?\b", text, re.IGNORECASE)
+        s_in_text = re.findall(rf"\b(?:Galaxy\s+)?S{gen}\s*(Ultra|Plus|\+|FE)?\b", text, re.IGNORECASE)
+        s_other_gen = re.findall(r"\b(?:Galaxy\s+)?S(\d{1,2})\s*(Ultra|Plus|\+|FE)?\b", text, re.IGNORECASE)
 
         if not s_in_text:
-            # 提及了其它 S 代号
             if s_other_gen:
                 other_str = f"S{s_other_gen[0][1]} {(s_other_gen[0][2] or '').lower()}".strip()
                 return (other_str, False, False)
-            return (_extract_model_from_text(text), False, False)
+            return (extracted, False, False)
 
-        # 存在该代号，比对变体
-        # 如果目标是纯 Base (如 S21, S23, S25, S26)
         if not target_variant:
             for item in s_in_text:
                 var = (item[1] or "").upper()
                 if var in ("PLUS", "+", "ULTRA", "FE"):
                     return (f"S{gen} {var.lower()}", False, False)
-            # 无变体后缀，匹配 Base
             return (f"S{gen}", True, False)
         elif target_variant == "ULTRA":
             for item in s_in_text:
                 var = (item[1] or "").upper()
                 if var == "ULTRA":
                     return (f"S{gen} ultra", True, False)
-            # 没有 Ultra
             return (f"S{gen}", False, False)
         elif target_variant == "PLUS":
             for item in s_in_text:
@@ -468,75 +662,58 @@ def _check_model_match(text: str, target: str, target_norm: str) -> Tuple[str, b
                     return (f"S{gen} fe", True, False)
             return (f"S{gen}", False, False)
 
-    # 5. Samsung A 系列 (A03S, A33, A37, A50, A51/4G, A52, A53, A54, A56, A57)
+    # 7. Samsung A 系列 (A03S, A33, A37, A50, A51/4G, A52, A53, A54, A56, A57)
     if target_norm.startswith("A") and re.match(r"^A\d{2}[A-Z]?(4G|5G)?$", target_norm):
         if target_norm == "A03S":
             if re.search(r"\bA03\s*Core\b", text, re.I):
                 return ("A03 Core", False, False)
             if re.search(r"\bA03S\b", text, re.I):
                 return ("A03S", True, False)
-            return (_extract_model_from_text(text), False, False)
+            return (extracted, False, False)
 
         if target_norm in ("A52", "A52S"):
-            if re.search(r"\bA50\b", text, re.I) or re.search(r"\bA05S\b", text, re.I) or re.search(r"\bA57\b", text, re.I):
-                return (_extract_model_from_text(text), False, False)
+            if re.search(r"\bA50\b|\bA05S\b|\bA57\b", text, re.I):
+                return (extracted, False, False)
             if re.search(r"\bA52\b|\bA52S\b", text, re.I):
                 return ("A52 / A52s", True, False)
-            return (_extract_model_from_text(text), False, False)
+            return (extracted, False, False)
 
         if target_norm == "A56":
             if re.search(r"\bA56\b", text, re.I):
-                # 兼容 A56 / A36
                 if re.search(r"\bA36\b", text, re.I):
                     return ("A56 / A36", True, False)
                 return ("A56", True, False)
-            return (_extract_model_from_text(text), False, False)
+            return (extracted, False, False)
 
         if target_norm == "A514G":
             if re.search(r"\bA51\s*5G\b", text, re.I):
                 return ("A51 5G", False, False)
             if re.search(r"\bA51\s*4G\b|\bA51\b", text, re.I):
                 return ("A51 4G", True, False)
-            return (_extract_model_from_text(text), False, False)
+            return (extracted, False, False)
 
-        # 其它 A 系列如 A33, A37, A53, A54, A57
         a_target_num = re.search(r"\d{2}", target_norm).group(0)
         found_a = re.findall(r"\bA(\d{2})[A-Z]?\b", text, re.IGNORECASE)
         if a_target_num in found_a:
             return (f"A{a_target_num}", True, False)
         elif found_a:
             return (f"A{found_a[0]}", False, False)
-        return (_extract_model_from_text(text), False, False)
+        return (extracted, False, False)
 
-    # 6. Redmi Note 系列
-    if "RM" in target_norm or "REDMI" in target_norm or "NOTE" in target_norm:
-        if "14" in target_norm and "5G" in target_norm:
-            if re.search(r"\bRedmi\s+Note\s+14\s*4G\b", text, re.I):
-                return ("Redmi Note 14 4G", False, False)
-            if re.search(r"\bRedmi\s+Note\s+14\s*5G\b", text, re.I):
-                return ("Redmi Note 14 5G", True, False)
-            return (_extract_model_from_text(text), False, False)
-
-        if "13PRO" in target_norm and "5G" in target_norm:
-            if re.search(r"\bRedmi\s+Note\s+13\s*Pro\s*5G\b", text, re.I):
-                return ("Redmi Note 13 Pro 5G", True, False)
-            return (_extract_model_from_text(text), False, False)
-
-    # 7. Google Pixel 系列
+    # 8. Google Pixel 系列
     if "PIXEL" in target_norm:
         if "10" in target_norm:
             if re.search(r"\bPixel\s+10A\b", text, re.I):
                 return ("Pixel 10A", False, True)
             if re.search(r"\bPixel\s+10\s*Pro\b|\bPixel\s+10\b", text, re.I):
                 return ("Pixel 10 / 10 Pro", True, False)
-            return (_extract_model_from_text(text), False, False)
+            return (extracted, False, False)
 
-    # 通用宽松包含
+    # 9. 通用宽松包含 (当 target 是简单词时)
     token = _clean_model_token(target).upper()
     if token and token in text.upper():
         return (token, True, False)
 
-    extracted = _extract_model_from_text(text)
     return (extracted, False, False)
 
 
@@ -579,9 +756,13 @@ def audit_records_full(
         camp_name = str(row.get("广告活动名称") or row.get("campaign") or "").strip()
         ad_group_name = str(row.get("广告组名称") or row.get("adGroup") or "").strip()
         if not target_model and camp_name:
-            m = re.search(r"\b([A-Za-z0-9]+(?:/[A-Za-z0-9]+)*)\b", camp_name)
-            if m:
-                target_model = m.group(1)
+            m_suan = re.search(r"SUAN-([^-]+(?:/[^-]+)*)", camp_name, re.I)
+            if m_suan:
+                target_model = m_suan.group(1)
+            else:
+                m = re.search(r"\b([A-Za-z0-9]+(?:/[A-Za-z0-9]+)*)\b", camp_name)
+                if m:
+                    target_model = m.group(1)
 
         info = asin_info_map.get(norm_asin)
         res = judge_single_asin(norm_asin or raw_asin, target_model, info, country=country)

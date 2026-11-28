@@ -292,14 +292,14 @@
       "asin": "",
       "campaign": "",
       "priority": "P1",
-      "status": "todo",
+      "status": "done",
       "startDate": "2026-11-26",
       "dueDate": "2026-11-26",
       "dueTime": "18:00",
       "pstTime": "",
       "estimatedHours": 1,
       "actualMinutes": 0,
-      "progress": 0,
+      "progress": 100,
       "recurrence": "daily",
       "isMilestone": false,
       "okrId": "",
@@ -315,10 +315,11 @@
           "triggerType": "before_due"
         }
       ],
+      "_parentRecurrenceId": null,
       "_overdueSnoozeUntil": null,
       "_overdueDismissed": false,
       "createdAt": "2026-11-26T16:52:28",
-      "updatedAt": "2026-11-26T16:52:38"
+      "updatedAt": "2026-11-28T14:11:11"
     },
     {
       "id": "t_mwxbdczq_bsl9",
@@ -329,14 +330,14 @@
       "asin": "",
       "campaign": "",
       "priority": "P1",
-      "status": "todo",
+      "status": "done",
       "startDate": "2026-11-26",
       "dueDate": "2026-11-26",
       "dueTime": "18:00",
       "pstTime": "",
       "estimatedHours": 1,
       "actualMinutes": 0,
-      "progress": 0,
+      "progress": 100,
       "recurrence": "biweekly",
       "isMilestone": false,
       "okrId": "",
@@ -352,10 +353,11 @@
           "sound": true
         }
       ],
+      "_parentRecurrenceId": null,
       "_overdueSnoozeUntil": null,
       "_overdueDismissed": false,
       "createdAt": "2026-11-26T16:52:07",
-      "updatedAt": "2026-11-26T16:52:07"
+      "updatedAt": "2026-11-28T14:11:09"
     },
     {
       "id": "t_mwx4vtxp_ax5i",
@@ -551,14 +553,14 @@
       "asin": "",
       "campaign": "",
       "priority": "P0",
-      "status": "todo",
+      "status": "done",
       "startDate": "2026-11-26",
       "dueDate": "2026-11-26",
       "dueTime": "18:00",
       "pstTime": "",
       "estimatedHours": 1,
       "actualMinutes": 0,
-      "progress": 0,
+      "progress": 100,
       "recurrence": "none",
       "isMilestone": false,
       "okrId": "",
@@ -578,10 +580,11 @@
         }
       ],
       "alerts": [],
+      "_parentRecurrenceId": null,
       "_overdueSnoozeUntil": null,
       "_overdueDismissed": false,
       "createdAt": "2026-11-25T22:17:10",
-      "updatedAt": "2026-11-25T22:17:10"
+      "updatedAt": "2026-11-28T14:11:21"
     },
     {
       "id": "t_mww7jh1w_8kqz",
@@ -1391,13 +1394,14 @@
       "asin": "S26Ultra-Light Brown",
       "campaign": "",
       "priority": "P2",
-      "status": "waiting",
+      "status": "done",
       "startDate": "2026-11-24",
       "dueDate": "2026-11-26",
       "dueTime": "18:00",
+      "pstTime": "",
       "estimatedHours": 2,
       "actualMinutes": 45,
-      "progress": 50,
+      "progress": 100,
       "recurrence": "none",
       "isMilestone": false,
       "okrId": "okr_2",
@@ -1418,8 +1422,11 @@
         }
       ],
       "alerts": [],
+      "_parentRecurrenceId": null,
+      "_overdueSnoozeUntil": null,
+      "_overdueDismissed": false,
       "createdAt": "2026-11-23T14:00:00",
-      "updatedAt": "2026-11-24T10:00:00"
+      "updatedAt": "2026-11-28T14:11:23"
     },
     {
       "description": "美西11/20 00:00（北京11/20 16:00）起进入预热初期：浏览走高、加购不买增多。1-3档85折、4-6档80折，Coupon未开启，盯紧美西18-20点（北京次日10:00-12:00）。",
@@ -1582,16 +1589,22 @@
       "updatedAt": "2026-11-25T12:08:07"
     },
     {
+      "id": "bf_1126",
+      "title": "【11/26 感恩节 & $2 Coupon 开启】1-3档调回90折 / 4-6档85折 · 释放11-17点流量",
       "description": "美西11/26 00:00（北京11/26 16:00）开启 $2 Coupon，转化明显回暖！分时模板从75/80折上调至 1-3档90折、4-6档85折，释放美西11-17点（北京次日03:00-09:00）流量并观察提速。",
       "module": "促销活动",
       "marketplace": "US",
       "asin": "全店铺主力翻盖壳",
       "campaign": "UPBestKS-BFCM",
       "priority": "P0",
-      "status": "todo",
+      "status": "done",
+      "startDate": "2026-11-26",
+      "dueDate": "2026-11-26",
+      "dueTime": "15:30",
+      "pstTime": "美西 23:30→00:00",
       "estimatedHours": 1,
       "actualMinutes": 0,
-      "progress": 0,
+      "progress": 100,
       "recurrence": "none",
       "isMilestone": true,
       "okrId": "okr_1",
@@ -1630,14 +1643,11 @@
           "dismissedAt": null
         }
       ],
+      "_parentRecurrenceId": null,
+      "_overdueSnoozeUntil": null,
+      "_overdueDismissed": false,
       "createdAt": "2026-11-24T13:06:41",
-      "updatedAt": "2026-11-24T13:06:41",
-      "id": "bf_1126",
-      "title": "【11/26 感恩节 & $2 Coupon 开启】1-3档调回90折 / 4-6档85折 · 释放11-17点流量",
-      "startDate": "2026-11-26",
-      "dueDate": "2026-11-26",
-      "dueTime": "15:30",
-      "pstTime": "美西 23:30→00:00"
+      "updatedAt": "2026-11-28T14:11:22"
     },
     {
       "description": "美西11/27 00:00（北京11/27 16:00）黑五主促正式引爆！1-3档恢复100%常规全力冲量，4-5档90折，第6档新品95折吃首单；检查主力活动日预算翻倍预留。",
@@ -2140,14 +2150,14 @@
       "asin": "全店铺主力翻盖壳",
       "campaign": "UPBestKS-BFCM",
       "priority": "P2",
-      "status": "todo",
+      "status": "done",
       "startDate": "2026-11-26",
       "dueDate": "2026-11-26",
       "dueTime": "09:00",
       "pstTime": "美西 17:00 / 日本 10:00",
       "estimatedHours": 1,
       "actualMinutes": 0,
-      "progress": 50,
+      "progress": 100,
       "recurrence": "daily",
       "isMilestone": false,
       "okrId": "okr_1",
@@ -2169,10 +2179,11 @@
           "dismissedAt": null
         }
       ],
+      "_parentRecurrenceId": null,
       "_overdueSnoozeUntil": null,
       "_overdueDismissed": false,
       "createdAt": "2026-11-24T22:27:40",
-      "updatedAt": "2026-11-24T22:27:51"
+      "updatedAt": "2026-11-28T14:11:11"
     },
     {
       "id": "t_mwush6p4_bpo3",
@@ -2351,14 +2362,14 @@
       "asin": "",
       "campaign": "",
       "priority": "P1",
-      "status": "todo",
+      "status": "done",
       "startDate": "2026-11-26",
       "dueDate": "2026-11-26",
       "dueTime": "18:00",
       "pstTime": "",
       "estimatedHours": 1,
       "actualMinutes": 0,
-      "progress": 0,
+      "progress": 100,
       "recurrence": "daily",
       "isMilestone": false,
       "okrId": "",
@@ -2376,10 +2387,11 @@
           "dismissedAt": null
         }
       ],
+      "_parentRecurrenceId": null,
       "_overdueSnoozeUntil": null,
       "_overdueDismissed": false,
       "createdAt": "2026-11-25T22:20:24",
-      "updatedAt": "2026-11-25T22:20:24"
+      "updatedAt": "2026-11-28T14:11:12"
     },
     {
       "id": "t_mww7npz1_701l",
@@ -2390,14 +2402,14 @@
       "asin": "iPhone 17 Pro Max Wine Red / 宿州图派 R20",
       "campaign": "",
       "priority": "P1",
-      "status": "todo",
+      "status": "done",
       "startDate": "2026-11-26",
       "dueDate": "2026-11-26",
       "dueTime": "10:00",
       "pstTime": "",
       "estimatedHours": 0.5,
       "actualMinutes": 0,
-      "progress": 0,
+      "progress": 100,
       "recurrence": "daily",
       "isMilestone": false,
       "okrId": "",
@@ -2430,10 +2442,11 @@
           "dismissedAt": null
         }
       ],
+      "_parentRecurrenceId": null,
       "_overdueSnoozeUntil": null,
       "_overdueDismissed": false,
       "createdAt": "2026-11-25T22:20:26",
-      "updatedAt": "2026-11-25T22:20:26"
+      "updatedAt": "2026-11-28T14:11:13"
     },
     {
       "id": "t_mwxbe5kv_l6ku",
@@ -2566,6 +2579,280 @@
       "startDate": "2026-11-27",
       "dueDate": "2026-11-27",
       "dueTime": "15:00"
+    },
+    {
+      "id": "t_mx00i1om_90cw",
+      "title": "SAUNDUCK  FR DE 劣词优化",
+      "description": "",
+      "module": "广告投放",
+      "marketplace": "US",
+      "asin": "",
+      "campaign": "",
+      "priority": "P1",
+      "status": "todo",
+      "startDate": "2026-12-10",
+      "dueDate": "2026-12-10",
+      "dueTime": "18:00",
+      "pstTime": "",
+      "estimatedHours": 1,
+      "actualMinutes": 0,
+      "progress": 0,
+      "recurrence": "biweekly",
+      "isMilestone": false,
+      "okrId": "",
+      "tags": [],
+      "subtasks": [],
+      "alerts": [
+        {
+          "id": "al_mx00i1om_2mgf",
+          "triggerType": "before_due",
+          "offsetMinutes": 30,
+          "level": "warning",
+          "label": "截止前30分钟提醒",
+          "sound": true,
+          "snoozedUntil": null,
+          "dismissedAt": null
+        }
+      ],
+      "_parentRecurrenceId": null,
+      "_overdueSnoozeUntil": null,
+      "_overdueDismissed": false,
+      "createdAt": "2026-11-28T14:11:09",
+      "updatedAt": "2026-11-28T14:11:09"
+    },
+    {
+      "id": "t_mx00i3fu_flx5",
+      "title": "UPBestKS 否词",
+      "description": "",
+      "module": "广告投放",
+      "marketplace": "US",
+      "asin": "",
+      "campaign": "",
+      "priority": "P1",
+      "status": "todo",
+      "startDate": "2026-11-27",
+      "dueDate": "2026-11-27",
+      "dueTime": "18:00",
+      "pstTime": "",
+      "estimatedHours": 1,
+      "actualMinutes": 0,
+      "progress": 0,
+      "recurrence": "daily",
+      "isMilestone": false,
+      "okrId": "",
+      "tags": [],
+      "subtasks": [],
+      "alerts": [
+        {
+          "id": "al_mx00i3fu_y92a",
+          "label": "截止前30分钟提醒",
+          "level": "warning",
+          "offsetMinutes": 30,
+          "sound": true,
+          "triggerType": "before_due",
+          "snoozedUntil": null,
+          "dismissedAt": null
+        }
+      ],
+      "_parentRecurrenceId": null,
+      "_overdueSnoozeUntil": null,
+      "_overdueDismissed": false,
+      "createdAt": "2026-11-28T14:11:11",
+      "updatedAt": "2026-11-28T14:11:11"
+    },
+    {
+      "id": "t_mx00i3tf_g3vl",
+      "title": "【每日亚马逊晨会时间点】北京09:00 = 美西17:00 晚间回升 + 欧洲01:00/日本10:00",
+      "description": "每日上午 09:00 运营例行巡检：检查美西 17:00–19:59 下班购物回升期表现、欧洲站夜间成交、日本站早盘，以及昨日 12–48h 归因延迟更新后的广告报表。",
+      "module": "常规运营",
+      "marketplace": "US",
+      "asin": "全店铺主力翻盖壳",
+      "campaign": "UPBestKS-BFCM",
+      "priority": "P2",
+      "status": "todo",
+      "startDate": "2026-11-27",
+      "dueDate": "2026-11-27",
+      "dueTime": "09:00",
+      "pstTime": "美西 17:00 / 日本 10:00",
+      "estimatedHours": 1,
+      "actualMinutes": 0,
+      "progress": 0,
+      "recurrence": "daily",
+      "isMilestone": false,
+      "okrId": "okr_1",
+      "tags": [
+        "北京09:00",
+        "美西17:00",
+        "每日例行"
+      ],
+      "subtasks": [],
+      "alerts": [
+        {
+          "id": "al_mx00i3tf_934j",
+          "triggerType": "daily_at",
+          "timeOfDay": "09:00",
+          "level": "info",
+          "label": "09:00 晨会多站点巡检",
+          "sound": false,
+          "snoozedUntil": null,
+          "dismissedAt": null
+        }
+      ],
+      "_parentRecurrenceId": null,
+      "_overdueSnoozeUntil": null,
+      "_overdueDismissed": false,
+      "createdAt": "2026-11-28T14:11:11",
+      "updatedAt": "2026-11-28T14:11:11"
+    },
+    {
+      "id": "t_mx00i48p_u89x",
+      "title": "SUANPOT 否词",
+      "description": "",
+      "module": "广告投放",
+      "marketplace": "US",
+      "asin": "",
+      "campaign": "",
+      "priority": "P1",
+      "status": "todo",
+      "startDate": "2026-11-27",
+      "dueDate": "2026-11-27",
+      "dueTime": "18:00",
+      "pstTime": "",
+      "estimatedHours": 1,
+      "actualMinutes": 0,
+      "progress": 0,
+      "recurrence": "daily",
+      "isMilestone": false,
+      "okrId": "",
+      "tags": [],
+      "subtasks": [],
+      "alerts": [
+        {
+          "id": "al_mx00i48p_l9g8",
+          "triggerType": "before_due",
+          "offsetMinutes": 30,
+          "level": "warning",
+          "label": "截止前30分钟提醒",
+          "sound": true,
+          "snoozedUntil": null,
+          "dismissedAt": null
+        }
+      ],
+      "_parentRecurrenceId": null,
+      "_overdueSnoozeUntil": null,
+      "_overdueDismissed": false,
+      "createdAt": "2026-11-28T14:11:12",
+      "updatedAt": "2026-11-28T14:11:12"
+    },
+    {
+      "id": "t_mx00i4ze_pw60",
+      "title": "检查 iPhone 17 Pro Max Wine Red SKU & 宿州图派美国 R20 是否到货",
+      "description": "每日例行核查 iPhone 17 Pro Max Wine Red SKU 及宿州图派美国 R20 货件/库存是否到货上架。",
+      "module": "库存补货",
+      "marketplace": "US",
+      "asin": "iPhone 17 Pro Max Wine Red / 宿州图派 R20",
+      "campaign": "",
+      "priority": "P1",
+      "status": "done",
+      "startDate": "2026-11-27",
+      "dueDate": "2026-11-27",
+      "dueTime": "10:00",
+      "pstTime": "",
+      "estimatedHours": 0.5,
+      "actualMinutes": 0,
+      "progress": 100,
+      "recurrence": "daily",
+      "isMilestone": false,
+      "okrId": "",
+      "tags": [
+        "到货检查",
+        "每日重复",
+        "R20"
+      ],
+      "subtasks": [
+        {
+          "done": false,
+          "id": "st_mx00i4ze_mi0w",
+          "text": "检查 iPhone 17 Pro Max Wine Red SKU 到货状态"
+        },
+        {
+          "done": false,
+          "id": "st_mx00i4ze_jihc",
+          "text": "检查宿州图派美国 R20 到货状态"
+        }
+      ],
+      "alerts": [
+        {
+          "id": "al_mx00i4ze_guwf",
+          "label": "每日 10:00 到货检查提醒",
+          "level": "warning",
+          "sound": true,
+          "timeOfDay": "10:00",
+          "triggerType": "daily_at",
+          "snoozedUntil": null,
+          "dismissedAt": null
+        }
+      ],
+      "_parentRecurrenceId": null,
+      "_overdueSnoozeUntil": null,
+      "_overdueDismissed": false,
+      "createdAt": "2026-11-28T14:11:13",
+      "updatedAt": "2026-11-28T14:11:29"
+    },
+    {
+      "id": "t_mx00ihik_itvz",
+      "title": "检查 iPhone 17 Pro Max Wine Red SKU & 宿州图派美国 R20 是否到货",
+      "description": "每日例行核查 iPhone 17 Pro Max Wine Red SKU 及宿州图派美国 R20 货件/库存是否到货上架。",
+      "module": "库存补货",
+      "marketplace": "US",
+      "asin": "iPhone 17 Pro Max Wine Red / 宿州图派 R20",
+      "campaign": "",
+      "priority": "P1",
+      "status": "todo",
+      "startDate": "2026-11-28",
+      "dueDate": "2026-11-28",
+      "dueTime": "10:00",
+      "pstTime": "",
+      "estimatedHours": 0.5,
+      "actualMinutes": 0,
+      "progress": 0,
+      "recurrence": "daily",
+      "isMilestone": false,
+      "okrId": "",
+      "tags": [
+        "到货检查",
+        "每日重复",
+        "R20"
+      ],
+      "subtasks": [
+        {
+          "done": false,
+          "id": "st_mx00ihik_58of",
+          "text": "检查 iPhone 17 Pro Max Wine Red SKU 到货状态"
+        },
+        {
+          "done": false,
+          "id": "st_mx00ihik_0dgj",
+          "text": "检查宿州图派美国 R20 到货状态"
+        }
+      ],
+      "alerts": [
+        {
+          "id": "al_mx00ihik_r5m6",
+          "label": "每日 10:00 到货检查提醒",
+          "level": "warning",
+          "sound": true,
+          "timeOfDay": "10:00",
+          "triggerType": "daily_at",
+          "snoozedUntil": null,
+          "dismissedAt": null
+        }
+      ],
+      "_parentRecurrenceId": null,
+      "_overdueSnoozeUntil": null,
+      "_overdueDismissed": false,
+      "createdAt": "2026-11-28T14:11:29",
+      "updatedAt": "2026-11-28T14:11:29"
     }
   ],
   "alertRules": [
