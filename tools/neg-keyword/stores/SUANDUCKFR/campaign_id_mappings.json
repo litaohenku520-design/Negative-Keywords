@@ -1790,5 +1790,12 @@
     "storeMarketplace": "SUANDUCKFR::FR",
     "sourceFile": "SUANDUCK FR Campaign ID.csv",
     "updatedAt": "2026-11-28T05:37:46.000Z"
+  },
+  {
+    "campaignName": "SUAN-A17-DX-Broad-Light Blue",
+    "campaignId": "81932436204531",
+    "storeMarketplace": "SUANDUCKFR::FR",
+    "sourceFile": "SUANDUCK FR Campaign ID.csv",
+    "updatedAt": "2026-11-28T05:46:06.000Z"
   }
 ]
