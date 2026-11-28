@@ -715,6 +715,8 @@ const CampaignIdMapEditor: React.FC<{
         const campaignIdColumn = findColumn([
           /^campaign\s*id$/i,
           /^campaignid$/i,
+          /^广告活动编号$/i,
+          /^广告组合编号$/i,
           /广告活动\s*(?:ID|Id|id)/i,
           /广告组合\s*(?:ID|Id|id)/i,
           /活动编号|组合编号/i,
@@ -773,6 +775,7 @@ const CampaignIdMapEditor: React.FC<{
         return;
       }
       await onSave(mergeCampaignIdMappings(mappings, summary.records));
+      setSelectedStoreScope(importScope);
       setPendingImport(null);
       const notes = [
         `已导入 ${summary.importedRows} 条活动映射`,
