@@ -179,11 +179,12 @@ TOOLS = [
     },
     {
         "name": "app_sub_mcp_open",
-        "description": "仅供 Discover AMZN 工作台 UI 调用的子插件启动与初始数据拉取。",
+        "description": "仅供 Discover amzn 工作台 UI 调用的子插件启动与初始数据拉取。",
         "inputSchema": {
             "type": "object",
             "properties": {
                 "pluginId": {"type": "string"},
+                "storeId": {"type": "string"},
             },
             "required": ["pluginId"],
         },
@@ -191,13 +192,14 @@ TOOLS = [
     },
     {
         "name": "app_sub_mcp_call",
-        "description": "仅供 Discover AMZN 工作台 UI 调用的子插件工具透传。",
+        "description": "仅供 Discover amzn 工作台 UI 调用的子插件工具透传。",
         "inputSchema": {
             "type": "object",
             "properties": {
                 "pluginId": {"type": "string"},
                 "toolName": {"type": "string"},
                 "arguments": {"type": "object"},
+                "storeId": {"type": "string"},
             },
             "required": ["pluginId", "toolName"],
         },
@@ -309,10 +311,12 @@ def _handle_tool_call(name: str, args: dict) -> dict:
 
     if name == "app_sub_mcp_open":
         from sub_mcp_bridge import open_sub_plugin  # noqa: WPS433
+        from config import get_stores_state  # noqa: WPS433
 
         plugin_id = str(args.get("pluginId") or "").strip()
+        store_id = str(args.get("storeId") or get_stores_state().get("active_store_id") or "default").strip()
         base_url = _ensure_embedded_server()
-        res = open_sub_plugin(plugin_id)
+        res = open_sub_plugin(plugin_id, store_id=store_id)
         res["subUrl"] = f"{base_url}/sub/{plugin_id}"
         return {
             "content": [{"type": "text", "text": json.dumps(res, ensure_ascii=False)}],
@@ -321,11 +325,13 @@ def _handle_tool_call(name: str, args: dict) -> dict:
 
     if name == "app_sub_mcp_call":
         from sub_mcp_bridge import call_sub_plugin_tool  # noqa: WPS433
+        from config import get_stores_state  # noqa: WPS433
 
         plugin_id = str(args.get("pluginId") or "").strip()
         tool_name = str(args.get("toolName") or "").strip()
         tool_args = args.get("arguments") or {}
-        res = call_sub_plugin_tool(plugin_id, tool_name, tool_args)
+        store_id = str(args.get("storeId") or get_stores_state().get("active_store_id") or "default").strip()
+        res = call_sub_plugin_tool(plugin_id, tool_name, tool_args, store_id=store_id)
         return {
             "content": [{"type": "text", "text": json.dumps(res, ensure_ascii=False)}],
             "structuredContent": res,

@@ -6,12 +6,13 @@ const { Text } = Typography;
 
 interface SubPluginHostProps {
   pluginId: string;
+  storeId: string;
   title: string;
   mcpApp: any;
   isDark: boolean;
 }
 
-export default function SubPluginHost({ pluginId, title, mcpApp, isDark }: SubPluginHostProps) {
+export default function SubPluginHost({ pluginId, storeId, title, mcpApp, isDark }: SubPluginHostProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -27,7 +28,7 @@ export default function SubPluginHost({ pluginId, title, mcpApp, isDark }: SubPl
     mcpApp
       .callServerTool({
         name: 'app_sub_mcp_open',
-        arguments: { pluginId },
+        arguments: { pluginId, storeId },
       })
       .then((res: any) => {
         if (cancelled) return;
@@ -51,7 +52,7 @@ export default function SubPluginHost({ pluginId, title, mcpApp, isDark }: SubPl
     return () => {
       cancelled = true;
     };
-  }, [pluginId, title, mcpApp, reloadTick]);
+  }, [pluginId, storeId, title, mcpApp, reloadTick]);
 
   useEffect(() => {
     const onMessage = async (event: MessageEvent) => {
@@ -112,6 +113,7 @@ export default function SubPluginHost({ pluginId, title, mcpApp, isDark }: SubPl
             name: 'app_sub_mcp_call',
             arguments: {
               pluginId,
+              storeId,
               toolName: params?.name,
               arguments: params?.arguments || {},
             },
@@ -146,7 +148,7 @@ export default function SubPluginHost({ pluginId, title, mcpApp, isDark }: SubPl
 
     window.addEventListener('message', onMessage);
     return () => window.removeEventListener('message', onMessage);
-  }, [pluginId, mcpApp, isDark]);
+  }, [pluginId, storeId, mcpApp, isDark]);
 
   if (error) {
     return (
