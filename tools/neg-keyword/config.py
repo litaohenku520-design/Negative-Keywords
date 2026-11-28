@@ -68,14 +68,12 @@ def get_stores_state() -> dict:
 
 def get_store_config_dir(store_id: str | None = None) -> str:
     sid = _sanitize_store_id(store_id or get_stores_state()['active_store_id'])
-    if sid == 'default':
-        return _BACKEND_DIR
     store_dir = os.path.join(_STORES_DIR, sid)
     os.makedirs(store_dir, exist_ok=True)
-    target_cfg = os.path.join(store_dir, 'rules_config.json')
-    base_cfg = os.path.join(_BACKEND_DIR, 'rules_config.json')
-    if not os.path.exists(target_cfg) and os.path.exists(base_cfg):
-        shutil.copy2(base_cfg, target_cfg)
+    cid_file = os.path.join(store_dir, 'campaign_id_mappings.json')
+    if not os.path.exists(cid_file):
+        with open(cid_file, 'w', encoding='utf-8') as f:
+            json.dump([], f, ensure_ascii=False, indent=2)
     return store_dir
 
 
@@ -107,14 +105,12 @@ def create_or_update_store(store_id: str, name: str, marketplace: str = 'US', co
             stores.append({'id': sid, 'name': clean_name, 'marketplace': clean_mkt})
         meta['stores'] = stores
 
-        store_dir = _BACKEND_DIR if sid == 'default' else os.path.join(_STORES_DIR, sid)
+        store_dir = os.path.join(_STORES_DIR, sid)
         os.makedirs(store_dir, exist_ok=True)
-        target_cfg = os.path.join(store_dir, 'rules_config.json')
-        if not os.path.exists(target_cfg):
-            src_dir = get_store_config_dir(copy_from) if copy_from else _BACKEND_DIR
-            src_cfg = os.path.join(src_dir, 'rules_config.json')
-            if os.path.exists(src_cfg):
-                shutil.copy2(src_cfg, target_cfg)
+        cid_file = os.path.join(store_dir, 'campaign_id_mappings.json')
+        if not os.path.exists(cid_file):
+            with open(cid_file, 'w', encoding='utf-8') as f:
+                json.dump([], f, ensure_ascii=False, indent=2)
 
         meta['active_store_id'] = sid
         _save_stores_meta(meta)
@@ -122,32 +118,56 @@ def create_or_update_store(store_id: str, name: str, marketplace: str = 'US', co
 
 
 def get_config_dir():
-    """获取当前激活店铺的配置目录（可通过 NEG_PLUGIN_CONFIG_DIR 覆盖）。"""
+    """获取当前共享配置根目录（可通过 NEG_PLUGIN_CONFIG_DIR 覆盖）。"""
     env_dir = os.environ.get('NEG_PLUGIN_CONFIG_DIR', '').strip()
     if env_dir:
         os.makedirs(env_dir, exist_ok=True)
         return env_dir
-    return get_store_config_dir()
+    return _BACKEND_DIR
+
+
+def _get_campaign_id_file(store_id: str | None = None) -> str:
+    return os.path.join(get_store_config_dir(store_id), 'campaign_id_mappings.json')
 
 
 def load_rules_from_file():
-    """从当前店铺配置文件加载规则"""
+    """加载共享规则配置 + 当前激活店铺的 campaign_id_mappings"""
     config_path = os.path.join(get_config_dir(), 'rules_config.json')
+    data = None
     if os.path.exists(config_path):
         try:
             with open(config_path, 'r', encoding='utf-8-sig') as f:
-                return json.load(f)
+                data = json.load(f)
         except Exception as e:
             print(f"加载规则配置失败: {e}")
-    return None
+    if data is None:
+        return None
+    cid_path = _get_campaign_id_file()
+    mappings = []
+    if os.path.exists(cid_path):
+        try:
+            with open(cid_path, 'r', encoding='utf-8-sig') as f:
+                loaded_m = json.load(f)
+                if isinstance(loaded_m, list):
+                    mappings = loaded_m
+        except Exception as e:
+            print(f"加载店铺 Campaign ID 映射失败: {e}")
+    data['campaign_id_mappings'] = mappings
+    return data
 
 
 def save_rules_to_file(rules_dict):
-    """保存规则到当前店铺配置文件"""
+    """保存共享规则到根目录 rules_config.json，并仅将 campaign_id_mappings 保存到当前店铺"""
     config_path = os.path.join(get_config_dir(), 'rules_config.json')
+    cid_path = _get_campaign_id_file()
     try:
+        to_save = dict(rules_dict or {})
+        mappings = to_save.pop('campaign_id_mappings', None)
         with open(config_path, 'w', encoding='utf-8') as f:
-            json.dump(rules_dict, f, ensure_ascii=False, indent=2)
+            json.dump(to_save, f, ensure_ascii=False, indent=2)
+        if mappings is not None:
+            with open(cid_path, 'w', encoding='utf-8') as f:
+                json.dump(mappings if isinstance(mappings, list) else [], f, ensure_ascii=False, indent=2)
         return True
     except Exception as e:
         print(f"保存规则配置失败: {e}")
