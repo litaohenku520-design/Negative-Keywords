@@ -6,6 +6,7 @@ import {
   BarChartOutlined,
   CalendarOutlined,
   ClearOutlined,
+  ClockCircleOutlined,
   CloudUploadOutlined,
   CompassOutlined,
   DatabaseOutlined,
@@ -30,6 +31,7 @@ import NegKeywordTool from './index';
 import RoasMerge from './roas/index';
 import SubPluginHost from './components/SubPluginHost';
 import AbaRankPanel from './components/AbaRankPanel';
+import DaypartingV33Panel from './components/DaypartingV33Panel';
 import { setGlobalStoreState } from './shims/erpShims';
 
 const { Text } = Typography;
@@ -67,6 +69,7 @@ class ErrorBoundary extends React.Component<
 type ModuleKey =
   | 'planner'
   | 'neg'
+  | 'dayparting'
   | 'roas'
   | 'ad-scout'
   | 'sales-hub'
@@ -94,6 +97,7 @@ interface StoreMeta {
 const MODULES: SidebarModule[] = [
   { key: 'planner', label: '运营计划', group: '工作台主页', icon: <CalendarOutlined />, subPluginId: 'amz-ops-planner', badge: '主' },
   { key: 'neg', label: '否词助手', group: '广告工具', icon: <StopOutlined /> },
+  { key: 'dayparting', label: '分时调价优化', group: '广告工具', icon: <ClockCircleOutlined /> },
   { key: 'roas', label: '搜索词劣词优化', group: '广告工具', icon: <BarChartOutlined /> },
   { key: 'ad-scout', label: '广告数据汇总', group: '广告工具', icon: <RadarChartOutlined />, subPluginId: 'upbestks-ad-scout' },
   { key: 'weekly-planner', label: '周广告复盘优化', group: '广告工具', icon: <ScheduleOutlined />, subPluginId: 'upbestks-weekly-planner' },
@@ -622,6 +626,13 @@ function RootApp() {
                 return (
                   <div key={`${mod.key}-${storeVersion}`} style={{ display: visible ? 'block' : 'none' }}>
                     <NegKeywordTool />
+                  </div>
+                );
+              }
+              if (mod.key === 'dayparting') {
+                return (
+                  <div key={mod.key} style={{ display: visible ? 'block' : 'none' }}>
+                    <DaypartingV33Panel />
                   </div>
                 );
               }

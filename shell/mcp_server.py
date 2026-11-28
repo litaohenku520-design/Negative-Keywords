@@ -142,13 +142,13 @@ TOOLS = [
     {
         "name": "open_neg_workbench",
         "title": "Discover amzn",
-        "description": "打开 Discover amzn 亚马逊运营集成工作台（默认主页面为运营计划，侧边栏集成否词助手(含ASIN智能自动判定与文件夹导出)、搜索词劣词优化、广告数据汇总、周广告复盘优化、销售采购与补货、库存销售分析、产品库、西柚竞品分析）。",
+        "description": "打开 Discover amzn 亚马逊运营集成工作台（默认主页面为运营计划，侧边栏集成否词助手、分时调价优化、搜索词劣词优化、广告数据汇总、周广告复盘优化、销售采购与补货、库存销售分析、产品库、西柚竞品分析）。",
         "inputSchema": {
             "type": "object",
             "properties": {
                 "module": {
                     "type": "string",
-                    "enum": ["planner", "neg", "roas", "ad-scout", "sales-hub", "weekly-planner", "erp-workbench", "product-hub", "xydc", "aba-rank"],
+                    "enum": ["planner", "neg", "dayparting", "roas", "ad-scout", "sales-hub", "weekly-planner", "erp-workbench", "product-hub", "xydc", "aba-rank"],
                     "description": "可选：初始打开的功能模块（默认 planner=运营计划）",
                 }
             },
