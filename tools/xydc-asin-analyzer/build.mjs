@@ -1,10 +1,12 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
-import * as esbuild from 'esbuild';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const require = createRequire(path.join(__dirname, 'server', 'package.json'));
+const esbuild = require('esbuild');
 
 async function bundle() {
   console.log('Bundling xydc-asin-analyzer MCP App UI with esbuild...');
@@ -24,6 +26,7 @@ async function bundle() {
     minify: true,
     write: false,
     target: ['es2020'],
+    nodePaths: [path.join(__dirname, 'server', 'node_modules')],
   });
 
   const jsCode = res.outputFiles[0].text;

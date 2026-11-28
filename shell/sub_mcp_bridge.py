@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import os
+import queue
 import subprocess
 import threading
 import time
@@ -90,6 +91,7 @@ class _NodeMcpClient:
         self._lock = threading.Lock()
         self._req_id = 0
         self._initialized = False
+        self._stdout_queue: queue.Queue[str | None] | None = None
 
     def _ensure_started(self) -> None:
         if self._proc is not None and self._proc.poll() is None and self._initialized:
@@ -120,6 +122,19 @@ class _NodeMcpClient:
             env=env,
             creationflags=creationflags,
         )
+        self._stdout_queue = queue.Queue()
+        threading.Thread(
+            target=self._pump_stdout,
+            args=(self._proc, self._stdout_queue),
+            name=f"mcp-stdout-{self.plugin_id}",
+            daemon=True,
+        ).start()
+        threading.Thread(
+            target=self._drain_stderr,
+            args=(self._proc,),
+            name=f"mcp-stderr-{self.plugin_id}",
+            daemon=True,
+        ).start()
         self._initialized = False
         self._rpc_raw("initialize", {
             "protocolVersion": "2024-11-05",
@@ -129,6 +144,23 @@ class _NodeMcpClient:
         self._notify_raw("notifications/initialized", {})
         self._initialized = True
 
+    @staticmethod
+    def _pump_stdout(proc: subprocess.Popen, output_queue: queue.Queue[str | None]) -> None:
+        """Read MCP lines in the background so RPC deadlines work on Windows pipes."""
+        assert proc.stdout
+        try:
+            for line in proc.stdout:
+                output_queue.put(line)
+        finally:
+            output_queue.put(None)
+
+    @staticmethod
+    def _drain_stderr(proc: subprocess.Popen) -> None:
+        """Keep a long-lived child from blocking when it reports errors to stderr."""
+        if proc.stderr:
+            for _line in proc.stderr:
+                pass
+
     def _notify_raw(self, method: str, params: dict) -> None:
         assert self._proc and self._proc.stdin
         payload = json.dumps({"jsonrpc": "2.0", "method": method, "params": params}, ensure_ascii=False)
@@ -136,17 +168,23 @@ class _NodeMcpClient:
         self._proc.stdin.flush()
 
     def _rpc_raw(self, method: str, params: dict, timeout: float = 30.0) -> Any:
-        assert self._proc and self._proc.stdin and self._proc.stdout
+        assert self._proc and self._proc.stdin and self._stdout_queue
         self._req_id += 1
         rid = self._req_id
         payload = json.dumps({"jsonrpc": "2.0", "id": rid, "method": method, "params": params}, ensure_ascii=False)
         self._proc.stdin.write(payload + "\n")
         self._proc.stdin.flush()
 
-        deadline = time.time() + timeout
-        while time.time() < deadline:
-            line = self._proc.stdout.readline()
-            if not line:
+        deadline = time.monotonic() + timeout
+        while True:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                raise TimeoutError(f"子插件 {self.plugin_id} 调用 {method} 超时 ({timeout:g}s)")
+            try:
+                line = self._stdout_queue.get(timeout=remaining)
+            except queue.Empty as exc:
+                raise TimeoutError(f"子插件 {self.plugin_id} 调用 {method} 超时 ({timeout:g}s)") from exc
+            if line is None:
                 rc = self._proc.poll()
                 raise RuntimeError(f"子插件 {self.plugin_id} 进程意外退出 (code={rc})")
             line = line.strip()
@@ -160,9 +198,11 @@ class _NodeMcpClient:
                 if "error" in msg and msg["error"]:
                     raise RuntimeError(str(msg["error"]))
                 return msg.get("result")
-        raise TimeoutError(f"子插件 {self.plugin_id} 调用 {method} 超时")
-
-    def call_tool(self, tool_name: str, arguments: dict | None = None, timeout: float = 30.0) -> dict:
+    def call_tool(self, tool_name: str, arguments: dict | None = None, timeout: float | None = None) -> dict:
+        if timeout is None:
+            timeout = 240.0 if self.plugin_id == "xydc-asin-analyzer" and tool_name in {
+                "analyze_asin", "open_asin_analyzer", "compare_asins"
+            } else 30.0
         with self._lock:
             self._ensure_started()
             return self._rpc_raw(

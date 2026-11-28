@@ -1,37 +1,63 @@
 import { App } from '@modelcontextprotocol/ext-apps';
-import {
-  DEFAULT_ASIN_DATA,
-  DEFAULT_HISTORY,
-  DEFAULT_COMPARE_DATA,
-  DEFAULT_KEYWORD_DATA,
-  DEFAULT_CATEGORY_DATA,
-  DEFAULT_BREAKOUT_DATA,
-  DEFAULT_QUOTA_DATA,
-  TOOLS_METADATA,
-  DEFAULT_PIPELINE_STATS,
-  DEFAULT_EXECUTION_MANIFEST,
-} from './default_data.js';
+import { TOOLS_METADATA } from './default_data.js';
 
 const app = new App({ name: '西柚洞察·全维亚马逊跨境情报总台', version: '3.0.0' }, {});
 
 // Formatters
-const fmtNum = (n) => (n == null ? '—' : Number(n).toLocaleString());
-const fmtPrice = (p) => (p == null ? '—' : `$${Number(p).toFixed(2)}`);
+const fmtNum = (n) => (n == null || !Number.isFinite(Number(n)) ? '—' : Number(n).toLocaleString());
+const CURRENCY_BY_COUNTRY = { US: 'USD', CA: 'CAD', UK: 'GBP', DE: 'EUR', FR: 'EUR', IT: 'EUR', ES: 'EUR', JP: 'JPY' };
+const fmtPrice = (p, currency = CURRENCY_BY_COUNTRY[state?.country] || 'USD') => {
+  if (p == null || !Number.isFinite(Number(p))) return '—';
+  try { return new Intl.NumberFormat('zh-CN', { style: 'currency', currency }).format(Number(p)); }
+  catch { return `${currency} ${Number(p).toFixed(2)}`; }
+};
 const fmtPct = (p) => (p == null ? '—' : `${(Number(p) * 100).toFixed(1)}%`);
 
 function showToast(msg) {
   const t = document.getElementById('toast');
   if (!t) return;
-  t.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg><span>${msg}</span>`;
+  const safeMessage = String(msg ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+  t.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg><span>${safeMessage}</span>`;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// Master State
-const initialData = DEFAULT_ASIN_DATA || {};
-if (!initialData.pipelineStats) initialData.pipelineStats = DEFAULT_PIPELINE_STATS;
-if (!initialData.toolsExecutionManifest) initialData.toolsExecutionManifest = DEFAULT_EXECUTION_MANIFEST;
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+}
 
+function contextualToolArgs(tool) {
+  const args = { ...(tool?.sampleArgs || {}) };
+  const properties = tool?.properties || {};
+  const asin = state.activeAsin || '';
+  const dateString = (offsetDays) => {
+    const date = new Date();
+    date.setDate(date.getDate() + offsetDays);
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  };
+  const monthString = (offsetMonths) => {
+    const date = new Date();
+    date.setDate(1);
+    date.setMonth(date.getMonth() + offsetMonths);
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+  };
+  if ('asin' in properties || 'asin' in args) args.asin = asin;
+  if ('asins' in properties || 'asins' in args) args.asins = asin ? [asin] : [];
+  if ('primaryAsin' in properties || 'primaryAsin' in args) args.primaryAsin = asin;
+  if ('country' in properties || 'country' in args) args.country = state.country;
+  if (properties.start_date && !args.start_date) args.start_date = dateString(-14);
+  if (properties.end_date && !args.end_date) args.end_date = dateString(0);
+  if (properties.start_week && !args.start_week) args.start_week = dateString(-84);
+  if (properties.end_week && !args.end_week) args.end_week = dateString(0);
+  if (properties.start_month && !args.start_month) args.start_month = monthString(-5);
+  if (properties.end_month && !args.end_month) args.end_month = monthString(0);
+  const topKeyword = state.data?.keywords?.topTerm;
+  if (topKeyword && ('keyword' in properties || 'keyword' in args) && !args.keyword) args.keyword = topKeyword;
+  if (topKeyword && ('keywords' in properties || 'keywords' in args) && (!Array.isArray(args.keywords) || args.keywords.length === 0)) args.keywords = [topKeyword];
+  return args;
+}
+
+// Master State
 let state = {
   mainTab: 'asin', // 'asin' | 'compare' | 'keyword' | 'category' | 'breakout' | 'tools' | 'quota'
   country: 'US',
@@ -39,78 +65,141 @@ let state = {
   loadingMsg: '',
 
   // Tab 1: Single ASIN 360 & 62 Pipeline
-  activeAsin: initialData?.asin || 'B0768N9N6M',
-  data: initialData,
+  activeAsin: '',
+  data: null,
+  asinQueryError: null,
   asinSubTab: 'overview', // 'overview' | 'matrix62' | 'traffic' | 'trends' | 'keywords' | 'variations' | 'ads'
   manifestFilterCategory: 'ALL',
   inspectingToolName: null,
   kwSearchQuery: '',
-  cogs: Math.round((initialData?.product?.price || 20) * 0.22 * 10) / 10,
-  shippingCost: Math.round((initialData?.product?.price || 20) * 0.08 * 10) / 10,
+  cogs: 0,
+  shippingCost: 0,
 
   // Tab 2: Compare
-  compareInput: 'B0768N9N6M, B00MNV8E0C',
-  compareData: DEFAULT_COMPARE_DATA || null,
+  compareInput: '',
+  compareData: null,
 
   // Tab 3: Keyword Explorer
-  keywordInput: 'coffee pods',
-  keywordData: DEFAULT_KEYWORD_DATA || null,
+  keywordInput: '',
+  keywordData: null,
 
   // Tab 4: Category Market
-  categoryQuery: 'coffee',
-  categoryCycleDate: '2026-10-01',
-  categoryData: DEFAULT_CATEGORY_DATA || null,
+  categoryQuery: '',
+  categoryCycleDate: (() => { const now = new Date(); return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-01`; })(),
+  categoryData: null,
 
   // Tab 5: Breakout
-  breakoutData: DEFAULT_BREAKOUT_DATA || null,
+  breakoutData: null,
 
   // Tab 6: 62 Tools Playground
   toolsCatalog: TOOLS_METADATA || [],
-  selectedToolName: 'find_related_keywords',
+  selectedToolName: 'get_asin_info',
   toolFilterCategory: 'ALL',
   toolSearchQuery: '',
-  toolArgsText: JSON.stringify({ country: 'US', keyword: 'coffee pods' }, null, 2),
+  toolArgsText: JSON.stringify({ asins: [], country: 'US' }, null, 2),
   toolExecutionResult: null,
   toolExecuting: false,
 
   // Tab 7: Quota & History
-  quota: DEFAULT_QUOTA_DATA || null,
-  history: DEFAULT_HISTORY || [],
+  quota: null,
+  history: [],
 };
+
+function ensureExecutionManifest() {
+  if (!state.data) return [];
+  if (!Array.isArray(state.data.toolsExecutionManifest) || state.data.toolsExecutionManifest.length === 0) {
+    state.data.toolsExecutionManifest = state.toolsCatalog.map((tool) => ({
+      name: tool.name, category: tool.category, categoryName: tool.categoryName,
+      summary: tool.summary, fullDesc: tool.fullDesc, status: 'AVAILABLE',
+      latency: null, costCredits: 0, inputArgs: contextualToolArgs(tool), data: null, error: null,
+    }));
+    state.data.pipelineStats ||= {
+      totalTools: state.toolsCatalog.length, autoRunCount: 0, executedCount: 0,
+      failedCount: 0, standbyCount: state.toolsCatalog.length, totalCostCredits: 0, totalPipelineDuration: 0,
+    };
+  } else {
+    state.data.toolsExecutionManifest.forEach((item) => {
+      if (item.status === 'CASCADED') item.status = 'SUCCESS';
+      if (item.status === 'STANDBY_READY') item.status = 'AVAILABLE';
+      const responseStatus = Number(item.data?.status ?? item.data?.data?.status);
+      const responseError = item.data?.data?.error ?? item.data?.error;
+      if (item.status === 'SUCCESS' && ((Number.isFinite(responseStatus) && responseStatus >= 400) || responseError === true)) {
+        item.status = 'ERROR';
+        item.error = item.data?.data?.message || item.data?.message || (typeof responseError === 'string' ? responseError : '西柚 MCP 返回错误状态');
+        state.data.errors = [...(state.data.errors || []).filter((entry) => entry.toolName !== item.name), { toolName: item.name, message: item.error }];
+      }
+    });
+  }
+  const manifest = state.data.toolsExecutionManifest;
+  const stats = state.data.pipelineStats || (state.data.pipelineStats = {});
+  stats.totalTools = manifest.length;
+  stats.executedCount = manifest.filter((item) => item.status === 'SUCCESS').length;
+  stats.failedCount = manifest.filter((item) => item.status === 'ERROR').length;
+  stats.standbyCount = manifest.filter((item) => item.status === 'AVAILABLE').length;
+  stats.totalCostCredits = manifest.reduce((sum, item) => sum + (Number(item.costCredits) || 0), 0);
+  return manifest;
+}
+
+function refreshExecutionStats() {
+  const manifest = ensureExecutionManifest();
+  if (!state.data) return;
+  const stats = state.data.pipelineStats || (state.data.pipelineStats = {});
+  stats.totalTools = manifest.length;
+  stats.executedCount = manifest.filter((item) => item.status === 'SUCCESS').length;
+  stats.failedCount = manifest.filter((item) => item.status === 'ERROR').length;
+  stats.standbyCount = manifest.filter((item) => item.status === 'AVAILABLE').length;
+  stats.totalCostCredits = manifest.reduce((sum, item) => sum + (Number(item.costCredits) || 0), 0);
+}
 
 // =============================================================================
 // Action Triggers
 // =============================================================================
 async function trigger62AsinDeepDive(asin, country = state.country) {
   const cleanAsin = (asin || '').trim().toUpperCase();
-  if (!cleanAsin) {
+  if (!/^[A-Z0-9]{10}$/.test(cleanAsin)) {
     showToast('请输入有效的亚马逊 10 位 ASIN');
     return;
   }
   state.loading = true;
-  state.loadingMsg = `正在并发调度 62 项 MCP 原生底层工具全息穿透 ASIN ${cleanAsin}...`;
+  state.loadingMsg = `正在调用西柚 MCP 查询 ASIN ${cleanAsin} 的商品详情和竞品指标...`;
   state.activeAsin = cleanAsin;
   state.country = country;
+  state.data = null;
+  state.asinQueryError = null;
+  state.cogs = 0;
+  state.shippingCost = 0;
   render();
 
   try {
     const res = await app.callServerTool({
       name: 'analyze_asin',
-      arguments: { asin: cleanAsin, country },
+      arguments: {
+        asin: cleanAsin,
+        country,
+        user_task: `查询 ASIN ${cleanAsin} 在 ${country} 站点的西柚竞品信息`,
+      },
     });
+    if (res?.isError || res?.structuredContent?.error) {
+      throw new Error(res?.structuredContent?.error || res?.content?.[0]?.text || '西柚 MCP 查询失败');
+    }
     if (res?.structuredContent?.data) {
       state.data = res.structuredContent.data;
-      const p = state.data?.product?.price || 20;
-      state.cogs = Math.round(p * 0.22 * 10) / 10;
-      state.shippingCost = Math.round(p * 0.08 * 10) / 10;
       if (res.structuredContent.history) state.history = res.structuredContent.history;
-      showToast(`ASIN ${cleanAsin} 62项底层工具全息穿透完成`);
-    } else if (res?.structuredContent?.error) {
-      showToast(`查询失败: ${res.structuredContent.error}`);
+      const stats = state.data.pipelineStats || {};
+      if (state.data.dataStatus === 'NO_PRODUCT') {
+        showToast(`没有获取到 ${cleanAsin} 的商品详情；请查看失败工具信息`);
+      } else if (stats.failedCount > 0) {
+        showToast(`ASIN ${cleanAsin} 已返回部分数据，${stats.failedCount} 项 MCP 查询失败`);
+      } else {
+        showToast(`ASIN ${cleanAsin} 的实时竞品数据已更新`);
+      }
+    } else {
+      throw new Error('MCP 返回结果为空；请检查连接、额度和 ASIN 站点是否匹配');
     }
   } catch (err) {
     console.warn('ASIN analyze tool note:', err);
-    showToast(`ASIN 查询异常: ${err.message || '请稍后重试'}`);
+    state.asinQueryError = err.message || '西柚 MCP 查询失败，请稍后重试';
+    showToast(`ASIN 查询失败: ${err.message || '请稍后重试'}`);
   } finally {
     state.loading = false;
     render();
@@ -226,25 +315,53 @@ async function triggerDirectToolExecution(toolName, argsObj) {
   render();
 
   try {
+    const tool = (state.toolsCatalog || []).find((item) => item.name === toolName);
+    const toolArgs = { ...contextualToolArgs(tool), ...(argsObj || {}) };
+    if (tool?.properties?.country || Object.prototype.hasOwnProperty.call(toolArgs, 'country')) toolArgs.country = state.country;
+    if (state.activeAsin) {
+      if ((tool?.properties?.asin || Object.prototype.hasOwnProperty.call(toolArgs, 'asin')) && !toolArgs.asin) toolArgs.asin = state.activeAsin;
+      if ((tool?.properties?.asins || Object.prototype.hasOwnProperty.call(toolArgs, 'asins')) && (!Array.isArray(toolArgs.asins) || toolArgs.asins.length === 0)) toolArgs.asins = [state.activeAsin];
+      if ((tool?.properties?.primaryAsin || Object.prototype.hasOwnProperty.call(toolArgs, 'primaryAsin')) && !toolArgs.primaryAsin) toolArgs.primaryAsin = state.activeAsin;
+    }
     const res = await app.callServerTool({
       name: 'execute_mcp_tool',
-      arguments: { tool_name: toolName, arguments: argsObj },
+      arguments: {
+        tool_name: toolName,
+        arguments: toolArgs,
+        user_task: state.activeAsin ? `查询 ASIN ${state.activeAsin} 的西柚竞品数据` : `在西柚工具箱执行 ${toolName}`,
+        intent_summary: tool?.summary || `执行西柚 MCP 工具 ${toolName}`,
+      },
     });
+    if (res?.isError || res?.structuredContent?.error) {
+      throw new Error(res?.structuredContent?.error || res?.content?.[0]?.text || 'MCP 工具调用失败');
+    }
     const resultData = res?.structuredContent?.mcpExecution?.result || res?.structuredContent || res;
 
-    if (state.data?.toolsExecutionManifest) {
-      const item = state.data.toolsExecutionManifest.find((m) => m.name === toolName);
+    if (state.data) {
+      const item = ensureExecutionManifest().find((m) => m.name === toolName);
       if (item) {
         item.status = 'SUCCESS';
+        item.error = null;
         item.data = resultData;
-        item.latency = res?.structuredContent?.mcpExecution?.duration || 320;
-        item.costCredits = res?.structuredContent?.mcpExecution?.costCredits || 2;
+        item.latency = res?.structuredContent?.mcpExecution?.duration ?? null;
+        item.costCredits = res?.structuredContent?.mcpExecution?.costCredits ?? 0;
       }
+      state.data.errors = (state.data.errors || []).filter((entry) => entry.toolName !== toolName);
     }
+    refreshExecutionStats();
 
     state.toolExecutionResult = { success: true, data: resultData, time: new Date().toLocaleTimeString() };
     showToast(`MCP 原生工具 ${toolName} 执行成功`);
   } catch (err) {
+    if (state.data) {
+      const item = ensureExecutionManifest().find((m) => m.name === toolName);
+      if (item) {
+        item.status = 'ERROR';
+        item.error = err.message || String(err);
+      }
+      state.data.errors = [...(state.data.errors || []).filter((entry) => entry.toolName !== toolName), { toolName, message: err.message || String(err) }];
+      refreshExecutionStats();
+    }
     state.toolExecutionResult = { success: false, error: err.message || String(err), time: new Date().toLocaleTimeString() };
     showToast(`MCP 执行报错: ${err.message || '未知异常'}`);
   } finally {
@@ -260,6 +377,7 @@ async function triggerRefreshQuota() {
 
   try {
     const res = await app.callServerTool({ name: 'get_quota', arguments: {} });
+    if (res?.isError || res?.structuredContent?.error) throw new Error(res?.structuredContent?.error || res?.content?.[0]?.text || '额度查询失败');
     if (res?.structuredContent?.quota) {
       state.quota = res.structuredContent.quota;
       showToast('账户配额已同步');
@@ -276,7 +394,7 @@ async function triggerRefreshQuota() {
 // UI Renderers (Crisp White Enterprise Theme)
 // =============================================================================
 function renderNavbar() {
-  const remaining = state.quota?.monthly?.remaining != null ? fmtNum(state.quota.monthly.remaining) : (state.data?.quota?.monthlyRemaining ? fmtNum(state.data.quota.monthlyRemaining) : '59,719');
+  const remaining = state.quota?.monthly?.remaining != null ? fmtNum(state.quota.monthly.remaining) : (state.data?.quota?.monthlyRemaining != null ? fmtNum(state.data.quota.monthlyRemaining) : '—');
   return `
     <header style="background: #ffffff; border-bottom: 1px solid var(--border); padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; box-shadow: var(--shadow-sm);">
       <div style="display: flex; align-items: center; gap: 12px;">
@@ -286,10 +404,10 @@ function renderNavbar() {
         <div>
           <div style="font-size: 14.5px; font-weight: 800; color: #0f172a; letter-spacing: -0.3px; display: flex; align-items: center; gap: 8px;">
             西柚洞察 · 全维跨境情报总台
-            <span class="badge badge-orange" style="font-size: 10px; padding: 2px 7px;">62项 MCP 全量就绪</span>
+              <span class="badge badge-orange" style="font-size: 10px; padding: 2px 7px;">${state.toolsCatalog.length} 项工具可按需调用</span>
           </div>
           <div style="font-size: 11px; color: var(--text-muted); margin-top: 1px;">
-            白昼专业版 · ASIN 62工具穿透 / 多竞品PK / 关键词ABA / 类目大盘 / 黑马选品
+            ASIN 商品详情 / 竞品指标 / 多 ASIN 对比 / 关键词与类目洞察
           </div>
         </div>
       </div>
@@ -317,7 +435,7 @@ function renderNavbar() {
 
 function renderMainTabs() {
   const tabs = [
-    { id: 'asin', label: '🎯 ASIN 62工具穿透', badge: '全量联动' },
+    { id: 'asin', label: '🎯 ASIN 竞品分析', badge: 'MCP 实时查询' },
     { id: 'compare', label: '⚔️ 多竞品攻防PK', badge: '词库交集' },
     { id: 'keyword', label: '🔍 关键词与ABA', badge: '大盘拓词' },
     { id: 'category', label: '📈 类目大盘与竞争', badge: '市场体量' },
@@ -368,8 +486,13 @@ function renderTabAsin() {
   const k = d.keywords || { list: [] };
   const v = d.variations || { childAsins: [] };
   const ad = d.adOverview || {};
-  const stats = d.pipelineStats || DEFAULT_PIPELINE_STATS;
-  const manifest = d.toolsExecutionManifest || DEFAULT_EXECUTION_MANIFEST;
+  const parentKeywords = Array.isArray(ad.parentKeywords) ? ad.parentKeywords : [];
+  const stats = d.pipelineStats || {};
+  const manifest = ensureExecutionManifest();
+  const successCount = manifest.filter((item) => item.status === 'SUCCESS').length;
+  const failureCount = manifest.filter((item) => item.status === 'ERROR').length;
+  const availableCount = manifest.filter((item) => item.status === 'AVAILABLE').length;
+  const toolCount = manifest.length;
 
   const filteredKw = (k.list || []).filter((kw) => {
     if (!state.kwSearchQuery) return true;
@@ -378,33 +501,57 @@ function renderTabAsin() {
   });
 
   // Profit Calculator math
-  const price = p.price || 14.39;
-  const fba = p.fbaFee || 3.74;
-  const referral = price * 0.15;
-  const netMarginBeforeAd = price - fba - referral - state.cogs - state.shippingCost;
-  const breakEvenAcos = price > 0 ? Math.max(0, netMarginBeforeAd / price) : 0;
+  const price = p.price == null ? 0 : Number(p.price);
+  const fba = Number(p.fbaFee) || 0;
+  const referralRatioValue = Number(p.referralFeeRatio);
+  const referralRatio = Number.isFinite(referralRatioValue) ? (referralRatioValue > 1 ? referralRatioValue / 100 : referralRatioValue) : null;
+  const referral = price * (referralRatio ?? 0);
+  const canCalculateMargin = price > 0 && p.fbaFee != null && referralRatio != null;
+  const netMarginBeforeAd = canCalculateMargin ? price - fba - referral - state.cogs - state.shippingCost : null;
+  const breakEvenAcos = price > 0 && netMarginBeforeAd != null ? Math.max(0, netMarginBeforeAd / price) : null;
+  const formatDetail = (value) => value == null || value === '' ? '—' : escapeHtml(typeof value === 'object' ? JSON.stringify(value) : value);
+  const categoryPath = Array.isArray(p.internalCategoryTree?.path)
+    ? p.internalCategoryTree.path.map((item) => item.categoryName?.translated || item.categoryName?.original).filter(Boolean)
+    : [];
+  const productDetailRows = [
+    ['ASIN', d.asin], ['品牌', p.brand], ['价格', p.price == null ? null : fmtPrice(p.price, p.currency || CURRENCY_BY_COUNTRY[state.country])],
+    ['评分 / 评价数', p.stars == null ? null : `${p.stars} / ${fmtNum(p.ratings)}`], ['上架日期', p.streetDate],
+    ['配送方式', p.fulfillmentType], ['FBA 费用', p.fbaFee == null ? null : fmtPrice(p.fbaFee, p.currency || CURRENCY_BY_COUNTRY[state.country])],
+    ['推荐费率', p.referralFeeRatio == null ? null : fmtPct(Number(p.referralFeeRatio) > 1 ? Number(p.referralFeeRatio) / 100 : p.referralFeeRatio)],
+    ['尺寸', p.size || p.dimensions?.productSize || p.dimensions?.packageSize], ['重量', p.weight || p.dimensions?.productWeight || p.dimensions?.packageWeight], ['父 ASIN', v.parentAsin],
+  ];
+  const bulletPoints = Array.isArray(p.bulletPoints) ? p.bulletPoints : [];
+  const productUrl = /^https?:\/\//i.test(p.amazonUrl || '') ? p.amazonUrl : '';
 
-  return `
-    <div style="padding: 18px 20px; display: flex; flex-direction: column; gap: 16px;">
-      <!-- Search Bar -->
+  const searchPanel = `
       <div class="panel-card" style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
         <div style="display: flex; gap: 10px;">
-          <input id="asinInput" type="text" value="${state.activeAsin}" placeholder="输入任意 10 位亚马逊 ASIN (例如 B0H7R2X98W)，立即触发 62 项工具全息穿透..." style="flex: 1; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: var(--radius-sm); padding: 9px 14px; font-size: 13.5px; color: #0f172a; outline: none; font-family: var(--font-mono); font-weight: 700;">
+          <input id="asinInput" type="text" value="${escapeHtml(state.activeAsin)}" placeholder="输入 10 位亚马逊 ASIN，按 Enter 或点击查询" style="flex: 1; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: var(--radius-sm); padding: 9px 14px; font-size: 13.5px; color: #0f172a; outline: none; font-family: var(--font-mono); font-weight: 700;">
           <button id="btnStart62Analysis" class="btn btn-primary" style="padding: 0 22px; font-size: 13px;">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            <span>62项工具全息穿透</span>
+            <span>查询竞品信息</span>
           </button>
         </div>
         <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 11.5px; color: var(--text-muted);">
-          <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-            <span>快速切换样本:</span>
-            <button class="sample-tag btn btn-secondary btn-sm" data-asin="B0H7R2X98W">📱 B0H7R2X98W (UPBestKS 钱包壳)</button>
-            <button class="sample-tag btn btn-secondary btn-sm" data-asin="B0768N9N6M">☕ B0768N9N6M (Nespresso 标杆)</button>
-            <button class="sample-tag btn btn-secondary btn-sm" data-asin="B00MNV8E0C">🔋 B00MNV8E0C (AmazonBasics)</button>
-          </div>
-          <span style="color: #ea580c; font-weight: 600;">⚡ 并发穿透 + 自动级联拓词</span>
+          <span>先检查免费额度，再从西柚 MCP 获取商品详情、销量、流量、BSR、关键词与趋势、变体、父体关键词及广告；成功数、失败原因和实际点数会显示在查询状态中。</span>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">${(state.history || []).slice(0, 5).map((item) => `<button class="sample-tag btn btn-secondary btn-sm" data-asin="${escapeHtml(item.asin)}" data-country="${escapeHtml(item.country || 'US')}" title="${escapeHtml(item.title || item.asin)}">最近：${escapeHtml(item.asin)}</button>`).join('')}</div>
         </div>
+      </div>`;
+
+  if (!d.asin) {
+    return `<div style="padding: 18px 20px; display: flex; flex-direction: column; gap: 16px;">
+      ${searchPanel}
+      ${state.asinQueryError ? `<div role="alert" style="background: #fef2f2; border: 1px solid #fecaca; border-radius: var(--radius-md); padding: 12px 16px; color: #991b1b; font-size: 12px;"><strong>ASIN 查询失败：</strong>${escapeHtml(state.asinQueryError)}</div>` : ''}
+      <div class="panel-card" style="padding: 42px 24px; text-align: center;">
+        <div style="font-size: 18px; font-weight: 800; color: #0f172a;">输入 ASIN，开始获取真实竞品数据</div>
+        <div style="max-width: 680px; margin: 10px auto 0; color: var(--text-muted); font-size: 13px; line-height: 1.8;">查询会先检查西柚 MCP 的账户额度，然后获取商品基础信息以及可用的销量、流量、BSR、关键词、变体和父体广告数据。未查询前不展示示例商品数据。</div>
       </div>
+    </div>`;
+  }
+
+  return `
+    <div style="padding: 18px 20px; display: flex; flex-direction: column; gap: 16px;">
+      ${searchPanel}
 
       <!-- 62-Tool Execution Pipeline Status Banner -->
       <div style="background: linear-gradient(135deg, #ffffff 0%, #fffaf5 100%); border: 1px solid #fed7aa; border-radius: var(--radius-md); padding: 14px 18px; display: flex; flex-direction: column; gap: 10px; box-shadow: var(--shadow-sm);">
@@ -414,12 +561,13 @@ function renderTabAsin() {
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
             </div>
             <div>
-              <div style="font-size: 13px; font-weight: 800; color: #0f172a;">62 项 MCP 原生底层工具全息透视与执行态矩阵</div>
+              <div style="font-size: 13px; font-weight: 800; color: #0f172a;">西柚 MCP 查询状态与 62 项工具目录</div>
               <div style="font-size: 11px; color: #475569;">
-                当前 ASIN: <strong style="color: #0284c7; font-family: var(--font-mono);">${d.asin || state.activeAsin}</strong> · 
-                已并发穿透 <strong style="color: #059669;">${stats.executedCount || 27}</strong> / ${stats.totalTools || 62} 项 · 
-                智能待命 <strong style="color: #d97706;">${stats.standbyCount || 35}</strong> 项 · 
-                耗时 <strong style="color: #0f172a;">${((stats.totalPipelineDuration || 1850) / 1000).toFixed(2)}s</strong>
+                当前 ASIN: <strong style="color: #0284c7; font-family: var(--font-mono);">${escapeHtml(d.asin || state.activeAsin)}</strong> ·
+                ${d.fromCache ? `最近一次缓存数据 · ${escapeHtml(d.analyzedAt || '更新时间未知')} · 可重新查询获取最新数据` : `核心自动查询 ${stats.autoRunCount ?? 0} 项 · 当前共成功 <strong style="color: #059669;">${stats.executedCount ?? successCount}</strong> 项 ·
+                失败 <strong style="color: ${(stats.failedCount ?? failureCount) ? '#dc2626' : '#64748b'};">${stats.failedCount ?? failureCount}</strong> ·
+                费用 ${fmtNum(stats.totalCostCredits ?? 0)} credits ·
+                耗时 <strong style="color: #0f172a;">${((stats.totalPipelineDuration || 0) / 1000).toFixed(1)}s</strong>`}
               </div>
             </div>
           </div>
@@ -433,10 +581,10 @@ function renderTabAsin() {
           ${manifest
             .map(
               (m) => `
-            <div class="hologram-chip" data-toolname="${m.name}" style="
-              background: ${m.status === 'SUCCESS' ? '#ecfdf5' : m.status === 'CASCADED' ? '#f0f9ff' : '#fffbeb'};
-              border: 1px solid ${m.status === 'SUCCESS' ? '#a7f3d0' : m.status === 'CASCADED' ? '#bae6fd' : '#fde68a'};
-              color: ${m.status === 'SUCCESS' ? '#047857' : m.status === 'CASCADED' ? '#0369a1' : '#b45309'};
+            <div class="hologram-chip" data-toolname="${escapeHtml(m.name)}" style="
+              background: ${m.status === 'SUCCESS' ? '#ecfdf5' : m.status === 'ERROR' ? '#fef2f2' : m.status === 'RUNNING' ? '#eff6ff' : '#f8fafc'};
+              border: 1px solid ${m.status === 'SUCCESS' ? '#a7f3d0' : m.status === 'ERROR' ? '#fecaca' : m.status === 'RUNNING' ? '#bfdbfe' : '#e2e8f0'};
+              color: ${m.status === 'SUCCESS' ? '#047857' : m.status === 'ERROR' ? '#b91c1c' : m.status === 'RUNNING' ? '#1d4ed8' : '#64748b'};
               padding: 2px 7px;
               border-radius: 4px;
               font-size: 10.5px;
@@ -446,9 +594,9 @@ function renderTabAsin() {
               gap: 4px;
               cursor: pointer;
               transition: all 0.15s ease;
-            " title="${m.summary}">
+            " title="${escapeHtml(m.error || m.summary || m.status)}">
               <span style="display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: currentColor;"></span>
-              <span>${m.name}</span>
+              <span>${escapeHtml(m.name)}</span>
               ${m.latency ? `<span style="opacity: 0.75; font-size: 9.5px;">${m.latency}ms</span>` : ''}
             </div>
           `
@@ -457,21 +605,28 @@ function renderTabAsin() {
         </div>
       </div>
 
+      ${d.errors?.length ? `<div role="alert" style="background: #fff7ed; border: 1px solid #fdba74; border-radius: var(--radius-md); padding: 12px 16px; color: #9a3412; font-size: 12px;">
+        <div style="font-weight: 800; margin-bottom: 6px;">MCP 查询有 ${d.errors.length} 项失败，已返回可用部分数据</div>
+        <div style="display: grid; gap: 4px;">${d.errors.slice(0, 8).map((item) => `<div><strong>${escapeHtml(item.toolName)}</strong>：${escapeHtml(item.message)}</div>`).join('')}${d.errors.length > 8 ? `<div>另有 ${d.errors.length - 8} 项错误未展开</div>` : ''}</div>
+      </div>` : ''}
+
+      ${d.dataStatus === 'NO_PRODUCT' ? `<div role="alert" style="background: #fef2f2; border: 1px solid #fecaca; border-radius: var(--radius-md); padding: 14px 16px; color: #991b1b; font-size: 12px;">没有从西柚 MCP 获取到这个 ASIN 的商品详情。请检查 ASIN 与站点是否一致，并查看上方失败原因后重试。</div>` : ''}
+
       <!-- Hero Card -->
       <div class="panel-card" style="padding: 18px 20px; display: flex; gap: 18px; align-items: flex-start;">
-        ${p.mainImage ? `<img src="${p.mainImage}" alt="Product" style="width: 96px; height: 96px; object-fit: contain; background: #f8fafc; border-radius: var(--radius-sm); border: 1px solid var(--border); padding: 4px; flex-shrink: 0;">` : ''}
+        ${p.mainImage ? `<img src="${escapeHtml(p.mainImage)}" alt="Product" style="width: 96px; height: 96px; object-fit: contain; background: #f8fafc; border-radius: var(--radius-sm); border: 1px solid var(--border); padding: 4px; flex-shrink: 0;">` : ''}
         <div style="flex: 1; min-width: 0;">
           <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 6px;">
-            <span class="badge badge-orange">${d.country || 'US'} 站点</span>
-            <span class="badge badge-cyan">${p.brand || '品牌未明'}</span>
-            <span style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: #334155;">${d.asin}</span>
-            <span style="font-size: 11px; color: var(--text-dim); margin-left: auto;">上架: ${p.streetDate || '—'} · 更新: ${d.analyzedAt || '—'}</span>
+            <span class="badge badge-orange">${escapeHtml(d.country || 'US')} 站点</span>
+            <span class="badge badge-cyan">${escapeHtml(p.brand || '品牌未返回')}</span>
+            <span style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: #334155;">${escapeHtml(d.asin)}</span>
+            <span style="font-size: 11px; color: var(--text-dim); margin-left: auto;">上架: ${escapeHtml(p.streetDate || '—')} · 更新: ${escapeHtml(d.analyzedAt || '—')}</span>
           </div>
-          <div style="font-size: 15px; font-weight: 700; color: #0f172a; line-height: 1.4; margin-bottom: 12px;">${p.title}</div>
+          <div style="font-size: 15px; font-weight: 700; color: #0f172a; line-height: 1.4; margin-bottom: 12px;">${escapeHtml(p.title || '西柚 MCP 未返回商品标题')}</div>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(125px, 1fr)); gap: 10px;">
             <div style="background: #f8fafc; border: 1px solid var(--border); padding: 8px 12px; border-radius: var(--radius-sm);">
               <div style="font-size: 11px; color: var(--text-muted);">现售价</div>
-              <div style="font-size: 16px; font-weight: 800; color: #ea580c;">${fmtPrice(p.price)}</div>
+              <div style="font-size: 16px; font-weight: 800; color: #ea580c;">${fmtPrice(p.price, p.currency || CURRENCY_BY_COUNTRY[state.country])}</div>
             </div>
             <div style="background: #f8fafc; border: 1px solid var(--border); padding: 8px 12px; border-radius: var(--radius-sm);">
               <div style="font-size: 11px; color: var(--text-muted);">近30天销量</div>
@@ -497,12 +652,13 @@ function renderTabAsin() {
       <div style="border-bottom: 1px solid var(--border); display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px;">
         ${[
           { id: 'overview', label: '六维雷达与利润测算' },
-          { id: 'matrix62', label: `⚡ 62项工具明细 (${manifest.length})` },
+          { id: 'product', label: '商品详情' },
+          { id: 'matrix62', label: `MCP 工具 (${manifest.length})` },
           { id: 'traffic', label: '自然/广告流量结构' },
           { id: 'trends', label: '多维历史趋势' },
           { id: 'keywords', label: `核心流量词 (${k.list.length})` },
           { id: 'variations', label: `变体列表 (${v.childAsins.length})` },
-          { id: 'ads', label: `父体广告 (${ad.campaignsCount || 0})` },
+          { id: 'ads', label: `父体广告 (${ad.campaignsCount == null ? '—' : fmtNum(ad.campaignsCount)})` },
         ]
           .map(
             (st) => `
@@ -531,18 +687,18 @@ function renderTabAsin() {
           <div class="panel-card" style="padding: 18px;">
             <div style="font-size: 13.5px; font-weight: 700; color: #0f172a; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
               <span>六维竞争力雷达</span>
-              <span class="badge badge-orange">综合评分: ${d.overallScore}/100</span>
+                <span class="badge badge-orange">综合评分: ${d.overallScore == null ? '—' : `${d.overallScore}/100`}</span>
             </div>
             <div style="display: flex; justify-content: center; padding: 6px 0;">
               ${renderRadarSvg(d.radar || {})}
             </div>
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; font-size: 11px; text-align: center;">
-              <div style="background: #f8fafc; border: 1px solid var(--border); padding: 6px; border-radius: 4px;">流量: <strong style="color: #ea580c;">${d.radar?.traffic || 0}</strong></div>
-              <div style="background: #f8fafc; border: 1px solid var(--border); padding: 6px; border-radius: 4px;">自然: <strong style="color: #059669;">${d.radar?.organic || 0}</strong></div>
-              <div style="background: #f8fafc; border: 1px solid var(--border); padding: 6px; border-radius: 4px;">销量: <strong style="color: #0284c7;">${d.radar?.sales || 0}</strong></div>
-              <div style="background: #f8fafc; border: 1px solid var(--border); padding: 6px; border-radius: 4px;">口碑: <strong style="color: #d97706;">${d.radar?.reputation || 0}</strong></div>
-              <div style="background: #f8fafc; border: 1px solid var(--border); padding: 6px; border-radius: 4px;">变体: <strong style="color: #7c3aed;">${d.radar?.variation || 0}</strong></div>
-              <div style="background: #f8fafc; border: 1px solid var(--border); padding: 6px; border-radius: 4px;">广告: <strong style="color: #e11d48;">${d.radar?.adStrength || 0}</strong></div>
+              <div style="background: #f8fafc; border: 1px solid var(--border); padding: 6px; border-radius: 4px;">流量: <strong style="color: #ea580c;">${d.radar?.traffic ?? '—'}</strong></div>
+              <div style="background: #f8fafc; border: 1px solid var(--border); padding: 6px; border-radius: 4px;">自然: <strong style="color: #059669;">${d.radar?.organic ?? '—'}</strong></div>
+              <div style="background: #f8fafc; border: 1px solid var(--border); padding: 6px; border-radius: 4px;">销量: <strong style="color: #0284c7;">${d.radar?.sales ?? '—'}</strong></div>
+              <div style="background: #f8fafc; border: 1px solid var(--border); padding: 6px; border-radius: 4px;">口碑: <strong style="color: #d97706;">${d.radar?.reputation ?? '—'}</strong></div>
+              <div style="background: #f8fafc; border: 1px solid var(--border); padding: 6px; border-radius: 4px;">变体: <strong style="color: #7c3aed;">${d.radar?.variation ?? '—'}</strong></div>
+              <div style="background: #f8fafc; border: 1px solid var(--border); padding: 6px; border-radius: 4px;">广告: <strong style="color: #e11d48;">${d.radar?.adStrength ?? '—'}</strong></div>
             </div>
           </div>
 
@@ -550,12 +706,12 @@ function renderTabAsin() {
           <div class="panel-card" style="padding: 18px; display: flex; flex-direction: column; gap: 12px;">
             <div style="font-size: 13.5px; font-weight: 700; color: #0f172a; display: flex; justify-content: space-between; align-items: center;">
               <span>单品利润与保本 ACoS 测算器</span>
-              <span class="badge badge-emerald">FBA费: $${fba.toFixed(2)}</span>
+              <span class="badge badge-emerald">FBA费: ${fmtPrice(p.fbaFee, p.currency || CURRENCY_BY_COUNTRY[state.country])}</span>
             </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
               <div style="background: #f8fafc; border: 1px solid var(--border); padding: 10px; border-radius: 6px;">
                 <div style="font-size: 11px; color: var(--text-muted);">广告前毛利</div>
-                <div style="font-size: 18px; font-weight: 800; color: ${netMarginBeforeAd >= 0 ? '#059669' : '#e11d48'};">${fmtPrice(netMarginBeforeAd)}</div>
+                <div style="font-size: 18px; font-weight: 800; color: ${netMarginBeforeAd == null ? '#64748b' : netMarginBeforeAd >= 0 ? '#059669' : '#e11d48'};">${fmtPrice(netMarginBeforeAd, p.currency || CURRENCY_BY_COUNTRY[state.country])}</div>
               </div>
               <div style="background: #fff7ed; border: 1px solid #fed7aa; padding: 10px; border-radius: 6px;">
                 <div style="font-size: 11px; color: #9a3412;">盈亏平衡 ACoS 临界点</div>
@@ -566,21 +722,44 @@ function renderTabAsin() {
               <div>
                 <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
                   <span style="color: var(--text-muted);">采购成本 (COGS)</span>
-                  <strong style="font-family: var(--font-mono);">${fmtPrice(state.cogs)}</strong>
+                  <strong style="font-family: var(--font-mono);">${fmtPrice(state.cogs, p.currency || CURRENCY_BY_COUNTRY[state.country])}</strong>
                 </div>
-                <input id="cogsSlider" type="range" min="1" max="${Math.max(20, Math.round(price))}" step="0.2" value="${state.cogs}" style="width: 100%; accent-color: #f97316;">
+                <input id="cogsSlider" type="range" min="0" max="${Math.max(20, Math.round(price))}" step="0.2" value="${state.cogs}" style="width: 100%; accent-color: #f97316;">
               </div>
               <div>
                 <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
                   <span style="color: var(--text-muted);">头程物流运费</span>
-                  <strong style="font-family: var(--font-mono);">${fmtPrice(state.shippingCost)}</strong>
+                  <strong style="font-family: var(--font-mono);">${fmtPrice(state.shippingCost, p.currency || CURRENCY_BY_COUNTRY[state.country])}</strong>
                 </div>
-                <input id="shipSlider" type="range" min="0.5" max="${Math.max(15, Math.round(price * 0.5))}" step="0.2" value="${state.shippingCost}" style="width: 100%; accent-color: #f97316;">
+                <input id="shipSlider" type="range" min="0" max="${Math.max(15, Math.round(price * 0.5))}" step="0.2" value="${state.shippingCost}" style="width: 100%; accent-color: #f97316;">
               </div>
             </div>
             <div style="font-size: 11px; color: var(--text-dim); background: #f8fafc; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border);">
-              测算公式：售价(${fmtPrice(price)}) - 15%佣金(${fmtPrice(referral)}) - FBA(${fmtPrice(fba)}) - 采购 - 头程
+              ${canCalculateMargin ? `测算公式：售价(${fmtPrice(price, p.currency || CURRENCY_BY_COUNTRY[state.country])}) - ${(referralRatio * 100).toFixed(1)}%佣金(${fmtPrice(referral, p.currency || CURRENCY_BY_COUNTRY[state.country])}) - FBA(${fmtPrice(fba, p.currency || CURRENCY_BY_COUNTRY[state.country])}) - 采购 - 头程` : '商品售价、FBA 费用或推荐费率未返回，补齐数据后即可计算保本 ACoS。'}
             </div>
+          </div>
+        </div>
+      `
+          : state.asinSubTab === 'product'
+          ? `
+        <div class="panel-card" style="padding: 20px; display: flex; flex-direction: column; gap: 18px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <div>
+              <div style="font-size: 15px; font-weight: 800; color: #0f172a;">西柚 MCP 商品基础信息</div>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">数据更新时间：${escapeHtml(d.analyzedAt || '—')} · 字段以西柚当前返回为准</div>
+            </div>
+            ${productUrl ? `<a href="${escapeHtml(productUrl)}" target="_blank" rel="noreferrer" class="btn btn-secondary btn-sm">打开 Amazon 商品页</a>` : ''}
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px;">
+            ${productDetailRows.map(([label, value]) => `<div style="background: #f8fafc; border: 1px solid var(--border); padding: 10px 12px; border-radius: var(--radius-sm);"><div style="font-size: 11px; color: var(--text-muted);">${escapeHtml(label)}</div><div style="font-size: 12px; font-weight: 650; color: #0f172a; margin-top: 5px; overflow-wrap: anywhere;">${formatDetail(value)}</div></div>`).join('')}
+          </div>
+          <div style="background: #f8fafc; border: 1px solid var(--border); padding: 12px; border-radius: var(--radius-sm);">
+            <div style="font-size: 12px; font-weight: 700; color: #0f172a; margin-bottom: 7px;">内部类目路径</div>
+            <div style="font-size: 12px; color: #334155; line-height: 1.7;">${categoryPath.length ? categoryPath.map(escapeHtml).join(' › ') : formatDetail(p.categoryName || p.internalCategoryTree?.categoryName)}</div>
+          </div>
+          <div style="background: #f8fafc; border: 1px solid var(--border); padding: 12px; border-radius: var(--radius-sm);">
+            <div style="font-size: 12px; font-weight: 700; color: #0f172a; margin-bottom: 7px;">商品五点描述 (${bulletPoints.length})</div>
+            ${bulletPoints.length ? `<ol style="margin: 0; padding-left: 20px; color: #334155; font-size: 12px; line-height: 1.8;">${bulletPoints.map((text) => `<li style="margin: 5px 0;">${escapeHtml(text)}</li>`).join('')}</ol>` : '<div style="color: var(--text-muted); font-size: 12px;">MCP 未返回五点描述</div>'}
           </div>
         </div>
       `
@@ -589,34 +768,36 @@ function renderTabAsin() {
         <div class="panel-card" style="padding: 20px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
             <div>
-              <div style="font-size: 14.5px; font-weight: 800; color: #0f172a;">全部 62 项 MCP 原生底层工具执行态全景</div>
+              <div style="font-size: 14.5px; font-weight: 800; color: #0f172a;">西柚 MCP 工具执行状态 (${toolCount})</div>
               <div style="font-size: 11.5px; color: var(--text-muted);">点击任意工具卡片，立即展开针对该 ASIN 返回的明细数据或一键补充调用</div>
             </div>
             <div style="display: flex; gap: 6px;">
-              <button class="manifest-filter-btn btn btn-secondary btn-sm" data-filter="ALL">全部 (62)</button>
-              <button class="manifest-filter-btn btn btn-secondary btn-sm" data-filter="SUCCESS">已穿透 (${stats.executedCount || 27})</button>
-              <button class="manifest-filter-btn btn btn-secondary btn-sm" data-filter="STANDBY">智能待命 (${stats.standbyCount || 35})</button>
+              <button class="manifest-filter-btn btn btn-secondary btn-sm" data-filter="ALL">全部 (${toolCount})</button>
+              <button class="manifest-filter-btn btn btn-secondary btn-sm" data-filter="SUCCESS">成功 (${stats.executedCount ?? successCount})</button>
+              <button class="manifest-filter-btn btn btn-secondary btn-sm" data-filter="ERROR">失败 (${stats.failedCount ?? failureCount})</button>
+              <button class="manifest-filter-btn btn btn-secondary btn-sm" data-filter="AVAILABLE">未调用 (${stats.standbyCount ?? availableCount})</button>
             </div>
           </div>
 
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; max-height: 480px; overflow-y: auto; padding-right: 4px;">
             ${manifest
               .filter((m) => {
-                if (state.manifestFilterCategory === 'SUCCESS') return m.status === 'SUCCESS' || m.status === 'CASCADED';
-                if (state.manifestFilterCategory === 'STANDBY') return m.status === 'STANDBY_READY';
+                if (state.manifestFilterCategory === 'SUCCESS') return m.status === 'SUCCESS';
+                if (state.manifestFilterCategory === 'ERROR') return m.status === 'ERROR';
+                if (state.manifestFilterCategory === 'AVAILABLE') return m.status === 'AVAILABLE';
                 return true;
               })
               .map(
                 (m) => `
-              <div class="manifest-card" data-toolname="${m.name}" style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px; display: flex; flex-direction: column; gap: 6px; cursor: pointer; transition: all 0.15s ease;">
+              <div class="manifest-card" data-toolname="${escapeHtml(m.name)}" style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px; display: flex; flex-direction: column; gap: 6px; cursor: pointer; transition: all 0.15s ease;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span style="font-family: var(--font-mono); font-size: 11.5px; font-weight: 700; color: #0f172a;">${m.name}</span>
-                  <span class="badge ${m.status === 'SUCCESS' ? 'badge-emerald' : m.status === 'CASCADED' ? 'badge-cyan' : 'badge-amber'}">${m.status === 'SUCCESS' ? '已穿透' : m.status === 'CASCADED' ? '关联串联' : '待命秒查'}</span>
+                  <span style="font-family: var(--font-mono); font-size: 11.5px; font-weight: 700; color: #0f172a;">${escapeHtml(m.name)}</span>
+                  <span class="badge ${m.status === 'SUCCESS' ? 'badge-emerald' : m.status === 'ERROR' ? 'badge-rose' : m.status === 'RUNNING' ? 'badge-cyan' : 'badge-amber'}">${m.status === 'SUCCESS' ? '成功' : m.status === 'ERROR' ? '失败' : m.status === 'RUNNING' ? '执行中' : '未调用'}</span>
                 </div>
-                <div style="font-size: 11px; color: var(--text-muted); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${m.summary}</div>
+                <div style="font-size: 11px; color: var(--text-muted); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${escapeHtml(m.error || m.summary)}</div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2px; font-size: 10.5px; color: var(--text-dim);">
-                  <span>${m.categoryName || 'MCP'}</span>
-                  <span>${m.latency ? `⚡ ${m.latency}ms · ${m.costCredits}点` : '点击秒查'}</span>
+                  <span>${escapeHtml(m.categoryName || 'MCP')}</span>
+                  <span>${m.latency != null ? `⚡ ${m.latency}ms · ${fmtNum(m.costCredits)}点` : m.status === 'AVAILABLE' ? '点击执行' : '—'}</span>
                 </div>
               </div>
             `
@@ -629,14 +810,14 @@ function renderTabAsin() {
               ? `
             <div id="manifestInspector" style="margin-top: 16px; background: #ffffff; border: 1.5px solid #f97316; border-radius: var(--radius-sm); padding: 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: var(--shadow-md);">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div style="font-size: 13.5px; font-weight: 800; color: #0f172a; font-family: var(--font-mono);">${state.inspectingToolName}</div>
+                <div style="font-size: 13.5px; font-weight: 800; color: #0f172a; font-family: var(--font-mono);">${escapeHtml(state.inspectingToolName)}</div>
                 <button id="btnCloseInspector" class="btn btn-secondary btn-sm">关闭检查器</button>
               </div>
               <div style="display: flex; gap: 10px;">
                 <button id="btnRunInspectorTool" class="btn btn-primary btn-sm">🚀 针对当前 ASIN 立即执行此工具</button>
               </div>
               <div class="json-box" style="max-height: 260px;">
-                ${JSON.stringify((manifest.find((x) => x.name === state.inspectingToolName) || {}).data || (manifest.find((x) => x.name === state.inspectingToolName) || {}).inputArgs, null, 2)}
+                ${escapeHtml(JSON.stringify((manifest.find((x) => x.name === state.inspectingToolName) || {}).data || (manifest.find((x) => x.name === state.inspectingToolName) || {}).inputArgs, null, 2))}
               </div>
             </div>
           `
@@ -650,7 +831,7 @@ function renderTabAsin() {
           <div style="font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 14px;">近7天自然 vs 广告流量解构</div>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; align-items: center;">
             <div style="display: flex; justify-content: center;">
-              ${renderDonutSvg(t.organicRatio ?? 0)}
+              ${t.organicRatio == null ? '<div style="padding: 42px 16px; color: var(--text-muted); font-size: 12px; text-align: center;">西柚 MCP 未返回流量占比</div>' : renderDonutSvg(t.organicRatio)}
             </div>
             <div style="display: flex; flex-direction: column; gap: 10px;">
               <div style="background: #f8fafc; border: 1px solid var(--border); padding: 12px 16px; border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center;">
@@ -680,12 +861,13 @@ function renderTabAsin() {
                 ? `<div style="height: 140px; background: #f8fafc; border: 1px solid var(--border); border-radius: 6px; display: flex; align-items: flex-end; gap: 6px; padding: 12px;">
                     ${(() => {
                       const arr = t.weeklyTrends.slice(-12);
-                      const maxVal = Math.max(...arr.map((x) => x.totalTraffic || x.total || 1), 1);
+                      const trafficValue = (x) => Number(x.totalTraffic ?? x.total ?? ((Number(x.organicTraffic ?? x.organic) || 0) + (Number(x.advertisingTraffic ?? x.adTraffic ?? x.advertising) || 0))) || 0;
+                      const maxVal = Math.max(...arr.map((x) => trafficValue(x)), 1);
                       return arr
                         .map((x) => {
-                          const val = x.totalTraffic || x.total || 0;
+                          const val = trafficValue(x);
                           const h = Math.max(8, Math.round((val / maxVal) * 100));
-                          return `<div style="flex: 1; height: ${h}%; background: #f97316; border-radius: 3px 3px 0 0;" title="${x.week || x.startDate || ''}: ${val}"></div>`;
+                          return `<div style="flex: 1; height: ${h}%; background: #f97316; border-radius: 3px 3px 0 0;" title="${escapeHtml(x.week || x.startDate || x.weekStartDate || x.startWeek || '')}: ${fmtNum(val)}"></div>`;
                         })
                         .join('');
                     })()}
@@ -702,12 +884,13 @@ function renderTabAsin() {
                 ? `<div style="height: 140px; background: #f8fafc; border: 1px solid var(--border); border-radius: 6px; display: flex; align-items: flex-end; gap: 4px; padding: 12px;">
                     ${(() => {
                       const arr = k.keywordCountTrends.slice(-15);
-                      const maxVal = Math.max(...arr.map((x) => x.totalCount || x.count || 1), 1);
+                      const keywordCountValue = (x) => Number(x.totalCount ?? x.totalKeywordCount ?? x.totalKeywords ?? x.keywordCount ?? x.count ?? ((Number(x.organicCount ?? x.organicKeywordCount) || 0) + (Number(x.advertisingCount ?? x.adKeywordCount) || 0))) || 0;
+                      const maxVal = Math.max(...arr.map((x) => keywordCountValue(x)), 1);
                       return arr
                         .map((x) => {
-                          const val = x.totalCount || x.count || 0;
+                          const val = keywordCountValue(x);
                           const h = Math.max(8, Math.round((val / maxVal) * 100));
-                          return `<div style="flex: 1; height: ${h}%; background: #0284c7; border-radius: 3px 3px 0 0;" title="${x.date || ''}: ${val}词"></div>`;
+                          return `<div style="flex: 1; height: ${h}%; background: #0284c7; border-radius: 3px 3px 0 0;" title="${escapeHtml(x.date || x.day || x.snapshotDate || x.dateRange?.startDate || '')}: ${fmtNum(val)}词"></div>`;
                         })
                         .join('');
                     })()}
@@ -744,8 +927,8 @@ function renderTabAsin() {
                     (kw) => `
                   <tr style="border-bottom: 1px solid var(--border-subtle);">
                     <td style="padding: 10px 12px;">
-                      <div style="font-weight: 600; color: #0f172a;">${kw.searchTerm}</div>
-                      ${kw.searchTermZh ? `<div style="font-size: 11px; color: var(--text-dim);">${kw.searchTermZh}</div>` : ''}
+                      <div style="font-weight: 600; color: #0f172a;">${escapeHtml(kw.searchTerm)}</div>
+                      ${kw.searchTermZh ? `<div style="font-size: 11px; color: var(--text-dim);">${escapeHtml(kw.searchTermZh)}</div>` : ''}
                     </td>
                     <td style="padding: 10px 12px; font-family: var(--font-mono); font-weight: 600; color: #0284c7;">${fmtNum(kw.totalTraffic)}</td>
                     <td style="padding: 10px 12px; font-family: var(--font-mono); font-weight: 600; color: #ea580c;">${fmtPct(kw.trafficRatio)}</td>
@@ -763,18 +946,18 @@ function renderTabAsin() {
           : state.asinSubTab === 'variations'
           ? `
         <div class="panel-card" style="padding: 20px;">
-          <div style="font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 14px;">父体 ${v.parentAsin} 下全部子体矩阵 (${v.childAsins.length} 个子体)</div>
+          <div style="font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 14px;">父体 ${escapeHtml(v.parentAsin)} 下全部子体矩阵 (${v.childAsins.length} 个子体)</div>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px;">
             ${(v.childAsins || [])
               .map(
                 (c) => `
               <div style="background: #f8fafc; border: 1px solid ${c.asin === state.activeAsin ? '#fdba74' : 'var(--border)'}; border-radius: var(--radius-sm); padding: 12px; display: flex; flex-direction: column; gap: 6px;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span style="font-family: var(--font-mono); font-weight: 700; color: #0f172a;">${c.asin}</span>
+                  <span style="font-family: var(--font-mono); font-weight: 700; color: #0f172a;">${escapeHtml(c.asin)}</span>
                   ${c.asin === state.activeAsin ? '<span class="badge badge-orange">当前</span>' : ''}
                 </div>
-                <div style="font-size: 11px; color: var(--text-muted);">${c.dimensions?.color || c.dimensions?.flavor || c.dimensions?.size || '子体变体'}</div>
-                <button class="btn btn-secondary btn-sm switch-asin-btn" data-asin="${c.asin}" style="margin-top: 6px;">穿透此子体</button>
+                <div style="font-size: 11px; color: var(--text-muted);">${escapeHtml(c.dimensions?.color || c.dimensions?.flavor || c.dimensions?.size || '子体变体')}</div>
+                <button class="btn btn-secondary btn-sm switch-asin-btn" data-asin="${escapeHtml(c.asin)}" style="margin-top: 6px;">穿透此子体</button>
               </div>
             `
               )
@@ -788,17 +971,24 @@ function renderTabAsin() {
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
             <div style="background: #f8fafc; border: 1px solid var(--border); padding: 12px; border-radius: 6px;">
               <div style="font-size: 11px; color: var(--text-muted);">在投广告活动数</div>
-              <div style="font-size: 20px; font-weight: 800; color: #ea580c;">${ad.campaignsCount || 0}</div>
+              <div style="font-size: 20px; font-weight: 800; color: #ea580c;">${fmtNum(ad.campaignsCount)}</div>
             </div>
             <div style="background: #f8fafc; border: 1px solid var(--border); padding: 12px; border-radius: 6px;">
               <div style="font-size: 11px; color: var(--text-muted);">广告投放关键词数</div>
-              <div style="font-size: 20px; font-weight: 800; color: #0284c7;">${ad.keywordsCount || 0}</div>
+              <div style="font-size: 20px; font-weight: 800; color: #0284c7;">${fmtNum(ad.keywordsCount)}</div>
             </div>
             <div style="background: #f8fafc; border: 1px solid var(--border); padding: 12px; border-radius: 6px;">
               <div style="font-size: 11px; color: var(--text-muted);">广告状态</div>
-              <div style="font-size: 14px; font-weight: 700; color: #059669; margin-top: 4px;">${ad.active ? '✅ 广告活跃投放中' : '⚪ 暂未检测到活动'}</div>
+              <div style="font-size: 14px; font-weight: 700; color: ${ad.active == null ? '#64748b' : ad.active ? '#059669' : '#64748b'}; margin-top: 4px;">${ad.active == null ? 'MCP 未返回广告状态' : ad.active ? '✅ 广告活跃投放中' : '⚪ 暂未检测到活动'}</div>
             </div>
           </div>
+          <div style="font-size: 11px; color: var(--text-muted);">父体关键词：${fmtNum(ad.parentKeywordCount)} 个 · 当前返回 ${parentKeywords.length} 个</div>
+          ${parentKeywords.length ? `<div style="overflow-x: auto; border: 1px solid var(--border); border-radius: 6px;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 11.5px;">
+              <thead><tr style="text-align: left; color: var(--text-muted); background: #f8fafc; border-bottom: 1px solid var(--border);"><th style="padding: 8px 10px;">父体关键词</th><th style="padding: 8px 10px;">覆盖变体</th><th style="padding: 8px 10px;">合计流量</th><th style="padding: 8px 10px;">代表变体</th></tr></thead>
+              <tbody>${parentKeywords.slice(0, 20).map((keyword) => `<tr style="border-bottom: 1px solid var(--border-subtle);"><td style="padding: 8px 10px;">${escapeHtml(keyword.searchTerm)}${keyword.searchTermZh ? `<div style="color: var(--text-dim);">${escapeHtml(keyword.searchTermZh)}</div>` : ''}</td><td style="padding: 8px 10px;">${fmtNum(keyword.asinCount)}</td><td style="padding: 8px 10px;">${fmtNum(keyword.totalTraffic)}</td><td style="padding: 8px 10px;">${escapeHtml((keyword.asins || []).slice(0, 3).map((item) => item.asin).filter(Boolean).join('、') || '—')}</td></tr>`).join('')}</tbody>
+            </table>
+          </div>` : '<div style="padding: 12px; background: #f8fafc; color: var(--text-muted); border-radius: 6px; font-size: 12px;">西柚 MCP 未返回父体关键词数据，可查看查询状态或在工具明细中重试。</div>'}
         </div>
       `
       }
@@ -1161,7 +1351,7 @@ function renderTabTools() {
         <div>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
             <span style="font-size: 12px; font-weight: 600; color: var(--text-muted);">入参 JSON 字典 (Arguments)</span>
-            <button id="btnLoadToolSampleArgs" class="btn btn-secondary btn-sm">💡 一键填入典型测试参数</button>
+            <button id="btnLoadToolSampleArgs" class="btn btn-secondary btn-sm">💡 填入当前 ASIN 参数</button>
           </div>
           <textarea id="toolArgsTextarea" style="width: 100%; height: 110px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: var(--radius-sm); padding: 10px; font-family: var(--font-mono); font-size: 12px; color: #0369a1; outline: none;">${state.toolArgsText}</textarea>
         </div>
@@ -1210,19 +1400,19 @@ function renderTabQuota() {
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin-top: 16px;">
           <div style="background: #f8fafc; border: 1px solid var(--border); padding: 16px; border-radius: var(--radius-sm);">
             <div style="font-size: 11.5px; color: var(--text-muted);">本月剩余可用点数</div>
-            <div style="font-size: 24px; font-weight: 800; color: #059669; margin-top: 4px;">${fmtNum(m.remaining || 59719)}</div>
+            <div style="font-size: 24px; font-weight: 800; color: #059669; margin-top: 4px;">${fmtNum(m.remaining)}</div>
           </div>
           <div style="background: #f8fafc; border: 1px solid var(--border); padding: 16px; border-radius: var(--radius-sm);">
             <div style="font-size: 11.5px; color: var(--text-muted);">本月总额度上限</div>
-            <div style="font-size: 24px; font-weight: 800; color: #0f172a; margin-top: 4px;">${fmtNum(m.limit || 60000)}</div>
+            <div style="font-size: 24px; font-weight: 800; color: #0f172a; margin-top: 4px;">${fmtNum(m.limit)}</div>
           </div>
           <div style="background: #f8fafc; border: 1px solid var(--border); padding: 16px; border-radius: var(--radius-sm);">
             <div style="font-size: 11.5px; color: var(--text-muted);">本月已消耗点数</div>
-            <div style="font-size: 24px; font-weight: 800; color: #ea580c; margin-top: 4px;">${fmtNum(m.used || 281)}</div>
+            <div style="font-size: 24px; font-weight: 800; color: #ea580c; margin-top: 4px;">${fmtNum(m.used)}</div>
           </div>
           <div style="background: #f8fafc; border: 1px solid var(--border); padding: 16px; border-radius: var(--radius-sm);">
             <div style="font-size: 11.5px; color: var(--text-muted);">额度重置周期</div>
-            <div style="font-size: 13px; font-weight: 700; color: #0284c7; margin-top: 8px;">${m.resetTime || '2026-12-19'}</div>
+            <div style="font-size: 13px; font-weight: 700; color: #0284c7; margin-top: 8px;">${escapeHtml(m.resetTime || '—')}</div>
           </div>
         </div>
       </div>
@@ -1242,7 +1432,8 @@ function renderRadarSvg(r = {}) {
   const count = keys.length;
 
   const points = keys.map((k, i) => {
-    const val = Math.min(100, Math.max(0, r[k] || 50));
+    const rawValue = r[k];
+    const val = rawValue == null || !Number.isFinite(Number(rawValue)) ? 0 : Math.min(100, Math.max(0, Number(rawValue)));
     const angle = (Math.PI * 2 * i) / count - Math.PI / 2;
     const rDist = (val / 100) * radius;
     return `${center + rDist * Math.cos(angle)},${center + rDist * Math.sin(angle)}`;
@@ -1413,7 +1604,7 @@ function attachEventHandlers() {
     render();
   });
   document.getElementById('btnRunInspectorTool')?.addEventListener('click', () => {
-    const item = (state.data?.toolsExecutionManifest || []).find((x) => x.name === state.inspectingToolName);
+    const item = ensureExecutionManifest().find((x) => x.name === state.inspectingToolName);
     if (item) triggerDirectToolExecution(state.inspectingToolName, item.inputArgs || { country: state.country });
   });
   const kwFilterInput = document.getElementById('kwFilterInput');
@@ -1528,18 +1719,18 @@ function attachEventHandlers() {
       const name = item.getAttribute('data-toolname');
       state.selectedToolName = name;
       const t = (state.toolsCatalog || []).find((x) => x.name === name);
-      if (t && t.sampleArgs) state.toolArgsText = JSON.stringify(t.sampleArgs, null, 2);
+      state.toolArgsText = JSON.stringify(contextualToolArgs(t), null, 2);
       state.toolExecutionResult = null;
       render();
     });
   });
   document.getElementById('btnLoadToolSampleArgs')?.addEventListener('click', () => {
     const t = (state.toolsCatalog || []).find((x) => x.name === state.selectedToolName);
-    if (t && t.sampleArgs) {
-      state.toolArgsText = JSON.stringify(t.sampleArgs, null, 2);
+    if (t) {
+      state.toolArgsText = JSON.stringify(contextualToolArgs(t), null, 2);
       const ta = document.getElementById('toolArgsTextarea');
       if (ta) ta.value = state.toolArgsText;
-      showToast('已加载典型测试参数');
+      showToast('已按当前 ASIN 和站点加载参数');
     }
   });
   document.getElementById('btnExecuteMcpTool')?.addEventListener('click', () => {
@@ -1571,11 +1762,11 @@ app.ontoolresult = (result) => {
   if (result?.structuredContent) {
     const sc = result.structuredContent;
     if (sc.initialTab) state.mainTab = sc.initialTab;
-    if (sc.data) {
+    if (Object.prototype.hasOwnProperty.call(sc, 'data')) {
       state.data = sc.data;
-      const p = state.data?.product?.price || 20;
-      state.cogs = Math.round(p * 0.22 * 10) / 10;
-      state.shippingCost = Math.round(p * 0.08 * 10) / 10;
+      state.asinQueryError = null;
+      state.cogs = 0;
+      state.shippingCost = 0;
     }
     if (sc.activeAsin) state.activeAsin = sc.activeAsin;
     if (sc.country) state.country = sc.country;
