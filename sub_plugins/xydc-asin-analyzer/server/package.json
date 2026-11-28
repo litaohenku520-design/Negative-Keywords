@@ -1,0 +1,10 @@
+{
+  "name": "xydc-asin-analyzer-server",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "MCP App Server for Xiyou Market Insight ASIN Competitive Analysis",
+  "dependencies": {
+    "@modelcontextprotocol/ext-apps": "^1.0.0",
+    "@modelcontextprotocol/sdk": "^1.12.0"
+  }
+}

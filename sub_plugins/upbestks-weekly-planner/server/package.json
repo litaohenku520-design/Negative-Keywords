@@ -1,0 +1,9 @@
+{
+  "name": "upbestks-weekly-planner-server",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "MCP App Server for UPBestKS Weekly Portfolio Optimization Sidebar Plugin",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0"
+  }
+}

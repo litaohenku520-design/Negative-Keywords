@@ -1,0 +1,10 @@
+{
+  "name": "upbestks-ad-scout-server",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "MCP App Server for UPBestKS Amazon Ads Scout and Type Analytics",
+  "dependencies": {
+    "@modelcontextprotocol/ext-apps": "^1.0.0",
+    "@modelcontextprotocol/sdk": "^1.12.0"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "erpRoot": "C:\\Users\\admin\\DeskBox\\aGENT\\AMZ 探险者1",
+  "scanDirs": [
+    "d:\\反重力\\UPBestKS\\广告数据",
+    "d:\\反重力\\UPBestKS\\销售与库存",
+    "C:\\Users\\admin\\DeskBox\\aGENT\\AMZ 探险者1\\data"
+  ],
+  "exportDir": "C:\\Users\\admin\\.gemini\\config\\plugins\\upbestks-erp-workbench\\server\\data\\exports",
+  "rulesConfigPath": "C:\\Users\\admin\\DeskBox\\aGENT\\AMZ 探险者1\\neg-keyword-backend\\rules_config.json",
+  "roasConfigPath": "C:\\Users\\admin\\DeskBox\\aGENT\\AMZ 探险者1\\roas_merge_data\\roas_merge_config.json",
+  "negKeyword": {
+    "defaultMarketplace": "US",
+    "defaultMatchType": "Negative Exact",
+    "minSpendNoOrder": 15,
+    "minClicksNoOrder": 12
+  },
+  "roasMerge": {
+    "defaultPreset": "custom_cfg_4_5_10",
+    "keyCols": [4, 5, 10],
+    "requiredCols": [true, true, true],
+    "autoJudge": true
+  },
+  "inventorySales": {
+    "stockoutWarnDays": 21,
+    "overstockWarnDays": 120,
+    "abcThresholds": [0.7, 0.9]
+  }
+}

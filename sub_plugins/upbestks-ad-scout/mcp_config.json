@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "upbestks_ad_scout": {
+      "command": "node",
+      "args": ["${PLUGIN_ROOT}/server/server.mjs"]
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "upbestks_sales_hub": {
+      "command": "node",
+      "args": ["${PLUGIN_ROOT}/server/server.mjs"]
+    }
+  }
+}

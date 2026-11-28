@@ -1,0 +1,1168 @@
+[
+  {
+    "name": "discover_breakout_products",
+    "desc": "发现潜力爆款：按站点和可选的一级类目，每次随机获取最多 10 个近期有爆发潜力的代表 ASIN，用于发现增长机会和新的选品方向，并提供近 30 天销量、商品与类目的销量增长对比和历史趋势。",
+    "params": [
+      "filters",
+      "intent_summary",
+      "user_task",
+      "country"
+    ],
+    "required": [
+      "country"
+    ]
+  },
+  {
+    "name": "find_keyword_opportunities",
+    "desc": "发现关键词机会：按类目、搜索量、ABA 排名、CPC、点击转化率、竞争难度及自然位滚动率等条件，从词库寻找值得进一步分析的关键词，返回匹配关键词、所选周指标及每个词全部可用的 ABA 报告历史趋势，支持排序和分页。无需提供种子词；默认按最新可用周筛选，也可指定历史周。默认每页 50 词，单页最多 50 词。",
+    "params": [
+      "orders",
+      "page",
+      "pageSize",
+      "intent_summary",
+      "user_task",
+      "country",
+      "cycleFilter",
+      "filters",
+      "rangeFilters",
+      "query"
+    ],
+    "required": [
+      "country"
+    ]
+  },
+  {
+    "name": "find_related_keywords",
+    "desc": "以词找词：查找相关关键词：根据一个种子关键词查找相关词和长尾词，用于构建 Listing 或广告关键词库。支持指定时间范围，并结合匹配类型、搜索指标和参考 ASIN 相关性筛选。",
+    "params": [
+      "rangeFilters",
+      "query",
+      "orders",
+      "pageSize",
+      "user_task",
+      "cycleFilter",
+      "reference_asins",
+      "page",
+      "intent_summary",
+      "keyword",
+      "country",
+      "filters"
+    ],
+    "required": [
+      "keyword",
+      "country"
+    ]
+  },
+  {
+    "name": "generate_category_insight_resource",
+    "desc": "为用户已确认的站点和类目生成洞察资源，内部最长等待 5 分钟并自动重建失败资源。每次独立成功调用 500 Credits，命中已有资源也收费。同一任务后续查询应复用 resourceId，避免重复调用生成工具。",
+    "params": [
+      "categoryId",
+      "intent_summary",
+      "user_task",
+      "country"
+    ],
+    "required": [
+      "country",
+      "categoryId"
+    ]
+  },
+  {
+    "name": "get_account_credit_quota",
+    "desc": "查询当前 MCP Token 所属账户的额度：当前套餐、账户状态、月额度与周额度（上限、已用、剩余、状态、重置时间）、额度包汇总、能否调用以及单次最多可用额度。本工具免费，不消耗额度。",
+    "params": [
+      "intent_summary",
+      "user_task"
+    ],
+    "required": []
+  },
+  {
+    "name": "get_asin_ad_change_trends",
+    "desc": "查询单个 ASIN 的广告投放变化日趋势，返回每天新观测到的广告活动。",
+    "params": [
+      "end_date",
+      "country",
+      "intent_summary",
+      "user_task",
+      "asin",
+      "start_date"
+    ],
+    "required": [
+      "asin",
+      "start_date",
+      "end_date",
+      "country"
+    ]
+  },
+  {
+    "name": "get_asin_bsr",
+    "desc": "获取单个 ASIN 的 BSR 排名和 Amazon 类目树。成功查询每次收取 2 credits；即使 BSR 排名和 Amazon 类目树均为空，仍收取 2 credits。查询失败不收费。",
+    "params": [
+      "asin",
+      "country",
+      "intent_summary",
+      "user_task"
+    ],
+    "required": [
+      "asin",
+      "country"
+    ]
+  },
+  {
+    "name": "get_asin_bsr_trends",
+    "desc": "查询单个 ASIN 的 BSR 类目排名日趋势。",
+    "params": [
+      "asin",
+      "start_date",
+      "end_date",
+      "country",
+      "intent_summary",
+      "user_task"
+    ],
+    "required": [
+      "asin",
+      "start_date",
+      "end_date",
+      "country"
+    ]
+  },
+  {
+    "name": "get_asin_info",
+    "desc": "获取一个或多个 ASIN 的商品信息，包括标题、价格、评分、图片、品牌、上架日期、内部类目树、配送方式、费用、尺寸重量和五点描述。每个 ASIN 2 credits。",
+    "params": [
+      "asins",
+      "country",
+      "intent_summary",
+      "user_task"
+    ],
+    "required": [
+      "asins",
+      "country"
+    ]
+  },
+  {
+    "name": "get_asin_info_change_trends",
+    "desc": "查询单个 ASIN 的商品标题和主图变动日趋势，返回变动前后的内容。",
+    "params": [
+      "asin",
+      "start_date",
+      "end_date",
+      "country",
+      "intent_summary",
+      "user_task"
+    ],
+    "required": [
+      "asin",
+      "start_date",
+      "end_date",
+      "country"
+    ]
+  },
+  {
+    "name": "get_asin_info_trends",
+    "desc": "查询单个 ASIN 的商品信息日趋势，包括评分数、星级评分、各类价格及优惠信息。",
+    "params": [
+      "intent_summary",
+      "user_task",
+      "asin",
+      "start_date",
+      "end_date",
+      "country"
+    ],
+    "required": [
+      "asin",
+      "start_date",
+      "end_date",
+      "country"
+    ]
+  },
+  {
+    "name": "get_asin_keyword_count_trends",
+    "desc": "关键词数量趋势：查询一个或多个 ASIN 的反查关键词数量日趋势，用于观察关键词覆盖规模及其结构每天的变化。",
+    "params": [
+      "country",
+      "start_date",
+      "end_date",
+      "intent_summary",
+      "user_task",
+      "asins"
+    ],
+    "required": [
+      "asins",
+      "country",
+      "start_date",
+      "end_date"
+    ]
+  },
+  {
+    "name": "get_asin_keyword_rank_hourly",
+    "desc": "查询单个 ASIN 在指定关键词下某一天的小时级排名变化。",
+    "params": [
+      "intent_summary",
+      "user_task",
+      "asin",
+      "keyword",
+      "date",
+      "country"
+    ],
+    "required": [
+      "asin",
+      "keyword",
+      "date",
+      "country"
+    ]
+  },
+  {
+    "name": "get_asin_keyword_rank_trends",
+    "desc": "查询单个 ASIN 在指定关键词下的日排名趋势。",
+    "params": [
+      "start_date",
+      "end_date",
+      "country",
+      "intent_summary",
+      "user_task",
+      "asin",
+      "keyword"
+    ],
+    "required": [
+      "asin",
+      "keyword",
+      "start_date",
+      "end_date",
+      "country"
+    ]
+  },
+  {
+    "name": "get_asin_keyword_traffic_trends",
+    "desc": "查询单个 ASIN 在指定关键词下的日流量趋势。",
+    "params": [
+      "country",
+      "intent_summary",
+      "user_task",
+      "asin",
+      "keyword",
+      "start_date",
+      "end_date"
+    ],
+    "required": [
+      "asin",
+      "keyword",
+      "start_date",
+      "end_date",
+      "country"
+    ]
+  },
+  {
+    "name": "get_asin_keywords",
+    "desc": "反查关键词（近 7 天）：查询单个 ASIN 近 7 天在哪些关键词下有排名和流量，即 ASIN 反查关键词。",
+    "params": [
+      "page",
+      "page_size",
+      "sort_field",
+      "sort_order",
+      "filters",
+      "rangeFilters",
+      "user_task",
+      "asin",
+      "intent_summary",
+      "country"
+    ],
+    "required": [
+      "asin",
+      "country"
+    ]
+  },
+  {
+    "name": "get_asin_keywords_daily",
+    "desc": "反查关键词（日维度）：按日期范围查询单个 ASIN 在哪些关键词下有排名和流量，即 ASIN 反查关键词日级历史。",
+    "params": [
+      "rangeFilters",
+      "intent_summary",
+      "asin",
+      "user_task",
+      "country",
+      "start_date",
+      "sort_field",
+      "sort_order",
+      "filters",
+      "page",
+      "page_size",
+      "end_date"
+    ],
+    "required": [
+      "asin",
+      "start_date",
+      "end_date",
+      "country"
+    ]
+  },
+  {
+    "name": "get_asin_keywords_monthly",
+    "desc": "反查关键词（月维度）：按月份查询单个 ASIN 在哪些关键词下有排名和流量，即 ASIN 反查关键词月度历史。",
+    "params": [
+      "page_size",
+      "sort_field",
+      "intent_summary",
+      "end_month",
+      "asin",
+      "country",
+      "page",
+      "sort_order",
+      "start_month",
+      "user_task",
+      "filters",
+      "rangeFilters"
+    ],
+    "required": [
+      "asin",
+      "start_month",
+      "end_month",
+      "country"
+    ]
+  },
+  {
+    "name": "get_asin_order_trends",
+    "desc": "查询单个 ASIN 的月订单量趋势，返回指定月份范围内每月的 orders。",
+    "params": [
+      "intent_summary",
+      "user_task",
+      "asin",
+      "start_month",
+      "end_month",
+      "country"
+    ],
+    "required": [
+      "asin",
+      "start_month",
+      "end_month",
+      "country"
+    ]
+  },
+  {
+    "name": "get_asin_orders_last_30_days",
+    "desc": "查询一个或多个 ASIN 的近期订单量，数据口径为最近 30 天。",
+    "params": [
+      "asins",
+      "country",
+      "intent_summary",
+      "user_task"
+    ],
+    "required": [
+      "asins",
+      "country"
+    ]
+  },
+  {
+    "name": "get_asin_traffic",
+    "desc": "查询一个或多个 ASIN 近 7 天流量，包含自然流量、广告流量和环比变化。",
+    "params": [
+      "country",
+      "intent_summary",
+      "user_task",
+      "asins"
+    ],
+    "required": [
+      "asins",
+      "country"
+    ]
+  },
+  {
+    "name": "get_asin_traffic_trends",
+    "desc": "查询单个 ASIN 的日流量趋势，包括自然流量、广告流量和位置维度拆解。",
+    "params": [
+      "asin",
+      "start_date",
+      "end_date",
+      "country",
+      "intent_summary",
+      "user_task"
+    ],
+    "required": [
+      "asin",
+      "start_date",
+      "end_date",
+      "country"
+    ]
+  },
+  {
+    "name": "get_asin_traffic_trends_monthly",
+    "desc": "按月查询单个 ASIN 的流量趋势，包括自然流量、广告流量和位置维度拆解。",
+    "params": [
+      "intent_summary",
+      "user_task",
+      "asin",
+      "start_month",
+      "end_month",
+      "country"
+    ],
+    "required": [
+      "asin",
+      "start_month",
+      "end_month",
+      "country"
+    ]
+  },
+  {
+    "name": "get_asin_traffic_trends_weekly",
+    "desc": "按自然周查询单个 ASIN 的流量趋势，每周为周一至周日，包括自然流量、广告流量和位置维度拆解。",
+    "params": [
+      "asin",
+      "start_week",
+      "end_week",
+      "country",
+      "intent_summary",
+      "user_task"
+    ],
+    "required": [
+      "asin",
+      "start_week",
+      "end_week",
+      "country"
+    ]
+  },
+  {
+    "name": "get_asin_variations",
+    "desc": "查询单个 ASIN 的变体关系，包括父体 ASIN、子体 ASIN 列表及各子体的变体属性。",
+    "params": [
+      "asin",
+      "country",
+      "intent_summary",
+      "user_task"
+    ],
+    "required": [
+      "asin",
+      "country"
+    ]
+  },
+  {
+    "name": "get_category_asin_competition",
+    "desc": "类目 ASIN 竞争分析：查看类目的活跃商品数量、头部商品集中度和月度变化，评估商品竞争格局。按父体或代表ASIN统计，可选择全部、高价、中价或低价商品；不填写或留空时查询全部价格段。",
+    "params": [
+      "country",
+      "categoryId",
+      "resourceId",
+      "month",
+      "history",
+      "user_task",
+      "intent_summary",
+      "priceType"
+    ],
+    "required": [
+      "country",
+      "categoryId",
+      "resourceId"
+    ]
+  },
+  {
+    "name": "get_category_brand_competition",
+    "desc": "类目品牌竞争分析：查看类目的品牌数量、头部品牌集中度和月度变化，评估品牌竞争格局。可选择全部、高价、中价或低价商品；不填写或留空时查询全部价格段。",
+    "params": [
+      "resourceId",
+      "month",
+      "history",
+      "user_task",
+      "intent_summary",
+      "priceType",
+      "country",
+      "categoryId"
+    ],
+    "required": [
+      "country",
+      "categoryId",
+      "resourceId"
+    ]
+  },
+  {
+    "name": "get_category_brand_market_size",
+    "desc": "获取类目品牌市场规模列表及完整趋势，支持月度或近 30 天、价格带、榜单类型、排序和分页。只传 startDate 时按月度查询；period=last30days 时 cycle 只能省略或 daily。每返回 5 个品牌收 5 Credits。rankingType=newRelease 在此接口等同于销量降序，不筛选新品品牌。指定 rankingType 时排序按该榜单规则。",
+    "params": [
+      "categoryId",
+      "page",
+      "user_task",
+      "resourceId",
+      "cycleFilter",
+      "pageSize",
+      "priceType",
+      "rankingType",
+      "orders",
+      "intent_summary",
+      "country"
+    ],
+    "required": [
+      "country",
+      "categoryId",
+      "resourceId",
+      "cycleFilter"
+    ]
+  },
+  {
+    "name": "get_category_brand_sales_trends",
+    "desc": "获取请求 brands 的完整历史月度销售趋势及已有近 30 天汇总，不接受起止月份筛选。费用为 ceil((最大历史月份数+1)/6) × 请求品牌数 × 2 Credits，近 30 天折算 1 个月。",
+    "params": [
+      "country",
+      "categoryId",
+      "resourceId",
+      "priceType",
+      "brands",
+      "intent_summary",
+      "user_task"
+    ],
+    "required": [
+      "country",
+      "categoryId",
+      "resourceId",
+      "brands"
+    ]
+  },
+  {
+    "name": "get_category_keyword_analysis",
+    "desc": "获取所选自然月、所选相关度的类目关键词分析，完整返回该月 summary、distribution 及全部历史趋势。省略 cycleFilter 或 startDate 时读取站点关键词最新可用月份，显式月份不能晚于该月份；仅支持 monthly，不支持年度、日度或滚动周期。必须指定 correlationType。每次固定 5 Credits，附带趋势不额外收费。",
+    "params": [
+      "country",
+      "categoryId",
+      "resourceId",
+      "cycleFilter",
+      "correlationType",
+      "intent_summary",
+      "user_task"
+    ],
+    "required": [
+      "country",
+      "categoryId",
+      "resourceId",
+      "correlationType"
+    ]
+  },
+  {
+    "name": "get_category_keywords",
+    "desc": "类目关键词列表：获取所选自然月的类目关键词列表。省略 cycleFilter 或 startDate 时读取站点关键词最新可用月份，显式月份不能晚于该月份；仅支持 monthly，不支持年度、日度或滚动周期。支持新版相关度、品牌、区间、搜索和分页。默认附带完整历史趋势，includeTrend=false 可关闭列表趋势。每返回 20 个关键词收 1 Credit。",
+    "params": [
+      "cycleFilter",
+      "includeTrend",
+      "filters",
+      "country",
+      "resourceId",
+      "page",
+      "pageSize",
+      "query",
+      "rangeFilters",
+      "intent_summary",
+      "user_task",
+      "categoryId"
+    ],
+    "required": [
+      "country",
+      "categoryId",
+      "resourceId"
+    ]
+  },
+  {
+    "name": "get_category_market_size_trends",
+    "desc": "类目市场规模趋势：查看类目的历史月度销量、销售额及已有近30天汇总，了解市场规模和季节性变化。",
+    "params": [
+      "priceType",
+      "intent_summary",
+      "user_task",
+      "country",
+      "categoryId",
+      "resourceId"
+    ],
+    "required": [
+      "country",
+      "categoryId",
+      "resourceId"
+    ]
+  },
+  {
+    "name": "get_category_new_release_opportunity_trends",
+    "desc": "类目新品机会分析：查看类目的新品表现、商品列表和历史趋势，了解新品进入市场后的表现与机会。",
+    "params": [
+      "priceType",
+      "intent_summary",
+      "user_task",
+      "country",
+      "categoryId",
+      "resourceId",
+      "cycleFilter"
+    ],
+    "required": [
+      "country",
+      "categoryId",
+      "resourceId",
+      "cycleFilter"
+    ]
+  },
+  {
+    "name": "get_category_new_release_ranking",
+    "desc": "类目新品榜：查询指定亚马逊站点和类目内、符合上架时间条件的商品表现，用于观察新品起量。reportPeriod 必填，支持 YYYY-MM（自然月）、YYYY（自然年）、last30days（近 30 天）和 last12months（近 12 个月）。用 rangeFilters.streetDays 显式指定上架天数区间，省略时会保留全部活跃候选。每返回 5 个代表 ASIN 收 5 Credits，不足一档向上取整。",
+    "params": [
+      "pageSize",
+      "query",
+      "rangeFilters",
+      "country",
+      "categoryId",
+      "resourceId",
+      "reportPeriod",
+      "filters",
+      "orders",
+      "intent_summary",
+      "user_task",
+      "page"
+    ],
+    "required": [
+      "country",
+      "categoryId",
+      "resourceId",
+      "reportPeriod"
+    ]
+  },
+  {
+    "name": "get_category_price_segment_trends",
+    "desc": "一次获取低、中、高三个价格带的完整分析及趋势，包括所选周期价格范围、品牌、代表 ASIN、评分及细分价格区间。历史趋势没有逐月价格边界。三个价格带合计每 6 个不同月份收 5 Credits。",
+    "params": [
+      "country",
+      "categoryId",
+      "resourceId",
+      "cycleFilter",
+      "intent_summary",
+      "user_task"
+    ],
+    "required": [
+      "country",
+      "categoryId",
+      "resourceId",
+      "cycleFilter"
+    ]
+  },
+  {
+    "name": "get_category_primary_asins",
+    "desc": "获取类目或指定价格带内的代表 ASIN 列表及完整趋势，支持新版榜单类型、排序和分页。近 12 个月（period=last12months）仅支持全部价格带，priceType 必须省略或传 allPrice。每返回 5 个代表 ASIN 收 5 Credits。指定 rankingType 时排序按该榜单规则。",
+    "params": [
+      "cycleFilter",
+      "page",
+      "pageSize",
+      "rankingType",
+      "orders",
+      "intent_summary",
+      "user_task",
+      "categoryId",
+      "resourceId",
+      "priceType",
+      "country"
+    ],
+    "required": [
+      "country",
+      "categoryId",
+      "resourceId",
+      "cycleFilter"
+    ]
+  },
+  {
+    "name": "get_category_review_analysis",
+    "desc": "获取月度或近 30 天的合并星级和评价数量分析，完整返回 distribution、ratingsTrends 和 starsTrends。每次成功调用总计 5 Credits。",
+    "params": [
+      "cycleFilter",
+      "priceType",
+      "intent_summary",
+      "user_task",
+      "country",
+      "categoryId",
+      "resourceId"
+    ],
+    "required": [
+      "country",
+      "categoryId",
+      "resourceId",
+      "cycleFilter"
+    ]
+  },
+  {
+    "name": "get_category_sales_ranking",
+    "desc": "类目销量榜：查询指定亚马逊站点和类目的商品销量排名，用于找畅销商品和头部竞品。reportPeriod 必填，支持 YYYY-MM（自然月）、YYYY（自然年）、last30days（近 30 天）和 last12months（近 12 个月）。每返回 5 个代表 ASIN 收 5 Credits，不足一档向上取整。",
+    "params": [
+      "country",
+      "reportPeriod",
+      "pageSize",
+      "query",
+      "filters",
+      "rangeFilters",
+      "categoryId",
+      "resourceId",
+      "page",
+      "orders",
+      "intent_summary",
+      "user_task"
+    ],
+    "required": [
+      "country",
+      "categoryId",
+      "resourceId",
+      "reportPeriod"
+    ]
+  },
+  {
+    "name": "get_category_seasonality",
+    "desc": "判断类目季节性并按需分析影响。返回 isSeasonal、旺淡季、销售对比及预测；非季节性或无法判断均为 false 和空分析，调用异常返回错误。每次成功调用固定 5 Credits。",
+    "params": [
+      "country",
+      "categoryId",
+      "resourceId",
+      "intent_summary",
+      "user_task"
+    ],
+    "required": [
+      "country",
+      "categoryId",
+      "resourceId"
+    ]
+  },
+  {
+    "name": "get_category_surging_ranking",
+    "desc": "类目综合表现榜：查询指定亚马逊站点和类目的近 30 天综合表现榜。榜单综合销量规模、销量增幅和增长持续性排序，帮助用户发现有销量基础、增长势头较好的商品，作为选品调研的候选。reportPeriod 必填，调用时传 last30days。传入其他有效周期值时，仍按近 30 天返回。每返回 5 个代表 ASIN 收 5 Credits，不足一档向上取整。",
+    "params": [
+      "reportPeriod",
+      "page",
+      "pageSize",
+      "query",
+      "rangeFilters",
+      "filters",
+      "orders",
+      "intent_summary",
+      "user_task",
+      "country",
+      "categoryId",
+      "resourceId"
+    ],
+    "required": [
+      "country",
+      "categoryId",
+      "resourceId",
+      "reportPeriod"
+    ]
+  },
+  {
+    "name": "get_keyword_aba_trends",
+    "desc": "关键词指标周趋势：查看一个或多个关键词的搜索量、ABA排名、CPC、广告竞争难度和自然位商品变动情况，了解长期走势与季节性变化。",
+    "params": [
+      "start_week",
+      "end_week",
+      "country",
+      "intent_summary",
+      "user_task",
+      "keywords"
+    ],
+    "required": [
+      "keywords",
+      "start_week",
+      "end_week",
+      "country"
+    ]
+  },
+  {
+    "name": "get_keyword_advertising_replay",
+    "desc": "广告放映机：查询美国、英国、德国站点的指定关键词在指定一天内各小时的广告位结果，最多返回 24 个小时，用于观察该关键词的广告位竞争和投放节奏。",
+    "params": [
+      "intent_summary",
+      "user_task",
+      "keyword",
+      "country",
+      "report_date"
+    ],
+    "required": [
+      "keyword",
+      "country",
+      "report_date"
+    ]
+  },
+  {
+    "name": "get_keyword_analysis_monthly",
+    "desc": "关键词反查 ASIN（月维度）：按月份查询单个关键词下的 ASIN 竞争格局历史。",
+    "params": [
+      "sort_order",
+      "start_month",
+      "rangeFilters",
+      "page_size",
+      "intent_summary",
+      "keyword",
+      "page",
+      "sort_field",
+      "filters",
+      "user_task",
+      "country",
+      "end_month"
+    ],
+    "required": [
+      "keyword",
+      "start_month",
+      "end_month",
+      "country"
+    ]
+  },
+  {
+    "name": "get_keyword_asin_analysis",
+    "desc": "关键词反查 ASIN（近7天）：查看一个关键词近7天有哪些商品在获取流量，比较它们的自然和广告排名、流量表现及近30天订单量。",
+    "params": [
+      "user_task",
+      "keyword",
+      "page",
+      "sort_field",
+      "sort_order",
+      "rangeFilters",
+      "country",
+      "page_size",
+      "intent_summary",
+      "filters"
+    ],
+    "required": [
+      "keyword",
+      "country"
+    ]
+  },
+  {
+    "name": "get_keyword_info",
+    "desc": "关键词基础指标：查询一个或多个关键词最近一周的基础市场指标，包括搜索量、ABA 排名、竞争难度和建议竞价。",
+    "params": [
+      "keywords",
+      "country",
+      "intent_summary",
+      "user_task"
+    ],
+    "required": [
+      "keywords",
+      "country"
+    ]
+  },
+  {
+    "name": "get_keyword_organic_replay",
+    "desc": "自然放映机：查询美国、英国、德国站点的指定关键词在指定一天内各小时的自然排名、AC 和 OOR 位置及出现的商品，最多返回 24 个小时。",
+    "params": [
+      "user_task",
+      "keyword",
+      "country",
+      "report_date",
+      "intent_summary"
+    ],
+    "required": [
+      "keyword",
+      "country",
+      "report_date"
+    ]
+  },
+  {
+    "name": "get_multi_asin_keyword_comparison",
+    "desc": "多 ASIN 关键词对比（近 7 天）：查询多个 ASIN 最新近 7 天的关键词列表并进行横向对比，用于构建词库或分析多个 ASIN 当前的关键词覆盖、排名和流量差异。",
+    "params": [
+      "sort_field",
+      "filters",
+      "user_task",
+      "page_size",
+      "rangeFilters",
+      "sort_order",
+      "intent_summary",
+      "asins",
+      "country",
+      "page"
+    ],
+    "required": [
+      "asins",
+      "country"
+    ]
+  },
+  {
+    "name": "get_multi_asin_keyword_comparison_monthly",
+    "desc": "多 ASIN 关键词对比（月维度）：查询多个 ASIN 的月度关键词列表并进行横向对比，用于构建词库或分析多个 ASIN 的关键词覆盖、排名和流量差异。",
+    "params": [
+      "rangeFilters",
+      "page_size",
+      "sort_field",
+      "sort_order",
+      "user_task",
+      "intent_summary",
+      "filters",
+      "asins",
+      "country",
+      "page",
+      "start_month",
+      "end_month"
+    ],
+    "required": [
+      "asins",
+      "start_month",
+      "end_month",
+      "country"
+    ]
+  },
+  {
+    "name": "get_parent_asin_ad_campaign_detail",
+    "desc": "查询指定广告活动在当前父体内的周期汇总，以及展示位、变体和关键词层级的流量分布。",
+    "params": [
+      "cycleFilter",
+      "intent_summary",
+      "user_task",
+      "country",
+      "asin",
+      "campaign_id",
+      "campaign_type"
+    ],
+    "required": [
+      "country",
+      "asin",
+      "campaign_id",
+      "campaign_type"
+    ]
+  },
+  {
+    "name": "get_parent_asin_ad_campaign_trends",
+    "desc": "一次查询父体内指定活动的每日流量、展示位、关键词分层和变体贡献。",
+    "params": [
+      "country",
+      "asin",
+      "campaigns",
+      "cycleFilter",
+      "intent_summary",
+      "user_task"
+    ],
+    "required": [
+      "country",
+      "asin",
+      "campaigns"
+    ]
+  },
+  {
+    "name": "get_parent_asin_ad_campaigns",
+    "desc": "查询父体在近7/14/30天或指定日期区间内的SP、SB、SBV广告活动，支持筛选、排序和分页。",
+    "params": [
+      "asin",
+      "page_size",
+      "sort_order",
+      "campaign_types",
+      "sort_field",
+      "page",
+      "campaign_ids",
+      "variation_asins",
+      "traffic_range",
+      "traffic_share_range",
+      "cycleFilter",
+      "intent_summary",
+      "user_task",
+      "country"
+    ],
+    "required": [
+      "country",
+      "asin"
+    ]
+  },
+  {
+    "name": "get_parent_asin_ad_keywords",
+    "desc": "查询父体广告关键词；传入活动ID和类型时，查询该活动在父体内的关键词。支持近7/14/30天和指定日期区间。",
+    "params": [
+      "sort_field",
+      "user_task",
+      "country",
+      "page",
+      "sort_order",
+      "campaign_type",
+      "include_words",
+      "asin",
+      "page_size",
+      "query",
+      "traffic_range",
+      "competitive_difficulty_range",
+      "exclude_words",
+      "cycleFilter",
+      "intent_summary",
+      "campaign_id",
+      "variation_asins",
+      "campaign_types",
+      "traffic_share_range"
+    ],
+    "required": [
+      "country",
+      "asin"
+    ]
+  },
+  {
+    "name": "get_parent_asin_ad_overview",
+    "desc": "查询一个父体下全部纳入子体最新近7天的广告概况，输入子体ASIN后自动解析父体。",
+    "params": [
+      "asin",
+      "top_n",
+      "intent_summary",
+      "user_task",
+      "country"
+    ],
+    "required": [
+      "country",
+      "asin"
+    ]
+  },
+  {
+    "name": "get_parent_asin_keyword_traffic_trends",
+    "desc": "查询关键词在父体内的每日自然和广告流量，以及展示位、变体贡献和广告活动归属。",
+    "params": [
+      "country",
+      "asin",
+      "campaign_id",
+      "cycleFilter",
+      "keywords",
+      "breakdowns",
+      "campaign_type",
+      "intent_summary",
+      "user_task"
+    ],
+    "required": [
+      "country",
+      "asin",
+      "keywords"
+    ]
+  },
+  {
+    "name": "get_parent_asin_keywords",
+    "desc": "父体关键词列表（近7天）：输入一个子体ASIN，查看其所属父体最近7天的关键词覆盖，以及各子体的排名和流量表现。",
+    "params": [
+      "page_size",
+      "sort_field",
+      "sort_order",
+      "user_task",
+      "asin",
+      "page",
+      "intent_summary",
+      "country",
+      "filters",
+      "rangeFilters"
+    ],
+    "required": [
+      "asin",
+      "country"
+    ]
+  },
+  {
+    "name": "get_parent_asin_keywords_monthly",
+    "desc": "父体关键词列表（月维度）：输入一个子体ASIN，查看其所属父体在指定月份范围内的关键词覆盖、排名和流量表现。",
+    "params": [
+      "user_task",
+      "country",
+      "start_month",
+      "page",
+      "filters",
+      "sort_field",
+      "sort_order",
+      "intent_summary",
+      "end_month",
+      "rangeFilters",
+      "page_size",
+      "asin"
+    ],
+    "required": [
+      "asin",
+      "start_month",
+      "end_month",
+      "country"
+    ]
+  },
+  {
+    "name": "get_parent_asin_traffic_trends",
+    "desc": "查询父体每日自然和广告流量，并拆解变体、广告活动和关键词层级的贡献变化。",
+    "params": [
+      "intent_summary",
+      "user_task",
+      "country",
+      "asin",
+      "breakdowns",
+      "cycleFilter"
+    ],
+    "required": [
+      "country",
+      "asin"
+    ]
+  },
+  {
+    "name": "get_primary_asin_children",
+    "desc": "获取单个 primaryAsin 的子 ASIN 列表及完整趋势，支持新版周期、价格带和分页。primaryAsin 只能传一个字符串，不支持数组。每返回 20 个子 ASIN 收 5 Credits；不新增此工具专用并发或频率限制。",
+    "params": [
+      "country",
+      "categoryId",
+      "resourceId",
+      "page",
+      "pageSize",
+      "priceType",
+      "primaryAsin",
+      "user_task",
+      "cycleFilter",
+      "intent_summary"
+    ],
+    "required": [
+      "country",
+      "categoryId",
+      "resourceId",
+      "cycleFilter",
+      "primaryAsin"
+    ]
+  },
+  {
+    "name": "report_missing_xiyou_capability",
+    "desc": "上报当前西柚 MCP 工具无法直接满足的用户需求。",
+    "params": [
+      "user_task",
+      "missing_capability",
+      "current_blocker",
+      "tried_tools",
+      "suggested_tool_name",
+      "intent_summary"
+    ],
+    "required": [
+      "intent_summary",
+      "missing_capability",
+      "current_blocker"
+    ]
+  },
+  {
+    "name": "search_market_insight_categories",
+    "desc": "类目搜索与筛选：按品类关键词、单个 ASIN 或筛选条件发现和比较亚马逊类目，返回所选自然月的市场表现，以及完整历史销量趋势、头部代表 ASIN、子类目和同级类目表现。",
+    "params": [
+      "filters",
+      "rangeFilters",
+      "user_task",
+      "cycleFilter",
+      "page",
+      "pageSize",
+      "intent_summary",
+      "country",
+      "query"
+    ],
+    "required": [
+      "country",
+      "cycleFilter"
+    ]
+  },
+  {
+    "name": "search_products",
+    "desc": "按条件筛选商品：根据类目、价格、销量、销售额、评分、评分数、上架天数及流量结构等条件，从亚马逊商品库中搜索符合要求的商品，返回商品列表及指标。支持品牌或标题搜索、近 30 天或指定历史月数据查询和分页，无需提供 ASIN。",
+    "params": [
+      "intent_summary",
+      "user_task",
+      "country",
+      "query",
+      "pageSize",
+      "cycleFilter",
+      "filters",
+      "rangeFilters",
+      "page"
+    ],
+    "required": [
+      "country"
+    ]
+  },
+  {
+    "name": "translate_keywords",
+    "desc": "关键词中文翻译：查询ABA报告及亚马逊搜索词已有的简体中文译文，一次支持1—100个词，自动识别原文语言。",
+    "params": [
+      "keywords",
+      "user_task",
+      "intent_summary"
+    ],
+    "required": [
+      "keywords"
+    ]
+  }
+]

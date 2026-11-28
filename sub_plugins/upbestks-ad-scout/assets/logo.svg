@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="adGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E3A8A"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="50%" stop-color="#818CF8"/>
+      <stop offset="100%" stop-color="#34D399"/>
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="108" height="108" rx="24" fill="url(#adGrad)"/>
+  <circle cx="64" cy="64" r="42" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4"/>
+  <circle cx="64" cy="64" r="28" fill="none" stroke="#1E293B" stroke-width="2"/>
+  <line x1="64" y1="20" x2="64" y2="108" stroke="#334155" stroke-width="1.5" stroke-dasharray="2 2"/>
+  <line x1="20" y1="64" x2="108" y2="64" stroke="#334155" stroke-width="1.5" stroke-dasharray="2 2"/>
+  <path d="M26 84 L46 62 L66 74 L86 42 L102 30" fill="none" stroke="url(#lineGrad)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="26" cy="84" r="4" fill="#38BDF8"/>
+  <circle cx="46" cy="62" r="4" fill="#38BDF8"/>
+  <circle cx="66" cy="74" r="4" fill="#818CF8"/>
+  <circle cx="86" cy="42" r="4" fill="#34D399"/>
+  <circle cx="102" cy="30" r="6" fill="#10B981" stroke="#FFFFFF" stroke-width="2.5"/>
+</svg>

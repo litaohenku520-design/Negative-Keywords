@@ -1,0 +1,13 @@
+{
+  "name": "upbestks-erp-workbench",
+  "displayName": "AMZ 快捷工作台",
+  "version": "1.0.0",
+  "description": "AMZ 快捷工作台（侧边栏三合一）：集成否词工具（规则匹配+AI审计+亚马逊否定模板导出）、ROAS 多周期合并与智能判定、库存销售分析（赛狐/FBA/广告报表智能列匹配与风险预警），统一管理本地数据与配置。",
+  "logo": "assets/logo.svg",
+  "suggestedPrompts": [
+    "打开 AMZ 快捷工作台",
+    "用否词工具审计搜索词报告并生成否定模板",
+    "合并 7/15/30/65 天广告 ROAS 报告并执行判定",
+    "分析库存与销售报表，排查断货与滞销风险"
+  ]
+}

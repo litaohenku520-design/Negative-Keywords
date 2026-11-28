@@ -1,0 +1,812 @@
+[
+  {
+    "id": "opt_25_01",
+    "opDate": "2026-11-26",
+    "status": "已执行待复盘",
+    "category": "P0-温和卡点止血",
+    "campaign": "UP-Auto-S24Ultra-Blue",
+    "target": "closeMatch + 首页(TOS)",
+    "action": "closeMatch $0.77 → $0.71 (-7.8%/-$0.06)；首页 0% → +8%（保TOS上限$1.53不丢单，其余温和压至$1.07）；sub/comp → $0.33",
+    "reason": "TOS 7d 43.0%(4单/CPC$1.46)、PP 25.0%，仅ROS 78.1%失血；遵小步调价原则单次压7.8%，4天后再评第二轮是否压至$0.68",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 126.92,
+      "sales": 203.88,
+      "orders": 12,
+      "clicks": 115,
+      "cpc": 1.1,
+      "cvr": 10.4,
+      "acos": 62.3
+    },
+    "base14d": {
+      "spend": 275.51,
+      "sales": 443.76,
+      "orders": 24,
+      "clicks": 241,
+      "cpc": 1.14,
+      "cvr": 10.0,
+      "acos": 62.1
+    },
+    "postNote": ""
+  },
+  {
+    "id": "opt_25_02",
+    "opDate": "2026-11-26",
+    "status": "已执行待复盘",
+    "category": "P0-温和卡点止血",
+    "campaign": "UP-Auto-A17-Blue",
+    "target": "closeMatch + 其余(ROS)",
+    "action": "先撤ROS 5%→0%（暂留TOS 5%）；closeMatch $0.77 → $0.72 (-6.5%/-$0.05)；ERP切75折；sub/comp → $0.33",
+    "reason": "14d双位置53%-58%，近7d恶化且ROS挂+5%虚高；采用小步(-6.5%)只撤其余5%保首页$1.51，配合明日$2 Coupon复测",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 96.16,
+      "sales": 99.14,
+      "orders": 6,
+      "clicks": 75,
+      "cpc": 1.28,
+      "cvr": 8.0,
+      "acos": 97.0
+    },
+    "base14d": {
+      "spend": 159.87,
+      "sales": 297.03,
+      "orders": 17,
+      "clicks": 123,
+      "cpc": 1.3,
+      "cvr": 13.8,
+      "acos": 53.8
+    },
+    "postNote": ""
+  },
+  {
+    "id": "opt_25_03",
+    "opDate": "2026-11-26",
+    "status": "已执行待复盘",
+    "category": "P0-温和卡点止血",
+    "campaign": "UP-Auto-Moto/Stylus/2026-Deep Purple",
+    "target": "closeMatch + 其余(ROS)",
+    "action": "closeMatch $0.75 → $0.70 (-6.7%/-$0.05)；其余 0% → +7%（保ROS上限$1.12与原持平，温和压TOS至$1.40）；sub/comp → $0.33",
+    "reason": "位置反转：ROS 14d 46.4%/7d 45.1%是主力，TOS(86.3%)与PP(78.0%)失血；小步降-6.7%+补ROS+7%精准锁定原其余位竞争力",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 90.68,
+      "sales": 128.72,
+      "orders": 8,
+      "clicks": 81,
+      "cpc": 1.12,
+      "cvr": 9.9,
+      "acos": 70.4
+    },
+    "base14d": {
+      "spend": 124.74,
+      "sales": 228.67,
+      "orders": 13,
+      "clicks": 113,
+      "cpc": 1.1,
+      "cvr": 11.5,
+      "acos": 54.6
+    },
+    "postNote": ""
+  },
+  {
+    "id": "opt_25_04",
+    "opDate": "2026-11-26",
+    "status": "已执行待复盘",
+    "category": "P0-温和卡点止血",
+    "campaign": "UP-Auto-Moto/G/2026-Light Brown",
+    "target": "closeMatch + 首页/详情溢价",
+    "action": "closeMatch $0.77 → $0.71 (-7.8%/-$0.06)；撤PP 5%→0%，首页 5% → +12%（仅+7pp保TOS$1.59，温和压ROS/PP至$1.07）；sub/comp → $0.33",
+    "reason": "TOS双期盈利(33.8%/38.4%)，PP近7d 16c 0单且挂5%溢价；采用-7.8%小步止血+TOS小幅补+7pp，避免步子过大",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 31.47,
+      "sales": 17.99,
+      "orders": 1,
+      "clicks": 31,
+      "cpc": 1.02,
+      "cvr": 3.2,
+      "acos": 174.9
+    },
+    "base14d": {
+      "spend": 65.49,
+      "sales": 107.94,
+      "orders": 6,
+      "clicks": 58,
+      "cpc": 1.13,
+      "cvr": 10.3,
+      "acos": 60.7
+    },
+    "postNote": ""
+  },
+  {
+    "id": "opt_25_05",
+    "opDate": "2026-11-26",
+    "status": "已执行待复盘",
+    "category": "P0-防风控纠偏",
+    "campaign": "UP-Attack-IP18ProMax",
+    "target": "手动基础Bid + 首页(TOS)",
+    "action": "取消v5.1加+8%；TOS 40%先温和回调至32%(-8pp)（或手动基础Bid仅微降-6%~-8%+否定PP浪费词）",
+    "reason": "14d TOS仅23.8%盈利，主要是ROS(116.5%)与PP(18c 0单)失血；遵小步规则不一口气砍到20%，先微调-8pp配合洗词",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 48.35,
+      "sales": 35.98,
+      "orders": 2,
+      "clicks": 51,
+      "cpc": 0.95,
+      "cvr": 3.9,
+      "acos": 134.4
+    },
+    "base14d": {
+      "spend": 116.87,
+      "sales": 163.91,
+      "orders": 9,
+      "clicks": 123,
+      "cpc": 0.95,
+      "cvr": 7.3,
+      "acos": 71.3
+    },
+    "postNote": ""
+  },
+  {
+    "id": "opt_25_06",
+    "opDate": "2026-11-26",
+    "status": "已执行待复盘",
+    "category": "P0-防风控纠偏",
+    "campaign": "UP-Auto-A17-Wine Red",
+    "target": "其余位置(ROS)",
+    "action": "暂缓v5.1其余位加价；保持Bid $0.77与ROS 5%不动，观望11/26 Coupon后满20c仍0单再撤5%→0%；sub/comp → $0.33",
+    "reason": "14d ROS 49.7%(4单)/PP 27.9%，近7d ROS突现14c 0单拖累至135.9%，严禁此时加价，先不动观望Coupon",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 19.56,
+      "sales": 14.39,
+      "orders": 1,
+      "clicks": 18,
+      "cpc": 1.09,
+      "cvr": 5.6,
+      "acos": 135.9
+    },
+    "base14d": {
+      "spend": 58.42,
+      "sales": 104.34,
+      "orders": 6,
+      "clicks": 49,
+      "cpc": 1.19,
+      "cvr": 12.2,
+      "acos": 56.0
+    },
+    "postNote": ""
+  },
+  {
+    "id": "opt_25_07",
+    "opDate": "2026-11-26",
+    "status": "已执行待复盘",
+    "category": "P1-温和卡点止血",
+    "campaign": "UP-Auto-S26Ultra-Blue1",
+    "target": "closeMatch + 其余(ROS)",
+    "action": "closeMatch $0.75 → $0.70 (-6.7%/-$0.05)；其余 0% → +7%（保ROS上限$1.12与原一致，温和压TOS至$1.40/PP至$1.05）；sub/comp → $0.33",
+    "reason": "双期仅ROS稳健盈利(14d 47.0%/7d 49.8%)，TOS(148%)与PP(76.5%)偏高；小步-6.7%+补ROS+7%丝滑控费不丢量",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 75.06,
+      "sales": 100.74,
+      "orders": 6,
+      "clicks": 71,
+      "cpc": 1.06,
+      "cvr": 8.5,
+      "acos": 74.5
+    },
+    "base14d": {
+      "spend": 281.16,
+      "sales": 508.93,
+      "orders": 27,
+      "clicks": 246,
+      "cpc": 1.14,
+      "cvr": 11.0,
+      "acos": 55.2
+    },
+    "postNote": ""
+  },
+  {
+    "id": "opt_25_08",
+    "opDate": "2026-11-26",
+    "status": "已执行待复盘",
+    "category": "P1-全账号防漏水",
+    "campaign": "全量 UP-Auto (36组sub/37组comp)",
+    "target": "substitutes/complements",
+    "action": "分两步温和收敛：先由$0.40-$0.45微降至$0.33(-20%左右)，观察4天仍0单再降至$0.25",
+    "reason": "避免一次性腰斩(-50%到$0.22)导致关联流量骤停影响权重，温和渐进防漏水",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 0,
+      "sales": 0,
+      "orders": 0,
+      "clicks": 0,
+      "cpc": 0.0,
+      "cvr": 0.0,
+      "acos": 0.0
+    },
+    "base14d": {
+      "spend": 0,
+      "sales": 0,
+      "orders": 0,
+      "clicks": 0,
+      "cpc": 0.0,
+      "cvr": 0.0,
+      "acos": 0.0
+    },
+    "postNote": ""
+  },
+  {
+    "id": "opt_25_09",
+    "opDate": "2026-11-26",
+    "status": "已执行待复盘",
+    "category": "P1-异常排查",
+    "campaign": "UP-Auto-IP17ProMax-Deep Purple-bid0.62-Tos10 & UP-Auto-IP17e-Blue1",
+    "target": "ERP当前出价",
+    "action": "核查为何ERP当前出价显示$0.00，恢复分时模板绑定",
+    "reason": "表3基础Bid分别为$0.62/$0.70但当前出价=$0.00",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 0,
+      "sales": 0,
+      "orders": 0,
+      "clicks": 0,
+      "cpc": 0.0,
+      "cvr": 0.0,
+      "acos": 0.0
+    },
+    "base14d": {
+      "spend": 0,
+      "sales": 0,
+      "orders": 0,
+      "clicks": 0,
+      "cpc": 0.0,
+      "cvr": 0.0,
+      "acos": 0.0
+    },
+    "postNote": ""
+  },
+  {
+    "id": "opt_25_10",
+    "opDate": "2026-11-26",
+    "status": "计划中",
+    "category": "P0-黑五分时切换",
+    "campaign": "UPBestKS 全量分时分组 (1-6档)",
+    "target": "ERP分时模板",
+    "action": "$2 Coupon上线后：1-3档 80折→90折，4-6档 75折→85折",
+    "reason": "11/26起开启$2 Coupon转化回暖，防叠加砍Bid造成双重打折",
+    "reviewDate": "2026-11-28",
+    "base7d": {
+      "spend": 0,
+      "sales": 0,
+      "orders": 0,
+      "clicks": 0,
+      "cpc": 0.0,
+      "cvr": 0.0,
+      "acos": 0.0
+    },
+    "base14d": {
+      "spend": 0,
+      "sales": 0,
+      "orders": 0,
+      "clicks": 0,
+      "cpc": 0.0,
+      "cvr": 0.0,
+      "acos": 0.0
+    },
+    "postNote": ""
+  },
+  {
+    "id": "opt_25_11",
+    "opDate": "2026-11-26",
+    "status": "已执行待复盘",
+    "category": "P1-温和控PP",
+    "campaign": "UP-Auto-A17-Deep Purple3",
+    "target": "closeMatch + 首页/其余溢价",
+    "action": "closeMatch $0.77 → $0.73 (-5.2%/-$0.04)；首页 0% → +5%，其余 5% → +10%（保TOS$1.53/ROS$1.20，温和压PP至$1.10）",
+    "reason": "TOS 7d 19.8%/ROS 54.7%，唯独PP 14d累计18c 0单；小步-5.2%配+5pp搜索溢价，平稳控详",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 29.7,
+      "sales": 61.16,
+      "orders": 4,
+      "clicks": 26,
+      "cpc": 1.14,
+      "cvr": 15.4,
+      "acos": 48.6
+    },
+    "base14d": {
+      "spend": 82.39,
+      "sales": 115.13,
+      "orders": 7,
+      "clicks": 69,
+      "cpc": 1.19,
+      "cvr": 10.1,
+      "acos": 71.6
+    },
+    "postNote": ""
+  },
+  {
+    "id": "opt_25_12",
+    "opDate": "2026-11-26",
+    "status": "已执行待复盘",
+    "category": "P1-温和卡点止血",
+    "campaign": "UP-Auto-IP17-Light Brown",
+    "target": "closeMatch + 首页(TOS)",
+    "action": "closeMatch $0.75 → $0.71 (-5.3%/-$0.04)；首页 0% → +6%（保TOS$1.51，温和压ROS/PP至$1.07）；sub/comp → $0.33",
+    "reason": "近7d $17.55仅1单烧在ROS(103.5%)，TOS 14d 2c出1单(14.2%)；小步-5.3%+6%温和保首页",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 17.55,
+      "sales": 15.99,
+      "orders": 1,
+      "clicks": 19,
+      "cpc": 0.92,
+      "cvr": 5.3,
+      "acos": 109.8
+    },
+    "base14d": {
+      "spend": 41.63,
+      "sales": 75.96,
+      "orders": 4,
+      "clicks": 41,
+      "cpc": 1.02,
+      "cvr": 9.8,
+      "acos": 54.8
+    },
+    "postNote": ""
+  },
+  {
+    "id": "opt_25_13",
+    "opDate": "2026-11-26",
+    "status": "已执行待复盘",
+    "category": "P1-明星位置扩量",
+    "campaign": "UP-Auto-Moto/Stylus/2026-Light Brown",
+    "target": "首页(TOS)",
+    "action": "维持基础Bid $0.75不动，首页 0% → +5% 小步试探放大高转化首页单",
+    "reason": "全组14d 31.7%/7d 38.7%，其中TOS 7d仅20.9%(3单)；单步+5%平稳试探不跳价",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 25.7,
+      "sales": 66.36,
+      "orders": 4,
+      "clicks": 28,
+      "cpc": 0.92,
+      "cvr": 14.3,
+      "acos": 38.7
+    },
+    "base14d": {
+      "spend": 27.35,
+      "sales": 86.35,
+      "orders": 5,
+      "clicks": 30,
+      "cpc": 0.91,
+      "cvr": 16.7,
+      "acos": 31.7
+    },
+    "postNote": ""
+  },
+  {
+    "id": "opt_25_14",
+    "opDate": "2026-11-26",
+    "status": "已执行待复盘",
+    "category": "P1-明星位置扩量",
+    "campaign": "UP-Auto-S24Ultra-Light Brown1",
+    "target": "首页(TOS) + 详情(PP)",
+    "action": "维持基础Bid $0.75不动，首页 0% → +5%，详情 0% → +5%（紧盯ROS若满20c仍0单再微压基础Bid）",
+    "reason": "整体35.7%(6单)，TOS 26.1%与PP 16.1%极佳，单步+5%温和放大",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 34.27,
+      "sales": 95.94,
+      "orders": 6,
+      "clicks": 38,
+      "cpc": 0.9,
+      "cvr": 15.8,
+      "acos": 35.7
+    },
+    "base14d": {
+      "spend": 34.27,
+      "sales": 95.94,
+      "orders": 6,
+      "clicks": 38,
+      "cpc": 0.9,
+      "cvr": 15.8,
+      "acos": 35.7
+    },
+    "postNote": ""
+  },
+  {
+    "id": "opt_25_15",
+    "opDate": "2026-11-26",
+    "status": "已执行待复盘",
+    "category": "P1-明星位置扩量",
+    "campaign": "UP-Auto-Pixel11-Deep Purple",
+    "target": "首页(TOS)",
+    "action": "维持基础Bid .75不动，首页 0% → +5% 小步扩量",
+    "reason": "7d ACoS 32.0%(3单/CVR17.6%)，其中TOS 14.5%/ROS 25.0%，单步+5%温和放量",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 15.37,
+      "sales": 47.97,
+      "orders": 3,
+      "clicks": 17,
+      "cpc": 0.9,
+      "cvr": 17.6,
+      "acos": 32.0
+    },
+    "base14d": {
+      "spend": 32.94,
+      "sales": 67.96,
+      "orders": 4,
+      "clicks": 33,
+      "cpc": 1.0,
+      "cvr": 12.1,
+      "acos": 48.5
+    },
+    "postNote": ""
+  },
+  {
+    "id": "v4_24_01",
+    "opDate": "2026-11-24",
+    "status": "观察期(11/29复盘)",
+    "category": "v4-首轮位置调价",
+    "campaign": "UP-Auto-IP16-Deep Purple",
+    "target": "closeMatch+首页",
+    "action": "Bid $0.77→$0.68(-12%)；首页0%→+12%",
+    "reason": "14d 71.3%→最新7d已降至39.1%(5单)，初步显著改善",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 34.41,
+      "sales": 87.95,
+      "orders": 5,
+      "clicks": 37,
+      "cpc": 0.93,
+      "cvr": 13.5,
+      "acos": 39.1
+    },
+    "base14d": {
+      "spend": 145.42,
+      "sales": 203.89,
+      "orders": 11,
+      "clicks": 138,
+      "cpc": 1.05,
+      "cvr": 8.0,
+      "acos": 71.3
+    },
+    "postNote": ""
+  },
+  {
+    "id": "v4_24_02",
+    "opDate": "2026-11-24",
+    "status": "观察期(11/29复盘)",
+    "category": "v4-首轮位置调价",
+    "campaign": "UP-Auto-Moto/G/2026-Deep Purple",
+    "target": "closeMatch+其余",
+    "action": "Bid $0.77→$0.65(-16%)；其余0%→+16%",
+    "reason": "14d 45.1%→最新7d降至36.3%(11单/CVR 19%)，效果极佳",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 58.75,
+      "sales": 161.89,
+      "orders": 11,
+      "clicks": 58,
+      "cpc": 1.01,
+      "cvr": 19.0,
+      "acos": 36.3
+    },
+    "base14d": {
+      "spend": 154.18,
+      "sales": 341.79,
+      "orders": 21,
+      "clicks": 140,
+      "cpc": 1.1,
+      "cvr": 15.0,
+      "acos": 45.1
+    },
+    "postNote": ""
+  },
+  {
+    "id": "v4_24_03",
+    "opDate": "2026-11-24",
+    "status": "观察期(11/29复盘)",
+    "category": "v4-首轮位置调价",
+    "campaign": "UP-Auto-IP17Pro-Wine Red",
+    "target": "closeMatch+首页",
+    "action": "Bid $0.80→$0.74(-8%)；首页0%→+8%/余5%",
+    "reason": "7d ACoS 53.2%(12单/CVR 15.6%)，观察CPC从$1.32回落情况",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 91.83,
+      "sales": 172.68,
+      "orders": 12,
+      "clicks": 77,
+      "cpc": 1.19,
+      "cvr": 15.6,
+      "acos": 53.2
+    },
+    "base14d": {
+      "spend": 252.03,
+      "sales": 510.89,
+      "orders": 32,
+      "clicks": 191,
+      "cpc": 1.32,
+      "cvr": 16.8,
+      "acos": 49.3
+    },
+    "postNote": ""
+  },
+  {
+    "id": "v4_24_04",
+    "opDate": "2026-11-24",
+    "status": "观察期(11/29复盘)",
+    "category": "v4-首轮位置调价",
+    "campaign": "UP-Auto-S26Ultra-Light Brwon",
+    "target": "closeMatch+首页",
+    "action": "Bid $0.75→$0.69(-8%)；首页0%→+8%",
+    "reason": "7d ACoS 66.3%(13单)，锁定至11/29评估",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 140.37,
+      "sales": 211.87,
+      "orders": 13,
+      "clicks": 143,
+      "cpc": 0.98,
+      "cvr": 9.1,
+      "acos": 66.3
+    },
+    "base14d": {
+      "spend": 212.76,
+      "sales": 363.79,
+      "orders": 21,
+      "clicks": 203,
+      "cpc": 1.05,
+      "cvr": 10.3,
+      "acos": 58.5
+    },
+    "postNote": ""
+  },
+  {
+    "id": "v4_24_05",
+    "opDate": "2026-11-24",
+    "status": "观察期(11/29复盘)",
+    "category": "v4-首轮位置调价",
+    "campaign": "UP-Auto-S25-Blue",
+    "target": "closeMatch+详情",
+    "action": "Bid $0.75→$0.68(-9%)；详情0%→+9%",
+    "reason": "7d ACoS 72.9%(4单)，锁定至11/29评估",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 49.56,
+      "sales": 67.96,
+      "orders": 4,
+      "clicks": 47,
+      "cpc": 1.05,
+      "cvr": 8.5,
+      "acos": 72.9
+    },
+    "base14d": {
+      "spend": 114.33,
+      "sales": 223.88,
+      "orders": 12,
+      "clicks": 103,
+      "cpc": 1.11,
+      "cvr": 11.7,
+      "acos": 51.1
+    },
+    "postNote": ""
+  },
+  {
+    "id": "v4_24_06",
+    "opDate": "2026-11-24",
+    "status": "观察期(11/29复盘)",
+    "category": "v4-首轮位置调价",
+    "campaign": "UP-Auto-S25-Deep Purple",
+    "target": "closeMatch+首页",
+    "action": "Bid $0.75→$0.65(-13%)；首页0%→+13%",
+    "reason": "7d ACoS 117.5%(2单)，观察期切勿二次降Bid",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 42.28,
+      "sales": 35.98,
+      "orders": 2,
+      "clicks": 40,
+      "cpc": 1.06,
+      "cvr": 5.0,
+      "acos": 117.5
+    },
+    "base14d": {
+      "spend": 56.18,
+      "sales": 95.95,
+      "orders": 5,
+      "clicks": 53,
+      "cpc": 1.06,
+      "cvr": 9.4,
+      "acos": 58.6
+    },
+    "postNote": ""
+  },
+  {
+    "id": "v4_24_07",
+    "opDate": "2026-11-24",
+    "status": "观察期(11/29复盘)",
+    "category": "v4-首轮位置调价",
+    "campaign": "UP-Auto-S26-Deep Purple",
+    "target": "closeMatch+详情",
+    "action": "Bid $0.77→$0.71(-8%)；详情10%→+18%",
+    "reason": "7d ACoS 87.7%(2单)，锁定至11/29评估",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 31.57,
+      "sales": 35.98,
+      "orders": 2,
+      "clicks": 29,
+      "cpc": 1.09,
+      "cvr": 6.9,
+      "acos": 87.7
+    },
+    "base14d": {
+      "spend": 103.38,
+      "sales": 160.91,
+      "orders": 9,
+      "clicks": 90,
+      "cpc": 1.15,
+      "cvr": 10.0,
+      "acos": 64.2
+    },
+    "postNote": ""
+  },
+  {
+    "id": "v4_24_08",
+    "opDate": "2026-11-24",
+    "status": "观察期(11/29复盘)",
+    "category": "v4-首轮位置调价",
+    "campaign": "UP-Auto-S26-Blue",
+    "target": "closeMatch+首页",
+    "action": "Bid $0.77→$0.72(-6%)；首页5%→+11%",
+    "reason": "7d ACoS 93.8%(2单)，锁定至11/29评估",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 27.01,
+      "sales": 28.78,
+      "orders": 2,
+      "clicks": 21,
+      "cpc": 1.29,
+      "cvr": 9.5,
+      "acos": 93.8
+    },
+    "base14d": {
+      "spend": 83.53,
+      "sales": 154.71,
+      "orders": 9,
+      "clicks": 61,
+      "cpc": 1.37,
+      "cvr": 14.8,
+      "acos": 54.0
+    },
+    "postNote": ""
+  },
+  {
+    "id": "v4_24_09",
+    "opDate": "2026-11-24",
+    "status": "观察期(11/29复盘)",
+    "category": "v4-首轮位置调价",
+    "campaign": "UP-Auto-S26-Light Brown",
+    "target": "closeMatch+其余",
+    "action": "Bid $0.77→$0.76(-1%)；其余8%→+9%",
+    "reason": "7d ACoS 49.5%(2单)，保持稳健",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 16.03,
+      "sales": 32.38,
+      "orders": 2,
+      "clicks": 14,
+      "cpc": 1.15,
+      "cvr": 14.3,
+      "acos": 49.5
+    },
+    "base14d": {
+      "spend": 81.54,
+      "sales": 178.3,
+      "orders": 10,
+      "clicks": 64,
+      "cpc": 1.27,
+      "cvr": 15.6,
+      "acos": 45.7
+    },
+    "postNote": ""
+  },
+  {
+    "id": "v4_24_10",
+    "opDate": "2026-11-24",
+    "status": "观察期(11/29复盘)",
+    "category": "v4-首轮位置调价",
+    "campaign": "UP-Auto-Moto/G/2026-Blue/Blue Green",
+    "target": "closeMatch+其余",
+    "action": "Bid $0.75→$0.63(-16%)；其余8%→+24%",
+    "reason": "7d ACoS 80.2%(2单)，锁定至11/29评估",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 23.08,
+      "sales": 28.78,
+      "orders": 2,
+      "clicks": 23,
+      "cpc": 1.0,
+      "cvr": 8.7,
+      "acos": 80.2
+    },
+    "base14d": {
+      "spend": 85.53,
+      "sales": 136.72,
+      "orders": 8,
+      "clicks": 74,
+      "cpc": 1.16,
+      "cvr": 10.8,
+      "acos": 62.6
+    },
+    "postNote": ""
+  },
+  {
+    "id": "v4_24_11",
+    "opDate": "2026-11-24",
+    "status": "观察期(11/29复盘)",
+    "category": "v4-首轮位置调价",
+    "campaign": "UP-Auto-IP17Pro-Light Brown",
+    "target": "closeMatch+首页",
+    "action": "Bid $0.80→$0.72(-10%)；首页0%→+10%",
+    "reason": "7d ACoS 117.7%(1单)，锁定至11/29评估",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 21.18,
+      "sales": 17.99,
+      "orders": 1,
+      "clicks": 15,
+      "cpc": 1.41,
+      "cvr": 6.7,
+      "acos": 117.7
+    },
+    "base14d": {
+      "spend": 74.9,
+      "sales": 107.94,
+      "orders": 6,
+      "clicks": 49,
+      "cpc": 1.53,
+      "cvr": 12.2,
+      "acos": 69.4
+    },
+    "postNote": ""
+  },
+  {
+    "id": "v4_24_12",
+    "opDate": "2026-11-24",
+    "status": "观察期(11/29复盘)",
+    "category": "v4-首轮位置调价",
+    "campaign": "UP-Auto-IP17ProMax-Deep Purple1",
+    "target": "looseMatch+其余",
+    "action": "looseMatch $0.75→$0.67(-11%)；其余0%→+11%",
+    "reason": "已切换/归档衔接新活动Deep Purple-bid0.62",
+    "reviewDate": "2026-11-29",
+    "base7d": {
+      "spend": 0,
+      "sales": 0,
+      "orders": 0,
+      "clicks": 0,
+      "cpc": 0.0,
+      "cvr": 0.0,
+      "acos": 0.0
+    },
+    "base14d": {
+      "spend": 0,
+      "sales": 0,
+      "orders": 0,
+      "clicks": 0,
+      "cpc": 0.0,
+      "cvr": 0.0,
+      "acos": 0.0
+    },
+    "postNote": ""
+  }
+]

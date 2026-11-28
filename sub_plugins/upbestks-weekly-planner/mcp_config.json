@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "wk": {
+      "command": "node",
+      "args": ["${PLUGIN_ROOT}/server/server.mjs"]
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "xydc_asin_analyzer": {
+      "command": "node",
+      "args": ["${PLUGIN_ROOT}/server/server.mjs"]
+    }
+  }
+}

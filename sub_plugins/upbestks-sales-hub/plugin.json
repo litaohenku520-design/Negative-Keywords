@@ -1,0 +1,12 @@
+{
+  "name": "upbestks-sales-hub",
+  "displayName": "UPBestKS 销售数据可视化",
+  "version": "1.0.0",
+  "description": "UPBestKS 亚马逊销售与 FBA 库存可视化侧边栏中控台：全周期 104 天每日/周度/月度趋势、14 款机型与新老品梯队对比、8 大颜色热力矩阵、ABC 爆款排行及 FBA 断货/积压预警。",
+  "logo": "assets/logo.svg",
+  "suggestedPrompts": [
+    "打开 UPBestKS 销售数据可视化侧边栏看板",
+    "对比老品主力与 11 月新品的近 15 天增速与销售贡献",
+    "排查 FBA 可售天数低于 21 天的断货高危 SKU 与积压色号"
+  ]
+}

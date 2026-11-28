@@ -76,7 +76,7 @@ export default function SubPluginHost({ pluginId, title, mcpApp, isDark }: SubPl
           id,
           result: {
             protocolVersion: params?.protocolVersion || '2025-11-21',
-            hostInfo: { name: 'Discover AMZN', version: '2.0.0' },
+            hostInfo: { name: 'Discover amzn', version: '2.0.0' },
             hostCapabilities: {
               serverTools: {},
               openLinks: {},

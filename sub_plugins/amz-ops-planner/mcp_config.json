@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "amz_ops_planner": {
+      "command": "node",
+      "args": ["${PLUGIN_ROOT}/server/server.mjs", "--data-dir=${PLUGIN_DATA}"]
+    }
+  }
+}

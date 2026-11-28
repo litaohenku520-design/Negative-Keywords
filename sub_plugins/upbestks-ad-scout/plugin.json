@@ -1,0 +1,12 @@
+{
+  "name": "upbestks-ad-scout",
+  "displayName": "UPBestKS 广告推广侦察与类型统计",
+  "version": "1.0.0",
+  "description": "UPBestKS 亚马逊广告全周期数据可视化与推广侦察侧边栏中控台：分类型统计(Auto自动合并/Attack单独/Review模板)、104天每日五大指标趋势折线图、16款机型广告组诊断、8大核心颜色转化透视矩阵(两色并存优先前序颜色)、高ACoS控本/高转化放量侦察哨兵与原生Excel生成。",
+  "logo": "assets/logo.svg",
+  "suggestedPrompts": [
+    "打开 UPBestKS 广告推广侦察侧边栏看板",
+    "核查 Auto 自动与 Attack 攻防广告的获客成本与转化差异",
+    "排查近周期高 ACoS (>75%) 的机型与色号活动并输出调价策略"
+  ]
+}

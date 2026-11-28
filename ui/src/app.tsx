@@ -102,7 +102,7 @@ function RootApp() {
 
   useEffect(() => {
     let mounted = true;
-    const mcpApp = new McpApp({ name: 'Discover AMZN', version: '2.0.0' }, {});
+    const mcpApp = new McpApp({ name: 'Discover amzn', version: '2.0.0' }, {});
     mcpAppRef.current = mcpApp;
 
     window.__MCP_API_FETCH__ = async (path: string, options?: RequestInit & { timeoutMs?: number }) => {
@@ -179,7 +179,7 @@ function RootApp() {
   }, []);
 
   if (!ready || !mcpAppRef.current) {
-    return <div style={{ padding: 24, color: '#888' }}>正在启动 Discover AMZN 工作台...</div>;
+    return <div style={{ padding: 24, color: '#888' }}>正在启动 Discover amzn 工作台...</div>;
   }
 
   const groups = ['工作台主页', '广告工具', '经营与选品'];
@@ -250,7 +250,7 @@ function RootApp() {
                     <AppstoreOutlined />
                   </div>
                   <div>
-                    <Text strong style={{ fontSize: 14, display: 'block', lineHeight: 1.2 }}>Discover AMZN</Text>
+                    <Text strong style={{ fontSize: 14, display: 'block', lineHeight: 1.2 }}>Discover amzn</Text>
                     <Text type="secondary" style={{ fontSize: 10 }}>全能运营工作台</Text>
                   </div>
                 </Flex>

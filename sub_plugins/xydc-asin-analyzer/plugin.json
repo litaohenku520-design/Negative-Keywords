@@ -1,0 +1,15 @@
+{
+  "name": "xydc-asin-analyzer",
+  "displayName": "西柚洞察·全维亚马逊跨境情报总台",
+  "version": "2.5.0",
+  "description": "基于西柚洞察官方 62 项 MCP 工具的亚马逊全维跨境情报总台。集合 ASIN 360° 全维透视、多竞品攻防矩阵对比、关键词与 ABA 大盘挖掘、类目市场体量与品牌竞争格局、黑马爆款选品、以及 62 项 MCP 原生算力全开工具箱与额度监控。",
+  "logo": "assets/logo.svg",
+  "suggestedPrompts": [
+    "打开西柚洞察全能跨境情报总台",
+    "对比分析竞品 B0768N9N6M 与 B00MNV8E0C 的流量与词库交集",
+    "深度挖掘关键词 coffee pods 的 ABA 排名与拓词矩阵",
+    "检索咖啡类目 Roasted Coffee 的大盘体量与新品机会",
+    "发现美国站近期的黑马爆发潜力商品",
+    "在西柚 62 项全能工具箱中执行原生 MCP 查询"
+  ]
+}

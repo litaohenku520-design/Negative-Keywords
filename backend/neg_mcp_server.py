@@ -139,8 +139,8 @@ def _rules_summary_dict() -> dict:
 TOOLS = [
     {
         "name": "open_neg_workbench",
-        "title": "Discover AMZN",
-        "description": "打开 Discover AMZN 亚马逊运营集成工作台（默认主页面为运营计划，侧边栏集成否词助手、ROAS合并助手、广告侦察、销售看板、周广告优化、库存销售分析、产品库、西柚竞品分析）。",
+        "title": "Discover amzn",
+        "description": "打开 Discover amzn 亚马逊运营集成工作台（默认主页面为运营计划，侧边栏集成否词助手、ROAS合并助手、广告侦察、销售看板、周广告优化、库存销售分析、产品库、西柚竞品分析）。",
         "inputSchema": {
             "type": "object",
             "properties": {
@@ -155,15 +155,15 @@ TOOLS = [
             "ui": {"resourceUri": APP_URI},
             "com.google.antigravity/ui": {
                 "entrypoints": [
-                    {"type": "aux_pane", "title": "Discover AMZN"},
-                    {"type": "global", "title": "Discover AMZN"},
+                    {"type": "aux_pane", "title": "Discover amzn"},
+                    {"type": "global", "title": "Discover amzn"},
                 ]
             },
         },
     },
     {
         "name": "app_api_request",
-        "description": "仅供 Discover AMZN 工作台 UI 调用的否词后端接口透传。",
+        "description": "仅供 Discover amzn 工作台 UI 调用的否词后端接口透传。",
         "inputSchema": {
             "type": "object",
             "properties": {
@@ -465,7 +465,7 @@ def _handle_request(req: dict) -> dict | None:
                 "resources": [
                     {
                         "uri": APP_URI,
-                        "name": "Discover AMZN",
+                        "name": "Discover amzn",
                         "mimeType": "text/html;profile=mcp-app",
                         "_meta": {
                             "ui": {

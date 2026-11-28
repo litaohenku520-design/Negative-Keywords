@@ -1,0 +1,12 @@
+{
+  "name": "upbestks-product-hub",
+  "displayName": "UPBestKS 产品分析可视化",
+  "version": "1.0.0",
+  "description": "UPBestKS 全量产品(112 SKU)广告、销售、流量、评分与库存深度可视化中控台：支持按 14 款机型、8 大颜色、品牌阵营与新老批次分类统计，提供机型×颜色热力矩阵及一键导出 6 表联动 Excel 报告。",
+  "logo": "assets/logo.svg",
+  "suggestedPrompts": [
+    "打开 UPBestKS 产品分析可视化侧边栏看板",
+    "按机型和颜色统计当前 112 个 SKU 的广告 ACoS、转化率与销售贡献",
+    "排查高 TACoS 烧钱机型色号与高退款风险 SKU，并导出产品分析 Excel"
+  ]
+}

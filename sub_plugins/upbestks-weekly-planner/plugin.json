@@ -1,0 +1,12 @@
+{
+  "name": "upbestks-weekly-planner",
+  "displayName": "UPBestKS 广告优化",
+  "version": "1.2.0",
+  "description": "UPBestKS 亚马逊广告优化侧边栏插件与专属 Agent：实时展示 7d/14d 大盘与 15 个广告组合对比、4 种自动定向与 ERP 分时当前出价审计、11/25–12/01 执行清单打卡及 v5.1 风控提醒。",
+  "logo": "assets/logo.svg",
+  "suggestedPrompts": [
+    "打开 UPBestKS 广告优化侧边栏面板",
+    "查看当前 7d vs 14d 广告组合恶化预警与 P0 止血清单",
+    "核查自动定向 4 匹配方式与 ERP 分时当前出价倍率"
+  ]
+}

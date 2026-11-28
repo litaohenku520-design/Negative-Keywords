@@ -1,11 +1,11 @@
 {
   "name": "upbestks-neg-keyword",
-  "displayName": "Discover AMZN",
+  "displayName": "Discover amzn",
   "version": "2.0.0",
   "logo": "assets/logo.svg",
-  "description": "Discover AMZN 全能亚马逊运营工作台：以运营计划为主页面，侧边栏集成否词助手（多店铺+GitHub同步）、ROAS合并助手、广告推广侦察、周广告优化、销售看板、库存销售分析、产品库与西柚竞品分析。",
+  "description": "Discover amzn 全能亚马逊运营工作台：以运营计划为主页面，侧边栏集成否词助手（多店铺+GitHub同步）、ROAS合并助手、广告推广侦察、周广告优化、销售看板、库存销售分析、产品库与西柚竞品分析。",
   "suggestedPrompts": [
-    "打开 Discover AMZN 运营工作台",
+    "打开 Discover amzn 运营工作台",
     "用否词助手分类搜索词并导出模板",
     "打开 ROAS 合并助手或销售看板"
   ]

@@ -15,7 +15,8 @@ import time
 from pathlib import Path
 from typing import Any
 
-PLUGINS_ROOT = Path(r"C:\Users\admin\.gemini\config\plugins")
+PLUGIN_ROOT = Path(__file__).resolve().parent.parent
+PLUGINS_ROOT = PLUGIN_ROOT / "sub_plugins"
 PLUGIN_DATA_ROOT = Path(r"C:\Users\admin\.gemini\antigravity\plugin_data")
 
 SUB_PLUGIN_SPECS: dict[str, dict[str, Any]] = {
