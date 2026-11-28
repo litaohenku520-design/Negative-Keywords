@@ -8,7 +8,7 @@
       "price": 14.39,
       "score": 36,
       "image": "https://m.media-amazon.com/images/I/91ywYEK57EL._AC_UY512_.jpg",
-      "analyzedAt": "2026/11/28 15:32:25"
+      "analyzedAt": "2026/11/28 15:36:08"
     },
     {
       "asin": "B0HK35MK25",
@@ -186373,7 +186373,7 @@
     "US_B0H7R2X98W_full62": {
       "asin": "B0H7R2X98W",
       "country": "US",
-      "analyzedAt": "2026/11/28 15:32:25",
+      "analyzedAt": "2026/11/28 15:36:08",
       "dataStatus": "SUCCESS",
       "errors": [],
       "overallScore": 36,
@@ -186387,12 +186387,12 @@
       },
       "pipelineStats": {
         "totalTools": 62,
-        "autoRunCount": 12,
-        "executedCount": 12,
+        "autoRunCount": 16,
+        "executedCount": 16,
         "failedCount": 0,
-        "standbyCount": 50,
-        "totalCostCredits": 32,
-        "totalPipelineDuration": 1178
+        "standbyCount": 46,
+        "totalCostCredits": 43,
+        "totalPipelineDuration": 1750
       },
       "toolsExecutionManifest": [
         {
@@ -186476,7 +186476,7 @@
           "summary": "查询当前 MCP Token 所属账户的额度：当前套餐、账户状态、月额度与周额度（上限、已用、剩余、状态、重置时间）、额度包汇总、能否调用以及单次最多可用额度。本工具免费，不消耗额度。",
           "fullDesc": "查询当前 MCP Token 所属账户的额度：当前套餐、账户状态、月额度与周额度（上限、已用、剩余、状态、重置时间）、额度包汇总、能否调用以及单次最多可用额度。本工具免费，不消耗额度。\n\nUse when:\n    用户想知道还剩多少额度、额度什么时候重置、额度包还剩多少和何时到期、为什么工具调用被拒（周额度、月额度用完、额度包不足或账户停用），或在批量调用前确认额度是否充足。\n\nAvoid when:\n    用户要查看具体每一笔扣费明细时，请引导用户前往官网控制台的扣费明细页面；本工具只返回额度汇总。\n\nReturns:\n    planId、planName、accountStatus（ACTIVE / DISABLED）、monthly 与 weekly（limit、used、remaining、status、resetTime，remaining 可能为负数）、restrictions（周月额度和账户的受限状态：ACCOUNT_DISABLED / MONTHLY_EXHAUSTED / WEEKLY_EXHAUSTED，不反映额度包）、callable（现在能否调用；能否调用看 callable，不要只看 restrictions）、totalAvailable（周月可用额度加有效额度包剩余）、maxSingleCall（单次调用最多可用额度，一次调用只扣周月或某一个额度包，不拆分）、creditPacks（有效额度包的 remaining、count 和最早到期包 earliestExpiring）、queriedAt、timezone、note。\n\nErrors:\n    MCP Token 无效或已停用时返回 401；账户尚未开通开放平台额度时返回 403。账户停用、周额度或月额度用完时仍正常返回额度，并在 restrictions 中注明原因。",
           "status": "SUCCESS",
-          "latency": 229,
+          "latency": 283,
           "costCredits": 0,
           "inputArgs": {},
           "data": {
@@ -186489,27 +186489,27 @@
                 "earliestExpiring": null,
                 "remaining": 0
               },
-              "maxSingleCall": 16207,
+              "maxSingleCall": 16143,
               "monthly": {
                 "limit": 60000,
-                "remaining": 56207,
+                "remaining": 56143,
                 "resetTime": "2026-12-19 00:00:00",
                 "status": "ACTIVE",
-                "used": 3793
+                "used": 3857
               },
               "note": "额度基于已入账消耗，近期调用可能尚未完成扣费；额度信息用于判断当前限制，不保证足以完成任意一次工具调用。",
               "planId": "beta",
               "planName": "beta",
-              "queriedAt": "2026-11-28 15:32:22",
+              "queriedAt": "2026-11-28 15:36:05",
               "restrictions": [],
               "timezone": "Asia/Shanghai",
-              "totalAvailable": 16207,
+              "totalAvailable": 16143,
               "weekly": {
                 "limit": 20000,
-                "remaining": 16207,
+                "remaining": 16143,
                 "resetTime": "2026-11-30 00:00:00",
                 "status": "ACTIVE",
-                "used": 3793
+                "used": 3857
               }
             },
             "status": 200
@@ -186541,7 +186541,7 @@
           "summary": "获取单个 ASIN 的 BSR 排名和 Amazon 类目树。成功查询每次收取 2 credits；即使 BSR 排名和 Amazon 类目树均为空，仍收取 2 credits。查询失败不收费。",
           "fullDesc": "获取单个 ASIN 的 BSR 排名和 Amazon 类目树。成功查询每次收取 2 credits；即使 BSR 排名和 Amazon 类目树均为空，仍收取 2 credits。查询失败不收费。\n\nUse when:\n    用户需要一个商品的 BSR 排名或 Amazon 类目路径。支持 US、CA、MX、BR、UK、DE、FR、IT、ES、JP、AU、AE、SA；只接受单个 asin 字符串，不支持数组或批量。\n\nAvoid when:\n    用户只要商品信息或内部类目时使用 get_asin_info；历史 BSR 趋势使用 get_asin_bsr_trends。\n\nReturns:\n    classificationRanks 和 amzCategoryTree。数据源未提供的字段可能为空；查询失败时报错。",
           "status": "SUCCESS",
-          "latency": 243,
+          "latency": 283,
           "costCredits": 2,
           "inputArgs": {
             "asin": "B0H7R2X98W",
@@ -186641,16 +186641,424 @@
           "categoryName": "🎯 ASIN 与变体情报",
           "summary": "查询单个 ASIN 的 BSR 类目排名日趋势。",
           "fullDesc": "查询单个 ASIN 的 BSR 类目排名日趋势。\n\nUse when:\n    用户要看商品在各类目下的 BSR 排名走势，判断销量排名改善、下滑或新品爬升节奏。\n\nAvoid when:\n    用户要关键词排名或词源流量时，使用 get_asin_keywords；\n    要月度关键词历史时，使用 get_asin_keywords_monthly。该接口只支持 US/CA/MX/BR/UK/DE/FR/ES/IT/JP。\n\nReturns:\n    每日各类目BSR排名趋势。",
-          "status": "AVAILABLE",
-          "latency": null,
-          "costCredits": 0,
+          "status": "SUCCESS",
+          "latency": 228,
+          "costCredits": 3,
           "inputArgs": {
             "asin": "B0H7R2X98W",
             "country": "US",
-            "start_date": "2026-11-14",
+            "start_date": "2026-10-30",
             "end_date": "2026-11-28"
           },
-          "data": null,
+          "data": {
+            "cost_credits": 3,
+            "data": {
+              "asin": "B0H7R2X98W",
+              "categoryTree": [
+                {
+                  "categoryId": "2335752011",
+                  "name": "Cell Phones & Accessories",
+                  "root": true
+                },
+                {
+                  "categoryId": "9931389011",
+                  "name": "Flip Cell Phone Cases",
+                  "root": false
+                },
+                {
+                  "categoryId": "3081461011",
+                  "name": "Cell Phone Basic Cases",
+                  "root": false
+                }
+              ],
+              "country": "US",
+              "dateRangeNotice": "get_asin_bsr_trends 的有效可用日期范围为 2021-03-08 至 2026-11-28，用户请求日期范围为 2026-10-30 至 2026-11-28，本次返回 2026-10-30 至 2026-11-28 的数据。",
+              "trends": [
+                {
+                  "date": "2026-10-30",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 22153
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 909
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-10-31",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 26097
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 1137
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-01",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 17119
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 671
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-02",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 18757
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 737
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-03",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 19599
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 837
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-04",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 19043
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 725
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-05",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 20180
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 783
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-06",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 20180
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 783
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-07",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 27057
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 1186
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-08",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 33049
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 1552
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-09",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 25081
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 1064
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-10",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 31106
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 1401
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-11",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 31106
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 1401
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-12",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 45228
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 2244
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-13",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 33657
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 1526
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-14",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 31939
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 1403
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-15",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 32009
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 1407
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-16",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 31999
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 1408
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-17",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 20630
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 791
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-18",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 21634
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 837
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-19",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 24584
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 1011
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-20",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 25462
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 1044
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-21",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 31981
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 1442
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-22",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 31981
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 1442
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-23",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 30771
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 1385
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-24",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 41068
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 1970
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-25",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 41068
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 1970
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-26",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 38024
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 1787
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-27",
+                  "values": [
+                    {
+                      "categoryId": "2335752011",
+                      "rank": 41545
+                    },
+                    {
+                      "categoryId": "9931389011",
+                      "rank": 1967
+                    }
+                  ]
+                },
+                {
+                  "date": "2026-11-28",
+                  "values": []
+                }
+              ]
+            },
+            "status": 200
+          },
           "error": null
         },
         {
@@ -186660,7 +187068,7 @@
           "summary": "获取一个或多个 ASIN 的商品信息，包括标题、价格、评分、图片、品牌、上架日期、内部类目树、配送方式、费用、尺寸重量和五点描述。每个 ASIN 2 credits。",
           "fullDesc": "获取一个或多个 ASIN 的商品信息，包括标题、价格、评分、图片、品牌、上架日期、内部类目树、配送方式、费用、尺寸重量和五点描述。每个 ASIN 2 credits。\n\nUse when:\n    用户要查看或对比商品基础信息、属性和内部类目。支持批量，单次最多 100 个 ASIN。\n\nAvoid when:\n    用户要 BSR 排名或 Amazon 类目树时使用 get_asin_bsr，该工具一次只支持一个 ASIN；\n    用户要销量、流量或历史趋势时使用对应工具。\n\nReturns:\n    每个 ASIN 的基础信息、商品属性和 internalCategoryTree。已存字段可能为空；任一商品查询失败时整个工具报错，不返回部分结果。",
           "status": "SUCCESS",
-          "latency": 127,
+          "latency": 139,
           "costCredits": 2,
           "inputArgs": {
             "asins": [
@@ -186736,16 +187144,474 @@
           "categoryName": "🎯 ASIN 与变体情报",
           "summary": "查询单个 ASIN 的商品信息日趋势，包括评分数、星级评分、各类价格及优惠信息。",
           "fullDesc": "查询单个 ASIN 的商品信息日趋势，包括评分数、星级评分、各类价格及优惠信息。\n\nUse when:\n    用户要复盘某段日期内评分数、星级评分、展示价、原价、划线价、Deal 价、Prime 价，以及优惠券、促销或订阅优惠的变化。\n\nAvoid when:\n    用户只要当前标题、主图、价格等商品基础信息时，使用 get_asin_info；\n    用户要复盘标题或主图变更时，使用 get_asin_info_change_trends。\n    查询范围越长，消耗越高。\n\nReturns:\n    每日商品信息，包括评分数（ratings）、星级评分（stars）、展示价、原价、划线价、Deal 价、Prime 价，以及优惠券、促销、订阅优惠和其他优惠信息。",
-          "status": "AVAILABLE",
-          "latency": null,
-          "costCredits": 0,
+          "status": "SUCCESS",
+          "latency": 189,
+          "costCredits": 3,
           "inputArgs": {
             "asin": "B0H7R2X98W",
             "country": "US",
-            "start_date": "2026-11-14",
+            "start_date": "2026-10-30",
             "end_date": "2026-11-28"
           },
-          "data": null,
+          "data": {
+            "cost_credits": 3,
+            "data": {
+              "asin": "B0H7R2X98W",
+              "country": "US",
+              "dateRangeNotice": "get_asin_info_trends 的有效可用日期范围为 2023-06-01 至 2026-11-26，用户请求日期范围为 2026-10-30 至 2026-11-28，本次根据可用范围只返回 2026-10-30 至 2026-11-26 的数据。",
+              "trends": [
+                {
+                  "date": "2026-10-30",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": null,
+                  "stars": ""
+                },
+                {
+                  "date": "2026-10-31",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": null,
+                  "stars": ""
+                },
+                {
+                  "date": "2026-11-01",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": null,
+                  "stars": ""
+                },
+                {
+                  "date": "2026-11-02",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": null,
+                  "stars": ""
+                },
+                {
+                  "date": "2026-11-03",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": null,
+                  "stars": ""
+                },
+                {
+                  "date": "2026-11-04",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": null,
+                  "stars": ""
+                },
+                {
+                  "date": "2026-11-05",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": null,
+                  "stars": ""
+                },
+                {
+                  "date": "2026-11-06",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": null,
+                  "stars": ""
+                },
+                {
+                  "date": "2026-11-07",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": null,
+                  "stars": ""
+                },
+                {
+                  "date": "2026-11-08",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": null,
+                  "stars": ""
+                },
+                {
+                  "date": "2026-11-09",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "17.99",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": 21,
+                  "stars": "4.8"
+                },
+                {
+                  "date": "2026-11-10",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "17.99",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": 21,
+                  "stars": "4.8"
+                },
+                {
+                  "date": "2026-11-11",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "17.99",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": 21,
+                  "stars": "4.8"
+                },
+                {
+                  "date": "2026-11-12",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "17.99",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": 21,
+                  "stars": "4.8"
+                },
+                {
+                  "date": "2026-11-13",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "17.99",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": 21,
+                  "stars": "4.8"
+                },
+                {
+                  "date": "2026-11-14",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": null,
+                  "stars": ""
+                },
+                {
+                  "date": "2026-11-15",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": null,
+                  "stars": ""
+                },
+                {
+                  "date": "2026-11-16",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "17.99",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": 23,
+                  "stars": "4.8"
+                },
+                {
+                  "date": "2026-11-17",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "17.99",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": 23,
+                  "stars": "4.8"
+                },
+                {
+                  "date": "2026-11-18",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": null,
+                  "stars": ""
+                },
+                {
+                  "date": "2026-11-19",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": null,
+                  "stars": ""
+                },
+                {
+                  "date": "2026-11-20",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "14.39",
+                    "display": "14.39",
+                    "origin": "",
+                    "other": [],
+                    "prime": "14.39",
+                    "promotion": [],
+                    "strikethrough": "17.99",
+                    "subscribe": []
+                  },
+                  "ratings": 23,
+                  "stars": "4.8"
+                },
+                {
+                  "date": "2026-11-21",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": null,
+                  "stars": ""
+                },
+                {
+                  "date": "2026-11-22",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": null,
+                  "stars": ""
+                },
+                {
+                  "date": "2026-11-23",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "14.39",
+                    "display": "14.39",
+                    "origin": "",
+                    "other": [],
+                    "prime": "14.39",
+                    "promotion": [],
+                    "strikethrough": "17.99",
+                    "subscribe": []
+                  },
+                  "ratings": 23,
+                  "stars": "4.8"
+                },
+                {
+                  "date": "2026-11-24",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": null,
+                  "stars": ""
+                },
+                {
+                  "date": "2026-11-25",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": null,
+                  "stars": ""
+                },
+                {
+                  "date": "2026-11-26",
+                  "priceDistribution": {
+                    "coupon": [],
+                    "deal": "",
+                    "display": "",
+                    "origin": "",
+                    "other": [],
+                    "prime": "",
+                    "promotion": [],
+                    "strikethrough": "",
+                    "subscribe": []
+                  },
+                  "ratings": null,
+                  "stars": ""
+                }
+              ]
+            },
+            "status": 200
+          },
           "error": null
         },
         {
@@ -186755,7 +187621,7 @@
           "summary": "关键词数量趋势：查询一个或多个 ASIN 的反查关键词数量日趋势，用于观察关键词覆盖规模及其结构每天的变化。",
           "fullDesc": "关键词数量趋势：查询一个或多个 ASIN 的反查关键词数量日趋势，用于观察关键词覆盖规模及其结构每天的变化。\n\nUse when:\n    用户要查看一段日期内 ASIN 的反查关键词数量是增加还是减少；\n    用户要比较自然关键词数量、广告关键词数量，或观察头部词、中长尾词及不同自然流量获得率档位的数量变化；\n    用户关注的是关键词规模和数量结构，而不是具体关键词明细或实际流量涨跌。\n\nAvoid when:\n    用户要查看具体有哪些关键词时，使用对应的 ASIN 反查关键词工具；\n    用户要按周或按月查看关键词数量趋势时，不使用本工具；\n    用户要分析自然流量、广告流量或总流量的实际涨跌时，使用对应的流量趋势工具；\n    不要用关键词数量增长直接推断流量增长。\n\nReturns:\n    每个 ASIN 在所选日期范围内每天的关键词数量，包括自然/广告关键词数量、各排名位置的关键词数量、头部/中长尾关键词数量，以及不同自然流量获得率档位的关键词数量。",
           "status": "SUCCESS",
-          "latency": 188,
+          "latency": 201,
           "costCredits": 2,
           "inputArgs": {
             "asins": [
@@ -187920,7 +188786,7 @@
           "summary": "反查关键词（近 7 天）：查询单个 ASIN 近 7 天在哪些关键词下有排名和流量，即 ASIN 反查关键词。",
           "fullDesc": "反查关键词（近 7 天）：查询单个 ASIN 近 7 天在哪些关键词下有排名和流量，即 ASIN 反查关键词。\n\nUse when:\n    用户想分析某个竞品的关键词布局、流量来源、自然/广告排名，或从一个 ASIN 拓展关键词机会。\n\nAvoid when:\n    用户要看关键词下有哪些 ASIN 竞争时，使用 get_keyword_asin_analysis；\n    用户要指定日期范围查询日级历史时，使用 get_asin_keywords_daily；\n    用户要看月度历史时，使用 get_asin_keywords_monthly。\n\nReturns:\n    关键词列表，每个词包含：关键词名称、自然/广告排名位置、流量、\n\t\t\t流量获得率、流量增长率等。可用于发现竞品的流量关键词。\n补充中文、流量占比/分布/展示位置获得率及异动、词标签。新增中文缺值为null。filters和rangeFilters在源分页前执行，条件取交集，区间闭合，获得率允许超过1。支持按总、自然、广告流量获得率筛选；筛选值使用小数比例，0.01代表1%，1代表100%，允许大于1。历史版本queryPeriod说明实际执行范围。旧计费不变。",
           "status": "SUCCESS",
-          "latency": 173,
+          "latency": 273,
           "costCredits": 1,
           "inputArgs": {
             "asin": "B0H7R2X98W",
@@ -188334,16 +189200,70 @@
           "categoryName": "🎯 ASIN 与变体情报",
           "summary": "查询单个 ASIN 的月订单量趋势，返回指定月份范围内每月的 orders。",
           "fullDesc": "查询单个 ASIN 的月订单量趋势，返回指定月份范围内每月的 orders。\n\nUse when:\n    用户明确要指定月份的订单量、月度销量趋势、历史销售规模或按月份复盘订单量增长节奏。\n\nAvoid when:\n    用户要近期或最近 30 天订单量，或要批量比较多个 ASIN 的近期订单量时，使用 get_asin_orders_last_30_days；\n    用户要商品标题、价格、星级评分等基础信息时，使用 get_asin_info；\n    要日级流量、BSR 或关键词排名时，使用对应趋势工具。\n\nReturns:\n    指定月份范围内每个月的订单量（orders）。",
-          "status": "AVAILABLE",
-          "latency": null,
-          "costCredits": 0,
+          "status": "SUCCESS",
+          "latency": 251,
+          "costCredits": 2,
           "inputArgs": {
             "asin": "B0H7R2X98W",
             "country": "US",
-            "start_month": "2026-06",
+            "start_month": "2025-12",
             "end_month": "2026-11"
           },
-          "data": null,
+          "data": {
+            "cost_credits": 2,
+            "data": {
+              "asin": "B0H7R2X98W",
+              "country": "US",
+              "dateRangeNotice": "get_asin_order_trends 的有效可用日期范围为 2024-02-01 至 2026-10-31，用户请求日期范围为 2025-12-01 至 2026-11-30，本次根据可用范围只返回 2025-12-01 至 2026-10-31 的数据。",
+              "trends": [
+                {
+                  "date": "2025-12",
+                  "orders": 0
+                },
+                {
+                  "date": "2026-01",
+                  "orders": 0
+                },
+                {
+                  "date": "2026-02",
+                  "orders": 0
+                },
+                {
+                  "date": "2026-03",
+                  "orders": 0
+                },
+                {
+                  "date": "2026-04",
+                  "orders": 0
+                },
+                {
+                  "date": "2026-05",
+                  "orders": 0
+                },
+                {
+                  "date": "2026-06",
+                  "orders": 0
+                },
+                {
+                  "date": "2026-07",
+                  "orders": 0
+                },
+                {
+                  "date": "2026-08",
+                  "orders": 0
+                },
+                {
+                  "date": "2026-09",
+                  "orders": 0
+                },
+                {
+                  "date": "2026-10",
+                  "orders": 0
+                }
+              ]
+            },
+            "status": 200
+          },
           "error": null
         },
         {
@@ -188353,7 +189273,7 @@
           "summary": "查询一个或多个 ASIN 的近期订单量，数据口径为最近 30 天。",
           "fullDesc": "查询一个或多个 ASIN 的近期订单量，数据口径为最近 30 天。\n\nUse when:\n    用户提到近期订单量、近期销量，想快速判断商品近期销量规模，\n    或要批量比较多个 ASIN 的近期订单量、为竞品分析补充当前订单量数据。\n    如果用户已经提供多个 ASIN，优先放在同一次 asins 列表中调用，减少重复请求。\n\nAvoid when:\n    用户要看按月的历史订单量和销量趋势时，使用 get_asin_order_trends；\n    用户要看商品标题、价格、评分等基础信息时，使用 get_asin_info。\n\nReturns:\n    每个 ASIN 的近期订单量 orders（统计口径为最近 30 天），以及本次查询的站点国家码。",
           "status": "SUCCESS",
-          "latency": 325,
+          "latency": 296,
           "costCredits": 1,
           "inputArgs": {
             "asins": [
@@ -188383,7 +189303,7 @@
           "summary": "查询一个或多个 ASIN 近 7 天流量，包含自然流量、广告流量和环比变化。",
           "fullDesc": "查询一个或多个 ASIN 近 7 天流量，包含自然流量、广告流量和环比变化。\n\nUse when:\n    用户想快速判断商品流量强弱、自然/广告流量占比、近 7 天流量变化，或对一批 ASIN 做流量体检。\n    如果用户已经提供多个 ASIN，优先放在同一次 asins 列表中调用，减少重复请求。\n\nAvoid when:\n    用户要看流量来自哪些关键词、自然/广告排名词或词源结构时，使用 get_asin_keywords；\n    要看长周期日趋势时，使用 get_asin_traffic_trends；要看月订单量时，使用 get_asin_order_trends。\n\nReturns:\n    每个ASIN近 7 天及前 7 天的自然流量、广告流量、总流量，关键词数量、\n    环比增长率、自然/广告流量占比等。",
           "status": "SUCCESS",
-          "latency": 299,
+          "latency": 310,
           "costCredits": 1,
           "inputArgs": {
             "asins": [
@@ -188424,16 +189344,474 @@
           "categoryName": "🎯 ASIN 与变体情报",
           "summary": "查询单个 ASIN 的日流量趋势，包括自然流量、广告流量和位置维度拆解。",
           "fullDesc": "查询单个 ASIN 的日流量趋势，包括自然流量、广告流量和位置维度拆解。\n\nUse when:\n    用户要看某个商品在一段时间内的流量走势、自然/广告流量变化、排名位置贡献或流量复盘。\n\nAvoid when:\n    用户只要近 7 天流量快照时，使用 get_asin_traffic；查询范围越长，消耗越高。\n\nReturns:\n    每日自然流量、广告流量和各展示位置的流量拆解。",
-          "status": "AVAILABLE",
-          "latency": null,
-          "costCredits": 0,
+          "status": "SUCCESS",
+          "latency": 305,
+          "costCredits": 3,
           "inputArgs": {
             "asin": "B0H7R2X98W",
             "country": "US",
-            "start_date": "2026-11-14",
+            "start_date": "2026-10-30",
             "end_date": "2026-11-28"
           },
-          "data": null,
+          "data": {
+            "cost_credits": 3,
+            "data": {
+              "asin": "B0H7R2X98W",
+              "country": "US",
+              "dateRangeNotice": "get_asin_traffic_trends 的有效可用日期范围为 2023-02-01 至 2026-11-26，用户请求日期范围为 2026-10-30 至 2026-11-28，本次根据可用范围只返回 2026-10-30 至 2026-11-26 的数据。",
+              "trends": [
+                {
+                  "date": "2026-10-30",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 0,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 0,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-10-31",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 0,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 0,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-01",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 0,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 0,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-02",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 0,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 0,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-03",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 0,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 0,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-04",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 0,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 0,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-05",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 0,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 0,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-06",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 0,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 0,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-07",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 0,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 0,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-08",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 0,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 0,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-09",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 9,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 9,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-10",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 17,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 17,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-11",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 40,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 40,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-12",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 54,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 54,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-13",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 6,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 6,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-14",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 0,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 0,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-15",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 0,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 0,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-16",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 11,
+                    "sp": 11
+                  },
+                  "summaryTraffic": {
+                    "advertising": 22,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-17",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 0,
+                    "sp": 36
+                  },
+                  "summaryTraffic": {
+                    "advertising": 36,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-18",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 0,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 0,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-19",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 0,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 0,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-20",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 0,
+                    "sp": 8
+                  },
+                  "summaryTraffic": {
+                    "advertising": 8,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-21",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 0,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 0,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-22",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 0,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 0,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-23",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 27,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 27,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-24",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 0,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 0,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-25",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 0,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 0,
+                    "organic": 0
+                  }
+                },
+                {
+                  "date": "2026-11-26",
+                  "positionTraffic": {
+                    "ac": 0,
+                    "oor": 0,
+                    "or": 0,
+                    "sb": 0,
+                    "sbv": 0,
+                    "sor": 0,
+                    "sp": 0
+                  },
+                  "summaryTraffic": {
+                    "advertising": 0,
+                    "organic": 0
+                  }
+                }
+              ]
+            },
+            "status": 200
+          },
           "error": null
         },
         {
@@ -188461,7 +189839,7 @@
           "summary": "按自然周查询单个 ASIN 的流量趋势，每周为周一至周日，包括自然流量、广告流量和位置维度拆解。",
           "fullDesc": "按自然周查询单个 ASIN 的流量趋势，每周为周一至周日，包括自然流量、广告流量和位置维度拆解。\n\nUse when:\n    用户要按周观察商品流量走势、过滤日级波动、比较连续多周的自然/广告流量变化，或复盘中期流量增长和下滑。\n    需要用户提供或可从上下文推断 start_week 和 end_week，否则先追问周区间。\n    输入日期可以是目标周内任意一天，查询范围会扩展为开始日期所在周的周一至结束日期所在周的周日。\n\nAvoid when:\n    用户要看日级流量变化时，使用 get_asin_traffic_trends；\n    用户要看更长周期的月度趋势时，使用 get_asin_traffic_trends_monthly；\n    用户只要近 7 天流量快照时，使用 get_asin_traffic。\n\nReturns:\n    每周的日期范围、自然流量、广告流量，以及各展示位置的流量拆解。",
           "status": "SUCCESS",
-          "latency": 215,
+          "latency": 256,
           "costCredits": 3,
           "inputArgs": {
             "asin": "B0H7R2X98W",
@@ -188717,7 +190095,7 @@
           "summary": "查询单个 ASIN 的变体关系，包括父体 ASIN、子体 ASIN 列表及各子体的变体属性。",
           "fullDesc": "查询单个 ASIN 的变体关系，包括父体 ASIN、子体 ASIN 列表及各子体的变体属性。\n\nUse when:\n    用户要确认父子变体结构、找到同组子 ASIN、合并分析变体矩阵，或判断某个 ASIN 属于哪个变体组。\n\nAvoid when:\n    用户要商品基础信息时，使用 get_asin_info；要流量时，使用 get_asin_traffic；\n    要近期或最近 30 天订单量时，使用 get_asin_orders_last_30_days；\n    要指定月份的历史订单量或月度趋势时，使用 get_asin_order_trends；\n    要关键词来源时，使用 get_asin_keywords。\n    AE/AU/SA 通过实时商品页解析，其余已支持站点继续使用现有数据源。\n\nReturns:\n    父体 ASIN、子体 ASIN 列表、变体维度及每个子体对应的 dimension/value 属性。",
           "status": "SUCCESS",
-          "latency": 216,
+          "latency": 192,
           "costCredits": 5,
           "inputArgs": {
             "asin": "B0H7R2X98W",
@@ -188738,20 +190116,20 @@
                 "B0H7QZ1NNS"
               ],
               "country": "US",
-              "lastUpdatedTime": "2026-11-28 07:32:23",
+              "lastUpdatedTime": "2026-11-28 07:36:06",
               "parentAsin": "B0H7QX1QK7",
               "variationDimensions": [
                 {
                   "dimension": "Color",
                   "options": [
+                    "Deep Purple",
                     "Light Brown",
                     "Red",
                     "Rose Gold",
                     "Wine Red",
                     "Black",
                     "Blue",
-                    "Blue Green",
-                    "Deep Purple"
+                    "Blue Green"
                   ]
                 }
               ],
@@ -189324,7 +190702,7 @@
           "summary": "查询父体在近7/14/30天或指定日期区间内的SP、SB、SBV广告活动，支持筛选、排序和分页。",
           "fullDesc": "查询父体在近7/14/30天或指定日期区间内的SP、SB、SBV广告活动，支持筛选、排序和分页。\n\nUse when:\n    用户要枚举父体活动、比较活动流量和投放变体，或选择活动下钻。\n\nAvoid when:\n    已选活动的周期汇总用get_parent_asin_ad_campaign_detail；每日变化用get_parent_asin_ad_campaign_trends。\n\nReturns:\n    匹配的活动总数和活动列表，包含流量、父体内占比、平均展示时长及变体贡献。\n\nAnalysis purpose:\n    用于建立父体的广告活动清单，按流量和父体占比识别主力、集中度及值得下钻的活动；活动ID和类型也是详情、趋势和活动词查询的入口。支持分页获取完整活动集合。\n\nNext step:\n    对高贡献或异常活动调用详情、活动趋势和广告关键词列表。",
           "status": "SUCCESS",
-          "latency": 382,
+          "latency": 700,
           "costCredits": 5,
           "inputArgs": {
             "asin": "B0H7R2X98W",
@@ -189332,7 +190710,7 @@
             "page": 1,
             "page_size": 20,
             "cycleFilter": {
-              "period": "last7days"
+              "period": "last30days"
             }
           },
           "data": {
@@ -189343,75 +190721,145 @@
                 {
                   "alias": null,
                   "avgDisplayHours": 1,
-                  "avgDisplayHoursChange": 0,
-                  "id": "A036982537HY03BV00SYQ",
-                  "name": "SP活动-0SYQ",
-                  "shareOfParentAdTraffic": 0.6461538461538462,
-                  "traffic": 126,
-                  "trafficGrowthRate": -0.427273,
+                  "id": "A003255732O3XG5BXUT4F",
+                  "name": "SP活动-UT4F",
+                  "shareOfParentAdTraffic": 0.6106148187073043,
+                  "traffic": 2324,
                   "type": "sp",
-                  "variationCount": 6,
+                  "variationCount": 1,
                   "variations": [
                     {
-                      "asin": "B0H7QWT72P",
-                      "shareOfCampaignTraffic": 0.30158730158730157,
-                      "traffic": 38
-                    },
-                    {
                       "asin": "B0H7QZ1NNS",
-                      "shareOfCampaignTraffic": 0.2619047619047619,
-                      "traffic": 33
-                    },
-                    {
-                      "asin": "B0H7R3MFTH",
-                      "shareOfCampaignTraffic": 0.16666666666666666,
-                      "traffic": 21
-                    },
-                    {
-                      "asin": "B0H7R9RWPD",
-                      "shareOfCampaignTraffic": 0.16666666666666666,
-                      "traffic": 21
-                    },
-                    {
-                      "asin": "B0H7R2X98W",
-                      "shareOfCampaignTraffic": 0.06349206349206349,
-                      "traffic": 8
-                    },
-                    {
-                      "asin": "B0H7QXK8B3",
-                      "shareOfCampaignTraffic": 0.03968253968253968,
-                      "traffic": 5
+                      "shareOfCampaignTraffic": 1,
+                      "traffic": 2324
                     }
                   ]
                 },
                 {
                   "alias": null,
                   "avgDisplayHours": 0,
-                  "avgDisplayHoursChange": -1,
-                  "id": "A058352818G2OZ3S6Z6QT",
-                  "name": "SP活动-Z6QT",
-                  "shareOfParentAdTraffic": 0.15897435897435896,
-                  "traffic": 31,
-                  "trafficGrowthRate": -0.696078,
+                  "id": "A06859071K05BGAV61U10",
+                  "name": "SP活动-1U10",
+                  "shareOfParentAdTraffic": 0.15160273252758802,
+                  "traffic": 577,
                   "type": "sp",
                   "variationCount": 1,
                   "variations": [
                     {
                       "asin": "B0H7QTQ86V",
                       "shareOfCampaignTraffic": 1,
-                      "traffic": 31
+                      "traffic": 577
+                    }
+                  ]
+                },
+                {
+                  "alias": null,
+                  "avgDisplayHours": 1,
+                  "id": "A036982537HY03BV00SYQ",
+                  "name": "SP活动-0SYQ",
+                  "shareOfParentAdTraffic": 0.1326852338413032,
+                  "traffic": 505,
+                  "type": "sp",
+                  "variationCount": 7,
+                  "variations": [
+                    {
+                      "asin": "B0H7R2X98W",
+                      "shareOfCampaignTraffic": 0.37623762376237624,
+                      "traffic": 190
+                    },
+                    {
+                      "asin": "B0H7QZ1NNS",
+                      "shareOfCampaignTraffic": 0.27722772277227725,
+                      "traffic": 140
+                    },
+                    {
+                      "asin": "B0H7QTQ86V",
+                      "shareOfCampaignTraffic": 0.16237623762376238,
+                      "traffic": 82
+                    },
+                    {
+                      "asin": "B0H7QWT72P",
+                      "shareOfCampaignTraffic": 0.08712871287128712,
+                      "traffic": 44
+                    },
+                    {
+                      "asin": "B0H7R3MFTH",
+                      "shareOfCampaignTraffic": 0.041584158415841586,
+                      "traffic": 21
+                    },
+                    {
+                      "asin": "B0H7R9RWPD",
+                      "shareOfCampaignTraffic": 0.041584158415841586,
+                      "traffic": 21
+                    },
+                    {
+                      "asin": "B0H7QXK8B3",
+                      "shareOfCampaignTraffic": 0.013861386138613862,
+                      "traffic": 7
                     }
                   ]
                 },
                 {
                   "alias": null,
                   "avgDisplayHours": 0,
-                  "avgDisplayHoursChange": 0,
+                  "id": "A01300242QSFQ1NGXKWFL",
+                  "name": "SP活动-KWFL",
+                  "shareOfParentAdTraffic": 0.04755648975302155,
+                  "traffic": 181,
+                  "type": "sp",
+                  "variationCount": 5,
+                  "variations": [
+                    {
+                      "asin": "B0H7QWT72P",
+                      "shareOfCampaignTraffic": 0.8066298342541437,
+                      "traffic": 146
+                    },
+                    {
+                      "asin": "B0H7QZ1NNS",
+                      "shareOfCampaignTraffic": 0.13259668508287292,
+                      "traffic": 24
+                    },
+                    {
+                      "asin": "B0H7R9RWPD",
+                      "shareOfCampaignTraffic": 0.03867403314917127,
+                      "traffic": 7
+                    },
+                    {
+                      "asin": "B0H7QTQ86V",
+                      "shareOfCampaignTraffic": 0.011049723756906077,
+                      "traffic": 2
+                    },
+                    {
+                      "asin": "B0H7R3MFTH",
+                      "shareOfCampaignTraffic": 0.011049723756906077,
+                      "traffic": 2
+                    }
+                  ]
+                },
+                {
+                  "alias": null,
+                  "avgDisplayHours": 0,
+                  "id": "A058352818G2OZ3S6Z6QT",
+                  "name": "SP活动-Z6QT",
+                  "shareOfParentAdTraffic": 0.034944823962165,
+                  "traffic": 133,
+                  "type": "sp",
+                  "variationCount": 1,
+                  "variations": [
+                    {
+                      "asin": "B0H7QTQ86V",
+                      "shareOfCampaignTraffic": 1,
+                      "traffic": 133
+                    }
+                  ]
+                },
+                {
+                  "alias": null,
+                  "avgDisplayHours": 0,
                   "id": "A034294112T06N7HYD652",
                   "name": "SP活动-D652",
-                  "shareOfParentAdTraffic": 0.13846153846153847,
+                  "shareOfParentAdTraffic": 0.007094062007356805,
                   "traffic": 27,
-                  "trafficGrowthRate": "infinity",
                   "type": "sp",
                   "variationCount": 1,
                   "variations": [
@@ -189425,23 +190873,84 @@
                 {
                   "alias": null,
                   "avgDisplayHours": 0,
-                  "avgDisplayHoursChange": -1,
-                  "id": "A01300242QSFQ1NGXKWFL",
-                  "name": "SP活动-KWFL",
-                  "shareOfParentAdTraffic": 0.05641025641025641,
-                  "traffic": 11,
-                  "trafficGrowthRate": -0.935294,
+                  "id": "A04358191N9T6JL2X3J45",
+                  "name": "SP活动-3J45",
+                  "shareOfParentAdTraffic": 0.005517603783499738,
+                  "traffic": 21,
                   "type": "sp",
-                  "variationCount": 2,
+                  "variationCount": 1,
                   "variations": [
                     {
-                      "asin": "B0H7QZ1NNS",
-                      "shareOfCampaignTraffic": 0.8181818181818182,
-                      "traffic": 9
-                    },
-                    {
                       "asin": "B0H7QTQ86V",
-                      "shareOfCampaignTraffic": 0.18181818181818182,
+                      "shareOfCampaignTraffic": 1,
+                      "traffic": 21
+                    }
+                  ]
+                },
+                {
+                  "alias": null,
+                  "avgDisplayHours": 0,
+                  "id": "A012110038CCTXEJ49N2N",
+                  "name": "SP活动-9N2N",
+                  "shareOfParentAdTraffic": 0.004729374671571204,
+                  "traffic": 18,
+                  "type": "sp",
+                  "variationCount": 1,
+                  "variations": [
+                    {
+                      "asin": "B0H7QWT72P",
+                      "shareOfCampaignTraffic": 1,
+                      "traffic": 18
+                    }
+                  ]
+                },
+                {
+                  "alias": null,
+                  "avgDisplayHours": 0,
+                  "id": "A0974895A3XYTAPIJF8E",
+                  "name": "SP活动-JF8E",
+                  "shareOfParentAdTraffic": 0.002890173410404624,
+                  "traffic": 11,
+                  "type": "sp",
+                  "variationCount": 1,
+                  "variations": [
+                    {
+                      "asin": "B0H7QWT72P",
+                      "shareOfCampaignTraffic": 1,
+                      "traffic": 11
+                    }
+                  ]
+                },
+                {
+                  "alias": null,
+                  "avgDisplayHours": 0,
+                  "id": "A021043112CMCAIJ29R8S",
+                  "name": "SP活动-9R8S",
+                  "shareOfParentAdTraffic": 0.0018392012611665792,
+                  "traffic": 7,
+                  "type": "sp",
+                  "variationCount": 1,
+                  "variations": [
+                    {
+                      "asin": "B0H7R2X98W",
+                      "shareOfCampaignTraffic": 1,
+                      "traffic": 7
+                    }
+                  ]
+                },
+                {
+                  "alias": null,
+                  "avgDisplayHours": 0,
+                  "id": "A0218670SW7XAY00G72E",
+                  "name": "SP活动-G72E",
+                  "shareOfParentAdTraffic": 0.0005254860746190226,
+                  "traffic": 2,
+                  "type": "sp",
+                  "variationCount": 1,
+                  "variations": [
+                    {
+                      "asin": "B0H7R2X98W",
+                      "shareOfCampaignTraffic": 1,
                       "traffic": 2
                     }
                   ]
@@ -189453,7 +190962,7 @@
               "period": {
                 "aggregation": "period_summary",
                 "endDate": "2026-11-26",
-                "startDate": "2026-11-20"
+                "startDate": "2026-10-28"
               },
               "scope": {
                 "country": "US",
@@ -189473,7 +190982,7 @@
                 "totalVariationCount": 8,
                 "truncated": false
               },
-              "total": 4,
+              "total": 11,
               "warnings": []
             },
             "status": 200
@@ -189509,7 +191018,7 @@
           "summary": "查询一个父体下全部纳入子体最新近7天的广告概况，输入子体ASIN后自动解析父体。",
           "fullDesc": "查询一个父体下全部纳入子体最新近7天的广告概况，输入子体ASIN后自动解析父体。\n\nUse when:\n    用户要了解父体广告规模、自然与广告流量结构、主要变体、活动和关键词层级。\n\nAvoid when:\n    查单子体用get_asin_traffic；查每日变化用get_parent_asin_traffic_trends；查历史日期区间用活动列表或广告关键词列表。本工具固定近7天。\n\nReturns:\n    实际范围和日期、活动数、关键词数、投放变体数及各分布的流量和占比。\n\nAnalysis purpose:\n    用于广告分析的第一步：确定父体范围、广告规模和主要流量集中对象，再选择活动或关键词下钻。输入是一个子体ASIN，返回范围是解析后的父体及实际纳入变体；返回scope和有效日期。\n\nNext step:\n    进一步用get_parent_asin_ad_campaigns枚举活动，用get_parent_asin_traffic_trends定位变化日期。",
           "status": "SUCCESS",
-          "latency": 486,
+          "latency": 677,
           "costCredits": 5,
           "inputArgs": {
             "asin": "B0H7R2X98W",
@@ -189695,7 +191204,7 @@
           "summary": "父体关键词列表（近7天）：输入一个子体ASIN，查看其所属父体最近7天的关键词覆盖，以及各子体的排名和流量表现。",
           "fullDesc": "父体关键词列表（近7天）：输入一个子体ASIN，查看其所属父体最近7天的关键词覆盖，以及各子体的排名和流量表现。\n\nUse when:\n用户明确要分析整个父体，了解多个子体共同覆盖的关键词和各自的流量贡献。\n\nAvoid when:\n仅分析单个ASIN时，使用 get_asin_keywords；比较用户指定的多个ASIN时，使用 get_multi_asin_keyword_comparison；查询历史月份时，使用 get_parent_asin_keywords_monthly。\n本工具只查询最新近7天，不支持指定历史日期。仅凭商品可能存在变体，不应自动扩大为父体分析。\n\nReturns:\n关键词列表，包含中文译文、覆盖的子体数量、各子体的自然和广告排名、流量、流量分布、展示位置及汇总表现，以及关键词异动和标签。暂无中文译文时为空。\n最多查询200个子体。超过200个时，按最近7天总流量从高到低选取；流量相同时按ASIN升序排列。汇总仅覆盖本次查询的子体。\n筛选针对全部匹配关键词执行后再分页；多个条件同时满足，数值范围包含上下界。流量获得率可能超过100%。支持按总、自然、广告流量获得率筛选；筛选值使用小数比例，0.01代表1%，1代表100%，允许大于1。",
           "status": "SUCCESS",
-          "latency": 325,
+          "latency": 241,
           "costCredits": 5,
           "inputArgs": {
             "asin": "B0H7R2X98W",
@@ -189845,15 +191354,15 @@
                   "ranks": [
                     {
                       "page": 1,
+                      "position": "sor",
+                      "rankTime": "2026-11-23T05:03:51-08:00"
+                    },
+                    {
+                      "page": 1,
                       "pageRank": 2,
                       "position": "sp",
                       "rankTime": "2026-11-23T05:03:51-08:00",
                       "totalRank": 2
-                    },
-                    {
-                      "page": 1,
-                      "position": "sor",
-                      "rankTime": "2026-11-23T05:03:51-08:00"
                     }
                   ],
                   "searchTerm": "iphone 18 case with wallet",
@@ -190485,12 +191994,12 @@
                       "organicDistribution": null,
                       "positionDistribution": [
                         {
-                          "position": "sp",
-                          "value": "0.680000"
-                        },
-                        {
                           "position": "sor",
                           "value": "0.320000"
+                        },
+                        {
+                          "position": "sp",
+                          "value": "0.680000"
                         }
                       ]
                     },
@@ -191158,42 +192667,6 @@
                   "asinCount": 4,
                   "asins": [
                     {
-                      "asin": "B0H7QWT72P",
-                      "country": "US",
-                      "ranks": [
-                        {
-                          "page": 3,
-                          "position": "sor",
-                          "rankTime": "2026-11-19T00:25:04-08:00"
-                        }
-                      ],
-                      "trafficSummary": {
-                        "traffic": {
-                          "advertising": 0,
-                          "organic": 0,
-                          "total": 0
-                        },
-                        "trafficAcquisitionRate": {
-                          "advertising": "0.000000",
-                          "organic": "0.000000",
-                          "positions": null,
-                          "total": "0.000000"
-                        },
-                        "trafficDistribution": {
-                          "advertising": "0.000000",
-                          "advertisingDistribution": null,
-                          "organic": "0.000000",
-                          "organicDistribution": null,
-                          "positionDistribution": null
-                        },
-                        "trafficRatio": {
-                          "advertising": "0.000000",
-                          "organic": "0.000000",
-                          "total": "0.000000"
-                        }
-                      }
-                    },
-                    {
                       "asin": "B0H7QTQ86V",
                       "country": "US",
                       "ranks": [
@@ -191251,15 +192724,13 @@
                       }
                     },
                     {
-                      "asin": "B0H7R3MFTH",
+                      "asin": "B0H7R2X98W",
                       "country": "US",
                       "ranks": [
                         {
-                          "page": 3,
-                          "pageRank": 1,
-                          "position": "sp",
-                          "rankTime": "2026-11-18T23:40:32-08:00",
-                          "totalRank": 9
+                          "page": 1,
+                          "position": "sor",
+                          "rankTime": "2026-11-16T14:31:58-08:00"
                         }
                       ],
                       "trafficSummary": {
@@ -191289,13 +192760,51 @@
                       }
                     },
                     {
-                      "asin": "B0H7R2X98W",
+                      "asin": "B0H7QWT72P",
                       "country": "US",
                       "ranks": [
                         {
-                          "page": 1,
+                          "page": 3,
                           "position": "sor",
-                          "rankTime": "2026-11-16T14:31:58-08:00"
+                          "rankTime": "2026-11-19T00:25:04-08:00"
+                        }
+                      ],
+                      "trafficSummary": {
+                        "traffic": {
+                          "advertising": 0,
+                          "organic": 0,
+                          "total": 0
+                        },
+                        "trafficAcquisitionRate": {
+                          "advertising": "0.000000",
+                          "organic": "0.000000",
+                          "positions": null,
+                          "total": "0.000000"
+                        },
+                        "trafficDistribution": {
+                          "advertising": "0.000000",
+                          "advertisingDistribution": null,
+                          "organic": "0.000000",
+                          "organicDistribution": null,
+                          "positionDistribution": null
+                        },
+                        "trafficRatio": {
+                          "advertising": "0.000000",
+                          "organic": "0.000000",
+                          "total": "0.000000"
+                        }
+                      }
+                    },
+                    {
+                      "asin": "B0H7R3MFTH",
+                      "country": "US",
+                      "ranks": [
+                        {
+                          "page": 3,
+                          "pageRank": 1,
+                          "position": "sp",
+                          "rankTime": "2026-11-18T23:40:32-08:00",
+                          "totalRank": 9
                         }
                       ],
                       "trafficSummary": {
@@ -192378,7 +193887,457 @@
           "Secure Magnetic Closure: Side-mounted magnets keep the wallet flap firmly shut with cards inside; stays closed during drops and bumps, protecting the screen from impact, while allowing easy one-handed opening on the go; slim fit for pockets and bags"
         ],
         "dimensions": null,
-        "categoryName": "翻盖式保护套"
+        "categoryName": "翻盖式保护套",
+        "infoTrends": [
+          {
+            "date": "2026-10-30",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": null,
+            "stars": ""
+          },
+          {
+            "date": "2026-10-31",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": null,
+            "stars": ""
+          },
+          {
+            "date": "2026-11-01",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": null,
+            "stars": ""
+          },
+          {
+            "date": "2026-11-02",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": null,
+            "stars": ""
+          },
+          {
+            "date": "2026-11-03",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": null,
+            "stars": ""
+          },
+          {
+            "date": "2026-11-04",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": null,
+            "stars": ""
+          },
+          {
+            "date": "2026-11-05",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": null,
+            "stars": ""
+          },
+          {
+            "date": "2026-11-06",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": null,
+            "stars": ""
+          },
+          {
+            "date": "2026-11-07",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": null,
+            "stars": ""
+          },
+          {
+            "date": "2026-11-08",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": null,
+            "stars": ""
+          },
+          {
+            "date": "2026-11-09",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "17.99",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": 21,
+            "stars": "4.8"
+          },
+          {
+            "date": "2026-11-10",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "17.99",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": 21,
+            "stars": "4.8"
+          },
+          {
+            "date": "2026-11-11",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "17.99",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": 21,
+            "stars": "4.8"
+          },
+          {
+            "date": "2026-11-12",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "17.99",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": 21,
+            "stars": "4.8"
+          },
+          {
+            "date": "2026-11-13",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "17.99",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": 21,
+            "stars": "4.8"
+          },
+          {
+            "date": "2026-11-14",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": null,
+            "stars": ""
+          },
+          {
+            "date": "2026-11-15",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": null,
+            "stars": ""
+          },
+          {
+            "date": "2026-11-16",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "17.99",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": 23,
+            "stars": "4.8"
+          },
+          {
+            "date": "2026-11-17",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "17.99",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": 23,
+            "stars": "4.8"
+          },
+          {
+            "date": "2026-11-18",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": null,
+            "stars": ""
+          },
+          {
+            "date": "2026-11-19",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": null,
+            "stars": ""
+          },
+          {
+            "date": "2026-11-20",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "14.39",
+              "display": "14.39",
+              "origin": "",
+              "other": [],
+              "prime": "14.39",
+              "promotion": [],
+              "strikethrough": "17.99",
+              "subscribe": []
+            },
+            "ratings": 23,
+            "stars": "4.8"
+          },
+          {
+            "date": "2026-11-21",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": null,
+            "stars": ""
+          },
+          {
+            "date": "2026-11-22",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": null,
+            "stars": ""
+          },
+          {
+            "date": "2026-11-23",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "14.39",
+              "display": "14.39",
+              "origin": "",
+              "other": [],
+              "prime": "14.39",
+              "promotion": [],
+              "strikethrough": "17.99",
+              "subscribe": []
+            },
+            "ratings": 23,
+            "stars": "4.8"
+          },
+          {
+            "date": "2026-11-24",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": null,
+            "stars": ""
+          },
+          {
+            "date": "2026-11-25",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": null,
+            "stars": ""
+          },
+          {
+            "date": "2026-11-26",
+            "priceDistribution": {
+              "coupon": [],
+              "deal": "",
+              "display": "",
+              "origin": "",
+              "other": [],
+              "prime": "",
+              "promotion": [],
+              "strikethrough": "",
+              "subscribe": []
+            },
+            "ratings": null,
+            "stars": ""
+          }
+        ]
       },
       "traffic": {
         "totalTraffic": 35,
@@ -192386,12 +194345,736 @@
         "adTraffic": 35,
         "organicRatio": 0,
         "adRatio": 1,
-        "weeklyTrends": []
+        "weeklyTrends": [
+          {
+            "dateRange": {
+              "endDate": "2026-09-06",
+              "startDate": "2026-08-31"
+            },
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 220,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 0,
+              "organic": 220
+            }
+          },
+          {
+            "dateRange": {
+              "endDate": "2026-09-13",
+              "startDate": "2026-09-07"
+            },
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 84,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 47
+            },
+            "summaryTraffic": {
+              "advertising": 47,
+              "organic": 84
+            }
+          },
+          {
+            "dateRange": {
+              "endDate": "2026-09-20",
+              "startDate": "2026-09-14"
+            },
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 2,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 0,
+              "organic": 2
+            }
+          },
+          {
+            "dateRange": {
+              "endDate": "2026-09-27",
+              "startDate": "2026-09-21"
+            },
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 6,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 0,
+              "organic": 6
+            }
+          },
+          {
+            "dateRange": {
+              "endDate": "2026-10-04",
+              "startDate": "2026-09-28"
+            },
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 22,
+              "sp": 107
+            },
+            "summaryTraffic": {
+              "advertising": 129,
+              "organic": 0
+            }
+          },
+          {
+            "dateRange": {
+              "endDate": "2026-10-11",
+              "startDate": "2026-10-05"
+            },
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 50,
+              "sp": 2
+            },
+            "summaryTraffic": {
+              "advertising": 52,
+              "organic": 0
+            }
+          },
+          {
+            "dateRange": {
+              "endDate": "2026-10-18",
+              "startDate": "2026-10-12"
+            },
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 7,
+              "sp": 13
+            },
+            "summaryTraffic": {
+              "advertising": 20,
+              "organic": 0
+            }
+          },
+          {
+            "dateRange": {
+              "endDate": "2026-10-25",
+              "startDate": "2026-10-19"
+            },
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 1,
+              "sp": 2464
+            },
+            "summaryTraffic": {
+              "advertising": 2465,
+              "organic": 0
+            }
+          },
+          {
+            "dateRange": {
+              "endDate": "2026-11-01",
+              "startDate": "2026-10-26"
+            },
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 24
+            },
+            "summaryTraffic": {
+              "advertising": 24,
+              "organic": 0
+            }
+          },
+          {
+            "dateRange": {
+              "endDate": "2026-11-08",
+              "startDate": "2026-11-02"
+            },
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 0,
+              "organic": 0
+            }
+          },
+          {
+            "dateRange": {
+              "endDate": "2026-11-15",
+              "startDate": "2026-11-09"
+            },
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 126,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 126,
+              "organic": 0
+            }
+          },
+          {
+            "dateRange": {
+              "endDate": "2026-11-22",
+              "startDate": "2026-11-16"
+            },
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 11,
+              "sp": 55
+            },
+            "summaryTraffic": {
+              "advertising": 66,
+              "organic": 0
+            }
+          }
+        ],
+        "dailyTrends": [
+          {
+            "date": "2026-10-30",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 0,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-10-31",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 0,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-01",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 0,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-02",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 0,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-03",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 0,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-04",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 0,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-05",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 0,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-06",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 0,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-07",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 0,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-08",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 0,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-09",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 9,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 9,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-10",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 17,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 17,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-11",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 40,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 40,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-12",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 54,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 54,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-13",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 6,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 6,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-14",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 0,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-15",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 0,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-16",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 11,
+              "sp": 11
+            },
+            "summaryTraffic": {
+              "advertising": 22,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-17",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 36
+            },
+            "summaryTraffic": {
+              "advertising": 36,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-18",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 0,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-19",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 0,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-20",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 8
+            },
+            "summaryTraffic": {
+              "advertising": 8,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-21",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 0,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-22",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 0,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-23",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 27,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 27,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-24",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 0,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-25",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 0,
+              "organic": 0
+            }
+          },
+          {
+            "date": "2026-11-26",
+            "positionTraffic": {
+              "ac": 0,
+              "oor": 0,
+              "or": 0,
+              "sb": 0,
+              "sbv": 0,
+              "sor": 0,
+              "sp": 0
+            },
+            "summaryTraffic": {
+              "advertising": 0,
+              "organic": 0
+            }
+          }
+        ]
       },
       "sales": {
         "last30dOrders": 0,
         "estMonthlyRevenue": 0,
-        "orderTrends": []
+        "orderTrends": [
+          {
+            "date": "2025-12",
+            "orders": 0
+          },
+          {
+            "date": "2026-01",
+            "orders": 0
+          },
+          {
+            "date": "2026-02",
+            "orders": 0
+          },
+          {
+            "date": "2026-03",
+            "orders": 0
+          },
+          {
+            "date": "2026-04",
+            "orders": 0
+          },
+          {
+            "date": "2026-05",
+            "orders": 0
+          },
+          {
+            "date": "2026-06",
+            "orders": 0
+          },
+          {
+            "date": "2026-07",
+            "orders": 0
+          },
+          {
+            "date": "2026-08",
+            "orders": 0
+          },
+          {
+            "date": "2026-09",
+            "orders": 0
+          },
+          {
+            "date": "2026-10",
+            "orders": 0
+          }
+        ]
       },
       "bsr": {
         "classificationRanks": [
@@ -192449,7 +195132,389 @@
           }
         },
         "amzCategoryPath": "翻盖式保护套",
-        "bsrTrends": []
+        "bsrTrends": [
+          {
+            "date": "2026-10-30",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 22153
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 909
+              }
+            ]
+          },
+          {
+            "date": "2026-10-31",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 26097
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 1137
+              }
+            ]
+          },
+          {
+            "date": "2026-11-01",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 17119
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 671
+              }
+            ]
+          },
+          {
+            "date": "2026-11-02",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 18757
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 737
+              }
+            ]
+          },
+          {
+            "date": "2026-11-03",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 19599
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 837
+              }
+            ]
+          },
+          {
+            "date": "2026-11-04",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 19043
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 725
+              }
+            ]
+          },
+          {
+            "date": "2026-11-05",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 20180
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 783
+              }
+            ]
+          },
+          {
+            "date": "2026-11-06",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 20180
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 783
+              }
+            ]
+          },
+          {
+            "date": "2026-11-07",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 27057
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 1186
+              }
+            ]
+          },
+          {
+            "date": "2026-11-08",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 33049
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 1552
+              }
+            ]
+          },
+          {
+            "date": "2026-11-09",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 25081
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 1064
+              }
+            ]
+          },
+          {
+            "date": "2026-11-10",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 31106
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 1401
+              }
+            ]
+          },
+          {
+            "date": "2026-11-11",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 31106
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 1401
+              }
+            ]
+          },
+          {
+            "date": "2026-11-12",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 45228
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 2244
+              }
+            ]
+          },
+          {
+            "date": "2026-11-13",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 33657
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 1526
+              }
+            ]
+          },
+          {
+            "date": "2026-11-14",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 31939
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 1403
+              }
+            ]
+          },
+          {
+            "date": "2026-11-15",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 32009
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 1407
+              }
+            ]
+          },
+          {
+            "date": "2026-11-16",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 31999
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 1408
+              }
+            ]
+          },
+          {
+            "date": "2026-11-17",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 20630
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 791
+              }
+            ]
+          },
+          {
+            "date": "2026-11-18",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 21634
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 837
+              }
+            ]
+          },
+          {
+            "date": "2026-11-19",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 24584
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 1011
+              }
+            ]
+          },
+          {
+            "date": "2026-11-20",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 25462
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 1044
+              }
+            ]
+          },
+          {
+            "date": "2026-11-21",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 31981
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 1442
+              }
+            ]
+          },
+          {
+            "date": "2026-11-22",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 31981
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 1442
+              }
+            ]
+          },
+          {
+            "date": "2026-11-23",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 30771
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 1385
+              }
+            ]
+          },
+          {
+            "date": "2026-11-24",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 41068
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 1970
+              }
+            ]
+          },
+          {
+            "date": "2026-11-25",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 41068
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 1970
+              }
+            ]
+          },
+          {
+            "date": "2026-11-26",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 38024
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 1787
+              }
+            ]
+          },
+          {
+            "date": "2026-11-27",
+            "values": [
+              {
+                "categoryId": "2335752011",
+                "rank": 41545
+              },
+              {
+                "categoryId": "9931389011",
+                "rank": 1967
+              }
+            ]
+          },
+          {
+            "date": "2026-11-28",
+            "values": []
+          }
+        ]
       },
       "keywords": {
         "list": [
@@ -192860,7 +195925,1074 @@
           }
         ],
         "totalCount": 7,
-        "keywordCountTrends": [],
+        "keywordCountTrends": [
+          {
+            "cycleDate": {
+              "endDate": "2026-11-14",
+              "startDate": "2026-11-14"
+            },
+            "organicTrafficAcquisitionRateTier": [
+              {
+                "count": 0,
+                "tier": "tier1"
+              },
+              {
+                "count": 0,
+                "tier": "tier2"
+              },
+              {
+                "count": 0,
+                "tier": "tier3"
+              },
+              {
+                "count": 0,
+                "tier": "tier4"
+              },
+              {
+                "count": 0,
+                "tier": "tierNone"
+              }
+            ],
+            "positions": [
+              {
+                "count": 0,
+                "position": "or"
+              },
+              {
+                "count": 0,
+                "position": "ac"
+              },
+              {
+                "count": 0,
+                "position": "sp"
+              },
+              {
+                "count": 0,
+                "position": "sb"
+              },
+              {
+                "count": 0,
+                "position": "sbv"
+              },
+              {
+                "count": 0,
+                "position": "oor"
+              },
+              {
+                "count": 0,
+                "position": "sor"
+              }
+            ],
+            "rankTier": [
+              {
+                "count": 0,
+                "tier": "head"
+              },
+              {
+                "count": 0,
+                "tier": "midTail"
+              },
+              {
+                "count": 0,
+                "tier": "longTail"
+              }
+            ],
+            "summary": [
+              {
+                "count": 0,
+                "position": "organic"
+              },
+              {
+                "count": 0,
+                "position": "advertising"
+              }
+            ]
+          },
+          {
+            "cycleDate": {
+              "endDate": "2026-11-15",
+              "startDate": "2026-11-15"
+            },
+            "organicTrafficAcquisitionRateTier": [
+              {
+                "count": 0,
+                "tier": "tier1"
+              },
+              {
+                "count": 0,
+                "tier": "tier2"
+              },
+              {
+                "count": 0,
+                "tier": "tier3"
+              },
+              {
+                "count": 0,
+                "tier": "tier4"
+              },
+              {
+                "count": 0,
+                "tier": "tierNone"
+              }
+            ],
+            "positions": [
+              {
+                "count": 0,
+                "position": "or"
+              },
+              {
+                "count": 0,
+                "position": "ac"
+              },
+              {
+                "count": 0,
+                "position": "sp"
+              },
+              {
+                "count": 0,
+                "position": "sb"
+              },
+              {
+                "count": 0,
+                "position": "sbv"
+              },
+              {
+                "count": 0,
+                "position": "oor"
+              },
+              {
+                "count": 0,
+                "position": "sor"
+              }
+            ],
+            "rankTier": [
+              {
+                "count": 0,
+                "tier": "head"
+              },
+              {
+                "count": 0,
+                "tier": "midTail"
+              },
+              {
+                "count": 0,
+                "tier": "longTail"
+              }
+            ],
+            "summary": [
+              {
+                "count": 0,
+                "position": "organic"
+              },
+              {
+                "count": 0,
+                "position": "advertising"
+              }
+            ]
+          },
+          {
+            "cycleDate": {
+              "endDate": "2026-11-16",
+              "startDate": "2026-11-16"
+            },
+            "organicTrafficAcquisitionRateTier": [
+              {
+                "count": 0,
+                "tier": "tier1"
+              },
+              {
+                "count": 0,
+                "tier": "tier2"
+              },
+              {
+                "count": 0,
+                "tier": "tier3"
+              },
+              {
+                "count": 0,
+                "tier": "tier4"
+              },
+              {
+                "count": 2,
+                "tier": "tierNone"
+              }
+            ],
+            "positions": [
+              {
+                "count": 0,
+                "position": "or"
+              },
+              {
+                "count": 0,
+                "position": "ac"
+              },
+              {
+                "count": 1,
+                "position": "sp"
+              },
+              {
+                "count": 0,
+                "position": "sb"
+              },
+              {
+                "count": 0,
+                "position": "sbv"
+              },
+              {
+                "count": 0,
+                "position": "oor"
+              },
+              {
+                "count": 1,
+                "position": "sor"
+              }
+            ],
+            "rankTier": [
+              {
+                "count": 0,
+                "tier": "head"
+              },
+              {
+                "count": 2,
+                "tier": "midTail"
+              },
+              {
+                "count": 0,
+                "tier": "longTail"
+              }
+            ],
+            "summary": [
+              {
+                "count": 0,
+                "position": "organic"
+              },
+              {
+                "count": 2,
+                "position": "advertising"
+              }
+            ]
+          },
+          {
+            "cycleDate": {
+              "endDate": "2026-11-17",
+              "startDate": "2026-11-17"
+            },
+            "organicTrafficAcquisitionRateTier": [
+              {
+                "count": 0,
+                "tier": "tier1"
+              },
+              {
+                "count": 0,
+                "tier": "tier2"
+              },
+              {
+                "count": 0,
+                "tier": "tier3"
+              },
+              {
+                "count": 0,
+                "tier": "tier4"
+              },
+              {
+                "count": 2,
+                "tier": "tierNone"
+              }
+            ],
+            "positions": [
+              {
+                "count": 0,
+                "position": "or"
+              },
+              {
+                "count": 0,
+                "position": "ac"
+              },
+              {
+                "count": 2,
+                "position": "sp"
+              },
+              {
+                "count": 0,
+                "position": "sb"
+              },
+              {
+                "count": 0,
+                "position": "sbv"
+              },
+              {
+                "count": 0,
+                "position": "oor"
+              },
+              {
+                "count": 0,
+                "position": "sor"
+              }
+            ],
+            "rankTier": [
+              {
+                "count": 0,
+                "tier": "head"
+              },
+              {
+                "count": 1,
+                "tier": "midTail"
+              },
+              {
+                "count": 1,
+                "tier": "longTail"
+              }
+            ],
+            "summary": [
+              {
+                "count": 0,
+                "position": "organic"
+              },
+              {
+                "count": 2,
+                "position": "advertising"
+              }
+            ]
+          },
+          {
+            "cycleDate": {
+              "endDate": "2026-11-18",
+              "startDate": "2026-11-18"
+            },
+            "organicTrafficAcquisitionRateTier": [
+              {
+                "count": 0,
+                "tier": "tier1"
+              },
+              {
+                "count": 0,
+                "tier": "tier2"
+              },
+              {
+                "count": 0,
+                "tier": "tier3"
+              },
+              {
+                "count": 0,
+                "tier": "tier4"
+              },
+              {
+                "count": 0,
+                "tier": "tierNone"
+              }
+            ],
+            "positions": [
+              {
+                "count": 0,
+                "position": "or"
+              },
+              {
+                "count": 0,
+                "position": "ac"
+              },
+              {
+                "count": 0,
+                "position": "sp"
+              },
+              {
+                "count": 0,
+                "position": "sb"
+              },
+              {
+                "count": 0,
+                "position": "sbv"
+              },
+              {
+                "count": 0,
+                "position": "oor"
+              },
+              {
+                "count": 0,
+                "position": "sor"
+              }
+            ],
+            "rankTier": [
+              {
+                "count": 0,
+                "tier": "head"
+              },
+              {
+                "count": 0,
+                "tier": "midTail"
+              },
+              {
+                "count": 0,
+                "tier": "longTail"
+              }
+            ],
+            "summary": [
+              {
+                "count": 0,
+                "position": "organic"
+              },
+              {
+                "count": 0,
+                "position": "advertising"
+              }
+            ]
+          },
+          {
+            "cycleDate": {
+              "endDate": "2026-11-19",
+              "startDate": "2026-11-19"
+            },
+            "organicTrafficAcquisitionRateTier": [
+              {
+                "count": 0,
+                "tier": "tier1"
+              },
+              {
+                "count": 0,
+                "tier": "tier2"
+              },
+              {
+                "count": 0,
+                "tier": "tier3"
+              },
+              {
+                "count": 0,
+                "tier": "tier4"
+              },
+              {
+                "count": 0,
+                "tier": "tierNone"
+              }
+            ],
+            "positions": [
+              {
+                "count": 0,
+                "position": "or"
+              },
+              {
+                "count": 0,
+                "position": "ac"
+              },
+              {
+                "count": 0,
+                "position": "sp"
+              },
+              {
+                "count": 0,
+                "position": "sb"
+              },
+              {
+                "count": 0,
+                "position": "sbv"
+              },
+              {
+                "count": 0,
+                "position": "oor"
+              },
+              {
+                "count": 0,
+                "position": "sor"
+              }
+            ],
+            "rankTier": [
+              {
+                "count": 0,
+                "tier": "head"
+              },
+              {
+                "count": 0,
+                "tier": "midTail"
+              },
+              {
+                "count": 0,
+                "tier": "longTail"
+              }
+            ],
+            "summary": [
+              {
+                "count": 0,
+                "position": "organic"
+              },
+              {
+                "count": 0,
+                "position": "advertising"
+              }
+            ]
+          },
+          {
+            "cycleDate": {
+              "endDate": "2026-11-20",
+              "startDate": "2026-11-20"
+            },
+            "organicTrafficAcquisitionRateTier": [
+              {
+                "count": 0,
+                "tier": "tier1"
+              },
+              {
+                "count": 0,
+                "tier": "tier2"
+              },
+              {
+                "count": 0,
+                "tier": "tier3"
+              },
+              {
+                "count": 0,
+                "tier": "tier4"
+              },
+              {
+                "count": 1,
+                "tier": "tierNone"
+              }
+            ],
+            "positions": [
+              {
+                "count": 0,
+                "position": "or"
+              },
+              {
+                "count": 0,
+                "position": "ac"
+              },
+              {
+                "count": 1,
+                "position": "sp"
+              },
+              {
+                "count": 0,
+                "position": "sb"
+              },
+              {
+                "count": 0,
+                "position": "sbv"
+              },
+              {
+                "count": 0,
+                "position": "oor"
+              },
+              {
+                "count": 0,
+                "position": "sor"
+              }
+            ],
+            "rankTier": [
+              {
+                "count": 0,
+                "tier": "head"
+              },
+              {
+                "count": 0,
+                "tier": "midTail"
+              },
+              {
+                "count": 1,
+                "tier": "longTail"
+              }
+            ],
+            "summary": [
+              {
+                "count": 0,
+                "position": "organic"
+              },
+              {
+                "count": 1,
+                "position": "advertising"
+              }
+            ]
+          },
+          {
+            "cycleDate": {
+              "endDate": "2026-11-21",
+              "startDate": "2026-11-21"
+            },
+            "organicTrafficAcquisitionRateTier": [
+              {
+                "count": 0,
+                "tier": "tier1"
+              },
+              {
+                "count": 0,
+                "tier": "tier2"
+              },
+              {
+                "count": 0,
+                "tier": "tier3"
+              },
+              {
+                "count": 0,
+                "tier": "tier4"
+              },
+              {
+                "count": 0,
+                "tier": "tierNone"
+              }
+            ],
+            "positions": [
+              {
+                "count": 0,
+                "position": "or"
+              },
+              {
+                "count": 0,
+                "position": "ac"
+              },
+              {
+                "count": 0,
+                "position": "sp"
+              },
+              {
+                "count": 0,
+                "position": "sb"
+              },
+              {
+                "count": 0,
+                "position": "sbv"
+              },
+              {
+                "count": 0,
+                "position": "oor"
+              },
+              {
+                "count": 0,
+                "position": "sor"
+              }
+            ],
+            "rankTier": [
+              {
+                "count": 0,
+                "tier": "head"
+              },
+              {
+                "count": 0,
+                "tier": "midTail"
+              },
+              {
+                "count": 0,
+                "tier": "longTail"
+              }
+            ],
+            "summary": [
+              {
+                "count": 0,
+                "position": "organic"
+              },
+              {
+                "count": 0,
+                "position": "advertising"
+              }
+            ]
+          },
+          {
+            "cycleDate": {
+              "endDate": "2026-11-22",
+              "startDate": "2026-11-22"
+            },
+            "organicTrafficAcquisitionRateTier": [
+              {
+                "count": 0,
+                "tier": "tier1"
+              },
+              {
+                "count": 0,
+                "tier": "tier2"
+              },
+              {
+                "count": 0,
+                "tier": "tier3"
+              },
+              {
+                "count": 0,
+                "tier": "tier4"
+              },
+              {
+                "count": 0,
+                "tier": "tierNone"
+              }
+            ],
+            "positions": [
+              {
+                "count": 0,
+                "position": "or"
+              },
+              {
+                "count": 0,
+                "position": "ac"
+              },
+              {
+                "count": 0,
+                "position": "sp"
+              },
+              {
+                "count": 0,
+                "position": "sb"
+              },
+              {
+                "count": 0,
+                "position": "sbv"
+              },
+              {
+                "count": 0,
+                "position": "oor"
+              },
+              {
+                "count": 0,
+                "position": "sor"
+              }
+            ],
+            "rankTier": [
+              {
+                "count": 0,
+                "tier": "head"
+              },
+              {
+                "count": 0,
+                "tier": "midTail"
+              },
+              {
+                "count": 0,
+                "tier": "longTail"
+              }
+            ],
+            "summary": [
+              {
+                "count": 0,
+                "position": "organic"
+              },
+              {
+                "count": 0,
+                "position": "advertising"
+              }
+            ]
+          },
+          {
+            "cycleDate": {
+              "endDate": "2026-11-23",
+              "startDate": "2026-11-23"
+            },
+            "organicTrafficAcquisitionRateTier": [
+              {
+                "count": 0,
+                "tier": "tier1"
+              },
+              {
+                "count": 0,
+                "tier": "tier2"
+              },
+              {
+                "count": 0,
+                "tier": "tier3"
+              },
+              {
+                "count": 0,
+                "tier": "tier4"
+              },
+              {
+                "count": 1,
+                "tier": "tierNone"
+              }
+            ],
+            "positions": [
+              {
+                "count": 0,
+                "position": "or"
+              },
+              {
+                "count": 0,
+                "position": "ac"
+              },
+              {
+                "count": 0,
+                "position": "sp"
+              },
+              {
+                "count": 0,
+                "position": "sb"
+              },
+              {
+                "count": 0,
+                "position": "sbv"
+              },
+              {
+                "count": 0,
+                "position": "oor"
+              },
+              {
+                "count": 1,
+                "position": "sor"
+              }
+            ],
+            "rankTier": [
+              {
+                "count": 0,
+                "tier": "head"
+              },
+              {
+                "count": 1,
+                "tier": "midTail"
+              },
+              {
+                "count": 0,
+                "tier": "longTail"
+              }
+            ],
+            "summary": [
+              {
+                "count": 0,
+                "position": "organic"
+              },
+              {
+                "count": 1,
+                "position": "advertising"
+              }
+            ]
+          },
+          {
+            "cycleDate": {
+              "endDate": "2026-11-24",
+              "startDate": "2026-11-24"
+            },
+            "organicTrafficAcquisitionRateTier": [
+              {
+                "count": 0,
+                "tier": "tier1"
+              },
+              {
+                "count": 0,
+                "tier": "tier2"
+              },
+              {
+                "count": 0,
+                "tier": "tier3"
+              },
+              {
+                "count": 0,
+                "tier": "tier4"
+              },
+              {
+                "count": 0,
+                "tier": "tierNone"
+              }
+            ],
+            "positions": [
+              {
+                "count": 0,
+                "position": "or"
+              },
+              {
+                "count": 0,
+                "position": "ac"
+              },
+              {
+                "count": 0,
+                "position": "sp"
+              },
+              {
+                "count": 0,
+                "position": "sb"
+              },
+              {
+                "count": 0,
+                "position": "sbv"
+              },
+              {
+                "count": 0,
+                "position": "oor"
+              },
+              {
+                "count": 0,
+                "position": "sor"
+              }
+            ],
+            "rankTier": [
+              {
+                "count": 0,
+                "tier": "head"
+              },
+              {
+                "count": 0,
+                "tier": "midTail"
+              },
+              {
+                "count": 0,
+                "tier": "longTail"
+              }
+            ],
+            "summary": [
+              {
+                "count": 0,
+                "position": "organic"
+              },
+              {
+                "count": 0,
+                "position": "advertising"
+              }
+            ]
+          },
+          {
+            "cycleDate": {
+              "endDate": "2026-11-25",
+              "startDate": "2026-11-25"
+            },
+            "organicTrafficAcquisitionRateTier": [
+              {
+                "count": 0,
+                "tier": "tier1"
+              },
+              {
+                "count": 0,
+                "tier": "tier2"
+              },
+              {
+                "count": 0,
+                "tier": "tier3"
+              },
+              {
+                "count": 0,
+                "tier": "tier4"
+              },
+              {
+                "count": 0,
+                "tier": "tierNone"
+              }
+            ],
+            "positions": [
+              {
+                "count": 0,
+                "position": "or"
+              },
+              {
+                "count": 0,
+                "position": "ac"
+              },
+              {
+                "count": 0,
+                "position": "sp"
+              },
+              {
+                "count": 0,
+                "position": "sb"
+              },
+              {
+                "count": 0,
+                "position": "sbv"
+              },
+              {
+                "count": 0,
+                "position": "oor"
+              },
+              {
+                "count": 0,
+                "position": "sor"
+              }
+            ],
+            "rankTier": [
+              {
+                "count": 0,
+                "tier": "head"
+              },
+              {
+                "count": 0,
+                "tier": "midTail"
+              },
+              {
+                "count": 0,
+                "tier": "longTail"
+              }
+            ],
+            "summary": [
+              {
+                "count": 0,
+                "position": "organic"
+              },
+              {
+                "count": 0,
+                "position": "advertising"
+              }
+            ]
+          },
+          {
+            "cycleDate": {
+              "endDate": "2026-11-26",
+              "startDate": "2026-11-26"
+            },
+            "organicTrafficAcquisitionRateTier": [
+              {
+                "count": 0,
+                "tier": "tier1"
+              },
+              {
+                "count": 0,
+                "tier": "tier2"
+              },
+              {
+                "count": 0,
+                "tier": "tier3"
+              },
+              {
+                "count": 0,
+                "tier": "tier4"
+              },
+              {
+                "count": 0,
+                "tier": "tierNone"
+              }
+            ],
+            "positions": [
+              {
+                "count": 0,
+                "position": "or"
+              },
+              {
+                "count": 0,
+                "position": "ac"
+              },
+              {
+                "count": 0,
+                "position": "sp"
+              },
+              {
+                "count": 0,
+                "position": "sb"
+              },
+              {
+                "count": 0,
+                "position": "sbv"
+              },
+              {
+                "count": 0,
+                "position": "oor"
+              },
+              {
+                "count": 0,
+                "position": "sor"
+              }
+            ],
+            "rankTier": [
+              {
+                "count": 0,
+                "tier": "head"
+              },
+              {
+                "count": 0,
+                "tier": "midTail"
+              },
+              {
+                "count": 0,
+                "tier": "longTail"
+              }
+            ],
+            "summary": [
+              {
+                "count": 0,
+                "position": "organic"
+              },
+              {
+                "count": 0,
+                "position": "advertising"
+              }
+            ]
+          }
+        ],
         "topTerm": "iphone 18 pro max accessories",
         "relatedKeywords": [],
         "abaTrends": []
@@ -193778,42 +197910,6 @@
             "totalTraffic": 2,
             "asins": [
               {
-                "asin": "B0H7QWT72P",
-                "country": "US",
-                "ranks": [
-                  {
-                    "page": 3,
-                    "position": "sor",
-                    "rankTime": "2026-11-19T00:25:04-08:00"
-                  }
-                ],
-                "trafficSummary": {
-                  "traffic": {
-                    "advertising": 0,
-                    "organic": 0,
-                    "total": 0
-                  },
-                  "trafficAcquisitionRate": {
-                    "advertising": "0.000000",
-                    "organic": "0.000000",
-                    "positions": null,
-                    "total": "0.000000"
-                  },
-                  "trafficDistribution": {
-                    "advertising": "0.000000",
-                    "advertisingDistribution": null,
-                    "organic": "0.000000",
-                    "organicDistribution": null,
-                    "positionDistribution": null
-                  },
-                  "trafficRatio": {
-                    "advertising": "0.000000",
-                    "organic": "0.000000",
-                    "total": "0.000000"
-                  }
-                }
-              },
-              {
                 "asin": "B0H7QTQ86V",
                 "country": "US",
                 "ranks": [
@@ -193871,15 +197967,13 @@
                 }
               },
               {
-                "asin": "B0H7R3MFTH",
+                "asin": "B0H7R2X98W",
                 "country": "US",
                 "ranks": [
                   {
-                    "page": 3,
-                    "pageRank": 1,
-                    "position": "sp",
-                    "rankTime": "2026-11-18T23:40:32-08:00",
-                    "totalRank": 9
+                    "page": 1,
+                    "position": "sor",
+                    "rankTime": "2026-11-16T14:31:58-08:00"
                   }
                 ],
                 "trafficSummary": {
@@ -193909,13 +198003,51 @@
                 }
               },
               {
-                "asin": "B0H7R2X98W",
+                "asin": "B0H7QWT72P",
                 "country": "US",
                 "ranks": [
                   {
-                    "page": 1,
+                    "page": 3,
                     "position": "sor",
-                    "rankTime": "2026-11-16T14:31:58-08:00"
+                    "rankTime": "2026-11-19T00:25:04-08:00"
+                  }
+                ],
+                "trafficSummary": {
+                  "traffic": {
+                    "advertising": 0,
+                    "organic": 0,
+                    "total": 0
+                  },
+                  "trafficAcquisitionRate": {
+                    "advertising": "0.000000",
+                    "organic": "0.000000",
+                    "positions": null,
+                    "total": "0.000000"
+                  },
+                  "trafficDistribution": {
+                    "advertising": "0.000000",
+                    "advertisingDistribution": null,
+                    "organic": "0.000000",
+                    "organicDistribution": null,
+                    "positionDistribution": null
+                  },
+                  "trafficRatio": {
+                    "advertising": "0.000000",
+                    "organic": "0.000000",
+                    "total": "0.000000"
+                  }
+                }
+              },
+              {
+                "asin": "B0H7R3MFTH",
+                "country": "US",
+                "ranks": [
+                  {
+                    "page": 3,
+                    "pageRank": 1,
+                    "position": "sp",
+                    "rankTime": "2026-11-18T23:40:32-08:00",
+                    "totalRank": 9
                   }
                 ],
                 "trafficSummary": {
@@ -194374,75 +198506,145 @@
           {
             "alias": null,
             "avgDisplayHours": 1,
-            "avgDisplayHoursChange": 0,
-            "id": "A036982537HY03BV00SYQ",
-            "name": "SP活动-0SYQ",
-            "shareOfParentAdTraffic": 0.6461538461538462,
-            "traffic": 126,
-            "trafficGrowthRate": -0.427273,
+            "id": "A003255732O3XG5BXUT4F",
+            "name": "SP活动-UT4F",
+            "shareOfParentAdTraffic": 0.6106148187073043,
+            "traffic": 2324,
             "type": "sp",
-            "variationCount": 6,
+            "variationCount": 1,
             "variations": [
               {
-                "asin": "B0H7QWT72P",
-                "shareOfCampaignTraffic": 0.30158730158730157,
-                "traffic": 38
-              },
-              {
                 "asin": "B0H7QZ1NNS",
-                "shareOfCampaignTraffic": 0.2619047619047619,
-                "traffic": 33
-              },
-              {
-                "asin": "B0H7R3MFTH",
-                "shareOfCampaignTraffic": 0.16666666666666666,
-                "traffic": 21
-              },
-              {
-                "asin": "B0H7R9RWPD",
-                "shareOfCampaignTraffic": 0.16666666666666666,
-                "traffic": 21
-              },
-              {
-                "asin": "B0H7R2X98W",
-                "shareOfCampaignTraffic": 0.06349206349206349,
-                "traffic": 8
-              },
-              {
-                "asin": "B0H7QXK8B3",
-                "shareOfCampaignTraffic": 0.03968253968253968,
-                "traffic": 5
+                "shareOfCampaignTraffic": 1,
+                "traffic": 2324
               }
             ]
           },
           {
             "alias": null,
             "avgDisplayHours": 0,
-            "avgDisplayHoursChange": -1,
-            "id": "A058352818G2OZ3S6Z6QT",
-            "name": "SP活动-Z6QT",
-            "shareOfParentAdTraffic": 0.15897435897435896,
-            "traffic": 31,
-            "trafficGrowthRate": -0.696078,
+            "id": "A06859071K05BGAV61U10",
+            "name": "SP活动-1U10",
+            "shareOfParentAdTraffic": 0.15160273252758802,
+            "traffic": 577,
             "type": "sp",
             "variationCount": 1,
             "variations": [
               {
                 "asin": "B0H7QTQ86V",
                 "shareOfCampaignTraffic": 1,
-                "traffic": 31
+                "traffic": 577
+              }
+            ]
+          },
+          {
+            "alias": null,
+            "avgDisplayHours": 1,
+            "id": "A036982537HY03BV00SYQ",
+            "name": "SP活动-0SYQ",
+            "shareOfParentAdTraffic": 0.1326852338413032,
+            "traffic": 505,
+            "type": "sp",
+            "variationCount": 7,
+            "variations": [
+              {
+                "asin": "B0H7R2X98W",
+                "shareOfCampaignTraffic": 0.37623762376237624,
+                "traffic": 190
+              },
+              {
+                "asin": "B0H7QZ1NNS",
+                "shareOfCampaignTraffic": 0.27722772277227725,
+                "traffic": 140
+              },
+              {
+                "asin": "B0H7QTQ86V",
+                "shareOfCampaignTraffic": 0.16237623762376238,
+                "traffic": 82
+              },
+              {
+                "asin": "B0H7QWT72P",
+                "shareOfCampaignTraffic": 0.08712871287128712,
+                "traffic": 44
+              },
+              {
+                "asin": "B0H7R3MFTH",
+                "shareOfCampaignTraffic": 0.041584158415841586,
+                "traffic": 21
+              },
+              {
+                "asin": "B0H7R9RWPD",
+                "shareOfCampaignTraffic": 0.041584158415841586,
+                "traffic": 21
+              },
+              {
+                "asin": "B0H7QXK8B3",
+                "shareOfCampaignTraffic": 0.013861386138613862,
+                "traffic": 7
               }
             ]
           },
           {
             "alias": null,
             "avgDisplayHours": 0,
-            "avgDisplayHoursChange": 0,
+            "id": "A01300242QSFQ1NGXKWFL",
+            "name": "SP活动-KWFL",
+            "shareOfParentAdTraffic": 0.04755648975302155,
+            "traffic": 181,
+            "type": "sp",
+            "variationCount": 5,
+            "variations": [
+              {
+                "asin": "B0H7QWT72P",
+                "shareOfCampaignTraffic": 0.8066298342541437,
+                "traffic": 146
+              },
+              {
+                "asin": "B0H7QZ1NNS",
+                "shareOfCampaignTraffic": 0.13259668508287292,
+                "traffic": 24
+              },
+              {
+                "asin": "B0H7R9RWPD",
+                "shareOfCampaignTraffic": 0.03867403314917127,
+                "traffic": 7
+              },
+              {
+                "asin": "B0H7QTQ86V",
+                "shareOfCampaignTraffic": 0.011049723756906077,
+                "traffic": 2
+              },
+              {
+                "asin": "B0H7R3MFTH",
+                "shareOfCampaignTraffic": 0.011049723756906077,
+                "traffic": 2
+              }
+            ]
+          },
+          {
+            "alias": null,
+            "avgDisplayHours": 0,
+            "id": "A058352818G2OZ3S6Z6QT",
+            "name": "SP活动-Z6QT",
+            "shareOfParentAdTraffic": 0.034944823962165,
+            "traffic": 133,
+            "type": "sp",
+            "variationCount": 1,
+            "variations": [
+              {
+                "asin": "B0H7QTQ86V",
+                "shareOfCampaignTraffic": 1,
+                "traffic": 133
+              }
+            ]
+          },
+          {
+            "alias": null,
+            "avgDisplayHours": 0,
             "id": "A034294112T06N7HYD652",
             "name": "SP活动-D652",
-            "shareOfParentAdTraffic": 0.13846153846153847,
+            "shareOfParentAdTraffic": 0.007094062007356805,
             "traffic": 27,
-            "trafficGrowthRate": "infinity",
             "type": "sp",
             "variationCount": 1,
             "variations": [
@@ -194456,23 +198658,84 @@
           {
             "alias": null,
             "avgDisplayHours": 0,
-            "avgDisplayHoursChange": -1,
-            "id": "A01300242QSFQ1NGXKWFL",
-            "name": "SP活动-KWFL",
-            "shareOfParentAdTraffic": 0.05641025641025641,
-            "traffic": 11,
-            "trafficGrowthRate": -0.935294,
+            "id": "A04358191N9T6JL2X3J45",
+            "name": "SP活动-3J45",
+            "shareOfParentAdTraffic": 0.005517603783499738,
+            "traffic": 21,
             "type": "sp",
-            "variationCount": 2,
+            "variationCount": 1,
             "variations": [
               {
-                "asin": "B0H7QZ1NNS",
-                "shareOfCampaignTraffic": 0.8181818181818182,
-                "traffic": 9
-              },
-              {
                 "asin": "B0H7QTQ86V",
-                "shareOfCampaignTraffic": 0.18181818181818182,
+                "shareOfCampaignTraffic": 1,
+                "traffic": 21
+              }
+            ]
+          },
+          {
+            "alias": null,
+            "avgDisplayHours": 0,
+            "id": "A012110038CCTXEJ49N2N",
+            "name": "SP活动-9N2N",
+            "shareOfParentAdTraffic": 0.004729374671571204,
+            "traffic": 18,
+            "type": "sp",
+            "variationCount": 1,
+            "variations": [
+              {
+                "asin": "B0H7QWT72P",
+                "shareOfCampaignTraffic": 1,
+                "traffic": 18
+              }
+            ]
+          },
+          {
+            "alias": null,
+            "avgDisplayHours": 0,
+            "id": "A0974895A3XYTAPIJF8E",
+            "name": "SP活动-JF8E",
+            "shareOfParentAdTraffic": 0.002890173410404624,
+            "traffic": 11,
+            "type": "sp",
+            "variationCount": 1,
+            "variations": [
+              {
+                "asin": "B0H7QWT72P",
+                "shareOfCampaignTraffic": 1,
+                "traffic": 11
+              }
+            ]
+          },
+          {
+            "alias": null,
+            "avgDisplayHours": 0,
+            "id": "A021043112CMCAIJ29R8S",
+            "name": "SP活动-9R8S",
+            "shareOfParentAdTraffic": 0.0018392012611665792,
+            "traffic": 7,
+            "type": "sp",
+            "variationCount": 1,
+            "variations": [
+              {
+                "asin": "B0H7R2X98W",
+                "shareOfCampaignTraffic": 1,
+                "traffic": 7
+              }
+            ]
+          },
+          {
+            "alias": null,
+            "avgDisplayHours": 0,
+            "id": "A0218670SW7XAY00G72E",
+            "name": "SP活动-G72E",
+            "shareOfParentAdTraffic": 0.0005254860746190226,
+            "traffic": 2,
+            "type": "sp",
+            "variationCount": 1,
+            "variations": [
+              {
+                "asin": "B0H7R2X98W",
+                "shareOfCampaignTraffic": 1,
                 "traffic": 2
               }
             ]
@@ -194482,9 +198745,9 @@
         "infoChanges": []
       },
       "quota": {
-        "totalAvailable": 16207,
-        "weeklyRemaining": 16207,
-        "monthlyRemaining": 56207
+        "totalAvailable": 16143,
+        "weeklyRemaining": 16143,
+        "monthlyRemaining": 56143
       }
     }
   }
