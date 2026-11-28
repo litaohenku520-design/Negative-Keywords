@@ -5000,7 +5000,8 @@
         "i phonei phone 16",
         "i phone 16 i phone",
         "i phone 16 i phone 16",
-        "applei phone 16"
+        "applei phone 16",
+        "16"
       ],
       "source": "auto_generated",
       "original_name": "IP16"
@@ -5012,7 +5013,6 @@
         "iphone 16e",
         "iphone16e",
         "ip16e",
-        "e17",
         "16e",
         "apple 16 e",
         "e16",
@@ -5727,7 +5727,8 @@
         "i phone 15 i phone 15",
         "i phone 15magneticcasewithcreditcardslotsanddetachablecase",
         "i phone15 magneticcasewithcreditcardslotsanddetachablecase",
-        "applei phone 15"
+        "applei phone 15",
+        "15"
       ],
       "source": "auto_generated",
       "original_name": "IP15"
@@ -6243,7 +6244,8 @@
         "ipone14 i phonee",
         "i phone 14i phonee",
         "i phone14 i phonee",
-        "applei phone 14"
+        "applei phone 14",
+        "14"
       ],
       "source": "auto_generated",
       "original_name": "IP14"
@@ -10910,7 +10912,8 @@
         "ipone 11i phonee",
         "ipone11 i phonee",
         "i phone 11 i phone 11",
-        "i phone 11 apple"
+        "i phone 11 apple",
+        "11"
       ],
       "source": "auto_generated",
       "original_name": "IP11"
@@ -11394,7 +11397,8 @@
         "i phone 12 i phone 12",
         "applei phone 12pro",
         "applei phone12 pro",
-        "i phone cover 12 case"
+        "i phone cover 12 case",
+        "12"
       ],
       "source": "auto_generated",
       "original_name": "IP12/12Pro"
@@ -11757,7 +11761,8 @@
         "i phone 13i phonee",
         "i phone13 i phonee",
         "suanpoti phone 13",
-        "i phone 13 for suanpot"
+        "i phone 13 for suanpot",
+        "13"
       ],
       "source": "auto_generated",
       "original_name": "IP13"
@@ -12162,7 +12167,8 @@
         "!phone17 i phonee",
         "i phonei phone 17",
         "i phone 17 i phone",
-        "i phone 17 apple"
+        "i phone 17 apple",
+        "17"
       ],
       "source": "auto_generated",
       "original_name": "IP17"
@@ -23317,7 +23323,6 @@
       "name": "IP17E",
       "keywords": [
         "e17",
-        "e16",
         "17e",
         "iphone+17e+phone+case",
         "17 e",
