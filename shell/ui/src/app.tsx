@@ -1,19 +1,23 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Button, ConfigProvider, Flex, Input, Modal, Select, Space, Tag, Tooltip, Typography, message, theme as antdTheme } from 'antd';
+import { Button, ConfigProvider, Drawer, Flex, Input, Modal, Select, Space, Tag, Tooltip, Typography, message, theme as antdTheme } from 'antd';
 import {
   AppstoreOutlined,
   BarChartOutlined,
   CalendarOutlined,
+  ClearOutlined,
   CloudUploadOutlined,
   CompassOutlined,
   DatabaseOutlined,
   LineChartOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  MessageOutlined,
   PlusOutlined,
   RadarChartOutlined,
+  RobotOutlined,
   ScheduleOutlined,
+  SendOutlined,
   ShopOutlined,
   StopOutlined,
 } from '@ant-design/icons';
@@ -119,6 +123,10 @@ function RootApp() {
   const [newStoreMkt, setNewStoreMkt] = useState('US');
   const [newStoreCopyFrom, setNewStoreCopyFrom] = useState('default');
   const [fullBackingUp, setFullBackingUp] = useState(false);
+  const [aiDrawerOpen, setAiDrawerOpen] = useState(false);
+  const [aiInput, setAiInput] = useState('');
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiMessages, setAiMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string; model?: string }>>([]);
 
   const selectModule = (key: ModuleKey) => {
     setActiveKey(key);
@@ -328,6 +336,39 @@ function RootApp() {
 
   const groups = ['工作台主页', '广告工具', '经营与选品'];
   const currentStoreObj = stores.find((s) => s.id === activeStoreId);
+  const activeModObj = MODULES.find((m) => m.key === activeKey);
+
+  const sendAiMessage = useCallback(async (overrideText?: string) => {
+    const content = (overrideText ?? aiInput).trim();
+    if (!content || aiLoading || !window.__MCP_API_FETCH__) return;
+    const nextMsgs = [...aiMessages, { role: 'user' as const, content }];
+    setAiMessages(nextMsgs);
+    if (!overrideText) setAiInput('');
+    setAiLoading(true);
+    try {
+      const res = await window.__MCP_API_FETCH__('/api/gemini-chat', {
+        method: 'POST',
+        body: JSON.stringify({
+          module: activeKey,
+          moduleLabel: activeModObj?.label || activeKey,
+          storeId: activeStoreId,
+          storeName: currentStoreObj?.name || activeStoreId,
+          marketplace: currentStoreObj?.marketplace || 'US',
+          messages: nextMsgs,
+        }),
+        timeoutMs: 60000,
+      });
+      if (res?.error) throw new Error(res.error);
+      setAiMessages((prev) => [
+        ...prev,
+        { role: 'assistant', content: res?.reply || '（无返回内容）', model: res?.model },
+      ]);
+    } catch (err: any) {
+      message.error(`Gemini 助手请求失败: ${err?.message || err}`);
+    } finally {
+      setAiLoading(false);
+    }
+  }, [activeKey, activeModObj?.label, activeStoreId, aiInput, aiLoading, aiMessages, currentStoreObj?.marketplace, currentStoreObj?.name]);
 
   return (
     <ErrorBoundary>
@@ -520,34 +561,56 @@ function RootApp() {
               })}
             </div>
 
-            {/* 底部全量备份按钮 (GitHub + 谷歌云盘) */}
-            <div style={{ padding: collapsed ? '8px 6px' : '10px 10px', borderTop: '1px solid var(--neg-border)' }}>
+            {/* 底部 Gemini AI 助手 + 全量备份按钮 */}
+            <Flex vertical gap={6} style={{ padding: collapsed ? '8px 6px' : '10px 10px', borderTop: '1px solid var(--neg-border)' }}>
               {collapsed ? (
-                <Tooltip title="全量保存至 GitHub & 谷歌云盘" placement="right">
+                <>
+                  <Tooltip title="Gemini AI 助手（分析/检查）" placement="right">
+                    <Button
+                      size="small"
+                      type="primary"
+                      icon={<RobotOutlined />}
+                      style={{ width: '100%' }}
+                      onClick={() => setAiDrawerOpen(true)}
+                    />
+                  </Tooltip>
+                  <Tooltip title="全量保存至 GitHub & 谷歌云盘" placement="right">
+                    <Button
+                      size="small"
+                      type="primary"
+                      ghost
+                      loading={fullBackingUp}
+                      icon={<CloudUploadOutlined />}
+                      style={{ width: '100%' }}
+                      onClick={() => { void handleFullBackup(); }}
+                    />
+                  </Tooltip>
+                </>
+              ) : (
+                <>
+                  <Button
+                    size="small"
+                    type="primary"
+                    block
+                    icon={<RobotOutlined />}
+                    onClick={() => setAiDrawerOpen(true)}
+                  >
+                    Gemini AI 助手
+                  </Button>
                   <Button
                     size="small"
                     type="primary"
                     ghost
+                    block
                     loading={fullBackingUp}
                     icon={<CloudUploadOutlined />}
-                    style={{ width: '100%' }}
                     onClick={() => { void handleFullBackup(); }}
-                  />
-                </Tooltip>
-              ) : (
-                <Button
-                  size="small"
-                  type="primary"
-                  ghost
-                  block
-                  loading={fullBackingUp}
-                  icon={<CloudUploadOutlined />}
-                  onClick={() => { void handleFullBackup(); }}
-                >
-                  全量保存 (GitHub+云盘)
-                </Button>
+                  >
+                    全量保存 (GitHub+云盘)
+                  </Button>
+                </>
               )}
-            </div>
+            </Flex>
           </aside>
 
           {/* 右侧主内容区 */}
@@ -637,6 +700,121 @@ function RootApp() {
             </div>
           </Space>
         </Modal>
+
+        {/* 全局 Gemini AI 对话框（全模块通用：分析、检查与问答） */}
+        <Drawer
+          title={
+            <Flex align="center" justify="space-between" style={{ width: '100%' }}>
+              <Space size={6}>
+                <RobotOutlined style={{ color: '#2563eb' }} />
+                <span>Gemini AI 助手</span>
+                <Tag color="blue" style={{ margin: 0 }}>{activeModObj?.label || activeKey}</Tag>
+                <Tag color="geekblue" style={{ margin: 0 }}>{currentStoreObj?.name || activeStoreId}</Tag>
+              </Space>
+              <Button
+                size="small"
+                type="text"
+                icon={<ClearOutlined />}
+                onClick={() => setAiMessages([])}
+                disabled={aiMessages.length === 0}
+              >
+                清空
+              </Button>
+            </Flex>
+          }
+          placement="right"
+          width={460}
+          mask={false}
+          open={aiDrawerOpen}
+          onClose={() => setAiDrawerOpen(false)}
+          styles={{ body: { display: 'flex', flexDirection: 'column', padding: 12, gap: 10 } }}
+        >
+          <Flex gap={6} wrap="wrap">
+            {[
+              `分析当前「${activeModObj?.label || activeKey}」的数据与核心问题`,
+              '检查当前店铺配置与规则是否有错误或遗漏',
+              '给出下一步可执行的优化行动清单',
+            ].map((q) => (
+              <Button
+                key={q}
+                size="small"
+                style={{ fontSize: 11 }}
+                disabled={aiLoading}
+                onClick={() => { void sendAiMessage(q); }}
+              >
+                {q}
+              </Button>
+            ))}
+          </Flex>
+
+          <div
+            style={{
+              flex: 1,
+              overflowY: 'auto',
+              border: '1px solid var(--neg-border)',
+              borderRadius: 8,
+              padding: 10,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 10,
+              background: isDark ? '#141414' : '#fafafa',
+            }}
+          >
+            {aiMessages.length === 0 ? (
+              <Text type="secondary" style={{ fontSize: 12 }}>
+                已关联当前模块「{activeModObj?.label}」与店铺「{currentStoreObj?.name || activeStoreId}」。你可以直接提问、粘贴数据/搜索词让我检查，或点击上方快捷指令开始。
+              </Text>
+            ) : (
+              aiMessages.map((m, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    alignSelf: m.role === 'user' ? 'flex-end' : 'flex-start',
+                    maxWidth: '90%',
+                    padding: '8px 10px',
+                    borderRadius: 8,
+                    fontSize: 13,
+                    whiteSpace: 'pre-wrap',
+                    lineHeight: 1.55,
+                    background: m.role === 'user'
+                      ? '#2563eb'
+                      : (isDark ? '#1f2937' : '#ffffff'),
+                    color: m.role === 'user' ? '#ffffff' : 'inherit',
+                    border: m.role === 'user' ? 'none' : '1px solid var(--neg-border)',
+                  }}
+                >
+                  {m.content}
+                </div>
+              ))
+            )}
+            {aiLoading && (
+              <Text type="secondary" style={{ fontSize: 12 }}>Gemini 正在分析中...</Text>
+            )}
+          </div>
+
+          <Flex gap={8} align="flex-end">
+            <Input.TextArea
+              value={aiInput}
+              onChange={(e) => setAiInput(e.target.value)}
+              placeholder="输入要分析、检查的问题，或粘贴搜索词/数据（Enter 发送，Shift+Enter 换行）"
+              autoSize={{ minRows: 2, maxRows: 5 }}
+              onPressEnter={(e) => {
+                if (!e.shiftKey) {
+                  e.preventDefault();
+                  void sendAiMessage();
+                }
+              }}
+            />
+            <Button
+              type="primary"
+              icon={<SendOutlined />}
+              loading={aiLoading}
+              onClick={() => { void sendAiMessage(); }}
+            >
+              发送
+            </Button>
+          </Flex>
+        </Drawer>
       </ConfigProvider>
     </ErrorBoundary>
   );

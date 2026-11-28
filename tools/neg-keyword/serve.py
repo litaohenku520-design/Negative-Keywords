@@ -1776,6 +1776,128 @@ def serve_mode():
                     'false_deny_count': len(false_denies),
                     'results': merged_results,
                 })
+            elif self.path == '/api/gemini-chat':
+                import urllib.request
+                import urllib.error
+                content_length = int(self.headers.get('Content-Length', 0))
+                raw_body = self.rfile.read(content_length).decode('utf-8-sig') if content_length else '{}'
+                try:
+                    data = json.loads(raw_body) if raw_body.strip() else {}
+                except json.JSONDecodeError as e:
+                    self._json_response({'error': f'Invalid JSON: {e}'}, 400)
+                    return
+
+                api_cfg = load_api_config() or {}
+                api_key = (data.get('api_key') or api_cfg.get('gemini_api_key') or '').strip()
+                if not api_key:
+                    self._json_response({'error': '未配置 Gemini API Key，请先在 api_config.json 中配置'}, 400)
+                    return
+
+                messages = data.get('messages') or []
+                if not isinstance(messages, list) or not messages:
+                    self._json_response({'error': '消息不能为空'}, 400)
+                    return
+
+                module_key = str(data.get('module') or 'planner')
+                module_label = str(data.get('moduleLabel') or module_key)
+                store_id = str(data.get('storeId') or get_stores_state().get('active_store_id') or 'default')
+                store_name = str(data.get('storeName') or store_id)
+                marketplace = str(data.get('marketplace') or 'US')
+                extra_ctx = str(data.get('extraContext') or '')[:3000]
+
+                # 采集当前模块与店铺的轻量实时上下文摘要
+                plugin_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+                ctx_lines = [
+                    f"当前模块: {module_label} ({module_key})",
+                    f"当前店铺: {store_name} (ID={store_id}, 站点={marketplace})",
+                ]
+                try:
+                    if module_key == 'neg':
+                        ctx_lines.append(
+                            f"否词共享规则: 机型组 {len(app.model_groups)} 个, 品牌否词 {len(app.deny_brands)} 个, "
+                            f"型号否词 {len(app.deny_models)} 个, 当前店铺 Campaign ID 映射 {len(app.campaign_id_mappings)} 条"
+                        )
+                    elif module_key == 'planner':
+                        pfile = (
+                            os.path.join(plugin_root, 'tools', 'ops-planner', 'server', 'data', 'planner_data.json')
+                            if store_id == 'default'
+                            else os.path.join(plugin_root, 'tools', 'ops-planner', 'server', 'data', 'stores', store_id, 'planner_data.json')
+                        )
+                        if os.path.exists(pfile):
+                            pd = json.load(open(pfile, encoding='utf-8'))
+                            tasks = pd.get('tasks', [])
+                            okrs = pd.get('okrs', [])
+                            top_tasks = [f"- [{t.get('status','')}] {t.get('title','')}" for t in tasks[:15]]
+                            ctx_lines.append(f"运营计划: 共 {len(tasks)} 条任务, {len(okrs)} 条 OKR。\n最近任务:\n" + "\n".join(top_tasks))
+                    elif module_key == 'weekly-planner':
+                        wp_dir = (
+                            os.path.join(plugin_root, 'tools', 'weekly-planner', 'server', 'data')
+                            if store_id == 'default'
+                            else os.path.join(plugin_root, 'tools', 'weekly-planner', 'server', 'data', 'stores', store_id)
+                        )
+                        wp_file = os.path.join(wp_dir, 'upbestks_data.json')
+                        if os.path.exists(wp_file):
+                            wd = json.load(open(wp_file, encoding='utf-8'))
+                            ctx_lines.append(f"周广告复盘数据: d7={len(wd.get('d7',[]))} 行, d14={len(wd.get('d14',[]))} 行, auto_up={len(wd.get('auto_up',[]))} 行")
+                        else:
+                            ctx_lines.append("周广告复盘数据: 当前店铺暂无数据")
+                    elif module_key == 'ad-scout':
+                        ad_file = os.path.join(plugin_root, 'tools', 'ad-scout', 'server', 'data', 'stores', store_id, 'ad_analytics.json')
+                        if os.path.exists(ad_file):
+                            ad = json.load(open(ad_file, encoding='utf-8'))
+                            ctx_lines.append(f"广告数据汇总: meta={json.dumps(ad.get('meta',{}), ensure_ascii=False)}, summary={json.dumps(ad.get('summary',{}), ensure_ascii=False)}")
+                        else:
+                            ctx_lines.append("广告数据汇总: 当前店铺暂无数据")
+                except Exception as _ce:
+                    ctx_lines.append(f"(上下文读取提示: {_ce})")
+
+                if extra_ctx:
+                    ctx_lines.append(f"前端附加信息:\n{extra_ctx}")
+
+                system_text = (
+                    "你是 Discover amzn 亚马逊全能运营工作台的内置 Gemini AI 专家助手。\n"
+                    "你可以针对用户当前所在的模块与店铺进行数据分析、规则检查、异常排查、广告出价/否词建议、选品/补货诊断等任何工作。\n"
+                    "请用简洁、结构化、可直接落地的中文回答。\n\n"
+                    + "\n".join(ctx_lines)
+                )
+
+                gemini_contents = []
+                for msg in messages[-16:]:
+                    role = 'model' if msg.get('role') == 'assistant' else 'user'
+                    text = str(msg.get('content') or '').strip()
+                    if text:
+                        gemini_contents.append({'role': role, 'parts': [{'text': text}]})
+
+                preferred_model = str(data.get('model') or api_cfg.get('gemini_model') or 'gemini-3-flash-preview').strip()
+                models_to_try = [preferred_model] + [m for m in ('gemini-3-flash-preview', 'gemini-flash-latest', 'gemini-2.5-flash-lite') if m != preferred_model]
+
+                last_err = ''
+                reply_text = None
+                used_model = preferred_model
+                for mname in models_to_try:
+                    url = f"https://generativelanguage.googleapis.com/v1beta/models/{mname}:generateContent?key={api_key}"
+                    req_body = json.dumps({
+                        'systemInstruction': {'parts': [{'text': system_text}]},
+                        'contents': gemini_contents,
+                        'generationConfig': {'temperature': 0.3},
+                    }, ensure_ascii=False).encode('utf-8')
+                    req = urllib.request.Request(url, data=req_body, headers={'Content-Type': 'application/json'}, method='POST')
+                    try:
+                        with urllib.request.urlopen(req, timeout=45) as resp:
+                            resp_json = json.loads(resp.read().decode('utf-8'))
+                        reply_text = resp_json['candidates'][0]['content']['parts'][0]['text'].strip()
+                        used_model = mname
+                        break
+                    except urllib.error.HTTPError as e:
+                        last_err = f"HTTP {e.code}: {e.read().decode('utf-8', errors='replace')[:200]}"
+                    except Exception as e:
+                        last_err = str(e)
+
+                if reply_text is None:
+                    self._json_response({'error': f'Gemini 对话失败: {last_err}'}, 502)
+                    return
+
+                self._json_response({'status': 'ok', 'model': used_model, 'reply': reply_text})
             elif self.path == '/api/sync-config':
                 sync_started = time.perf_counter()
                 synced = []
