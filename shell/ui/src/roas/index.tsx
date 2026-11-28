@@ -545,6 +545,117 @@ const PresetColorPicker: React.FC<{
 
 // ========== 主组件 ==========
 
+const ABA_LEVELS: { label: string; min: number; max: number; color: string; zh: string }[] = [
+  { label: '1-10000', min: 1, max: 10000, color: '#f5222d', zh: '顶级词' },
+  { label: '10001-30000', min: 10001, max: 30000, color: '#fa8c16', zh: '优势词' },
+  { label: '30001-50000', min: 30001, max: 50000, color: '#faad14', zh: '潜力词' },
+  { label: '50001-70000', min: 50001, max: 70000, color: '#52c41a', zh: '观察词' },
+  { label: '70001-100000', min: 70001, max: 100000, color: '#13c2c2', zh: '长尾词' },
+  { label: '100001-200000', min: 100001, max: 200000, color: '#722ed1', zh: '长尾词+' },
+];
+const ABA_NO_RANK_COLOR = '#d9d9d9';
+const ABA_RANGE_LIMIT = 200000;
+const ABA_RANK_HEADER = 'ABA搜索频率排名';
+const ABA_STAGE_HEADER = 'ABA排名阶段';
+
+function abaLevelOf(rank: number) {
+  if (!rank || rank <= 0 || rank > ABA_RANGE_LIMIT) return null;
+  return ABA_LEVELS.find((lv) => rank >= lv.min && rank <= lv.max) || null;
+}
+
+function normalizeAbaKeyword(value: unknown): string {
+  return String(value ?? '').normalize('NFKC').trim().toLowerCase().replace(/\s+/g, ' ');
+}
+
+function normalizeAbaHeader(value: unknown): string {
+  return String(value ?? '').normalize('NFKC').trim().toLowerCase().replace(/[\s_\-:：()（）]/g, '');
+}
+
+function isAbaRankHeader(value: unknown): boolean {
+  const h = normalizeAbaHeader(value);
+  return h.includes('搜索频率排名') || h.includes('searchfrequencyrank') || h === 'rank' || h === '排名';
+}
+
+function isAbaKeywordHeader(value: unknown): boolean {
+  const h = normalizeAbaHeader(value);
+  return !isAbaRankHeader(h) && (h.includes('搜索词') || h.includes('searchterm') || h.includes('customersearchterm') || h.includes('keyword'));
+}
+
+function findAbaHeaderPair(rows: any[][]): { headerRow: number; rankCol: number; keywordCol: number } | null {
+  for (let ri = 0; ri < Math.min(rows.length, 30); ri++) {
+    const row = Array.isArray(rows[ri]) ? rows[ri] : [];
+    const rankCol = row.findIndex(isAbaRankHeader);
+    const keywordCol = row.findIndex(isAbaKeywordHeader);
+    if (rankCol >= 0 && keywordCol >= 0 && rankCol !== keywordCol) return { headerRow: ri, rankCol, keywordCol };
+  }
+  return null;
+}
+
+function parseAbaRank(value: unknown): number | null {
+  const raw = String(value ?? '').trim().replace(/[#,，,\s]/g, '');
+  if (!raw) return null;
+  const rank = Number(raw);
+  return Number.isFinite(rank) && rank > 0 ? Math.trunc(rank) : null;
+}
+
+function findReportKeywordColumn(headers: any[]): number {
+  return Array.isArray(headers) ? headers.findIndex(isAbaKeywordHeader) : -1;
+}
+
+function resolveAbaKeywordColumn(headers: any[], preferredHeader: unknown, fallbackCol: number): number {
+  if (!Array.isArray(headers)) return -1;
+  const preferred = normalizeAbaHeader(preferredHeader);
+  if (preferred) {
+    const sameHeader = headers.findIndex((header) => normalizeAbaHeader(header) === preferred);
+    if (sameHeader >= 0) return sameHeader;
+  }
+  const detected = findReportKeywordColumn(headers);
+  if (detected >= 0) return detected;
+  return fallbackCol >= 0 && fallbackCol < headers.length ? fallbackCol : -1;
+}
+
+function insertAbaRankingColumns(
+  rows: any[][],
+  keywordCol: number,
+  rankMap: Map<string, number>,
+  columnColors?: (string | undefined)[],
+): { rows: any[][]; matched: number; insertAt: number; columnColors?: (string | undefined)[] } {
+  if (!Array.isArray(rows) || rows.length === 0 || !Array.isArray(rows[0])) {
+    return { rows, matched: 0, insertAt: 0, columnColors };
+  }
+
+  // 重新合并旧结果时先移除已有 ABA 列，避免重复插入。
+  const oldAbaCols = new Set<number>();
+  rows[0].forEach((cell, ci) => {
+    const name = String(cell ?? '').trim();
+    if ([ABA_RANK_HEADER, ABA_STAGE_HEADER, 'ABA排名', 'ABA阶段'].includes(name)) oldAbaCols.add(ci);
+  });
+  const removedBeforeKeyword = [...oldAbaCols].filter((ci) => ci < keywordCol).length;
+  const baseRows = rows.map((row) => row.filter((_, ci) => !oldAbaCols.has(ci)));
+  const baseColors = columnColors?.filter((_, ci) => !oldAbaCols.has(ci));
+  const targetKeywordCol = Math.min(
+    Math.max(0, keywordCol - removedBeforeKeyword),
+    Math.max(0, baseRows[0].length - 1),
+  );
+  const insertAt = targetKeywordCol + 1;
+  let matched = 0;
+  const rankedRows = baseRows.map((row, ri) => {
+    const next = [...row];
+    if (ri === 0) {
+      next.splice(insertAt, 0, ABA_RANK_HEADER, ABA_STAGE_HEADER);
+      return next;
+    }
+    const keyword = normalizeAbaKeyword(row[targetKeywordCol]);
+    const rank = keyword ? rankMap.get(keyword) : undefined;
+    const stage = rank ? (abaLevelOf(rank)?.label || '20万+') : '未上榜';
+    if (rank) matched++;
+    next.splice(insertAt, 0, rank || '', stage);
+    return next;
+  });
+  if (baseColors) baseColors.splice(insertAt, 0, '#D9EAFD', '#E2F0D9');
+  return { rows: rankedRows, matched, insertAt, columnColors: baseColors };
+}
+
 const RoasMerge: React.FC = () => {
   const navigate = useNavigate();
   const { stores, activeStore, activeShopKey, switchStore } = useStore();
@@ -590,30 +701,19 @@ const RoasMerge: React.FC = () => {
   // abaRankMap: keyword → 排名数字（来自导入的 ABA 排名 Excel）
   const [abaRankMap, setAbaRankMap] = useState<Map<string, number>>(new Map());
   const [abaFileName, setAbaFileName] = useState<string>('');
-  const [abaKeywordCol, setAbaKeywordCol] = useState<number>(2); // 主报告中关键词所在列（0-based，默认第3列）
+  const [abaDetectedColumns, setAbaDetectedColumns] = useState<{ rank: string; keyword: string } | null>(null);
+  const [abaKeywordCol, setAbaKeywordCol] = useState<number | null>(null); // null = 按主报告表头自动识别
   const [abaShowInReport, setAbaShowInReport] = useState<boolean>(true); // 合并报告中是否包含 ABA 排名列
   const [abaImporting, setAbaImporting] = useState(false);
-
-  // ABA 排名阶段颜色（1-1万 / 1-3万 / 3-5万 / 5-7万 / 7-10万 / 10-20万 / 20万+）
-  const ABA_LEVELS: { label: string; min: number; max: number; color: string; zh: string }[] = [
-    { label: '1-10000', min: 1, max: 10000, color: '#f5222d', zh: '顶级词' },
-    { label: '10001-30000', min: 10001, max: 30000, color: '#fa8c16', zh: '优势词' },
-    { label: '30001-50000', min: 30001, max: 50000, color: '#faad14', zh: '潜力词' },
-    { label: '50001-70000', min: 50001, max: 70000, color: '#52c41a', zh: '观察词' },
-    { label: '70001-100000', min: 70001, max: 100000, color: '#13c2c2', zh: '长尾词' },
-    { label: '100001-200000', min: 100001, max: 200000, color: '#722ed1', zh: '长尾词+' },
-  ];
-  const ABA_NO_RANK_COLOR = '#d9d9d9'; // 未在 ABA 排名中的颜色（灰色）
-  const ABA_RANGE_LIMIT = 200000; // 只标到 20 万，更高的视为未上榜
-
-  /** 根据 ABA 排名返回颜色与阶段标签 */
-  const abaLevelOf = (rank: number): { color: string; label: string; zh: string } | null => {
-    if (!rank || rank <= 0 || rank > ABA_RANGE_LIMIT) return null;
-    for (const lv of ABA_LEVELS) {
-      if (rank >= lv.min && rank <= lv.max) return { color: lv.color, label: lv.label, zh: lv.zh };
-    }
-    return null;
-  };
+  const abaTargetHeaders = (reports[mainIdx]?.data?.[0] || []) as any[];
+  const detectedAbaTargetCol = findReportKeywordColumn(abaTargetHeaders);
+  const effectiveAbaKeywordCol = abaKeywordCol ?? (detectedAbaTargetCol >= 0 ? detectedAbaTargetCol : 2);
+  const abaKeywordColOptions = abaTargetHeaders.length
+    ? abaTargetHeaders.map((header, ci) => ({
+        value: ci,
+        label: `${colIndexToLetter(ci)} · ${String(header ?? '').trim() || `列${ci + 1}`}`,
+      }))
+    : Array.from({ length: 26 }, (_, ci) => ({ value: ci, label: `${colIndexToLetter(ci)} · 第${ci + 1}列` }));
 
   // 判定规则模板（用户可在「匹配设置」内预设 / 保存 / 勾选生效；null=内置默认规则）
   const [judgeTemplates, setJudgeTemplates] = useState<JudgeTemplate[]>([]);
@@ -836,6 +936,10 @@ const RoasMerge: React.FC = () => {
     setReports([]);
     setPreviewData(null);
     setMergeLog([]);
+    setAbaRankMap(new Map());
+    setAbaFileName('');
+    setAbaDetectedColumns(null);
+    setAbaKeywordCol(null);
     message.info(`已切换到店铺: ${activeStore?.storeName || activeShopKey}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeShopKey, stores.length]);
@@ -1299,31 +1403,49 @@ const RoasMerge: React.FC = () => {
     try {
       const buf = await file.arrayBuffer();
       const wb = XLSX.read(buf, { type: 'array' });
-      const ws = wb.Sheets[wb.SheetNames[0]];
-      // 搜索词.xlsx 格式：第1行是元数据，第2行开始是 [排名, 搜索词]
-      const rows = XLSX.utils.sheet_to_json<any[]>(ws, { header: 1 });
+      const sheetName = wb.SheetNames.find((name) => !!wb.Sheets[name]) || wb.SheetNames[0];
+      const ws = sheetName ? wb.Sheets[sheetName] : undefined;
+      if (!ws) throw new Error('工作簿中没有可读取的工作表');
+      const rows = XLSX.utils.sheet_to_json<any[]>(ws, { header: 1, defval: '' });
+      if (rows.length === 0) throw new Error('工作表为空');
+
+      let columns = findAbaHeaderPair(rows);
+      const hasHeader = !!columns;
+      if (!columns) {
+        // 无标准表头时，兼容 rank | search term 两列数据，自动找首个数字排名和相邻文本列。
+        for (let ri = 0; ri < Math.min(rows.length, 30); ri++) {
+          const row = Array.isArray(rows[ri]) ? rows[ri] : [];
+          const rankCol = row.findIndex((cell) => parseAbaRank(cell) !== null);
+          if (rankCol < 0) continue;
+          const keywordCol = row.findIndex((cell, ci) => ci !== rankCol && parseAbaRank(cell) === null && normalizeAbaKeyword(cell) !== '');
+          if (keywordCol >= 0) {
+            columns = { headerRow: ri - 1, rankCol, keywordCol };
+            break;
+          }
+        }
+      }
+      if (!columns) throw new Error('未识别到“排名”和“搜索词”列，请检查 ABA 文件表头或数据格式');
+
       const rankMap = new Map<string, number>();
-      let startRow = 0;
-      // 跳过元数据行，找到第一行是数字（排名）的数据
-      for (let i = 0; i < rows.length; i++) {
-        const val = rows[i]?.[0];
-        if (val !== undefined && val !== null && !isNaN(Number(val)) && Number(val) > 0 && String(rows[i]?.[1] || '').trim()) {
-          startRow = i;
-          break;
-        }
+      let duplicates = 0;
+      const firstDataRow = Math.max(columns.headerRow + 1, 0);
+      for (let ri = firstDataRow; ri < rows.length; ri++) {
+        const row = rows[ri] || [];
+        const rank = parseAbaRank(row[columns.rankCol]);
+        const keyword = normalizeAbaKeyword(row[columns.keywordCol]);
+        if (rank === null || !keyword) continue;
+        if (rankMap.has(keyword)) duplicates++;
+        rankMap.set(keyword, rank);
       }
-      let count = 0;
-      for (let i = startRow; i < rows.length; i++) {
-        const rank = parseInt(rows[i]?.[0], 10);
-        const keyword = String(rows[i]?.[1] || '').trim().toLowerCase();
-        if (!isNaN(rank) && rank > 0 && keyword) {
-          rankMap.set(keyword, rank);
-          count++;
-        }
-      }
+      if (rankMap.size === 0) throw new Error('没有找到有效的“排名 + 搜索词”数据行');
+
+      const labelAt = (col: number) => hasHeader
+        ? (String(rows[Math.max(columns!.headerRow, 0)]?.[col] ?? '').trim() || `${colIndexToLetter(col)}列`)
+        : `${colIndexToLetter(col)}列`;
       setAbaRankMap(rankMap);
       setAbaFileName(file.name);
-      message.success(`ABA 搜索词排名导入成功：${count} 个关键词（${file.name}）`);
+      setAbaDetectedColumns({ rank: labelAt(columns.rankCol), keyword: labelAt(columns.keywordCol) });
+      message.success(`ABA 搜索词排名导入成功：${rankMap.size} 个词${duplicates ? `，重复 ${duplicates} 行取最后值` : ''}（${file.name}）`);
     } catch (e: any) {
       message.error('ABA 排名导入失败：' + e.message);
     } finally {
@@ -1336,6 +1458,7 @@ const RoasMerge: React.FC = () => {
   const handleClearAba = () => {
     setAbaRankMap(new Map());
     setAbaFileName('');
+    setAbaDetectedColumns(null);
     message.info('ABA 排名数据已清空');
   };
 
@@ -1375,6 +1498,10 @@ const RoasMerge: React.FC = () => {
     try {
       const main = reports[mainIdx];
       const extras = reports.filter((_, i) => i !== mainIdx);
+      const includeAbaRanks = abaRankMap.size > 0 && abaShowInReport;
+      if (includeAbaRanks && effectiveAbaKeywordCol >= (main.data[0]?.length || 0)) {
+        throw new Error(`ABA 搜索词列 ${colIndexToLetter(effectiveAbaKeywordCol)} 超出主报告列数，请重新选择搜索词列`);
+      }
 
       log(`🔃 主报告: ${main.name} (${main.dayLabel}天)`);
       log(`📊 主报告: ${main.data.length} 行 x ${main.data[0]?.length || 0} 列`);
@@ -1393,26 +1520,12 @@ const RoasMerge: React.FC = () => {
       // 回放核心日志，保持与之前一致的可见执行过程
       res.logs.forEach((line) => log(line));
 
-      setPreviewData(res.resultRows);
-      // ── ABA 搜索词排名标注（若已导入）──
-      if (abaRankMap.size > 0 && abaShowInReport) {
-        const resultRows = res.resultRows;
-        const header = resultRows[0];
-        // 添加 ABA 排名列和阶段列
-        const abaRankColIdx = header.length;
-        const abaLevelColIdx = header.length + 1;
-        header.push('ABA排名', 'ABA阶段');
-        for (let i = 1; i < resultRows.length; i++) {
-          const keyword = String(resultRows[i][abaKeywordCol] || '').trim().toLowerCase();
-          const rank = abaRankMap.get(keyword) || 0;
-          if (rank > 0 && rank <= ABA_RANGE_LIMIT) {
-            resultRows[i].push(rank, abaLevelOf(rank)?.label || '');
-          } else {
-            resultRows[i].push(rank > 0 ? rank : 0, rank > 0 ? '20万+' : '未上榜');
-          }
-        }
-        setPreviewData([...resultRows]); // 强制更新引用
-        log(`📊 ABA 排名标注：已匹配 ${resultRows.slice(1).filter(r => r[abaRankColIdx] > 0).length} 个关键词`);
+      const abaPreview = includeAbaRanks
+        ? insertAbaRankingColumns(res.resultRows, effectiveAbaKeywordCol, abaRankMap)
+        : null;
+      setPreviewData(abaPreview?.rows || res.resultRows);
+      if (abaPreview) {
+        log(`📊 ABA 排名标注：匹配 ${abaPreview.matched}/${Math.max(0, res.resultRows.length - 1)} 行；排名列已插入搜索词列后`);
       }
       // 全域自检：追加列数据真实性（未匹配/非数值/负值/异常大值）
       setSelfCheck(computeSelfCheck(res.resultRows, extras.length, appendCols));
@@ -1467,7 +1580,22 @@ const RoasMerge: React.FC = () => {
         sheet.logs.forEach((l) => log(l));
         const c = sheet.counts;
         log(`  📊 ${CAMPAIGN_LABELS[type]} 判定：极差 ${c['极差']} / 差 ${c['差']} / 较差 ${c['较差']} / 正常 ${c['正常']} / 数据不足 ${c['数据不足']}`);
-        builtSheets.push(sheet);
+        if (includeAbaRanks) {
+          const groupKeywordCol = resolveAbaKeywordColumn(
+            grp[localMain].data[0] || [],
+            abaTargetHeaders[effectiveAbaKeywordCol],
+            effectiveAbaKeywordCol,
+          );
+          if (groupKeywordCol >= 0) {
+            const ranked = insertAbaRankingColumns(sheet.rows, groupKeywordCol, abaRankMap, sheet.columnColors);
+            builtSheets.push({ ...sheet, rows: ranked.rows, columnColors: ranked.columnColors });
+          } else {
+            log(`  ⚠️ ${CAMPAIGN_LABELS[type]}：未识别搜索词列，ABA 排名未加入此 Sheet`);
+            builtSheets.push(sheet);
+          }
+        } else {
+          builtSheets.push(sheet);
+        }
       });
       setSheets(builtSheets);
       setActiveSheet(0);
@@ -1490,7 +1618,7 @@ const RoasMerge: React.FC = () => {
     } finally {
       setMerging(false);
     }
-  }, [reports, mainIdx, keyCols, matchMode, minMatchN, requiredCols, appendCols]);
+  }, [reports, mainIdx, keyCols, matchMode, minMatchN, requiredCols, appendCols, abaRankMap, abaShowInReport, effectiveAbaKeywordCol]);
 
   // 手动重新执行全域自检（合并后会自动跑一次）
   const runSelfCheck = useCallback(() => {
@@ -1572,6 +1700,22 @@ const RoasMerge: React.FC = () => {
               if (cell) {
                 cell.s = { ...(cell.s || {}), fill: { fgColor: { rgb: bg.replace('#', '').toUpperCase() } } };
               }
+            }
+          }
+          const abaStageColIdx = header.findIndex((h: any) => String(h ?? '') === ABA_STAGE_HEADER);
+          if (abaStageColIdx >= 0) {
+            const stageLabel = String(rowsToWrite[r][abaStageColIdx] ?? '');
+            const stageColor = ABA_LEVELS.find((lv) => lv.label === stageLabel)?.color
+              || (stageLabel === '未上榜' ? ABA_NO_RANK_COLOR : '#E2F0D9');
+            const stageRef = XLSX.utils.encode_cell({ r, c: abaStageColIdx });
+            const stageCell = ws[stageRef];
+            if (stageCell) {
+              stageCell.s = {
+                ...(stageCell.s || {}),
+                fill: { fgColor: { rgb: stageColor.replace('#', '').toUpperCase() } },
+                font: { ...(stageCell.s?.font || {}), color: { rgb: '000000' } },
+                alignment: { horizontal: 'center' },
+              };
             }
           }
           // 判定等级列按颜色填充（较深色配白字，黄色配黑字保证可读）
@@ -1662,9 +1806,15 @@ const RoasMerge: React.FC = () => {
     return header.map((h: any, ci: number) => {
       const hStr = String(h ?? `列${ci}`);
       const m = hStr.match(/^\((\d+)天\)/);
+      const isAbaRank = hStr === ABA_RANK_HEADER;
+      const isAbaStage = hStr === ABA_STAGE_HEADER;
       let bgColor: string | undefined;
       let isMainRoas = false;
-      if (m) {
+      if (isAbaRank) {
+        bgColor = '#D9EAFD';
+      } else if (isAbaStage) {
+        bgColor = '#E2F0D9';
+      } else if (m) {
         const d = m[1];
         const isMainCol = d === mainDayLabel && hStr.includes('ROAS');
         if (isMainCol) {
@@ -1691,8 +1841,15 @@ const RoasMerge: React.FC = () => {
       return {
         title: <span style={bgColor ? { backgroundColor: bgColor, padding: '2px 8px', borderRadius: 3, fontWeight: m ? 700 : 700 } : { fontWeight: 700 }}>{hStr}</span>,
         dataIndex: `c${ci}`,
-        width: m ? 130 : 120,
-        render: (v: any) => v ?? '',
+        width: m || isAbaRank || isAbaStage ? 150 : 120,
+        render: (v: any) => {
+          if (isAbaStage && v) {
+            const stage = ABA_LEVELS.find((lv) => lv.label === v);
+            const color = stage?.color || (v === '未上榜' ? ABA_NO_RANK_COLOR : '#722ed1');
+            return <Tag color={color} style={{ color: '#fff' }}>{v}</Tag>;
+          }
+          return v ?? '';
+        },
         onCell: () => (bgColor ? { style: { backgroundColor: bgColor } } : {}),
       };
     });
@@ -1718,13 +1875,15 @@ const RoasMerge: React.FC = () => {
       const isRule = ci === ruleColIdx;
       const isAction = ci === actionColIdx;
       const hStr = String(h ?? `列${ci}`);
+      const isAbaRank = hStr === ABA_RANK_HEADER;
+      const isAbaStage = hStr === ABA_STAGE_HEADER;
       const isPercent = /ctr|点击率/i.test(hStr);
       const isMoney = /花费|spend|cost/i.test(hStr);
-      const isNumericCol = !isLevel && !isRule && !isAction && /^(?:\((\d+)天\))?(花费|订单|ROAS|CTR|点击率)/i.test(hStr);
+      const isNumericCol = !isLevel && !isRule && !isAction && (isAbaRank || /^(?:\((\d+)天\))?(花费|订单|ROAS|CTR|点击率)/i.test(hStr));
       return {
         title: <span style={{ fontWeight: 700 }}>{hStr}</span>,
         dataIndex: `c${ci}`,
-        width: (isLevel || isAction) ? 150 : 120,
+        width: (isLevel || isAction || isAbaRank || isAbaStage) ? 150 : 120,
         ellipsis: !isLevel && !isAction,
         ...(isNumericCol ? { align: 'right' as const } : {}),
         ...(isNumericCol ? {
@@ -1749,11 +1908,16 @@ const RoasMerge: React.FC = () => {
           }
           if (isRule) return <Text type="secondary" style={{ fontSize: 12 }}>{v}</Text>;
           if (isAction) return <Text type="secondary">{v}</Text>;
+          if (isAbaStage && v) {
+            const stage = ABA_LEVELS.find((lv) => lv.label === v);
+            const color = stage?.color || (v === '未上榜' ? ABA_NO_RANK_COLOR : '#722ed1');
+            return <Tag color={color} style={{ color: '#fff' }}>{v}</Tag>;
+          }
           // 数值列智能格式化
           if (isNumericCol && v != null && v !== '') {
             const n = numOf(v);
             if (n != null) {
-              const dec = isMoney ? 2 : (Math.abs(n) < 100 ? 2 : 0);
+              const dec = isAbaRank ? 0 : (isMoney ? 2 : (Math.abs(n) < 100 ? 2 : 0));
               return isPercent ? `${n.toFixed(2)}%` : Number(n.toFixed(dec));
             }
           }
@@ -1763,6 +1927,12 @@ const RoasMerge: React.FC = () => {
           if (isLevel) {
             const lv = rec[`c${ci}`] as JudgeLevel;
             return { style: { backgroundColor: `${LEVEL_COLOR[lv] || '#BFBFBF'}22` } };
+          }
+          if (isAbaRank) return { style: { backgroundColor: '#D9EAFD', textAlign: 'right' } };
+          if (isAbaStage) {
+            const stage = ABA_LEVELS.find((lv) => lv.label === rec[`c${ci}`]);
+            const color = stage?.color || (rec[`c${ci}`] === '未上榜' ? ABA_NO_RANK_COLOR : '#722ed1');
+            return { style: { backgroundColor: `${color}22` } };
           }
           if (isNumericCol) return { style: { textAlign: 'right' } };
           return {};
@@ -2420,19 +2590,28 @@ const RoasMerge: React.FC = () => {
               </>
             )}
             {!abaFileName && (
-              <Text type="secondary">导入亚马逊ABA搜索词排名Excel（格式：排名 | 搜索词）</Text>
+              <Text type="secondary">导入ABA搜索词排名Excel，自动识别“搜索频率排名 / 搜索词”列</Text>
             )}
           </Space>
+          {abaDetectedColumns && (
+            <Text type="secondary" style={{ fontSize: 12 }}>
+              ABA 文件列：{abaDetectedColumns.rank} → {abaDetectedColumns.keyword}
+            </Text>
+          )}
           {abaRankMap.size > 0 && (
             <Space wrap>
-              <span style={{ fontSize: 12, color: '#666' }}>关键词列:</span>
+              <span style={{ fontSize: 12, color: '#666' }}>匹配报告搜索词列:</span>
               <Select
                 size="small"
-                value={abaKeywordCol}
-                onChange={setAbaKeywordCol}
-                style={{ width: 120 }}
-                options={Array.from({ length: 20 }, (_, i) => ({ value: i, label: `第${i + 1}列` }))}
+                value={effectiveAbaKeywordCol}
+                onChange={(value: number) => setAbaKeywordCol(value)}
+                style={{ width: 260 }}
+                showSearch
+                optionFilterProp="label"
+                options={abaKeywordColOptions}
               />
+              {abaKeywordCol === null && detectedAbaTargetCol >= 0 && <Tag color="green">已自动识别报告搜索词列</Tag>}
+              {abaKeywordCol === null && detectedAbaTargetCol < 0 && <Tag color="orange">未识别表头，默认第3列；请检查或手动选择</Tag>}
               <span style={{ fontSize: 12, color: '#666' }}>报告中包含ABA排名:</span>
               <Select
                 size="small"
