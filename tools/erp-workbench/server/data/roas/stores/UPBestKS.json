@@ -1,0 +1,34 @@
+{
+  "customPresets": [],
+  "builtinOverrides": {
+    "target": {
+      "appendCols": [],
+      "requiredCols": [
+        true,
+        true,
+        true
+      ]
+    }
+  },
+  "lastConfig": {
+    "cols": [
+      4,
+      6,
+      10
+    ],
+    "colLabels": [
+      "E",
+      "G",
+      "K"
+    ],
+    "requiredCols": [
+      true,
+      true,
+      true
+    ],
+    "activePresetKey": "target",
+    "appendCols": []
+  },
+  "judgeTemplates": [],
+  "savedAt": "2026-11-28T06:11:02+00:00"
+}
