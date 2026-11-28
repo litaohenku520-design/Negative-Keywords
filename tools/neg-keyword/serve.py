@@ -1707,7 +1707,7 @@ def serve_mode():
 
                 site = str(data.get('site') or 'US').upper()
                 preferred_model = str(data.get('model') or api_cfg.get('gemini_model') or 'gemini-3-flash-preview').strip()
-                models_to_try = [preferred_model] + [m for m in ('gemini-3-flash-preview', 'gemini-flash-latest', 'gemini-2.5-flash-lite') if m != preferred_model]
+                models_to_try = [preferred_model] + [m for m in ('gemini-3-flash-preview', 'gemini-3.5-flash-lite', 'gemini-3.1-flash-lite', 'gemini-flash-lite-latest') if m != preferred_model]
 
                 batch_rows = rows[:100]
                 compact_items = [
@@ -1874,7 +1874,7 @@ def serve_mode():
                         gemini_contents.append({'role': role, 'parts': [{'text': text}]})
 
                 preferred_model = str(data.get('model') or api_cfg.get('gemini_model') or 'gemini-3-flash-preview').strip()
-                models_to_try = [preferred_model] + [m for m in ('gemini-3-flash-preview', 'gemini-flash-latest', 'gemini-2.5-flash-lite') if m != preferred_model]
+                models_to_try = [preferred_model] + [m for m in ('gemini-3-flash-preview', 'gemini-3.5-flash-lite', 'gemini-3.1-flash-lite', 'gemini-flash-lite-latest') if m != preferred_model]
 
                 last_err = ''
                 reply_text = None
