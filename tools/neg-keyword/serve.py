@@ -348,12 +348,17 @@ def serve_mode():
     except Exception as _e:
         print(f'[启动备份] 跳过: {_e}')
 
-    # 启动时先从 GitHub origin/main 拉取最新共享规则与各店铺 Campaign ID
-    try:
-        _pull_res = pull_from_github(timeout=8)
-        print(f"[GitHub 启动拉取] {_pull_res.get('message')}")
-    except Exception as _pe:
-        print(f"[GitHub 启动拉取] 跳过: {_pe}")
+    # 启动时后台异步从 GitHub origin/main 拉取最新共享规则与各店铺 Campaign ID（不阻塞服务启动）
+    def _bg_pull_on_startup():
+        try:
+            _pull_res = pull_from_github(timeout=10)
+            print(f"[GitHub 启动拉取] {_pull_res.get('message')}")
+            if _pull_res.get('updated'):
+                with _lock:
+                    _hot_reload_from_disk()
+        except Exception as _pe:
+            print(f"[GitHub 启动拉取] 跳过: {_pe}")
+    threading.Thread(target=_bg_pull_on_startup, daemon=True, name="github-startup-pull").start()
 
     # Load config once at startup
     saved_rules = load_rules_from_file()

@@ -330,11 +330,6 @@ function RootApp() {
     };
   }, [loadGlobalStores]);
 
-  if (!ready || !mcpAppRef.current) {
-    return <div style={{ padding: 24, color: '#888' }}>正在启动 Discover amzn 工作台...</div>;
-  }
-
-  const groups = ['工作台主页', '广告工具', '经营与选品'];
   const currentStoreObj = stores.find((s) => s.id === activeStoreId);
   const activeModObj = MODULES.find((m) => m.key === activeKey);
 
@@ -369,6 +364,12 @@ function RootApp() {
       setAiLoading(false);
     }
   }, [activeKey, activeModObj?.label, activeStoreId, aiInput, aiLoading, aiMessages, currentStoreObj?.marketplace, currentStoreObj?.name]);
+
+  if (!ready || !mcpAppRef.current) {
+    return <div style={{ padding: 24, color: '#888' }}>正在启动 Discover amzn 工作台...</div>;
+  }
+
+  const groups = ['工作台主页', '广告工具', '经营与选品'];
 
   return (
     <ErrorBoundary>
