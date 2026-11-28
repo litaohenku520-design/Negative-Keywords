@@ -106,8 +106,18 @@ def sync_to_github(reason: str = "update neg-keyword rules", timeout: int = 25) 
                 }
                 return dict(_LAST_SYNC_STATUS)
 
-            # 4. 推送到 origin main
+            # 4. 推送到 origin main（若远程有新提交导致 rejected，自动 pull --rebase 后重试一次）
             rc_p, out_p, err_p = _run_git(["push", "origin", "main"], timeout=timeout)
+            if rc_p != 0 and ("fetch first" in (err_p + out_p) or "non-fast-forward" in (err_p + out_p) or "rejected" in (err_p + out_p)):
+                _run_git(["fetch", "origin", "main"], timeout=15)
+                rc_rb, out_rb, err_rb = _run_git(["rebase", "origin/main", "-X", "theirs"], timeout=20)
+                if rc_rb != 0:
+                    _run_git(["rebase", "--abort"], timeout=10)
+                    raise RuntimeError(err_rb or out_rb or "git rebase failed")
+                rc_rev2, out_rev2, _ = _run_git(["rev-parse", "--short", "HEAD"], timeout=5)
+                if rc_rev2 == 0:
+                    commit_hash = out_rev2
+                rc_p, out_p, err_p = _run_git(["push", "origin", "main"], timeout=timeout)
             if rc_p != 0:
                 raise RuntimeError(err_p or out_p or "git push failed")
 
