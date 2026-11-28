@@ -12,6 +12,7 @@ from __future__ import annotations
 import glob
 import json
 import os
+import re
 import shutil
 import subprocess
 import threading
@@ -270,16 +271,27 @@ def backup_all_to_github_and_gdrive(reason: str = "full plugin backup", timeout:
                         capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=15,
                     )
                     if proc_mk.returncode == 0:
-                        folder_id = json.loads(proc_mk.stdout or "{}").get("id", "")
+                        mk_out = (proc_mk.stdout or "").strip()
+                        try:
+                            folder_id = json.loads(mk_out).get("id", "")
+                        except Exception:
+                            m_id = re.search(r"ID:\s*([A-Za-z0-9_-]+)", mk_out)
+                            folder_id = m_id.group(1) if m_id else ""
                 up_cmd = [cli, "mutate", "upload", zip_path, "--json"]
                 if folder_id:
                     up_cmd.extend(["--parent", folder_id])
                 proc_up = subprocess.run(up_cmd, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=60)
                 if proc_up.returncode == 0:
-                    up_info = json.loads(proc_up.stdout or "{}")
+                    up_out = (proc_up.stdout or "").strip()
+                    fid = ""
+                    try:
+                        fid = json.loads(up_out).get("id", "")
+                    except Exception:
+                        m_up = re.search(r"ID:\s*([A-Za-z0-9_-]+)", up_out)
+                        fid = m_up.group(1) if m_up else up_out[:40]
                     gd_res = {
                         "ok": True,
-                        "file_id": up_info.get("id", ""),
+                        "file_id": fid,
                         "folder_id": folder_id,
                         "message": "已上传至 Google 云盘 Discover_amzn_全量备份",
                     }
