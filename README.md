@@ -7,9 +7,9 @@
 - `tools/`：每个工具独立目录与各自数据目录：
   - `tools/ops-planner/`：运营计划（默认主页面，数据位于 `server/data/planner_data.json`）
   - `tools/neg-keyword/`：否词助手（引擎 + 独立规则库 `rules_config.json` 与分店铺 `stores/`）
-  - `tools/ad-scout/`：广告推广侦察
-  - `tools/weekly-planner/`：周广告优化（数据位于 `server/data/`）
-  - `tools/sales-hub/`：销售看板（数据位于 `server/data/`）
+  - `tools/ad-scout/`：广告数据汇总
+  - `tools/weekly-planner/`：周广告复盘优化（数据位于 `server/data/`）
+  - `tools/sales-hub/`：销售采购与补货（数据位于 `server/data/`）
   - `tools/erp-workbench/`：库存销售分析（数据位于 `server/data/`）
   - `tools/product-hub/`：产品库
   - `tools/xydc-asin-analyzer/`：西柚竞品分析（数据位于 `server/data/`）
