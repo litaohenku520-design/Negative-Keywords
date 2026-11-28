@@ -3449,5 +3449,12 @@
     "storeMarketplace": "SUANDUCK::DE",
     "sourceFile": "SUANDUCK DE 广告组合ID.xlsx",
     "updatedAt": "2026-11-28T02:04:00.981Z"
+  },
+  {
+    "campaignName": "SUAN-XM17TPro-DX-Broad-Light Blue",
+    "campaignId": "108940174451839",
+    "storeMarketplace": "SUANDUCK::DE",
+    "sourceFile": "SUANDUCK DE Campaign ID.csv",
+    "updatedAt": "2026-11-28T03:35:12.000Z"
   }
 ]
