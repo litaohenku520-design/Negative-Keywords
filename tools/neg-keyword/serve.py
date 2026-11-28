@@ -656,6 +656,9 @@ def serve_mode():
                     })
             elif path == '/api/campaign-id-mappings':
                 with _lock:
+                    saved = load_rules_from_file()
+                    if isinstance(saved, dict) and isinstance(saved.get('campaign_id_mappings'), list):
+                        app.campaign_id_mappings = saved['campaign_id_mappings']
                     self._json_response({'mappings': app.campaign_id_mappings})
             elif path == '/api/campaign-map':
                 with _lock:

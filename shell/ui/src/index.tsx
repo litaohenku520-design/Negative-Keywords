@@ -2081,8 +2081,8 @@ const NegKeywordTool: React.FC = () => {
         body: JSON.stringify({ mappings: normalized }),
       });
     } catch (error) {
-      message.warning('Campaign ID 已保存到本机；启动器后端当前不可达，后端恢复后可再次同步。');
       console.warn('[否词工具] Campaign ID 映射后端保存失败:', error);
+      throw error;
     }
   }, [campaignIdStoreOptions]);
 
