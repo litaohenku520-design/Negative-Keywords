@@ -6,11 +6,16 @@ import ExcelJS from 'exceljs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const DEFAULT_DATA_DIR = path.resolve(__dirname, '..', 'data');
 export const STORE_ID = process.env.DISCOVER_STORE_ID || 'default';
-export const DATA_DIR = process.env.DISCOVER_STORE_DATA_DIR || path.resolve(__dirname, '..', 'data');
+// Discover amzn 启动子插件时会为每个店铺注入独立数据目录；独立运行时仍使用插件自带 data/。
+export const DATA_DIR = process.env.DISCOVER_STORE_DATA_DIR
+  ? path.resolve(process.env.DISCOVER_STORE_DATA_DIR)
+  : DEFAULT_DATA_DIR;
 export const CONFIG_PATH = path.join(DATA_DIR, 'workbench-config.json');
 export const UPLOADS_DIR = path.join(DATA_DIR, 'uploads');
-export const ROAS_CONFIG_DIR = path.join(DATA_DIR, 'roas', 'stores');
+// ROAS 配置文件按店铺 ID 命名并纳入仓库同步，继续使用插件 data/ 下的共享目录。
+export const ROAS_CONFIG_DIR = path.join(DEFAULT_DATA_DIR, 'roas', 'stores');
 
 export function loadConfig() {
   try {

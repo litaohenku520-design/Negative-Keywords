@@ -12,7 +12,7 @@ import {
 import { loadConfig, previewFileHeaders, saveConfig, saveUploadedFile, scanReportFiles } from './engines/file-io.mjs';
 import { analyzeNegKeywords, getRulesSummary } from './engines/neg-keyword-engine.mjs';
 import { loadRoasPresets, runRoasMerge } from './engines/roas-merge-engine.mjs';
-import { analyzeInventorySales } from './engines/inventory-sales-engine.mjs';
+import { analyzeInventorySales, clearInventorySalesResult, loadInventorySalesResult } from './engines/inventory-sales-engine.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -175,20 +175,39 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
     {
       name: 'workbench_run_inventory_sales',
       title: '运行库存与销售健康分析',
-      description: '支持赛狐/FBA/广告三报告合一关联解析，计算可售天数、ABC 分级与断货/滞销风险，并导出 Excel。',
+      description: '按 ERP 库存销售分析口径导入赛狐三 Sheet 库存销售表、FBA 快照、昨日/30天推广商品报告与 FBA 货件；按可配置的 ASIN/MSKU/SKU 键关联，计算自然/广告销售、FBA 差异、可售天数与补货风险，并导出 Excel。',
       inputSchema: {
         type: 'object',
         properties: {
           filePath: { type: 'string' },
           fbaFilePath: { type: 'string' },
           adFilePath: { type: 'string' },
+          adYesterdayFilePath: { type: 'string' },
+          ad30dFilePath: { type: 'string' },
+          shipmentFilePath: { type: 'string' },
           columnMapping: { type: 'object' },
+          matchKeyConfig: { type: 'object' },
+          dataDays: { type: 'number' },
           stockoutWarnDays: { type: 'number' },
           overstockWarnDays: { type: 'number' },
           exportExcel: { type: 'boolean' },
         },
       },
       _meta: { ui: { visibility: ['model', 'app'] } },
+    },
+    {
+      name: 'workbench_clear_inventory_sales',
+      title: '清除库存销售分析结果',
+      description: '清除当前店铺已保存的库存销售分析快照。',
+      inputSchema: { type: 'object', properties: {} },
+      _meta: { ui: { visibility: ['app'] } },
+    },
+    {
+      name: 'workbench_get_inventory_sales_result',
+      title: '读取库存销售分析结果',
+      description: '读取当前店铺最近一次库存销售分析快照。',
+      inputSchema: { type: 'object', properties: {} },
+      _meta: { ui: { visibility: ['app'] } },
     },
   ],
 }));
@@ -323,6 +342,22 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
           },
         ],
         structuredContent: result,
+      };
+    }
+
+    if (name === 'workbench_clear_inventory_sales') {
+      clearInventorySalesResult();
+      return {
+        content: [{ type: 'text', text: '已清除当前店铺的库存销售分析结果。' }],
+        structuredContent: { cleared: true },
+      };
+    }
+
+    if (name === 'workbench_get_inventory_sales_result') {
+      const result = loadInventorySalesResult();
+      return {
+        content: [{ type: 'text', text: result ? '已读取最近一次库存销售分析结果。' : '当前店铺还没有保存的库存销售分析结果。' }],
+        structuredContent: { result },
       };
     }
 
