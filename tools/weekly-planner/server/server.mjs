@@ -16,10 +16,12 @@ const __dirname = path.dirname(__filename);
 
 const APP_URI = 'ui://upbestks-weekly-planner/app.html';
 const APP_HTML_PATH = path.join(__dirname, 'dist', 'app.html');
-const DATA_PATH = path.join(__dirname, 'data', 'upbestks_data.json');
-const PLACEMENT_PATH = path.join(__dirname, 'data', 'placement_data.json');
-const CHECKLIST_PATH = path.join(__dirname, 'data', 'checklist_state.json');
-const OPT_LOG_PATH = path.join(__dirname, 'data', 'optimization_log.json');
+const STORE_ID = process.env.DISCOVER_STORE_ID || 'default';
+const STORE_DATA_DIR = process.env.DISCOVER_STORE_DATA_DIR || path.join(__dirname, 'data');
+const DATA_PATH = path.join(STORE_DATA_DIR, 'upbestks_data.json');
+const PLACEMENT_PATH = path.join(STORE_DATA_DIR, 'placement_data.json');
+const CHECKLIST_PATH = path.join(STORE_DATA_DIR, 'checklist_state.json');
+const OPT_LOG_PATH = path.join(STORE_DATA_DIR, 'optimization_log.json');
 const EXCEL_SCRIPT_PATH = 'C:/Users/admin/.gemini/antigravity/brain/3b996f25-d369-404f-8d61-f5b6ab81d5d5/scratch/build_upbestks_weekly_excel.js';
 
 const fnum = (v) => {

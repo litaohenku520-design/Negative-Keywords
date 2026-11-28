@@ -15,9 +15,11 @@ const __dirname = path.dirname(__filename);
 
 const APP_URI = 'ui://xydc-asin-analyzer/app.html';
 const APP_HTML_PATH = path.join(__dirname, 'dist', 'app.html');
-const CACHE_DIR = path.join(__dirname, 'data');
+const STORE_ID = process.env.DISCOVER_STORE_ID || 'default';
+const SHARED_DATA_DIR = path.join(__dirname, 'data');
+const CACHE_DIR = process.env.DISCOVER_STORE_DATA_DIR || SHARED_DATA_DIR;
 const CACHE_FILE = path.join(CACHE_DIR, 'asin_cache.json');
-const TOOLS_METADATA_FILE = path.join(CACHE_DIR, 'tools_metadata.json');
+const TOOLS_METADATA_FILE = path.join(SHARED_DATA_DIR, 'tools_metadata.json');
 
 const XYDC_ENDPOINT = 'https://mcp.xydc.com/mcp';
 const XYDC_TOKEN = 'mcp_dd0041b77220885ec1468051603b24e4';
@@ -775,7 +777,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
         activeData = localCache.asins[cacheKey] || null;
       }
 
-      if (!activeData) {
+      if (!activeData && STORE_ID === 'UPBestKS') {
         targetAsin = 'B0768N9N6M';
         try {
           activeData = await aggregateFull62AsinDeepDive(targetAsin, 'US');

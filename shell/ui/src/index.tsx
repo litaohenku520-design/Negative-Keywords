@@ -17,7 +17,7 @@ import {
   SearchOutlined, DownloadOutlined, FileExcelOutlined, ThunderboltOutlined,
   CheckCircleOutlined, CloseCircleOutlined,
   PlusOutlined, DeleteOutlined, SaveOutlined, ImportOutlined, ExportOutlined, SyncOutlined,
-  TableOutlined,
+  TableOutlined, FolderOpenOutlined, LinkOutlined,
 } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 import { resolveModelCode } from './shims/modelUtils';
@@ -203,6 +203,10 @@ interface AsinRow {
   adGroupId: string;
   reason: string;
   scope: string;
+  title?: string;
+  verifySource?: string;
+  verifyDate?: string;
+  targetModel?: string;
   rawRow?: Record<string, unknown>;
 }
 
@@ -1999,6 +2003,19 @@ const NegKeywordTool: React.FC = () => {
   const [campaignIdMappings, setCampaignIdMappings] = useState<CampaignIdMappingRecord[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const asinFileInputRef = useRef<HTMLInputElement>(null);
+  const autoAsinFileInputRef = useRef<HTMLInputElement>(null);
+  const [autoAsinModalVisible, setAutoAsinModalVisible] = useState(false);
+  const [autoAsinLoading, setAutoAsinLoading] = useState(false);
+  const [autoAsinProgress, setAutoAsinProgress] = useState({ done: 0, total: 0, text: '' });
+  const [autoAsinPendingFile, setAutoAsinPendingFile] = useState<{ fileName: string; rows: any[]; headers: string[] } | null>(null);
+  const [autoAsinMapping, setAutoAsinMapping] = useState({
+    asinCol: '',
+    modelCol: '',
+    campaignCol: '',
+    adGroupCol: '',
+    country: 'US',
+  });
+  const [asinFolderExporting, setAsinFolderExporting] = useState(false);
   const navigate = useNavigate();
 
   const campaignIdStoreOptions = useMemo(() => {
@@ -2793,6 +2810,234 @@ const NegKeywordTool: React.FC = () => {
       setAsinImportConfirming(false);
     }
   }, [asinImportMapping, campaignIdMappings, campaignIdScopeOptions, pendingAsinImport]);
+
+  // ============ ASIN 智能自动判定 (调取西柚MCP) ============
+
+  const handleAutoAsinFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    e.target.value = '';
+
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      try {
+        const buffer = evt.target?.result;
+        const wb = XLSX.read(buffer, { type: 'array', cellDates: true });
+        const firstSheet = wb.SheetNames[0];
+        const ws = wb.Sheets[firstSheet];
+        const rows = XLSX.utils.sheet_to_json<Record<string, unknown>>(ws, { defval: '' });
+        if (rows.length === 0) {
+          message.warning('导入的文件没有有效数据行');
+          return;
+        }
+        const headers = Object.keys(rows[0] || {});
+        const asinCol = inferAsinColumn(headers, rows);
+        const modelCol = headers.find(h => /机型|型号|model/i.test(h)) || headers.find(h => /广告活动/i.test(h)) || '';
+        const campaignCol = headers.find(h => /广告活动名称|活动名称|campaign/i.test(h)) || '';
+        const adGroupCol = headers.find(h => /广告组名称|广告组|adgroup/i.test(h)) || '';
+        const countryCol = headers.find(h => /国家|地区|country|marketplace|站点/i.test(h)) || '';
+        const countrySample = countryCol ? String(rows[0]?.[countryCol] || '').trim() : '';
+        const detectedCountry = detectMarketplaceFromText(`${file.name} ${countrySample}`, activeMarketplace || 'US');
+
+        setAutoAsinPendingFile({ fileName: file.name, rows, headers });
+        setAutoAsinMapping({
+          asinCol: asinCol || headers[0] || '',
+          modelCol: modelCol || '',
+          campaignCol: campaignCol || '',
+          adGroupCol: adGroupCol || '',
+          country: detectedCountry || 'US',
+        });
+        setAutoAsinModalVisible(true);
+      } catch (err: any) {
+        message.error(`文件解析失败: ${err.message || err}`);
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  }, [activeMarketplace]);
+
+  const handleRunAutoAsinAudit = useCallback(async () => {
+    if (!autoAsinPendingFile || !autoAsinMapping.asinCol) {
+      message.warning('请选择有效 ASIN 列');
+      return;
+    }
+    setAutoAsinLoading(true);
+    setAutoAsinProgress({ done: 0, total: autoAsinPendingFile.rows.length, text: '正在调用西柚 MCP 批量获取标题五点与机型匹配...' });
+
+    try {
+      const { rows } = autoAsinPendingFile;
+      const { asinCol, modelCol, campaignCol, adGroupCol, country } = autoAsinMapping;
+
+      const preparedRows = rows.map((r) => {
+        const item: Record<string, unknown> = { ...r };
+        item['客户搜索词'] = r[asinCol] || r['客户搜索词'] || r['ASIN'] || '';
+        if (modelCol && r[modelCol]) item['机型'] = r[modelCol];
+        if (campaignCol && r[campaignCol]) item['广告活动名称'] = r[campaignCol];
+        if (adGroupCol && r[adGroupCol]) item['广告组名称'] = r[adGroupCol];
+        item['国家/地区'] = country;
+        return item;
+      });
+
+      const res = await apiFetch('/api/asin/audit-batch', {
+        method: 'POST',
+        body: JSON.stringify({
+          items: preparedRows,
+          country: country.toUpperCase(),
+          campaign_id_mappings: campaignIdMappings,
+        }),
+      });
+
+      if (!res || !Array.isArray(res.records)) {
+        throw new Error(res?.error || '后端未返回有效判定结果');
+      }
+
+      const judgedRecords = res.records;
+      const scopeKey = campaignIdScopeKey(activeShopKey || activeMarketplace || 'US', country);
+
+      const nextAsinRows: AsinRow[] = judgedRecords.map((item: any, idx: number) => {
+        const dec = item.decision;
+        const decTag: AsinDecision = dec === '否定' ? 'deny' : dec === '保留' ? 'keep' : 'review';
+        return {
+          key: item.key || `asin-row-${idx + 1}-${item.asin}`,
+          index: idx + 1,
+          asin: item.asin,
+          decision: decTag,
+          decisionLabel: dec || (decTag === 'deny' ? '否定' : decTag === 'keep' ? '保留' : '待复核'),
+          campaignName: item.campaignName || '',
+          campaignId: item.campaignId || '',
+          adGroupName: item.adGroupName || '',
+          adGroupId: item.adGroupId || '',
+          reason: item.reason || '',
+          scope: scopeKey,
+          title: item.title || '',
+          verifySource: item.verifySource || '',
+          verifyDate: item.verifyDate || '',
+          targetModel: item.targetModel || '',
+          rawRow: item.rawRow,
+        };
+      });
+
+      setAsinRows(nextAsinRows);
+      setAsinExportScope(scopeKey);
+      setAutoAsinModalVisible(false);
+
+      const denyCount = nextAsinRows.filter(r => r.decision === 'deny').length;
+      const keepCount = nextAsinRows.filter(r => r.decision === 'keep').length;
+      const reviewCount = nextAsinRows.filter(r => r.decision === 'review').length;
+
+      message.success(`🎉 自动判定完成！共 ${nextAsinRows.length} 条数据（明确否定: ${denyCount}，明确保留: ${keepCount}，待复核: ${reviewCount}）`);
+    } catch (err: any) {
+      message.error(`自动判定失败: ${err.message || err}`);
+    } finally {
+      setAutoAsinLoading(false);
+    }
+  }, [autoAsinPendingFile, autoAsinMapping, campaignIdMappings, activeShopKey, activeMarketplace]);
+
+  const handleExportAsinFolder = useCallback(async () => {
+    if (asinRows.length === 0) {
+      message.warning('当前没有可导出的判定记录');
+      return;
+    }
+    setAsinFolderExporting(true);
+    try {
+      const rawItems = asinRows.map(r => ({
+        ...(r.rawRow || {}),
+        '判定': r.decisionLabel || (r.decision === 'deny' ? '否定' : r.decision === 'keep' ? '保留' : '待复核'),
+        '商品详情标题': r.title || '',
+        '判定依据': r.reason || '',
+        '核验来源': r.verifySource || '',
+        '核验日期': r.verifyDate || '',
+        'Campaign ID': r.campaignId || '',
+        'Ad Group ID': r.adGroupId || '',
+        '广告活动名称': r.campaignName || '',
+        '广告组名称': r.adGroupName || '',
+        '客户搜索词': r.asin || '',
+        '机型': r.targetModel || (r.rawRow as any)?.['机型'] || '',
+      }));
+      const scope = asinNegativeScope || 'campaign';
+      const country = (asinExportScope || activeMarketplace || 'US').split('-').pop() || 'US';
+      const res = await apiFetch('/api/asin/export-folder', {
+        method: 'POST',
+        body: JSON.stringify({
+          records: rawItems,
+          country,
+          scope,
+        }),
+      });
+
+      if (res && res.folderPath) {
+        Modal.success({
+          title: '🎉 ASIN 判定结果文件夹导出成功！',
+          width: 520,
+          content: (
+            <div style={{ marginTop: 12 }}>
+              <p>已在本地自动生成完整判定结果文件夹：</p>
+              <div style={{ background: '#f8fafc', padding: '8px 12px', border: '1px solid #e2e8f0', borderRadius: 6, marginBottom: 12 }}>
+                <Text code copyable style={{ fontSize: 13, wordBreak: 'break-all' }}>{res.folderPath}</Text>
+              </div>
+              <div style={{ background: '#f0fdf4', padding: '10px 14px', border: '1px solid #bbf7d0', borderRadius: 6, fontSize: 13 }}>
+                <div style={{ marginBottom: 4 }}>📊 <b>完整判定明细 Excel</b>: {res.excelFileName} (共 {res.totalRecords} 条)</div>
+                <div>⚡ <b>Amazon否ASIN上传模板</b>: {res.templateFileName} (已提取 {res.denyCount} 条否定定向)</div>
+              </div>
+            </div>
+          ),
+          okText: '📂 在资源管理器中打开文件夹',
+          cancelText: '关闭',
+          okCancel: true,
+          onOk: async () => {
+            try {
+              await apiFetch('/api/asin/open-folder', {
+                method: 'POST',
+                body: JSON.stringify({ folder_path: res.folderPath }),
+              });
+            } catch (e: any) {
+              message.error(`打开文件夹失败: ${e.message}`);
+            }
+          },
+        });
+      } else {
+        message.error(res?.error || '导出文件夹失败');
+      }
+    } catch (err: any) {
+      message.error(`导出文件夹失败: ${err.message || err}`);
+    } finally {
+      setAsinFolderExporting(false);
+    }
+  }, [asinRows, asinNegativeScope, asinExportScope, activeMarketplace]);
+
+  const handleExportAsinFullExcel = useCallback(() => {
+    if (asinRows.length === 0) {
+      message.warning('当前没有判定记录');
+      return;
+    }
+    try {
+      const country = (asinExportScope || activeMarketplace || 'US').split('-').pop() || 'US';
+      const firstRaw = asinRows[0].rawRow || {};
+      const rawKeys = Object.keys(firstRaw).filter(k => !['判定', '商品详情标题', '判定依据', '核验来源', '核验日期'].includes(k));
+      const headers = [...rawKeys, '判定', '商品详情标题', '判定依据', '核验来源', '核验日期'];
+
+      const aoa: any[][] = [headers];
+      for (const item of asinRows) {
+        const raw = item.rawRow || {};
+        const rowVals = rawKeys.map(k => raw[k] ?? '');
+        rowVals.push(
+          item.decisionLabel || (item.decision === 'deny' ? '否定' : item.decision === 'keep' ? '保留' : '待复核'),
+          item.title || '',
+          item.reason || '',
+          item.verifySource || '',
+          item.verifyDate || '',
+        );
+        aoa.push(rowVals);
+      }
+      const ws = XLSX.utils.aoa_to_sheet(aoa);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, `ASIN判定表_${country}`);
+      const fileName = `ASIN判定表_${country}_${new Date().toISOString().slice(0, 10)}.xlsx`;
+      void exportWorkbook({ wb, fileName: fileName.replace(/\.xlsx$/, ''), cellStyles: true });
+      message.success(`已导出完整判定表: ${fileName}`);
+    } catch (err: any) {
+      message.error(`导出Excel失败: ${err.message || err}`);
+    }
+  }, [asinRows, asinExportScope, activeMarketplace]);
 
   // ============ Classification ============
 
@@ -3838,33 +4083,89 @@ const NegKeywordTool: React.FC = () => {
   }, [asinImportMapping, pendingAsinImport]);
 
   const asinColumns: ColumnsType<AsinRow> = [
-    { title: '#', dataIndex: 'index', width: 52, fixed: 'left' },
+    { title: '#', dataIndex: 'index', width: 50, fixed: 'left' },
     {
-      title: 'ASIN', dataIndex: 'asin', width: 150, fixed: 'left',
-      render: (value: string) => value
-        ? <Text code copyable={{ text: value }}>{value}</Text>
-        : <Tag color="warning">格式无效</Tag>,
-    },
-    {
-      title: '判定结果', dataIndex: 'decisionLabel', width: 105, align: 'center',
+      title: 'ASIN', dataIndex: 'asin', width: 155, fixed: 'left',
       render: (value: string, record: AsinRow) => (
-        <Tag color={record.decision === 'deny' ? 'red' : record.decision === 'keep' ? 'green' : 'orange'}>{value}</Tag>
+        <Space size={4}>
+          {value ? <Text code copyable={{ text: value }}>{value}</Text> : <Tag color="warning">无效</Tag>}
+          {record.verifySource && (
+            <Tooltip title="在亚马逊打开商品详情页">
+              <a href={record.verifySource} target="_blank" rel="noreferrer" style={{ color: '#1677ff' }}>
+                <LinkOutlined />
+              </a>
+            </Tooltip>
+          )}
+        </Space>
       ),
     },
-    { title: '判定原因', dataIndex: 'reason', width: 260, ellipsis: true, render: (value: string) => <Tooltip title={value}><Text type="secondary">{value || '-'}</Text></Tooltip> },
-    { title: '广告活动名称', dataIndex: 'campaignName', width: 260, ellipsis: true },
     {
-      title: 'Campaign ID', dataIndex: 'campaignId', width: 180,
+      title: '判定结果', dataIndex: 'decisionLabel', width: 115, align: 'center', fixed: 'left',
+      render: (value: string, record: AsinRow) => (
+        <Select
+          size="small"
+          value={record.decision}
+          style={{ width: 95 }}
+          onChange={(newVal) => {
+            const nextLabel = newVal === 'deny' ? '否定' : newVal === 'keep' ? '保留' : '待复核';
+            setAsinRows(prev => prev.map(r => r.key === record.key ? { ...r, decision: newVal as any, decisionLabel: nextLabel } : r));
+          }}
+        >
+          <Option value="deny"><Tag color="red" style={{ margin: 0 }}>否定</Tag></Option>
+          <Option value="keep"><Tag color="green" style={{ margin: 0 }}>保留</Tag></Option>
+          <Option value="review"><Tag color="orange" style={{ margin: 0 }}>待复核</Tag></Option>
+        </Select>
+      ),
+    },
+    {
+      title: '商品详情标题', dataIndex: 'title', width: 300, ellipsis: true,
+      render: (value: string) => (
+        <Tooltip title={value || '未获取到有效标题'} placement="topLeft">
+          <Text style={{ fontSize: 12 }}>{value || <Text type="secondary">未获取到标题</Text>}</Text>
+        </Tooltip>
+      ),
+    },
+    {
+      title: '判定依据', dataIndex: 'reason', width: 320, ellipsis: true,
+      render: (value: string) => (
+        <Tooltip title={value} placement="topLeft">
+          <Text type="secondary" style={{ fontSize: 12 }}>{value || '-'}</Text>
+        </Tooltip>
+      ),
+    },
+    {
+      title: '目标机型', dataIndex: 'targetModel', width: 120,
+      render: (v: string, r: AsinRow) => <Tag color="blue">{v || (r.rawRow as any)?.['机型'] || '-'}</Tag>,
+    },
+    { title: '广告活动名称', dataIndex: 'campaignName', width: 230, ellipsis: true },
+    {
+      title: 'Campaign ID', dataIndex: 'campaignId', width: 170,
       render: (value: string) => value ? <Text code copyable={{ text: value }}>{value}</Text> : <Tag color="warning">未匹配</Tag>,
     },
-    { title: '广告组名称/标识', dataIndex: 'adGroupName', width: 230, ellipsis: true, render: (value: string) => value || '-' },
+    { title: '广告组名称/标识', dataIndex: 'adGroupName', width: 190, ellipsis: true, render: (value: string) => value || '-' },
     {
-      title: 'Ad Group ID', dataIndex: 'adGroupId', width: 180,
+      title: 'Ad Group ID', dataIndex: 'adGroupId', width: 170,
       render: (value: string, record: AsinRow) => record.scope && asinNegativeScope === 'campaign'
-        ? <Text type="secondary">广告活动级不需要</Text>
+        ? <Text type="secondary">活动级无需</Text>
         : value ? <Text code copyable={{ text: value }}>{value}</Text> : <Tag color="warning">未匹配</Tag>,
     },
-    { title: '导出站点', dataIndex: 'scope', width: 180, render: (value: string) => <Tag color="blue">{campaignIdScopeLabel(campaignIdScopeOptions.find(option => option.scope === value) || { scope: value, storeName: value, marketplace: value } as any)}</Tag> },
+    {
+      title: '曝光量', dataIndex: ['rawRow', '展示量'], width: 85, align: 'right',
+      render: (_: any, r: AsinRow) => (r.rawRow as any)?.['展示量'] ?? '-',
+    },
+    {
+      title: '点击量', dataIndex: ['rawRow', '点击量'], width: 85, align: 'right',
+      render: (_: any, r: AsinRow) => (r.rawRow as any)?.['点击量'] ?? '-',
+    },
+    {
+      title: '花费', dataIndex: ['rawRow', '花费'], width: 90, align: 'right',
+      render: (_: any, r: AsinRow) => (r.rawRow as any)?.['花费'] != null ? Number((r.rawRow as any)['花费']).toFixed(2) : '-',
+    },
+    {
+      title: '7天销售额', dataIndex: ['rawRow', '7天总销售额'], width: 100, align: 'right',
+      render: (_: any, r: AsinRow) => (r.rawRow as any)?.['7天总销售额'] != null ? Number((r.rawRow as any)['7天总销售额']).toFixed(2) : '-',
+    },
+    { title: '导出站点', dataIndex: 'scope', width: 140, render: (value: string) => <Tag color="geekblue">{value || '-'}</Tag> },
   ];
 
   // ============ Render ============
@@ -4506,28 +4807,82 @@ const NegKeywordTool: React.FC = () => {
             children: (
               <>
                 <Row gutter={[12, 12]} style={{ marginBottom: 14 }}>
-                  <Col xs={12} sm={6}>
+                  <Col xs={12} sm={4}>
                     <Card size="small" className="neg-kpi-card" style={{ borderTop: '3px solid #2563eb' }}>
-                      <Statistic title="导入 ASIN" value={asinRows.length} valueStyle={{ fontSize: 20, fontWeight: 600 }} />
+                      <Statistic title="总计 ASIN" value={asinRows.length} valueStyle={{ fontSize: 20, fontWeight: 600 }} />
                     </Card>
                   </Col>
-                  <Col xs={12} sm={6}>
+                  <Col xs={12} sm={4}>
                     <Card size="small" className="neg-kpi-card" style={{ borderTop: '3px solid #ef4444' }}>
                       <Statistic title="明确否定" value={asinRows.filter(row => row.decision === 'deny').length} valueStyle={{ color: '#dc2626', fontSize: 20, fontWeight: 600 }} />
                     </Card>
                   </Col>
-                  <Col xs={12} sm={6}>
+                  <Col xs={12} sm={4}>
+                    <Card size="small" className="neg-kpi-card" style={{ borderTop: '3px solid #22c55e' }}>
+                      <Statistic title="明确保留" value={asinRows.filter(row => row.decision === 'keep').length} valueStyle={{ color: '#16a34a', fontSize: 20, fontWeight: 600 }} />
+                    </Card>
+                  </Col>
+                  <Col xs={12} sm={4}>
+                    <Card size="small" className="neg-kpi-card" style={{ borderTop: '3px solid #f59e0b' }}>
+                      <Statistic title="待复核" value={asinRows.filter(row => row.decision === 'review').length} valueStyle={{ color: '#d97706', fontSize: 20, fontWeight: 600 }} />
+                    </Card>
+                  </Col>
+                  <Col xs={12} sm={4}>
                     <Card size="small" className="neg-kpi-card" style={{ borderTop: '3px solid #8b5cf6' }}>
                       <Statistic title="Campaign ID 已匹配" value={asinRows.filter(row => row.decision === 'deny' && row.campaignId).length} valueStyle={{ color: '#2563eb', fontSize: 20, fontWeight: 600 }} />
                     </Card>
                   </Col>
-                  <Col xs={12} sm={6}>
-                    <Card size="small" className="neg-kpi-card" style={{ borderTop: '3px solid #22c55e' }}>
-                      <Statistic title="Ad Group ID 已匹配" value={asinRows.filter(row => row.decision === 'deny' && row.adGroupId).length} valueStyle={{ color: '#16a34a', fontSize: 20, fontWeight: 600 }} />
+                  <Col xs={12} sm={4}>
+                    <Card size="small" className="neg-kpi-card" style={{ borderTop: '3px solid #14b8a6' }}>
+                      <Statistic title="Ad Group ID 已匹配" value={asinRows.filter(row => row.decision === 'deny' && row.adGroupId).length} valueStyle={{ color: '#0d9488', fontSize: 20, fontWeight: 600 }} />
                     </Card>
                   </Col>
                 </Row>
                 <Card size="small" style={{ marginBottom: 16 }}>
+                  <Flex gap={10} wrap="wrap" align="center" style={{ marginBottom: 10 }}>
+                    <Button
+                      type="primary"
+                      icon={<ThunderboltOutlined />}
+                      onClick={() => autoAsinFileInputRef.current?.click()}
+                      loading={autoAsinLoading}
+                      style={{ background: 'linear-gradient(135deg, #1d4ed8, #2563eb)', borderColor: '#1d4ed8', fontWeight: 600 }}
+                    >
+                      ⚡ 导入报表自动判定ASIN
+                    </Button>
+                    <Button
+                      icon={<FolderOpenOutlined />}
+                      onClick={handleExportAsinFolder}
+                      loading={asinFolderExporting}
+                      disabled={asinRows.length === 0}
+                      style={{ borderColor: '#8b5cf6', color: '#6d28d9', fontWeight: 500 }}
+                    >
+                      📁 导出判定文件夹
+                    </Button>
+                    <Button
+                      icon={<FileExcelOutlined />}
+                      onClick={handleExportAsinFullExcel}
+                      disabled={asinRows.length === 0}
+                    >
+                      📊 导出完整判定Excel
+                    </Button>
+                    <Button
+                      icon={<ExportOutlined />}
+                      onClick={handleExportNegativeAsinTemplate}
+                      loading={asinTemplateExporting}
+                      disabled={asinRows.filter(row => row.decision === 'deny').length === 0}
+                    >
+                      ⚡ 导出Amazon否ASIN模板
+                    </Button>
+                    <Divider type="vertical" style={{ height: 20 }} />
+                    <Button
+                      size="small"
+                      icon={<UploadOutlined />}
+                      onClick={() => asinFileInputRef.current?.click()}
+                      loading={asinLoading}
+                    >
+                      导入已判定结果
+                    </Button>
+                  </Flex>
                   <Flex gap={8} wrap="wrap" align="center">
                     <Text strong>导出站点/ID映射:</Text>
                     <Select
@@ -4548,30 +4903,18 @@ const NegKeywordTool: React.FC = () => {
                       size="small"
                       value={asinNegativeScope}
                       onChange={value => setAsinNegativeScope(value as AmazonNegativeScope)}
-                      style={{ width: 245 }}
+                      style={{ width: 200 }}
                     >
                       <Option value="campaign">广告活动级否 ASIN</Option>
                       <Option value="adGroup">广告组级否 ASIN</Option>
                     </Select>
-                    <Button icon={<UploadOutlined />} onClick={() => asinFileInputRef.current?.click()} loading={asinLoading}>
-                      导入ASIN判定结果
-                    </Button>
-                    <Button
-                      type="primary"
-                      icon={<FileExcelOutlined />}
-                      onClick={handleExportNegativeAsinTemplate}
-                      loading={asinTemplateExporting}
-                      disabled={asinRows.filter(row => row.decision === 'deny').length === 0}
-                    >
-                      导出Amazon否ASIN模板
-                    </Button>
                   </Flex>
                   <Alert
                     type="info"
                     showIcon
                     style={{ marginTop: 10 }}
-                    message="导出规则"
-                    description="会同时生成“可直接上传”文件和“映射核对”文件。可直接上传文件只包含明确否定且 Campaign ID/Ad Group ID 完整的记录；保留、待审、无效 ASIN、站点错配或广告组无法唯一映射的记录只进入核对文件。"
+                    message="自动判定与导出说明"
+                    description="点击「⚡ 导入报表自动判定ASIN」上传搜索词广告报表，系统将自动调取西柚 MCP 批量查询 ASIN 标题五点并进行机型兼容性智能判定。判定后点击「📁 导出判定文件夹」将自动在本地生成完整 32 列判定明细与 Amazon 官方上传模板，并在资源管理器中直接打开。"
                   />
                 </Card>
                 <Table<AsinRow>
@@ -4579,10 +4922,125 @@ const NegKeywordTool: React.FC = () => {
                   dataSource={asinRows}
                   rowKey="key"
                   size="small"
-                  scroll={{ x: 1750, y: 'calc(100vh - 570px)' }}
+                  scroll={{ x: 2100, y: 'calc(100vh - 580px)' }}
                   pagination={{ pageSize: 100, showSizeChanger: true, pageSizeOptions: ['50', '100', '200', '500'], showTotal: total => `${total} 条` }}
                   rowClassName={record => record.decision === 'deny' ? 'row-deny' : record.decision === 'keep' ? 'row-keep' : 'row-review'}
-                  locale={{ emptyText: <Empty description="请点击“导入ASIN判定结果”开始" /> }}
+                  locale={{ emptyText: <Empty description="请点击上方「⚡ 导入报表自动判定ASIN」开始智能判定" /> }}
+                />
+
+                {/* 自动判定确认 Modal */}
+                <Modal
+                  title="⚡ 智能 ASIN 判定确认 (调取西柚 MCP)"
+                  open={autoAsinModalVisible}
+                  onCancel={() => !autoAsinLoading && setAutoAsinModalVisible(false)}
+                  footer={[
+                    <Button key="cancel" disabled={autoAsinLoading} onClick={() => setAutoAsinModalVisible(false)}>
+                      取消
+                    </Button>,
+                    <Button
+                      key="run"
+                      type="primary"
+                      icon={<ThunderboltOutlined />}
+                      loading={autoAsinLoading}
+                      onClick={handleRunAutoAsinAudit}
+                    >
+                      {autoAsinLoading ? '正在调取西柚MCP判定中...' : '🚀 开始自动判定'}
+                    </Button>,
+                  ]}
+                  destroyOnClose
+                  width={560}
+                >
+                  {autoAsinPendingFile && (
+                    <div style={{ marginTop: 8 }}>
+                      <Alert
+                        type="success"
+                        showIcon
+                        message={`已读取文件：${autoAsinPendingFile.fileName}`}
+                        description={`共 ${autoAsinPendingFile.rows.length} 行数据。请确认以下列映射与站点，系统将自动调取西柚 MCP 查询商品标题五点并执行机型判定。`}
+                        style={{ marginBottom: 16 }}
+                      />
+                      {autoAsinLoading && (
+                        <div style={{ marginBottom: 16, textAlign: 'center' }}>
+                          <Progress percent={85} status="active" />
+                          <div style={{ marginTop: 8, color: '#1677ff', fontSize: 13 }}>{autoAsinProgress.text}</div>
+                        </div>
+                      )}
+                      <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: '12px 8px', alignItems: 'center' }}>
+                        <Text strong>目标站点:</Text>
+                        <Select
+                          value={autoAsinMapping.country}
+                          onChange={v => setAutoAsinMapping(m => ({ ...m, country: v }))}
+                          disabled={autoAsinLoading}
+                        >
+                          <Option value="US">美国 (US)</Option>
+                          <Option value="DE">德国 (DE)</Option>
+                          <Option value="UK">英国 (UK)</Option>
+                          <Option value="FR">法国 (FR)</Option>
+                          <Option value="IT">意大利 (IT)</Option>
+                          <Option value="ES">西班牙 (ES)</Option>
+                          <Option value="CA">加拿大 (CA)</Option>
+                          <Option value="JP">日本 (JP)</Option>
+                        </Select>
+
+                        <Text strong>ASIN / 搜索词列:</Text>
+                        <Select
+                          value={autoAsinMapping.asinCol}
+                          onChange={v => setAutoAsinMapping(m => ({ ...m, asinCol: v }))}
+                          disabled={autoAsinLoading}
+                        >
+                          {autoAsinPendingFile.headers.map(h => (
+                            <Option key={h} value={h}>{h}</Option>
+                          ))}
+                        </Select>
+
+                        <Text strong>目标机型列:</Text>
+                        <Select
+                          value={autoAsinMapping.modelCol}
+                          onChange={v => setAutoAsinMapping(m => ({ ...m, modelCol: v }))}
+                          disabled={autoAsinLoading}
+                          allowClear
+                          placeholder="选择机型列（留空则从活动名解析）"
+                        >
+                          {autoAsinPendingFile.headers.map(h => (
+                            <Option key={h} value={h}>{h}</Option>
+                          ))}
+                        </Select>
+
+                        <Text strong>广告活动名称列:</Text>
+                        <Select
+                          value={autoAsinMapping.campaignCol}
+                          onChange={v => setAutoAsinMapping(m => ({ ...m, campaignCol: v }))}
+                          disabled={autoAsinLoading}
+                          allowClear
+                        >
+                          {autoAsinPendingFile.headers.map(h => (
+                            <Option key={h} value={h}>{h}</Option>
+                          ))}
+                        </Select>
+
+                        <Text strong>广告组名称列:</Text>
+                        <Select
+                          value={autoAsinMapping.adGroupCol}
+                          onChange={v => setAutoAsinMapping(m => ({ ...m, adGroupCol: v }))}
+                          disabled={autoAsinLoading}
+                          allowClear
+                        >
+                          {autoAsinPendingFile.headers.map(h => (
+                            <Option key={h} value={h}>{h}</Option>
+                          ))}
+                        </Select>
+                      </div>
+                    </div>
+                  )}
+                </Modal>
+
+                {/* 隐藏的文件上传 input */}
+                <input
+                  type="file"
+                  ref={autoAsinFileInputRef}
+                  style={{ display: 'none' }}
+                  accept=".xlsx,.xls,.csv"
+                  onChange={handleAutoAsinFileSelect}
                 />
               </>
             ),

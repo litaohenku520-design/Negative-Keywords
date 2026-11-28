@@ -776,6 +776,16 @@ def serve_mode():
                     'count': len(rows),
                 })
 
+            elif path == '/api/aba-rank/state':
+                try:
+                    from aba_rank_service import get_aba_rank_state
+                    self._json_response(get_aba_rank_state(
+                        target_path=params.get('target_path') or None,
+                        source_path=params.get('source_path') or None,
+                    ))
+                except Exception as e:
+                    self._json_response({'error': str(e)}, 500)
+
             else:
                 self.send_error(404)
 
@@ -1756,6 +1766,97 @@ def serve_mode():
                         self._json_response({'status': 'error', 'message': '目录更新失败'}, 500)
                 except Exception as e:
                     self._json_response({'status': 'error', 'message': str(e)}, 500)
+            elif self.path == '/api/aba-rank/import':
+                content_length = int(self.headers.get('Content-Length', 0))
+                body = self.rfile.read(content_length).decode('utf-8-sig') if content_length else '{}'
+                try:
+                    data = json.loads(body) if body.strip() else {}
+                except json.JSONDecodeError as e:
+                    self._json_response({'error': f'Invalid JSON: {e}'}, 400)
+                    return
+                try:
+                    from aba_rank_service import import_aba_and_update
+                    res = import_aba_and_update(
+                        source_path=data.get('source_path') or None,
+                        target_path=data.get('target_path') or None,
+                        file_base64=data.get('file_base64') or None,
+                        file_name=data.get('file_name') or None,
+                        run_excel_recalc=data.get('run_excel_recalc', True),
+                    )
+                    self._json_response(res)
+                except Exception as e:
+                    self._json_response({'error': str(e)}, 500)
+            elif self.path == '/api/aba-rank/open-excel':
+                content_length = int(self.headers.get('Content-Length', 0))
+                body = self.rfile.read(content_length).decode('utf-8-sig') if content_length else '{}'
+                try:
+                    data = json.loads(body) if body.strip() else {}
+                except json.JSONDecodeError:
+                    data = {}
+                try:
+                    from aba_rank_service import DEFAULT_TARGET_PATH
+                    target = Path(data.get('target_path') or DEFAULT_TARGET_PATH)
+                    if not target.exists():
+                        self._json_response({'error': f'文件不存在: {target}'}, 404)
+                        return
+                    os.startfile(str(target))
+                    self._json_response({'ok': True, 'path': str(target)})
+                except Exception as e:
+                    self._json_response({'error': str(e)}, 500)
+            # ============ ASIN 智能否定与导出 API ============
+            elif self.path == '/api/asin/audit-batch':
+                content_length = int(self.headers.get('Content-Length', 0))
+                body = self.rfile.read(content_length).decode('utf-8-sig') if content_length else '{}'
+                try:
+                    data = json.loads(body) if body.strip() else {}
+                except json.JSONDecodeError as e:
+                    self._json_response({'error': f'Invalid JSON: {e}'}, 400)
+                    return
+                try:
+                    import asin_audit_service
+                    items = data.get('items') or []
+                    country = str(data.get('country') or 'US').strip().upper()
+                    mappings = data.get('campaign_id_mappings') or app.campaign_id_mappings or []
+                    judged_records = asin_audit_service.audit_records_full(items, country=country, campaign_id_mappings=mappings)
+                    self._json_response({'ok': True, 'records': judged_records, 'count': len(judged_records)})
+                except Exception as e:
+                    logger.exception(f'Error in /api/asin/audit-batch: {e}')
+                    self._json_response({'error': str(e)}, 500)
+            elif self.path == '/api/asin/export-folder':
+                content_length = int(self.headers.get('Content-Length', 0))
+                body = self.rfile.read(content_length).decode('utf-8-sig') if content_length else '{}'
+                try:
+                    data = json.loads(body) if body.strip() else {}
+                except json.JSONDecodeError as e:
+                    self._json_response({'error': f'Invalid JSON: {e}'}, 400)
+                    return
+                try:
+                    import asin_audit_service
+                    records = data.get('records') or []
+                    country = str(data.get('country') or 'US').strip().upper()
+                    scope = str(data.get('scope') or 'campaign').strip()
+                    output_dir = data.get('output_dir') or None
+                    res = asin_audit_service.export_asin_audit_folder(records, country=country, scope=scope, output_dir=output_dir)
+                    self._json_response(res)
+                except Exception as e:
+                    logger.exception(f'Error in /api/asin/export-folder: {e}')
+                    self._json_response({'error': str(e)}, 500)
+            elif self.path == '/api/asin/open-folder':
+                content_length = int(self.headers.get('Content-Length', 0))
+                body = self.rfile.read(content_length).decode('utf-8-sig') if content_length else '{}'
+                try:
+                    data = json.loads(body) if body.strip() else {}
+                except json.JSONDecodeError as e:
+                    self._json_response({'error': f'Invalid JSON: {e}'}, 400)
+                    return
+                try:
+                    import asin_audit_service
+                    folder_path = data.get('folder_path') or ''
+                    ok = asin_audit_service.open_folder_in_explorer(folder_path)
+                    self._json_response({'ok': ok, 'folder_path': folder_path})
+                except Exception as e:
+                    logger.exception(f'Error in /api/asin/open-folder: {e}')
+                    self._json_response({'error': str(e)}, 500)
             else:
                 self.send_error(404)
 

@@ -7,15 +7,23 @@ import { loadSaihuReplenishment } from './saihu-parser.mjs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const WORKSPACE_DIR = 'D:\\反重力\\UPBestKS\\销售与库存';
-export const FALLBACK_XLSX = path.join(__dirname, 'data', 'UPBestKS_原始销售数据_2026-08-14_至_2026-11-25.xlsx');
-export const REPORT_OUT_PATH = path.join(WORKSPACE_DIR, 'UPBestKS_销售与库存深度分析报表_2026-11-25.xlsx');
+export const STORE_ID = process.env.DISCOVER_STORE_ID || 'default';
+export const STORE_DATA_DIR = process.env.DISCOVER_STORE_DATA_DIR || path.join(__dirname, 'data');
+export const WORKSPACE_DIR = STORE_ID === 'UPBestKS' ? 'D:\\反重力\\UPBestKS\\销售与库存' : STORE_DATA_DIR;
+export const FALLBACK_XLSX = path.join(STORE_DATA_DIR, 'UPBestKS_原始销售数据_2026-08-14_至_2026-11-25.xlsx');
+export const REPORT_OUT_PATH = path.join(WORKSPACE_DIR, `${STORE_ID}_销售与库存深度分析报表.xlsx`);
 
 export function resolveSaihuCsv() {
-  const p1 = path.join(WORKSPACE_DIR, 'UPBestKS_赛狐补货建议_2026-11-26.csv');
-  if (fs.existsSync(p1)) return p1;
-  const p2 = path.join(__dirname, 'data', 'UPBestKS_赛狐补货建议_2026-11-26.csv');
-  if (fs.existsSync(p2)) return p2;
+  try {
+    if (fs.existsSync(STORE_DATA_DIR)) {
+      const csvs = fs.readdirSync(STORE_DATA_DIR).filter(f => f.toLowerCase().endsWith('.csv') && !f.startsWith('~$'));
+      if (csvs.length) return path.join(STORE_DATA_DIR, csvs[0]);
+    }
+  } catch { /* ignore */ }
+  if (STORE_ID === 'UPBestKS') {
+    const p1 = path.join(WORKSPACE_DIR, 'UPBestKS_赛狐补货建议_2026-11-26.csv');
+    if (fs.existsSync(p1)) return p1;
+  }
   return null;
 }
 
@@ -76,10 +84,36 @@ export function resolveSourceXlsx() {
       if (files.length) return files[0].full;
     }
   } catch { /* ignore */ }
-  return FALLBACK_XLSX;
+  try {
+    if (fs.existsSync(STORE_DATA_DIR)) {
+      const sfiles = fs.readdirSync(STORE_DATA_DIR)
+        .filter(f => f.toLowerCase().endsWith('.xlsx') && !f.startsWith('~$'))
+        .map(f => ({ full: path.join(STORE_DATA_DIR, f), mtime: fs.statSync(path.join(STORE_DATA_DIR, f)).mtimeMs }))
+        .sort((a, b) => b.mtime - a.mtime);
+      if (sfiles.length) return sfiles[0].full;
+    }
+  } catch { /* ignore */ }
+  return fs.existsSync(FALLBACK_XLSX) ? FALLBACK_XLSX : null;
 }
 
 export async function computeSalesAnalytics(sourcePath = resolveSourceXlsx()) {
+  if (!sourcePath || !fs.existsSync(sourcePath)) {
+    return {
+      empty: true,
+      meta: { storeId: STORE_ID, totalDays: 0, totalSkus: 0, earliestDate: '', latestDate: '', sourceFile: '' },
+      summary: { totalUnits: 0, totalSales: 0, totalOrders: 0, asp: 0, fbaSellable: 0, fbaTransit: 0, avgDailyUnits: 0, avgDailySales: 0 },
+      periods: { d7: { units: 0, sales: 0 }, d15: { units: 0, sales: 0 }, d30: { units: 0, sales: 0 } },
+      inventorySummary: { fbaTotal: 0, criticalDosCount: 0 },
+      skus: [],
+      daily: [],
+      weekly: [],
+      monthly: [],
+      models: [],
+      colors: [],
+      replenishment: [],
+      alerts: [],
+    };
+  }
   const wb = new ExcelJS.Workbook();
   await wb.xlsx.readFile(sourcePath);
 

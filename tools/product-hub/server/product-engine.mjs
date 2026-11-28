@@ -2,8 +2,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import ExcelJS from 'exceljs';
 
-export const DATA_DIR = 'C:\\Users\\admin\\DeskBox\\UPBestKS-Clyfen\\UPBestKS\\产品分析';
-export const REPORT_OUT_PATH = path.join(DATA_DIR, 'UPBestKS_产品广告与销售深度分析报告.xlsx');
+export const STORE_ID = process.env.DISCOVER_STORE_ID || 'default';
+export const STORE_DATA_DIR = process.env.DISCOVER_STORE_DATA_DIR || path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\//, '')), 'data');
+export const DATA_DIR = STORE_ID === 'UPBestKS' ? 'C:\\Users\\admin\\DeskBox\\UPBestKS-Clyfen\\UPBestKS\\产品分析' : STORE_DATA_DIR;
+export const REPORT_OUT_PATH = path.join(DATA_DIR, `${STORE_ID}_产品广告与销售深度分析报告.xlsx`);
 
 export const COLOR_ORDER = [
   { en: 'Black', cn: '黑色', hex: '#1E293B' },
@@ -47,18 +49,16 @@ function detectBrand(model) {
 }
 
 function findLatestSourceExcel() {
-  if (!fs.existsSync(DATA_DIR)) {
-    throw new Error(`产品分析数据目录不存在: ${DATA_DIR}`);
+  for (const dir of [STORE_DATA_DIR, DATA_DIR]) {
+    if (!dir || !fs.existsSync(dir)) continue;
+    const files = fs
+      .readdirSync(dir)
+      .filter((f) => f.startsWith('产品分析-MSKU-列表-汇总') && f.endsWith('.xlsx') && !f.startsWith('~$'))
+      .sort()
+      .reverse();
+    if (files.length) return path.join(dir, files[0]);
   }
-  const files = fs
-    .readdirSync(DATA_DIR)
-    .filter((f) => f.startsWith('产品分析-MSKU-列表-汇总') && f.endsWith('.xlsx') && !f.startsWith('~$'))
-    .sort()
-    .reverse();
-  if (!files.length) {
-    throw new Error(`在 ${DATA_DIR} 未找到 产品分析-MSKU-列表-汇总-*.xlsx 文件`);
-  }
-  return path.join(DATA_DIR, files[0]);
+  return null;
 }
 
 function parseSkuMeta(sku, pinming, msku) {
@@ -205,6 +205,18 @@ function aggregateGroup(items, keyFn) {
 
 export async function computeProductAnalytics() {
   const sourcePath = findLatestSourceExcel();
+  if (!sourcePath || !fs.existsSync(sourcePath)) {
+    return {
+      empty: true,
+      meta: { storeId: STORE_ID, totalSkus: 0, modelCount: 0, colorCount: 0, sourceFile: '' },
+      summary: { units: 0, sales: 0, spend: 0, adSpend: 0, adSales: 0, refunds: 0, acos: 0, tacos: 0, cvr: 0 },
+      skus: [],
+      models: [],
+      colors: [],
+      brands: [],
+      cohorts: [],
+    };
+  }
   const wb = new ExcelJS.Workbook();
   await wb.xlsx.readFile(sourcePath);
   const ws = wb.worksheets[0];

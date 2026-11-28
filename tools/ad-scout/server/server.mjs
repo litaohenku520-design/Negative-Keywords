@@ -23,7 +23,33 @@ const EXCEL_REPORT_PATH_2 = 'C:\\Users\\admin\\AMZ\\UPBestKS_广告全周期推�
 const PYTHON_GEN_SCRIPT = 'C:\\Users\\admin\\AMZ\\generate_ad_report.py';
 const PYTHON_EXE = 'C:\\Users\\admin\\AppData\\Local\\Programs\\Python\\Python312\\python.exe';
 
+const STORE_ID = process.env.DISCOVER_STORE_ID || 'default';
+const STORE_DATA_DIR = process.env.DISCOVER_STORE_DATA_DIR || path.join(__dirname, 'data');
+
+function createEmptyAdAnalytics() {
+  return {
+    empty: true,
+    meta: { storeId: STORE_ID, totalDays: 0, earliestDate: '', latestDate: '' },
+    summary: {
+      totalStoreSales: 0, totalSpend: 0, totalAdSales: 0, totalOrders: 0,
+      totalClicks: 0, totalImpressions: 0, acos: 0, tacos: 0, roas: 0, ctr: 0, cpc: 0, cvr: 0,
+    },
+    daily: [],
+    campaigns: [],
+    models: [],
+    colors: [],
+    adTypes: [],
+  };
+}
+
 function loadAdAnalytics() {
+  const storeJson = path.join(STORE_DATA_DIR, 'ad_analytics.json');
+  if (fs.existsSync(storeJson)) {
+    return JSON.parse(fs.readFileSync(storeJson, 'utf8'));
+  }
+  if (STORE_ID !== 'UPBestKS') {
+    return createEmptyAdAnalytics();
+  }
   let jsonPath = fs.existsSync(JSON_DATA_PATH_1) ? JSON_DATA_PATH_1 : JSON_DATA_PATH_2;
   if (!fs.existsSync(jsonPath)) {
     try {
@@ -34,6 +60,7 @@ function loadAdAnalytics() {
     }
   }
   jsonPath = fs.existsSync(JSON_DATA_PATH_1) ? JSON_DATA_PATH_1 : JSON_DATA_PATH_2;
+  if (!fs.existsSync(jsonPath)) return createEmptyAdAnalytics();
   const content = fs.readFileSync(jsonPath, 'utf8');
   return JSON.parse(content);
 }

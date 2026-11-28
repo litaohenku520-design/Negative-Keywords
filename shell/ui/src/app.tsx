@@ -24,6 +24,7 @@ import {
 import NegKeywordTool from './index';
 import RoasMerge from './roas/index';
 import SubPluginHost from './components/SubPluginHost';
+import AbaRankPanel from './components/AbaRankPanel';
 import { setGlobalStoreState } from './shims/erpShims';
 
 const { Text } = Typography;
@@ -67,7 +68,8 @@ type ModuleKey =
   | 'weekly-planner'
   | 'erp-workbench'
   | 'product-hub'
-  | 'xydc';
+  | 'xydc'
+  | 'aba-rank';
 
 interface SidebarModule {
   key: ModuleKey;
@@ -94,6 +96,7 @@ const MODULES: SidebarModule[] = [
   { key: 'erp-workbench', label: '库存销售分析', group: '经营与选品', icon: <DatabaseOutlined />, subPluginId: 'upbestks-erp-workbench' },
   { key: 'product-hub', label: '产品库', group: '经营与选品', icon: <AppstoreOutlined />, subPluginId: 'upbestks-product-hub' },
   { key: 'xydc', label: '西柚竞品分析', group: '经营与选品', icon: <CompassOutlined />, subPluginId: 'xydc-asin-analyzer' },
+  { key: 'aba-rank', label: '搜索词排名统计', group: '经营与选品', icon: <LineChartOutlined />, badge: '新' },
 ];
 
 function RootApp() {
@@ -483,6 +486,13 @@ function RootApp() {
                 return (
                   <div key={`${mod.key}-${storeVersion}`} style={{ display: visible ? 'block' : 'none' }}>
                     <RoasMerge />
+                  </div>
+                );
+              }
+              if (mod.key === 'aba-rank') {
+                return (
+                  <div key={mod.key} style={{ display: visible ? 'block' : 'none' }}>
+                    <AbaRankPanel />
                   </div>
                 );
               }

@@ -6,7 +6,8 @@ import ExcelJS from 'exceljs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const DATA_DIR = path.resolve(__dirname, '..', 'data');
+export const STORE_ID = process.env.DISCOVER_STORE_ID || 'default';
+export const DATA_DIR = process.env.DISCOVER_STORE_DATA_DIR || path.resolve(__dirname, '..', 'data');
 export const CONFIG_PATH = path.join(DATA_DIR, 'workbench-config.json');
 export const UPLOADS_DIR = path.join(DATA_DIR, 'uploads');
 export const ROAS_CONFIG_DIR = path.join(DATA_DIR, 'roas', 'stores');
@@ -17,13 +18,14 @@ export function loadConfig() {
     const config = JSON.parse(raw);
     return { ...config, roasConfigPath: ROAS_CONFIG_DIR };
   } catch {
+    const isUp = STORE_ID === 'UPBestKS';
     return {
-      erpRoot: 'C:\\Users\\admin\\DeskBox\\aGENT\\AMZ 探险者1',
-      scanDirs: [
+      erpRoot: isUp ? 'C:\\Users\\admin\\DeskBox\\aGENT\\AMZ 探险者1' : '',
+      scanDirs: isUp ? [
         'd:\\反重力\\UPBestKS\\广告数据',
         'd:\\反重力\\UPBestKS\\销售与库存',
         'C:\\Users\\admin\\DeskBox\\aGENT\\AMZ 探险者1\\data',
-      ],
+      ] : [DATA_DIR],
       exportDir: path.join(DATA_DIR, 'exports'),
       rulesConfigPath: 'C:\\Users\\admin\\DeskBox\\aGENT\\AMZ 探险者1\\neg-keyword-backend\\rules_config.json',
       roasConfigPath: ROAS_CONFIG_DIR,

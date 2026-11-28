@@ -439,6 +439,7 @@ function getBlackFridayAndTimeTasks() {
 }
 
 function migrateStoreV2(store) {
+  if ((process.env.DISCOVER_STORE_ID || 'default') !== 'UPBestKS') return false;
   let changed = false;
   if ((store.version || 1) < 2) {
     const existingIds = new Set((store.tasks || []).map(t => t.id));
@@ -780,10 +781,27 @@ function createSeedData() {
   };
 }
 
+function createEmptyStore() {
+  return {
+    version: 2,
+    settings: {
+      activeStore: process.env.DISCOVER_STORE_ID || 'default',
+      defaultView: 'board',
+      pomodoroMinutes: 25,
+      breakMinutes: 5,
+    },
+    okrs: [],
+    tasks: [],
+    alertRules: [],
+    pomodoroLogs: [],
+  };
+}
+
 function loadStore() {
   fs.mkdirSync(DATA_DIR, { recursive: true });
+  const isUp = (process.env.DISCOVER_STORE_ID || 'default') === 'UPBestKS';
   if (!fs.existsSync(DATA_FILE)) {
-    const seed = createSeedData();
+    const seed = isUp ? createSeedData() : createEmptyStore();
     saveStore(seed);
     return seed;
   }
@@ -793,11 +811,11 @@ function loadStore() {
     if (!parsed.okrs) parsed.okrs = [];
     if (!parsed.alertRules) parsed.alertRules = [];
     if (!parsed.pomodoroLogs) parsed.pomodoroLogs = [];
-    if (!parsed.settings) parsed.settings = createSeedData().settings;
+    if (!parsed.settings) parsed.settings = (isUp ? createSeedData() : createEmptyStore()).settings;
     if (migrateStoreV2(parsed)) saveStore(parsed);
     return parsed;
   } catch {
-    const seed = createSeedData();
+    const seed = isUp ? createSeedData() : createEmptyStore();
     saveStore(seed);
     return seed;
   }

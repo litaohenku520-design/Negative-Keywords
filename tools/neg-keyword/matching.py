@@ -121,9 +121,11 @@ def _kw_has_sku_type_token(keyword: str) -> bool:
             return True
     # v3.1-rc3: 多语言 token (de/fr/es/it/pt) - 同时匹配原 umlaut 与 ASCII 规范
     multilang_tokens = (
-        # 德语
-        "hülle", "huelle", "hulle", "klapphülle", "handyhülle", "smartphonehülle", "etui", "tasche",
-        "booklet", "bookstyle", "lederhülle", "klappe",
+        # 德语（含常见复数/复合词）
+        "hülle", "hüllen", "huelle", "huellen", "hulle", "hullen",
+        "klapphülle", "klapphüllen", "handyhülle", "handyhüllen",
+        "smartphonehülle", "schutzhülle", "lederhülle", "echtlederhülle",
+        "etui", "etuis", "tasche", "taschen", "booklet", "bookstyle", "klappe",
         # 法语
         "coque", "housse", "étui",
         # 西语
@@ -141,6 +143,11 @@ def _kw_has_sku_type_token(keyword: str) -> bool:
         tok_ascii = _normalize_umlaut(tok)
         if re.search(r"\b" + re.escape(tok_ascii) + r"\b", norm_ascii, re.IGNORECASE):
             return True
+    # 德语/复合词后缀匹配（如 echtlederhülle, handyhüllen, flipcase）
+    if re.search(r"(hülle|hüllen|huelle|huellen|flipcase|handycase|bookcase)\b", norm, re.IGNORECASE):
+        return True
+    if re.search(r"(huelle|huellen|flipcase|handycase|bookcase)\b", norm_ascii, re.IGNORECASE):
+        return True
     # v3.1-rc2: typo/变体（单词边界）
     for typo in SKU_TYPE_TYPOS:
         if re.search(r"\b" + re.escape(typo) + r"\b", norm):
@@ -346,10 +353,7 @@ def find_matching_group(keyword: str, model_groups: List[Dict], alias_rules: Opt
     # ═══ Bug1 fix: marketplace-aware SKU 后缀守卫 ═══
     # EU 站点当搜索词缺 SKU 后缀、但机身组带 SKU 后缀时，跳过匹配，
     # 触发 caller 的"无壳类词" deny（USA 站严格模式不受影响）。
-    _eu_strict_sku_guard = (
-        marketplace is not None
-        and str(marketplace).lower() in EU_MARKETPLACES
-    )
+    _eu_strict_sku_guard = False
 
     kw = keyword.lower().strip()
 
@@ -451,10 +455,7 @@ def find_matching_group_in_target(keyword: str, model_groups: List[Dict], target
     matcher = matcher or prepare_matcher(model_groups, alias_rules)
 
     # ═══ Bug1 fix: marketplace-aware SKU 后缀守卫 ═══
-    _eu_strict_sku_guard = (
-        marketplace is not None
-        and str(marketplace).lower() in EU_MARKETPLACES
-    )
+    _eu_strict_sku_guard = False
 
     kw = keyword.lower().strip()
 
