@@ -24,7 +24,13 @@ from config import (
     switch_active_store,
     create_or_update_store,
 )
-from git_sync import sync_to_github, schedule_sync_to_github, get_last_sync_status, pull_from_github
+from git_sync import (
+    sync_to_github,
+    schedule_sync_to_github,
+    get_last_sync_status,
+    pull_from_github,
+    backup_all_to_github_and_gdrive,
+)
 from roas_storage import load_roas_backup, save_roas_backup
 from rules import get_default_rules
 from normalization import normalize_keyword
@@ -1668,6 +1674,9 @@ def serve_mode():
                     self._json_response({'status': 'ok', **state})
                 except Exception as e:
                     self._json_response({'error': str(e)}, 400)
+            elif self.path == '/api/backup/full':
+                res = backup_all_to_github_and_gdrive("manual full backup from UI")
+                self._json_response(res)
             elif self.path == '/api/sync-config':
                 sync_started = time.perf_counter()
                 synced = []

@@ -5,6 +5,7 @@ import {
   AppstoreOutlined,
   BarChartOutlined,
   CalendarOutlined,
+  CloudUploadOutlined,
   CompassOutlined,
   DatabaseOutlined,
   LineChartOutlined,
@@ -117,11 +118,60 @@ function RootApp() {
   const [newStoreName, setNewStoreName] = useState('');
   const [newStoreMkt, setNewStoreMkt] = useState('US');
   const [newStoreCopyFrom, setNewStoreCopyFrom] = useState('default');
+  const [fullBackingUp, setFullBackingUp] = useState(false);
 
   const selectModule = (key: ModuleKey) => {
     setActiveKey(key);
     setMountedKeys((prev) => (prev.includes(key) ? prev : [...prev, key]));
   };
+
+  const handleFullBackup = useCallback(async () => {
+    if (!window.__MCP_API_FETCH__) return;
+    setFullBackingUp(true);
+    try {
+      const res = await window.__MCP_API_FETCH__('/api/backup/full', {
+        method: 'POST',
+        body: JSON.stringify({}),
+        timeoutMs: 120000,
+      });
+      const gh = res?.github || {};
+      const gd = res?.gdrive || {};
+      const zipPath = res?.zip_path || '';
+      Modal.info({
+        title: '全量备份完成（插件代码 + 全部店铺数据）',
+        width: 560,
+        content: (
+          <Flex vertical gap={8} style={{ marginTop: 8, fontSize: 13 }}>
+            <div>
+              <strong>GitHub 仓库：</strong>
+              {gh.ok ? (
+                <Tag color="green">已同步 ({gh.commit || 'main'})</Tag>
+              ) : (
+                <Tag color="red">失败: {gh.message || '未知错误'}</Tag>
+              )}
+            </div>
+            <div>
+              <strong>全量压缩包：</strong>
+              <Text copyable style={{ fontSize: 12 }}>{zipPath || '未生成'}</Text>
+              {res?.zip_size_mb ? <Text type="secondary"> ({res.zip_size_mb} MB)</Text> : null}
+            </div>
+            <div>
+              <strong>Google 云盘：</strong>
+              {gd.ok ? (
+                <Tag color="green">已上传 ({gd.file_id || 'Discover_amzn_全量备份'})</Tag>
+              ) : (
+                <Tag color="orange">已生成压缩包，待云盘授权上传 ({gd.message || '需在对话中上传'})</Tag>
+              )}
+            </div>
+          </Flex>
+        ),
+      });
+    } catch (err: any) {
+      message.error(`全量备份失败: ${err?.message || err}`);
+    } finally {
+      setFullBackingUp(false);
+    }
+  }, []);
 
   const loadGlobalStores = useCallback(async () => {
     if (!window.__MCP_API_FETCH__) return;
@@ -468,6 +518,35 @@ function RootApp() {
                   </div>
                 );
               })}
+            </div>
+
+            {/* 底部全量备份按钮 (GitHub + 谷歌云盘) */}
+            <div style={{ padding: collapsed ? '8px 6px' : '10px 10px', borderTop: '1px solid var(--neg-border)' }}>
+              {collapsed ? (
+                <Tooltip title="全量保存至 GitHub & 谷歌云盘" placement="right">
+                  <Button
+                    size="small"
+                    type="primary"
+                    ghost
+                    loading={fullBackingUp}
+                    icon={<CloudUploadOutlined />}
+                    style={{ width: '100%' }}
+                    onClick={() => { void handleFullBackup(); }}
+                  />
+                </Tooltip>
+              ) : (
+                <Button
+                  size="small"
+                  type="primary"
+                  ghost
+                  block
+                  loading={fullBackingUp}
+                  icon={<CloudUploadOutlined />}
+                  onClick={() => { void handleFullBackup(); }}
+                >
+                  全量保存 (GitHub+云盘)
+                </Button>
+              )}
             </div>
           </aside>
 

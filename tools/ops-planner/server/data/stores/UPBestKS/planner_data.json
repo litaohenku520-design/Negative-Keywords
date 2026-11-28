@@ -190,14 +190,14 @@
       "asin": "",
       "campaign": "",
       "priority": "P1",
-      "status": "todo",
+      "status": "done",
       "startDate": "2026-11-25",
       "dueDate": "2026-11-25",
       "dueTime": "18:00",
       "pstTime": "",
       "estimatedHours": 1,
       "actualMinutes": 0,
-      "progress": 0,
+      "progress": 100,
       "recurrence": "biweekly",
       "isMilestone": false,
       "okrId": "",
@@ -217,7 +217,7 @@
       "_overdueSnoozeUntil": null,
       "_overdueDismissed": false,
       "createdAt": "2026-11-27T11:05:30",
-      "updatedAt": "2026-11-27T11:05:30"
+      "updatedAt": "2026-11-28T14:11:46"
     },
     {
       "id": "t_mwyedlwx_gl0s",
@@ -1197,13 +1197,14 @@
       "asin": "全店铺",
       "campaign": "All Active Campaigns",
       "priority": "P0",
-      "status": "todo",
+      "status": "done",
       "startDate": "2026-11-27",
       "dueDate": "2026-11-27",
       "dueTime": "09:00",
+      "pstTime": "",
       "estimatedHours": 5,
       "actualMinutes": 0,
-      "progress": 0,
+      "progress": 100,
       "recurrence": "none",
       "isMilestone": true,
       "okrId": "okr_1",
@@ -1241,8 +1242,11 @@
           "dismissedAt": null
         }
       ],
+      "_parentRecurrenceId": null,
+      "_overdueSnoozeUntil": null,
+      "_overdueDismissed": false,
       "createdAt": "2026-11-23T11:00:00",
-      "updatedAt": "2026-11-23T11:00:00"
+      "updatedAt": "2026-11-28T14:11:48"
     },
     {
       "id": "seed_5",
@@ -2853,6 +2857,46 @@
       "_overdueDismissed": false,
       "createdAt": "2026-11-28T14:11:29",
       "updatedAt": "2026-11-28T14:11:29"
+    },
+    {
+      "id": "t_mx00ium1_hqat",
+      "title": "SUANDUCK DE FR 劣词优化",
+      "description": "",
+      "module": "广告投放",
+      "marketplace": "US",
+      "asin": "",
+      "campaign": "",
+      "priority": "P1",
+      "status": "todo",
+      "startDate": "2026-12-09",
+      "dueDate": "2026-12-09",
+      "dueTime": "18:00",
+      "pstTime": "",
+      "estimatedHours": 1,
+      "actualMinutes": 0,
+      "progress": 0,
+      "recurrence": "biweekly",
+      "isMilestone": false,
+      "okrId": "",
+      "tags": [],
+      "subtasks": [],
+      "alerts": [
+        {
+          "id": "al_mx00ium1_n038",
+          "triggerType": "before_due",
+          "offsetMinutes": 30,
+          "level": "warning",
+          "label": "截止前30分钟提醒",
+          "sound": true,
+          "snoozedUntil": null,
+          "dismissedAt": null
+        }
+      ],
+      "_parentRecurrenceId": null,
+      "_overdueSnoozeUntil": null,
+      "_overdueDismissed": false,
+      "createdAt": "2026-11-28T14:11:46",
+      "updatedAt": "2026-11-28T14:11:46"
     }
   ],
   "alertRules": [
