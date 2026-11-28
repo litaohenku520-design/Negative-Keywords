@@ -76464,6 +76464,6 @@
       "enabled": true
     }
   ],
-  "require_case": false,
+  "require_case": true,
   "intercept_brand": true
 }
