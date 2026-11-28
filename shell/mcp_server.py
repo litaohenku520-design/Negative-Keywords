@@ -148,7 +148,7 @@ TOOLS = [
             "properties": {
                 "module": {
                     "type": "string",
-                    "enum": ["planner", "neg", "roas", "ad-scout", "sales-hub", "weekly-planner", "erp-workbench", "product-hub", "xydc"],
+                    "enum": ["planner", "neg", "roas", "ad-scout", "sales-hub", "weekly-planner", "erp-workbench", "product-hub", "xydc", "aba-rank"],
                     "description": "可选：初始打开的功能模块（默认 planner=运营计划）",
                 }
             },
@@ -383,8 +383,13 @@ def _handle_tool_call(name: str, args: dict) -> dict:
         }
 
     if name == "classify_search_terms":
+        raw_items = args.get("items") or []
+        norm_items = [
+            {**it, "term": it.get("term") or it.get("searchTerm") or ""}
+            for it in raw_items if isinstance(it, dict)
+        ]
         payload = {
-            "items": args.get("items") or [],
+            "items": norm_items,
             "site": args.get("site") or "usa",
             "require_case": args.get("require_case", True),
             "intercept_brand": args.get("intercept_brand", True),
