@@ -23,7 +23,7 @@ from config import (
     switch_active_store,
     create_or_update_store,
 )
-from git_sync import sync_to_github, schedule_sync_to_github, get_last_sync_status
+from git_sync import sync_to_github, schedule_sync_to_github, get_last_sync_status, pull_from_github
 from roas_storage import load_roas_backup, save_roas_backup
 from rules import get_default_rules
 from normalization import normalize_keyword
@@ -339,6 +339,13 @@ def serve_mode():
                     pass
     except Exception as _e:
         print(f'[启动备份] 跳过: {_e}')
+
+    # 启动时先从 GitHub origin/main 拉取最新共享规则与各店铺 Campaign ID
+    try:
+        _pull_res = pull_from_github(timeout=8)
+        print(f"[GitHub 启动拉取] {_pull_res.get('message')}")
+    except Exception as _pe:
+        print(f"[GitHub 启动拉取] 跳过: {_pe}")
 
     # Load config once at startup
     saved_rules = load_rules_from_file()

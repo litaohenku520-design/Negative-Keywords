@@ -31,6 +31,27 @@ def get_last_sync_status() -> dict:
     return dict(_LAST_SYNC_STATUS)
 
 
+def pull_from_github(timeout: int = 10) -> dict:
+    """启动或刷新时从 GitHub origin/main 拉取最新配置与店铺数据。"""
+    with _GIT_LOCK:
+        ts = time.strftime("%Y-%m-%d %H:%M:%S")
+        try:
+            rc_f, _, err_f = _run_git(["fetch", "origin", "main"], timeout=timeout)
+            if rc_f != 0:
+                return {"ok": False, "updated": False, "message": err_f or "git fetch failed", "timestamp": ts}
+            rc_cnt, out_cnt, _ = _run_git(["rev-list", "--count", "HEAD..origin/main"], timeout=5)
+            behind = int(out_cnt) if (rc_cnt == 0 and out_cnt.isdigit()) else 0
+            if behind == 0:
+                return {"ok": True, "updated": False, "message": "本地已是 GitHub 最新版本", "timestamp": ts}
+            rc_rb, out_rb, err_rb = _run_git(["pull", "--rebase", "--autostash", "origin", "main"], timeout=max(timeout, 15))
+            if rc_rb != 0:
+                _run_git(["rebase", "--abort"], timeout=5)
+                return {"ok": False, "updated": False, "message": err_rb or out_rb or "git pull --rebase failed", "timestamp": ts}
+            return {"ok": True, "updated": True, "message": f"已从 GitHub 拉取 {behind} 个新提交", "timestamp": ts}
+        except Exception as exc:
+            return {"ok": False, "updated": False, "message": str(exc), "timestamp": ts}
+
+
 def _run_git(args: list[str], timeout: int = 25) -> tuple[int, str, str]:
     proc = subprocess.run(
         ["git", *args],
