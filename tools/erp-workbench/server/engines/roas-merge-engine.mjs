@@ -1,7 +1,22 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import ExcelJS from 'exceljs';
-import { ensureExportDir, loadConfig, readSpreadsheetRows } from './file-io.mjs';
+import { ensureExportDir, loadConfig, readSpreadsheetRows, ROAS_CONFIG_DIR } from './file-io.mjs';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const REPO_ROOT = path.resolve(__dirname, '../../../..');
+
+function getActiveStoreId() {
+  try {
+    const storesPath = path.join(REPO_ROOT, 'tools', 'neg-keyword', 'stores', 'stores.json');
+    const stores = JSON.parse(fs.readFileSync(storesPath, 'utf8'));
+    const activeId = String(stores.active_store_id || 'default');
+    return /^[A-Za-z0-9_-]{1,80}$/.test(activeId) ? activeId : 'default';
+  } catch {
+    return 'default';
+  }
+}
 
 const MAX_MERGE_ROWS = 1_048_576;
 const MAX_MERGE_COLS = 16_384;
@@ -323,12 +338,13 @@ function evaluateRow(resolver, row, rules) {
   return { level, ruleDesc };
 }
 
-export function loadRoasPresets() {
-  const cfg = loadConfig();
+export function loadRoasPresets(storeId = getActiveStoreId()) {
+  const safeStoreId = /^[A-Za-z0-9_-]{1,80}$/.test(String(storeId || '')) ? String(storeId) : 'default';
   try {
-    if (cfg.roasConfigPath && fs.existsSync(cfg.roasConfigPath)) {
-      const raw = JSON.parse(fs.readFileSync(cfg.roasConfigPath, 'utf8'));
-      return raw.customPresets || [];
+    const storeConfigPath = path.join(ROAS_CONFIG_DIR, `${safeStoreId}.json`);
+    if (fs.existsSync(storeConfigPath)) {
+      const raw = JSON.parse(fs.readFileSync(storeConfigPath, 'utf8'));
+      if (Array.isArray(raw.customPresets)) return raw.customPresets;
     }
   } catch {
     // Fallback

@@ -14,3 +14,8 @@
   - `tools/product-hub/`：产品库
   - `tools/xydc-asin-analyzer/`：西柚竞品分析（数据位于 `server/data/`）
 - `skills/` & `rules/`：Agent 技能规范与安全红线
+
+## ROAS 配置持久化与同步
+- Discover amzn 的 ROAS 预设、内置模板覆盖、最近配置和判定模板按店铺保存在 `tools/erp-workbench/server/data/roas/stores/`。
+- 自动保存会写入仓库本地后端并排队进入 GitHub 同步；手动“备份”还会保留可恢复的 JSON 快照。
+- ROAS 上传目录和 Excel 导出目录不纳入 Git，避免把原始广告数据推送到仓库。

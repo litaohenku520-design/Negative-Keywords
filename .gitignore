@@ -8,6 +8,10 @@ tools/neg-keyword/logs/
 .env
 .auth_secret
 
+# 广告报告与导出表含业务数据，不进入仓库自动同步
+tools/erp-workbench/server/data/uploads/
+tools/erp-workbench/server/data/exports/
+
 # 前端依赖（保留打包产物以便开箱即用）
 shell/ui/node_modules/
 tools/**/node_modules/

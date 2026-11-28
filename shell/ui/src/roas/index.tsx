@@ -11,7 +11,7 @@
  *   - 支持多列匹配（不限于3列，可任意数量）
  */
 import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
-import { useNavigate, useStore, saveToLauncher, authHeaders } from '../shims/erpShims';
+import { useNavigate, useStore } from '../shims/erpShims';
 import {
   Card, Upload, Button, Table, Tabs, Select, InputNumber, Input, Space, Alert,
   Typography, Tag, Divider, Row, Col, message, Spin, Modal, Checkbox, Switch,
@@ -228,47 +228,43 @@ function saveJudgeTemplates(list: JudgeTemplate[], shopKey = _shopKey) {
 
 // ========== 后端整体备份 ==========
 const BACKUP_API = '/api/roas-merge-config';
-const LAUNCHER_API_BASE = 'http://127.0.0.1:18800';
 const ROAS_BACKUP_TIMEOUT_MS = 15000;
 
 /**
- * ROAS 配置优先直连启动器主端口，避免 5173/4173 静态代理正在转发
- * 大体积 persist 请求时，把一个几 KB 的配置请求排队到 300 秒。
- * 直连失败再回退当前页面代理，并且整个函数有总超时，按钮不会无限转圈。
+ * 经 Discover amzn 的 app_api_request MCP bridge 访问仓库内置后端；
+ * 普通浏览器开发模式回退到同源 API。ROAS 配置不再写入旧 ERP 启动器。
  */
 async function roasBackupFetch(path: string, init: RequestInit = {}): Promise<Response> {
-  const targets = [`${LAUNCHER_API_BASE}${path}`, path];
-  const deadline = Date.now() + ROAS_BACKUP_TIMEOUT_MS;
-  let lastError: unknown = null;
-
-  for (const target of targets) {
-    const remaining = Math.max(1, deadline - Date.now());
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), remaining);
+  const apiFetch = (window as any).__MCP_API_FETCH__;
+  if (typeof apiFetch === 'function') {
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
     try {
-      const headers = new Headers(init.headers);
-      for (const [key, value] of Object.entries(authHeaders())) headers.set(key, value);
-      const response = await fetch(target, {
-        ...init,
-        headers,
-        credentials: init.credentials ?? 'include',
-        signal: controller.signal,
+      const data = await Promise.race([
+        apiFetch(path, init),
+        new Promise((_, reject) => {
+          timeoutId = setTimeout(() => reject(new Error('ROAS 配置接口请求超时')), ROAS_BACKUP_TIMEOUT_MS);
+        }),
+      ]);
+      return new Response(JSON.stringify(data ?? {}), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
       });
-      // 直连端口刚启动/被开发代理暂时占用时，允许尝试另一个入口；
-      // 真实业务错误（401/403/500 等）直接返回给上层处理。
-      if (response.ok || ![404, 502, 503, 504].includes(response.status) || target === path) {
-        return response;
-      }
-      lastError = new Error(`ROAS 配置接口 HTTP ${response.status}`);
-    } catch (error) {
-      lastError = error;
     } finally {
-      clearTimeout(timeoutId);
+      if (timeoutId) clearTimeout(timeoutId);
     }
-    if (Date.now() >= deadline) break;
   }
 
-  throw lastError instanceof Error ? lastError : new Error('ROAS 配置接口不可达');
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), ROAS_BACKUP_TIMEOUT_MS);
+  try {
+    return await fetch(path, {
+      ...init,
+      credentials: init.credentials ?? 'include',
+      signal: controller.signal,
+    });
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 
 interface RoasMergeBackup {
@@ -279,9 +275,13 @@ interface RoasMergeBackup {
   savedAt: string;
 }
 
-async function fetchBackendBackup(shopKey = _shopKey): Promise<RoasMergeBackup | null> {
+async function fetchBackendBackup(shopKey = _shopKey, latestBackup = false): Promise<RoasMergeBackup | null> {
   try {
-    const url = shopKey ? `${BACKUP_API}?shop=${encodeURIComponent(shopKey)}` : BACKUP_API;
+    const query = new URLSearchParams();
+    if (shopKey) query.set('shop', shopKey);
+    if (latestBackup) query.set('backup', 'latest');
+    const queryString = query.toString();
+    const url = queryString ? `${BACKUP_API}?${queryString}` : BACKUP_API;
     const resp = await roasBackupFetch(url);
     if (!resp.ok) return null;
     const data = await resp.json();
@@ -290,9 +290,13 @@ async function fetchBackendBackup(shopKey = _shopKey): Promise<RoasMergeBackup |
   } catch { return null; }
 }
 
-async function saveBackendBackup(backup: Omit<RoasMergeBackup, 'savedAt'>, shopKey = _shopKey): Promise<boolean> {
+async function saveBackendBackup(backup: Omit<RoasMergeBackup, 'savedAt'>, shopKey = _shopKey, createSnapshot = false): Promise<boolean> {
   try {
-    const url = shopKey ? `${BACKUP_API}?shop=${encodeURIComponent(shopKey)}` : BACKUP_API;
+    const query = new URLSearchParams();
+    if (shopKey) query.set('shop', shopKey);
+    if (createSnapshot) query.set('backup', '1');
+    const queryString = query.toString();
+    const url = queryString ? `${BACKUP_API}?${queryString}` : BACKUP_API;
     const resp = await roasBackupFetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -302,36 +306,8 @@ async function saveBackendBackup(backup: Omit<RoasMergeBackup, 'savedAt'>, shopK
   } catch { return false; }
 }
 
-/** 保存全量镜像时允许后台继续完成，但前台按钮最多等待 20 秒。 */
-function waitForBackupResult(promise: Promise<boolean>, timeoutMs = 20000): Promise<{ done: boolean; ok: boolean }> {
-  return new Promise(resolve => {
-    let settled = false;
-    const timer = setTimeout(() => {
-      if (!settled) {
-        settled = true;
-        resolve({ done: false, ok: false });
-      }
-    }, timeoutMs);
-    promise.then(
-      ok => {
-        if (settled) return;
-        settled = true;
-        clearTimeout(timer);
-        resolve({ done: true, ok });
-      },
-      () => {
-        if (settled) return;
-        settled = true;
-        clearTimeout(timer);
-        resolve({ done: true, ok: false });
-      },
-    );
-  });
-}
-
 // ========== 防抖自动镜像到后端磁盘 ==========
-// 任意 localStorage 落盘后，500ms 内把全部配置镜像到后端 /api/roas-merge-config。
-// 即使浏览器清缓存 / 换了浏览器 / EXE 重启，也能从后端恢复，解决"配置动不动就消失"。
+// 任意 localStorage 落盘后，500ms 内把全部配置镜像到 Discover amzn 仓库后端。
 let _roasBackendSaveTimer: ReturnType<typeof setTimeout> | null = null;
 let _roasBackendSaveShopKey = '';
 function scheduleRoasBackendSave(shopKey = _shopKey): void {
@@ -347,7 +323,7 @@ function scheduleRoasBackendSave(shopKey = _shopKey): void {
       judgeTemplates: loadJudgeTemplates(targetShopKey),
     };
     saveBackendBackup(payload, targetShopKey).then(ok => {
-      if (!ok) console.warn('[ROAS] 后端自动保存失败（ERP 启动器未运行？仅本机保留）');
+      if (!ok) console.warn('[ROAS] Discover amzn 后端自动保存失败，仅本地保留');
     });
   }, 500);
 }
@@ -648,6 +624,7 @@ const RoasMerge: React.FC = () => {
   // 启动水合标记：首次挂载时加载效果会用 localStorage 还原状态，必须等还原提交后再允许自动保存，
   // 否则挂载时自动保存会用初始空状态（appendCols=[] 等）覆盖已持久化的配置，导致刷新后配置丢失。
   const [hydrated, setHydrated] = useState(false);
+  const hydratedShopKeyRef = useRef('');
 
   // 切换预设时跳过自动保存，防止旧预设的 appendCols/requiredCols 被写入新预设
   const skipAutoSaveRef = useRef(false);
@@ -822,6 +799,7 @@ const RoasMerge: React.FC = () => {
     // StoreProvider 首次加载前 activeShopKey 为空；此时不能用默认状态触发自动保存。
     if (!stores.length || !activeShopKey) return;
     _shopKey = activeShopKey || '';
+    hydratedShopKeyRef.current = '';
     // 等待下面的后端恢复完成，避免用初始状态覆盖该店铺已经保存的配置。
     setHydrated(false);
     // 重新加载预设列表
@@ -864,13 +842,13 @@ const RoasMerge: React.FC = () => {
 
   // —— 自动持久化当前配置 ——（列/可选/当前预设变化即写入，启动可恢复）
   useEffect(() => {
-    if (!hydrated) return; // 启动还原未完成前不要保存，避免用初始空状态覆盖持久化配置
+    if (!hydrated || hydratedShopKeyRef.current !== activeShopKey) return; // 当前店铺后端恢复完成后才允许写回
     saveLastConfig({ cols: keyCols, colLabels: parseColLabels(keyColInputs), requiredCols, activePresetKey, appendCols });
-  }, [hydrated, keyCols, keyColInputs, requiredCols, activePresetKey, appendCols]);
+  }, [hydrated, activeShopKey, keyCols, keyColInputs, requiredCols, activePresetKey, appendCols]);
 
   // —— 内置预设覆盖自动保存 ——（在内置预设上改了 appendCols/requiredCols 时自动覆盖存储）
   useEffect(() => {
-    if (!hydrated) return;
+    if (!hydrated || hydratedShopKeyRef.current !== activeShopKey) return;
     if (skipAutoSaveRef.current) return;
     if (!activePresetKey) return;
     if (!BUILTIN_PRESETS.some(b => b.key === activePresetKey)) return;
@@ -879,11 +857,11 @@ const RoasMerge: React.FC = () => {
       appendCols: appendCols.map(c => ({ ...c })),
       requiredCols: [...requiredCols],
     });
-  }, [hydrated, activePresetKey, appendCols, requiredCols]);
+  }, [hydrated, activeShopKey, activePresetKey, appendCols, requiredCols]);
 
   // —— 自定义预设自动保存 ——（在自定义预设上改了 appendCols/requiredCols/keyCols 时自动保存）
   useEffect(() => {
-    if (!hydrated) return;
+    if (!hydrated || hydratedShopKeyRef.current !== activeShopKey) return;
     if (skipAutoSaveRef.current) return;
     if (!activePresetKey) return;
     if (BUILTIN_PRESETS.some(b => b.key === activePresetKey)) return; // 内置预设走上面
@@ -901,7 +879,7 @@ const RoasMerge: React.FC = () => {
       label: `${customs[idx].label.split('(')[0].trim()} (${colLabels.join('/')})`,
     };
     saveCustomPresets(customs);
-  }, [hydrated, activePresetKey, appendCols, requiredCols, keyCols, keyColInputs]);
+  }, [hydrated, activeShopKey, activePresetKey, appendCols, requiredCols, keyCols, keyColInputs]);
 
   // 手动保存内置预设覆盖（带提示）
   const handleSaveBuiltinOverride = useCallback((key: string) => {
@@ -1075,10 +1053,10 @@ const RoasMerge: React.FC = () => {
         lastConfig: loadLastConfig(shopKey),
         judgeTemplates: loadJudgeTemplates(shopKey),
       };
-      const ok = await saveBackendBackup(backup, shopKey);
+      const ok = await saveBackendBackup(backup, shopKey, true);
       if (ok) {
         setBackupTime(new Date().toLocaleString('zh-CN'));
-        message.success('已备份到后端本地');
+        message.success('已备份到 Discover amzn 后端，并加入 GitHub 同步队列');
       } else {
         message.error('备份失败（后端服务未启动或登录会话已失效）');
       }
@@ -1087,7 +1065,7 @@ const RoasMerge: React.FC = () => {
     }
   }, [activeShopKey]);
 
-  // —— 保存全部配置到后台（Vite 后端 + 启动器双保险）——
+  // —— 保存全部配置到 Discover amzn 后端，并加入仓库同步队列 ——
   const handleSaveAllToBackend = useCallback(async () => {
     setBackupLoading(true);
     try {
@@ -1133,41 +1111,27 @@ const RoasMerge: React.FC = () => {
 
       const customPresets = loadCustomPresets(shopKey);
       const builtinOverrides = loadBuiltinOverrides(shopKey);
-      // 1. 保存结构化数据到 Vite 后端 /api/roas-merge-config
       const backup: Omit<RoasMergeBackup, 'savedAt'> = {
         customPresets,
         builtinOverrides,
         lastConfig: currentLastConfig,
         judgeTemplates: [...judgeTemplates],
       };
-      const ok1 = await saveBackendBackup(backup, shopKey);
+      const saved = await saveBackendBackup(backup, shopKey);
 
-      // 2. 保存全部 localStorage 配置到启动器 /api/erp/backup
-      // 全量镜像可能与自动保存共用一个大请求；它继续在后台完成，
-      // 但不能再把 ROAS 页面按钮锁死到请求结束。
-      const fullSave = await waitForBackupResult(saveToLauncher());
-
-      if (ok1 && fullSave.done && fullSave.ok) {
+      if (saved) {
         setBackupTime(new Date().toLocaleString('zh-CN'));
-        message.success('全部配置已保存到后台（Vite 后端 + 启动器）');
-      } else if (ok1 && !fullSave.done) {
-        setBackupTime(new Date().toLocaleString('zh-CN'));
-        message.warning('ROAS 配置已写入；全量 ERP 镜像仍在后台保存，页面已解除等待');
-      } else if (ok1) {
-        setBackupTime(new Date().toLocaleString('zh-CN'));
-        message.warning('ROAS 配置已写入，但全量启动器镜像暂未完成');
-      } else if (fullSave.done && fullSave.ok) {
-        message.warning('全量启动器镜像已保存，但 ROAS 结构化配置写入失败');
+        message.success('全部 ROAS 配置已保存到 Discover amzn 后端，并加入 GitHub 同步队列');
       } else {
-        message.error('保存失败（启动器未在线或登录会话已失效）');
+        message.error('保存失败（Discover amzn 后端未响应）');
       }
     } finally {
       setBackupLoading(false);
     }
   }, [activeShopKey, keyCols, keyColInputs, requiredCols, activePresetKey, appendCols, judgeTemplates]);
 
-  const applyBackendBackup = useCallback(async (silent: boolean, shopKey = _shopKey): Promise<boolean> => {
-    const backup = await fetchBackendBackup(shopKey);
+  const applyBackendBackup = useCallback(async (silent: boolean, shopKey = _shopKey, latestBackup = false): Promise<boolean> => {
+    const backup = await fetchBackendBackup(shopKey, latestBackup);
     if (!backup) {
       if (!silent) message.warning('后端无备份或服务未启动');
       return false;
@@ -1223,7 +1187,7 @@ const RoasMerge: React.FC = () => {
 
   const handleRestoreFromBackend = useCallback(() => {
     setBackupLoading(true);
-    applyBackendBackup(false, activeShopKey || _shopKey).finally(() => setBackupLoading(false));
+    applyBackendBackup(false, activeShopKey || _shopKey, true).finally(() => setBackupLoading(false));
   }, [activeShopKey, applyBackendBackup]);
 
   // 启动/切换店铺时从该店铺的后端配置恢复。
@@ -1234,7 +1198,10 @@ const RoasMerge: React.FC = () => {
     _shopKey = shopKey;
     let cancelled = false;
     applyBackendBackup(true, shopKey).finally(() => {
-      if (!cancelled && shopKey === _shopKey) setHydrated(true);
+      if (!cancelled && shopKey === _shopKey) {
+        hydratedShopKeyRef.current = shopKey;
+        setHydrated(true);
+      }
     });
     return () => {
       cancelled = true;

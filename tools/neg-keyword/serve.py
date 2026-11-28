@@ -24,6 +24,7 @@ from config import (
     create_or_update_store,
 )
 from git_sync import sync_to_github, schedule_sync_to_github, get_last_sync_status
+from roas_storage import load_roas_backup, save_roas_backup
 from rules import get_default_rules
 from normalization import normalize_keyword
 from matching import (
@@ -625,6 +626,15 @@ def serve_mode():
                     self._json_response({'error': str(e)}, 404)
             elif path == '/api/stores':
                 self._json_response(get_stores_state())
+            elif path == '/api/roas-merge-config':
+                try:
+                    backup = load_roas_backup(
+                        params.get('shop'),
+                        latest_backup=params.get('backup') == 'latest',
+                    )
+                    self._json_response(backup or {'success': False, 'message': '该店铺还没有 ROAS 后端配置'})
+                except ValueError as exc:
+                    self._json_response({'success': False, 'message': str(exc)}, 400)
             elif path == '/api/git-sync/status':
                 self._json_response(get_last_sync_status())
             elif path == '/api/config':
@@ -778,6 +788,31 @@ def serve_mode():
             return self.client_address[0]
 
         def do_POST(self):
+            path, params = self._parse_query_params()
+            if path == '/api/roas-merge-config':
+                content_length = int(self.headers.get('Content-Length', 0))
+                if content_length > 2 * 1024 * 1024:
+                    self._json_response({'success': False, 'message': 'ROAS 配置超过 2 MB 限制'}, 413)
+                    return
+                body = self.rfile.read(content_length).decode('utf-8-sig')
+                try:
+                    payload = json.loads(body)
+                except json.JSONDecodeError as exc:
+                    self._json_response({'success': False, 'message': f'Invalid JSON: {exc}'}, 400)
+                    return
+                try:
+                    result = save_roas_backup(
+                        params.get('shop'),
+                        payload,
+                        create_snapshot=params.get('backup') in ('1', 'true', 'latest'),
+                    )
+                    self._json_response(result)
+                except ValueError as exc:
+                    self._json_response({'success': False, 'message': str(exc)}, 400)
+                except OSError as exc:
+                    self._json_response({'success': False, 'message': f'保存 ROAS 配置失败: {exc}'}, 500)
+                return
+
             # ============ 认证端点 ============
             if self.path == '/auth/login':
                 content_length = int(self.headers.get('Content-Length', 0))

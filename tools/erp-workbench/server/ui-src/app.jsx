@@ -908,7 +908,7 @@ function ConfigTab({ config, callTool, busy, onSaved }) {
           <Input style={{ marginTop: 4 }} value={config?.rulesConfigPath || ''} readOnly />
         </div>
         <div>
-          <Text type="secondary" style={{ fontSize: 12 }}>后端 ROAS 合并配置 JSON（直连 AMZ 探险者1）</Text>
+          <Text type="secondary" style={{ fontSize: 12 }}>Discover amzn 后端 ROAS 店铺配置目录（自动加入 GitHub 同步）</Text>
           <Input style={{ marginTop: 4 }} value={config?.roasConfigPath || ''} readOnly />
         </div>
         <Button type="primary" loading={busy} onClick={handleSave}>保存配置并刷新扫描</Button>

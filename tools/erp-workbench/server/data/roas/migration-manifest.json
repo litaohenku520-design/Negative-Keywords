@@ -1,0 +1,26 @@
+{
+  "migratedAt": "2026-11-28T10:23:33.5371803+08:00",
+  "storeMappings": {
+    "SUANDUCK": [
+      "roas_merge_config.json"
+    ],
+    "suanpot-us": [
+      "roas_merge_config_store_us_default.json",
+      "roas_merge_config__store_us_default.json"
+    ]
+  },
+  "sourceFilesCopied": [
+    "roas_merge_config.json",
+    "roas_merge_config_store_us_default.json",
+    "roas_merge_config__store_us_default.json"
+  ],
+  "importedPresets": {
+    "SUANDUCK": 3,
+    "suanpot-us": 7
+  },
+  "judgeTemplates": {
+    "SUANDUCK": 0,
+    "suanpot-us": 1
+  },
+  "note": "Only three ROAS configuration JSON files were present in the legacy backend directory; no merged-report history or exported ROAS workbooks were present there or in the workbench export directory."
+}

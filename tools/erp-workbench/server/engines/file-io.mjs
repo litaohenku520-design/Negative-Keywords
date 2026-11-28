@@ -9,11 +9,13 @@ const __dirname = path.dirname(__filename);
 export const DATA_DIR = path.resolve(__dirname, '..', 'data');
 export const CONFIG_PATH = path.join(DATA_DIR, 'workbench-config.json');
 export const UPLOADS_DIR = path.join(DATA_DIR, 'uploads');
+export const ROAS_CONFIG_DIR = path.join(DATA_DIR, 'roas', 'stores');
 
 export function loadConfig() {
   try {
     const raw = fs.readFileSync(CONFIG_PATH, 'utf8');
-    return JSON.parse(raw);
+    const config = JSON.parse(raw);
+    return { ...config, roasConfigPath: ROAS_CONFIG_DIR };
   } catch {
     return {
       erpRoot: 'C:\\Users\\admin\\DeskBox\\aGENT\\AMZ 探险者1',
@@ -24,7 +26,7 @@ export function loadConfig() {
       ],
       exportDir: path.join(DATA_DIR, 'exports'),
       rulesConfigPath: 'C:\\Users\\admin\\DeskBox\\aGENT\\AMZ 探险者1\\neg-keyword-backend\\rules_config.json',
-      roasConfigPath: 'C:\\Users\\admin\\DeskBox\\aGENT\\AMZ 探险者1\\roas_merge_data\\roas_merge_config.json',
+      roasConfigPath: ROAS_CONFIG_DIR,
       negKeyword: { defaultMarketplace: 'US', defaultMatchType: 'Negative Exact', minSpendNoOrder: 15, minClicksNoOrder: 12 },
       roasMerge: { defaultPreset: 'custom_cfg_4_6_7', keyCols: [4, 6, 7], requiredCols: [true, true, true], autoJudge: true },
       inventorySales: { stockoutWarnDays: 21, overstockWarnDays: 120, abcThresholds: [0.7, 0.9] },

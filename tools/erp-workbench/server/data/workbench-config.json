@@ -7,7 +7,7 @@
   ],
   "exportDir": "C:\\Users\\admin\\.gemini\\config\\plugins\\upbestks-erp-workbench\\server\\data\\exports",
   "rulesConfigPath": "C:\\Users\\admin\\DeskBox\\aGENT\\AMZ 探险者1\\neg-keyword-backend\\rules_config.json",
-  "roasConfigPath": "C:\\Users\\admin\\DeskBox\\aGENT\\AMZ 探险者1\\roas_merge_data\\roas_merge_config.json",
+  "roasConfigPath": "tools/erp-workbench/server/data/roas/stores",
   "negKeyword": {
     "defaultMarketplace": "US",
     "defaultMatchType": "Negative Exact",

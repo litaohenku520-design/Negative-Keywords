@@ -1,0 +1,189 @@
+{
+  "customPresets": [
+    {
+      "key": "custom_1784697230609",
+      "label": "suanduck auto (E/F/J)",
+      "cols": [
+        4,
+        5,
+        9
+      ],
+      "colLabels": [
+        "E",
+        "F",
+        "J"
+      ],
+      "requiredCols": [
+        true,
+        true,
+        true
+      ],
+      "minMatchCols": 0
+    },
+    {
+      "key": "custom_cfg_4_6_10",
+      "label": "我的配置(4/6/10)",
+      "cols": [
+        4,
+        6,
+        10
+      ],
+      "colLabels": [
+        "4",
+        "6",
+        "10"
+      ],
+      "requiredCols": [
+        true,
+        true,
+        true
+      ],
+      "minMatchCols": 0,
+      "appendCols": [
+        {
+          "colIdx": 0,
+          "label": ""
+        }
+      ]
+    },
+    {
+      "key": "custom_cfg_4_5_10",
+      "label": "我的配置 (E/F/K)",
+      "cols": [
+        4,
+        5,
+        10
+      ],
+      "colLabels": [
+        "E",
+        "F",
+        "K"
+      ],
+      "requiredCols": [
+        true,
+        true,
+        true
+      ],
+      "minMatchCols": 0,
+      "appendCols": [
+        {
+          "colIdx": 15,
+          "label": "花费"
+        },
+        {
+          "colIdx": 17,
+          "label": "广告投入产出比 (ACOS) 总计"
+        },
+        {
+          "colIdx": 19,
+          "label": "7天总订单数(#)"
+        },
+        {
+          "colIdx": 18,
+          "label": "总广告投资回报率 (ROAS)"
+        },
+        {
+          "colIdx": 13,
+          "label": "点击率 (CTR)"
+        },
+        {
+          "colIdx": 21,
+          "label": "7天的转化率"
+        }
+      ]
+    }
+  ],
+  "builtinOverrides": {
+    "target": {
+      "appendCols": [],
+      "requiredCols": [
+        true,
+        true,
+        true
+      ]
+    },
+    "sp": {
+      "appendCols": [
+        {
+          "colIdx": 15,
+          "label": "花费"
+        },
+        {
+          "colIdx": 17,
+          "label": "广告投入产出比 (ACOS) 总计"
+        },
+        {
+          "colIdx": 19,
+          "label": "7天总订单数(#)"
+        },
+        {
+          "colIdx": 18,
+          "label": "总广告投资回报率 (ROAS)"
+        },
+        {
+          "colIdx": 13,
+          "label": "点击率 (CTR)"
+        },
+        {
+          "colIdx": 21,
+          "label": "7天的转化率"
+        }
+      ],
+      "requiredCols": [
+        true,
+        true,
+        true
+      ]
+    }
+  },
+  "lastConfig": {
+    "cols": [
+      4,
+      6,
+      7
+    ],
+    "colLabels": [
+      "E",
+      "G",
+      "H"
+    ],
+    "requiredCols": [
+      true,
+      true,
+      true
+    ],
+    "activePresetKey": "custom_cfg_4_6_7",
+    "appendCols": [
+      {
+        "colIdx": 18,
+        "label": " ROAS",
+        "displayFormat": "percent"
+      },
+      {
+        "colIdx": 14,
+        "label": "花费"
+      },
+      {
+        "colIdx": 17,
+        "label": "ACOS",
+        "displayFormat": "percent"
+      },
+      {
+        "colIdx": 20,
+        "label": "订单数"
+      },
+      {
+        "colIdx": 13,
+        "label": "CTR",
+        "displayFormat": "percent"
+      },
+      {
+        "colIdx": 22,
+        "label": "CVR",
+        "displayFormat": "percent"
+      }
+    ]
+  },
+  "judgeTemplates": [],
+  "savedAt": "2026-11-28T10:23:33.5371803+08:00"
+}
