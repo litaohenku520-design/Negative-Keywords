@@ -50,12 +50,17 @@ def sync_to_github(reason: str = "update neg-keyword rules", timeout: int = 25) 
     with _GIT_LOCK:
         ts = time.strftime("%Y-%m-%d %H:%M:%S")
         try:
-            # 1. 只暂存规则配置与店铺数据文件（避免误提交临时文件）
+            # 1. 暂存所有工具的规则与业务数据目录（避免误提交临时文件）
             add_targets = [
-                "backend/rules_config.json",
-                "backend/stores",
-                "backend/ai_templates.json",
-                "backend/knowledge_base.json",
+                "tools/neg-keyword/rules_config.json",
+                "tools/neg-keyword/stores",
+                "tools/neg-keyword/ai_templates.json",
+                "tools/neg-keyword/knowledge_base.json",
+                "tools/ops-planner/server/data",
+                "tools/sales-hub/server/data",
+                "tools/weekly-planner/server/data",
+                "tools/erp-workbench/server/data",
+                "tools/xydc-asin-analyzer/server/data",
             ]
             existing = [
                 t for t in add_targets

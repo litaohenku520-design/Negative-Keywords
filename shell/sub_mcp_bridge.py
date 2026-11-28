@@ -15,48 +15,55 @@ import time
 from pathlib import Path
 from typing import Any
 
-PLUGIN_ROOT = Path(__file__).resolve().parent.parent
-PLUGINS_ROOT = PLUGIN_ROOT / "sub_plugins"
-PLUGIN_DATA_ROOT = Path(r"C:\Users\admin\.gemini\antigravity\plugin_data")
+SHELL_DIR = Path(__file__).resolve().parent
+PLUGIN_ROOT = SHELL_DIR.parent
+TOOLS_ROOT = PLUGIN_ROOT / "tools"
 
 SUB_PLUGIN_SPECS: dict[str, dict[str, Any]] = {
     "amz-ops-planner": {
+        "folder": "ops-planner",
         "title": "运营计划",
         "entry_tool": "open_planner",
         "entry_args": {},
-        "args_extra": [f"--data-dir={(PLUGIN_DATA_ROOT / 'amz-ops-planner').as_posix()}"],
+        "args_extra": [f"--data-dir={(TOOLS_ROOT / 'ops-planner' / 'server' / 'data').as_posix()}"],
     },
     "upbestks-ad-scout": {
+        "folder": "ad-scout",
         "title": "广告推广侦察",
         "entry_tool": "open_ad_scout",
         "entry_args": {},
         "args_extra": [],
     },
     "upbestks-sales-hub": {
+        "folder": "sales-hub",
         "title": "销售看板",
         "entry_tool": "open_sales_dashboard",
         "entry_args": {},
         "args_extra": [],
     },
     "upbestks-weekly-planner": {
+        "folder": "weekly-planner",
         "title": "周广告优化",
         "entry_tool": "open_plan",
         "entry_args": {},
         "args_extra": [],
     },
     "upbestks-erp-workbench": {
+        "folder": "erp-workbench",
         "title": "库存销售分析",
         "entry_tool": "open_workbench",
         "entry_args": {"tab": "inventory"},
         "args_extra": [],
     },
     "upbestks-product-hub": {
+        "folder": "product-hub",
         "title": "产品库",
         "entry_tool": "open_product_dashboard",
         "entry_args": {},
         "args_extra": [],
     },
     "xydc-asin-analyzer": {
+        "folder": "xydc-asin-analyzer",
         "title": "西柚竞品分析",
         "entry_tool": "open_asin_analyzer",
         "entry_args": {},
@@ -69,7 +76,7 @@ class _NodeMcpClient:
     def __init__(self, plugin_id: str, spec: dict[str, Any]):
         self.plugin_id = plugin_id
         self.spec = spec
-        self.plugin_dir = PLUGINS_ROOT / plugin_id
+        self.plugin_dir = TOOLS_ROOT / spec["folder"]
         self.server_script = self.plugin_dir / "server" / "server.mjs"
         self.html_path = self.plugin_dir / "server" / "dist" / "app.html"
         self._proc: subprocess.Popen | None = None

@@ -2,7 +2,7 @@
   "mcpServers": {
     "neg": {
       "command": "C:\\Users\\admin\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
-      "args": ["${PLUGIN_ROOT}/backend/neg_mcp_server.py"],
+      "args": ["${PLUGIN_ROOT}/shell/mcp_server.py"],
       "env": {
         "PYTHONIOENCODING": "utf-8",
         "PYTHONUTF8": "1"

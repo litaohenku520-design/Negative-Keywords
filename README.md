@@ -1,20 +1,16 @@
-# AMZ 否词工具 Agent 插件 (`upbestks-neg-keyword`)
+# Discover amzn — 全能亚马逊运营工作台
 
-基于 Antigravity Plugin + MCP App 架构的亚马逊广告否词工具独立插件，独立维护 `backend/rules_config.json`。
+基于 Antigravity Plugin + MCP App 架构打造的亚马逊运营集成平台，所有工具模块化存放于 `tools/` 下，并统一通过 GitHub 仓库备份同步。
 
-## 目录结构
-- `plugin.json`：插件清单
-- `mcp_config.json`：MCP Server 启动配置（`backend/neg_mcp_server.py`）
-- `backend/`：否词分类引擎、审计引擎、规则配置 `rules_config.json` 与 MCP Server
-- `ui/`：React + AntD + `@modelcontextprotocol/ext-apps` 单文件工作台（`ui/dist/app.html`）
-- `skills/neg-keyword-ops/SKILL.md`：否词操作与审计 SOP
-- `rules/AGENTS.md`：安全规范与红线
-
-## 跨机器部署注意
-1. 若新机器的 Python 路径不是 `C:\Users\admin\AppData\Local\Programs\Python\Python312\python.exe`，请修改 `mcp_config.json` 中的 `command`。
-2. 如需修改并重新打包 UI：
-   ```bash
-   cd ui
-   npm install
-   npm run build
-   ```
+## 仓库目录结构
+- `shell/`：Discover amzn 总控容器（`mcp_server.py`、`sub_mcp_bridge.py`、`git_sync.py` 与统一侧边栏前端 `shell/ui/`）
+- `tools/`：每个工具独立目录与各自数据目录：
+  - `tools/ops-planner/`：运营计划（默认主页面，数据位于 `server/data/planner_data.json`）
+  - `tools/neg-keyword/`：否词助手（引擎 + 独立规则库 `rules_config.json` 与分店铺 `stores/`）
+  - `tools/ad-scout/`：广告推广侦察
+  - `tools/weekly-planner/`：周广告优化（数据位于 `server/data/`）
+  - `tools/sales-hub/`：销售看板（数据位于 `server/data/`）
+  - `tools/erp-workbench/`：库存销售分析（数据位于 `server/data/`）
+  - `tools/product-hub/`：产品库
+  - `tools/xydc-asin-analyzer/`：西柚竞品分析（数据位于 `server/data/`）
+- `skills/` & `rules/`：Agent 技能规范与安全红线

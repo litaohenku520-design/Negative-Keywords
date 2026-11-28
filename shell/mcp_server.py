@@ -31,14 +31,16 @@ if hasattr(sys.stderr, "reconfigure"):
 _MCP_STDOUT = sys.stdout
 sys.stdout = sys.stderr
 
-BACKEND_DIR = Path(__file__).resolve().parent
-PLUGIN_ROOT = BACKEND_DIR.parent
-UI_HTML_PATH = PLUGIN_ROOT / "ui" / "dist" / "app.html"
-RULES_PATH = BACKEND_DIR / "rules_config.json"
-BACKUPS_DIR = BACKEND_DIR / "backups"
+SHELL_DIR = Path(__file__).resolve().parent
+PLUGIN_ROOT = SHELL_DIR.parent
+NEG_BACKEND_DIR = PLUGIN_ROOT / "tools" / "neg-keyword"
+UI_HTML_PATH = SHELL_DIR / "ui" / "dist" / "app.html"
+RULES_PATH = NEG_BACKEND_DIR / "rules_config.json"
+BACKUPS_DIR = NEG_BACKEND_DIR / "backups"
 
-if str(BACKEND_DIR) not in sys.path:
-    sys.path.insert(0, str(BACKEND_DIR))
+for _p in (str(SHELL_DIR), str(NEG_BACKEND_DIR)):
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
 APP_URI = "ui://neg-keyword/app.html"
 SERVER_NAME = "upbestks-neg-keyword"
