@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "settings": {
+    "activeStore": "SUANUDCKUK",
+    "defaultView": "board",
+    "pomodoroMinutes": 25,
+    "breakMinutes": 5
+  },
+  "okrs": [],
+  "tasks": [],
+  "alertRules": [],
+  "pomodoroLogs": []
+}

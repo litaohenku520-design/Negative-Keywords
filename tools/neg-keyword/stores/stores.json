@@ -1,5 +1,5 @@
 {
-  "active_store_id": "SUANDUCKFR",
+  "active_store_id": "SUANUDCKUK",
   "stores": [
     {
       "id": "default",
@@ -25,6 +25,11 @@
       "id": "SUANDUCKFR",
       "name": "SUANDUCK FR",
       "marketplace": "FR"
+    },
+    {
+      "id": "SUANUDCKUK",
+      "name": "SUANUDCK UK",
+      "marketplace": "UK"
     }
   ]
 }
